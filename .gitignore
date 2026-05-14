@@ -1,0 +1,37 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Backups / temp (再生成可能)
+*.bak
+*.before_*
+data/_test_*.jsonl
+data/_single_*.jsonl
+data/_meili_*test*.jsonl
+data/_meili_*test*.settings.json
+
+# Logs
+logs/
+*.log
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

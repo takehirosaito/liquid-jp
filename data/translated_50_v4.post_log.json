@@ -1,0 +1,186 @@
+[
+  {
+    "id": "comm-instantcommerce-shopify-headless-theme-db5b2401",
+    "file_name": "icon-success.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-708e66e2",
+    "file_name": "navbar-logo.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-uicrooks-shopify-theme-lab-5556c427",
+    "file_name": "footer.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "フッターセクション",
+      "after": "フッター",
+      "before_len": 9,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-mirceapiturca-Sections-5a39cbd3",
+    "file_name": "faq.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "FAQ アコーディオンセクション",
+      "after": "FAQ アコーディオン",
+      "before_len": 16,
+      "after_len": 11
+    }
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-fe691fb2",
+    "file_name": "capture-image.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-99b5497a",
+    "file_name": "css-variables.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-350ec0bd",
+    "file_name": "password.liquid",
+    "unknown_plurals": [
+      "meta-tags"
+    ]
+  },
+  {
+    "id": "comm-pgrimaud-shopify-snippets-0b618133",
+    "file_name": "json-ld-organization.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-076cfc91",
+    "file_name": "404.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-uicrooks-shopify-theme-lab-96868b2e",
+    "file_name": "theme.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-d717a1b0",
+    "file_name": "product-custom-badge.liquid",
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "comm-instantcommerce-shopify-headless-theme-ef692b53",
+    "file_name": "theme.liquid",
+    "unknown_plurals": [
+      "css-variables",
+      "settings"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-4410e326",
+    "file_name": "product-block-richtext.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "商品ページのリッチテキストブロック",
+      "after": "商品ページのリッチテキスト",
+      "before_len": 17,
+      "after_len": 13
+    }
+  },
+  {
+    "id": "comm-uicrooks-shopify-theme-lab-3021d8c9",
+    "file_name": "vue-examples.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-escape",
+    "file_name": "escape",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-sort_by",
+    "file_name": "sort_by",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "sort_by フィルター（コレクションURL にソート条件を付与）"
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-4def233c",
+    "file_name": "section-header.liquid",
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "ref-filters-floor",
+    "file_name": "floor",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-link_to_type",
+    "file_name": "link_to_type",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "link_to_type フィルター（商品タイプ別コレクションへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-tags-for",
+    "file_name": "for",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-else",
+    "file_name": "else",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-decrement",
+    "file_name": "decrement",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  }
+]

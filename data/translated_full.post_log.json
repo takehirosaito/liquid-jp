@@ -1,0 +1,3719 @@
+[
+  {
+    "id": "comm-Shopify-skeleton-theme-6d7e49841b",
+    "file_name": "cart.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "カートページのセクション",
+      "after": "カートページの",
+      "before_len": 12,
+      "after_len": 7
+    }
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-67299c04fb",
+    "file_name": "meta-tags.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-99b5497a32",
+    "file_name": "css-variables.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-9664dfda5c",
+    "file_name": "product.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-529d497bf4",
+    "file_name": "custom-section.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "背景画像付きカスタムセクション",
+      "after": "背景画像付きカスタム",
+      "before_len": 15,
+      "after_len": 10
+    }
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-146acd1edc",
+    "file_name": "article.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "ブログ記事詳細ページのセクション",
+      "after": "ブログ記事詳細ページの",
+      "before_len": 16,
+      "after_len": 11
+    }
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-7177c1818c",
+    "file_name": "search.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-66e6f0978d",
+    "file_name": "footer.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "フッターセクション",
+      "after": "フッター",
+      "before_len": 9,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-db897a3dd3",
+    "file_name": "collections.liquid",
+    "unknown_plurals": [
+      "list-collections"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-839823ac07",
+    "file_name": "hello-world.liquid",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-350ec0bd1e",
+    "file_name": "password.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ],
+    "unknown_plurals": [
+      "meta-tags",
+      "css-variables"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-0e3fd39ca7",
+    "file_name": "theme.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "css-variables"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-db5d8289bf",
+    "file_name": "gift_card.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-b985c38940",
+    "file_name": "text.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "テキストブロック",
+      "after": "テキスト",
+      "before_len": 8,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-Shopify-mcliquid-theme-dcd6399a33",
+    "file_name": "page.liquid",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-mcliquid-theme-04ef945318",
+    "file_name": "search.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-708e66e2d5",
+    "file_name": "navbar-logo.liquid",
+    "unknown_plurals": [
+      "block-settings"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-ddcdafaf16",
+    "file_name": "product-block-title.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-4410e32607",
+    "file_name": "product-block-richtext.liquid",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "商品ページの説明文ブロック",
+      "after": "商品ページの説明文",
+      "before_len": 13,
+      "after_len": 9
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-d717a1b07d",
+    "file_name": "product-custom-badge.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-b0c29aac0d",
+    "file_name": "offcanvas-cart.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-d20b01d993",
+    "file_name": "footer-block.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "フッターのリッチテキストとメニューブロック",
+      "after": "フッターのリッチテキストとメニュー",
+      "before_len": 21,
+      "after_len": 17
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-3f4b2da7d2",
+    "file_name": "collection-card.liquid",
+    "unknown_plurals": [
+      "featured-collections"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-948fd0c86e",
+    "file_name": "product-card-form.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-b408f96759",
+    "file_name": "article-card.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-f423ab6161",
+    "file_name": "pagination.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-ecda42c258",
+    "file_name": "product-block-options.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-60b6516508",
+    "file_name": "product-card.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-1c639f3ae2",
+    "file_name": "modal-localization.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-c0580c9fa0",
+    "file_name": "product-block-collapse.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-7c3d7cfb49",
+    "file_name": "product-block-atc-button.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "商品ページのカートボタンブロック",
+      "after": "商品ページのカートボタン",
+      "before_len": 16,
+      "after_len": 12
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-80403c6666",
+    "file_name": "image-url.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-24edba3127",
+    "file_name": "offcanvas-search.liquid",
+    "style_normalized": [
+      "description_ja"
+    ],
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-53dbdf7d97",
+    "file_name": "offcanvas-menu.liquid",
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-739ea4c464",
+    "file_name": "svg-icons.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "スニペット",
+      "before": "SVGアイコン表示スニペット",
+      "after": "SVGアイコン表示",
+      "before_len": 14,
+      "after_len": 9
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-20b7777dab",
+    "file_name": "collection-filters.liquid",
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-d439de13e6",
+    "file_name": "rich-snippets.liquid",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "Organization・WebSite・Product・Article構造化データ"
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-2445f94e9e",
+    "file_name": "offcanvas-cart.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "カートドロワーセクション",
+      "after": "カートドロワー",
+      "before_len": 12,
+      "after_len": 7
+    },
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-a6af1a868b",
+    "file_name": "cart-count-badge.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-37f046afaa",
+    "file_name": "separator.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "区切り線セクション",
+      "after": "区切り線",
+      "before_len": 9,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-305a395e8e",
+    "file_name": "page-content.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-a7f0579318",
+    "file_name": "html.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "HTML/Liquidコンテンツブロック",
+      "after": "HTML/Liquidコンテンツ",
+      "before_len": 20,
+      "after_len": 16
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-e9abb143bc",
+    "file_name": "collection-header.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "コレクションページのヘッダーセクション",
+      "after": "コレクションページのヘッダー",
+      "before_len": 19,
+      "after_len": 14
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-dc949e276c",
+    "file_name": "blog-header.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "ブログページのヘッダーセクション",
+      "after": "ブログページのヘッダー",
+      "before_len": 16,
+      "after_len": 11
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-c3d5f36fc2",
+    "file_name": "richtext.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "リッチテキストセクション",
+      "after": "リッチテキスト",
+      "before_len": 12,
+      "after_len": 7
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-ade3d6d938",
+    "file_name": "contact-form.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-c5d04a8428",
+    "file_name": "blog-main.liquid",
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-c1a1d45ccc",
+    "file_name": "faq.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "where_to_paste_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "FAQ アコーディオンセクション",
+      "after": "FAQ アコーディオン",
+      "before_len": 16,
+      "after_len": 11
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-ca3b34a37f",
+    "file_name": "navbar.liquid",
+    "unknown_plurals": [
+      "offcanvas"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-76564e1ab0",
+    "file_name": "footer.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "フッターセクション",
+      "after": "フッター",
+      "before_len": 9,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-9b24657b71",
+    "file_name": "blog-slider.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-af8624c21a",
+    "file_name": "card-list.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "カードリストセクション",
+      "after": "カードリスト",
+      "before_len": 11,
+      "after_len": 6
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-d8905dc681",
+    "file_name": "media-with-text.liquid",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-c7392cea16",
+    "file_name": "card-slider.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "カードスライダーセクション",
+      "after": "カードスライダー",
+      "before_len": 13,
+      "after_len": 8
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-ae5404cb82",
+    "file_name": "testimonials.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "顧客評価スライダーセクション",
+      "after": "顧客評価スライダー",
+      "before_len": 14,
+      "after_len": 9
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-df960c680f",
+    "file_name": "password.liquid",
+    "unknown_plurals": [
+      "meta-tags"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-aed9172339",
+    "file_name": "page.liquid",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-mirceapiturca-Sections-7759b61da4",
+    "file_name": "quiz.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "インタラクティブなクイズセクション",
+      "after": "インタラクティブなクイズ",
+      "before_len": 17,
+      "after_len": 12
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-2705e36836",
+    "file_name": "variables.css.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-mirceapiturca-Sections-5a39cbd394",
+    "file_name": "faq.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-d51def284e",
+    "file_name": "collection.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-pgrimaud-shopify-snippets-87211e2a7a",
+    "file_name": "json-ld-product.liquid",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-c16b920d82",
+    "file_name": "related-articles.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-97b08d26e4",
+    "file_name": "cart.compare.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-c7ed926ea3",
+    "file_name": "show-collection-based-on-last-article.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-75bfec6d14",
+    "file_name": "querystrings.liquid",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja",
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-33fc66b3c0",
+    "file_name": "404.liquid",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-4c5349a58b",
+    "file_name": "sort-shopify-collection-products-by-metafield-value.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-457cc4c027",
+    "file_name": "persistent-cart.js.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-freakdesign-shopify-code-snippets-b501b20545",
+    "file_name": "get-reviews.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ],
+    "unknown_plurals": [
+      "product-reviews"
+    ]
+  },
+  {
+    "id": "comm-instantcommerce-shopify-headless-theme-a9f8f52411",
+    "file_name": "main-redirect.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ],
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "リダイレクトセクション",
+      "after": "リダイレクト",
+      "before_len": 11,
+      "after_len": 6
+    }
+  },
+  {
+    "id": "comm-instantcommerce-shopify-headless-theme-2ac6263867",
+    "file_name": "gift_card.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-uicrooks-shopify-theme-lab-3021d8c990",
+    "file_name": "vue-examples.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "Vue コンポーネントのデモセクション",
+      "after": "Vue コンポーネントのデモ",
+      "before_len": 19,
+      "after_len": 14
+    }
+  },
+  {
+    "id": "comm-uicrooks-shopify-theme-lab-96868b2eba",
+    "file_name": "theme.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "meta-tags"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-779bd4ddc1",
+    "file_name": "products.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-91b71baa54",
+    "file_name": "blog.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-2ccbc63054",
+    "file_name": "page.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-5a800c4570",
+    "file_name": "blog.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-31151f3a42",
+    "file_name": "collection.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-fa010978e3",
+    "file_name": "page.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-acf184c741",
+    "file_name": "404.liquid",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-8fe26abb92",
+    "file_name": "cart.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-fd2fd019f5",
+    "file_name": "collection.liquid",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-a9a0ddc2e4",
+    "file_name": "product.liquid",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-8870389b44",
+    "file_name": "product.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-b997bd858f",
+    "file_name": "cart.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-cb2453aacf",
+    "file_name": "article.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-liquid-551cf7c38e",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-cfd012971f",
+    "file_name": "child.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "web-components"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-53fdb878ca",
+    "file_name": "parent.liquid",
+    "unknown_plurals": [
+      "web-components"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-944aa30a5c",
+    "file_name": "custom-section.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-02bb03f2b3",
+    "file_name": "_static.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "静的コンテンツブロック",
+      "after": "静的コンテンツ",
+      "before_len": 11,
+      "after_len": 7
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-ec3c5e2e5f",
+    "file_name": "index.liquid",
+    "unknown_plurals": [
+      "alpine-js"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-e08257321d",
+    "file_name": "fixed.liquid",
+    "unknown_plurals": [
+      "vue-js"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f9b1298886",
+    "file_name": "text.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "テキストブロック",
+      "after": "テキスト",
+      "before_len": 8,
+      "after_len": 4
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-57e7c43683",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-3ba8a022c4",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-43b4e39295",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-11c44e5bb0",
+    "file_name": "fixed.liquid",
+    "title_too_long": {
+      "len": 32,
+      "title": "prettier-plugin-liquid のフォーマット検証"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-24d5e5f481",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-d68d2a71da",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 31,
+      "title": "Prettier Liquid プラグインの括弧配置設定テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-b5bcdb5fb4",
+    "file_name": "fixed.liquid",
+    "title_too_long": {
+      "len": 32,
+      "title": "Prettier Liquid プラグイン設定テスト（括弧位置）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-9aff3c5e58",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-ecf040ee73",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "Prettier Liquid プラグインのドキュメント段落テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-4a941e359c",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-3e8310202b",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "increment・decrement タグ（カウンタ変数の増減）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-1359a72abc",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-d8730940dd",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "Liquid コード整形（else タグのホワイトスペース制御）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-46fc2f85ca",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f04eca9db5",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-af4bebb9bd",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "cycle タグの書式テスト（Prettier フォーマッタ検証）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f542d226d6",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f45a2d42d9",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-1652a7193c",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 31,
+      "title": "Prettier Liquid プラグインの末尾空白処理テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-c86015e4b0",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-509d580ede",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-7fe5444ca4",
+    "file_name": "group.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-4d6a4abff3",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "content_for タグ（レイアウトへのコンテンツ埋め込み）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-9391b3f3de",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-4f2c4f96cd",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-193a1c2e82",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-4210b761bd",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 35,
+      "title": "Prettier Liquid プラグインのホワイトスペース処理テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-00925828d9",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-dfd2c8351d",
+    "file_name": "fixed.liquid",
+    "title_too_long": {
+      "len": 35,
+      "title": "Prettier Liquid プラグインのホワイトスペース処理テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f016b0b3a8",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-30cb3ea8ea",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 32,
+      "title": "Liquid と JavaScript の混在時のインデント制御"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-296902d06b",
+    "file_name": "index.liquid",
+    "unknown_plurals": [
+      "theme-tools"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-7836ef8a2d",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 37,
+      "title": "Prettier Liquid プラグインのHTML要素フォーマットテスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-997a3d9c49",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-f592dbb05b",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "Liquid と JavaScript のインデント整形ルール"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-2b2d1c1614",
+    "file_name": "index.liquid",
+    "unknown_plurals": [
+      "arguments"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-e1e77d43b3",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "liquid-js"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-afa39df9d0",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-a99684d20d",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-efb46d6191",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-e4d0d4e5c7",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-dcf6a37a67",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-70611b9dc4",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "Prettier Plugin Liquid のHTML要素フォーマットテスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-97ece5f161",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-8190e96af8",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 34,
+      "title": "Prettier Liquid プラグイン：条件分岐の空白整形テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-85ed32ef30",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-cf54418c0e",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "Prettier Liquid プラグイン: 末尾空白の最適化テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-4ef2eea2e1",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-ba5da12478",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "Prettier Liquid プラグインの空白文字処理テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-9c992fdc37",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-643d03af59",
+    "file_name": "index.liquid",
+    "unknown_plurals": [
+      "no-js"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-07eb4c157c",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "Prettier Liquid プラグイン・自己クローズタグのフォーマット仕様"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-900288dc69",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-58733aa625",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 34,
+      "title": "Prettier フォーマット無視コメント（Liquid・HTML）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-6c27a4faf1",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 34,
+      "title": "Prettier Liquid プラグインのスクリプトタグ整形テスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-5d40c2cefc",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-aff6e40d56",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-8d2ad5a9db",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-214bee8549",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-17f84c4d15",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 32,
+      "title": "Prettier Liquid プラグインのインデント設定テスト"
+    },
+    "unknown_plurals": [
+      "tabs-spaces"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-1ed25d9ed8",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-54c805bde0",
+    "file_name": "fixed.liquid",
+    "title_too_long": {
+      "len": 39,
+      "title": "Prettier Liquid プラグインの HTML 空要素フォーマット仕様"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-c6a4410259",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 37,
+      "title": "render タグのフォーマット規則（prettier プラグインテスト）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-0907e84f70",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-43714838be",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-5e087b890a",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "Prettier Liquid プラグインのフォーマットテスト"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-61f43013e6",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-c65395883b",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-b93ffaecde",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 34,
+      "title": "assign タグのフォーマット規則（Prettier プラグイン）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-1f682baf6a",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-840bb11710",
+    "file_name": "index.liquid",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-24b2d052db",
+    "file_name": "fixed.liquid",
+    "title_too_long": {
+      "len": 41,
+      "title": "Prettier による Liquid コードのフォーマット（HTML タグ整形）"
+    }
+  },
+  {
+    "id": "comm-Shopify-theme-tools-a63c8c9191",
+    "file_name": "fixed.liquid",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-223a6e621c",
+    "file_name": "fixed.liquid",
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-8982c192cf",
+    "file_name": "index.liquid",
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-b9b98f1e67",
+    "file_name": "fixed.liquid",
+    "unknown_plurals": [
+      "graphics"
+    ]
+  },
+  {
+    "id": "comm-Shopify-theme-tools-404b14aeea",
+    "file_name": "index.liquid",
+    "title_too_long": {
+      "len": 39,
+      "title": "Prettier Liquid プラグインの HTML 属性フォーマットテスト"
+    }
+  },
+  {
+    "id": "ref-filters-abs",
+    "file_name": "abs",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-append",
+    "file_name": "append",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-article_img_url",
+    "file_name": "article_img_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 43,
+      "title": "article_img_url フィルター（ブログ記事画像の CDN URL を取得）"
+    }
+  },
+  {
+    "id": "ref-filters-asset_img_url",
+    "file_name": "asset_img_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "asset_img_url フィルター（テーマアセット画像の CDN URL 取得）"
+    }
+  },
+  {
+    "id": "ref-filters-asset_url",
+    "file_name": "asset_url",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "asset_url フィルター（テーマアセットのCDN URLを取得）"
+    }
+  },
+  {
+    "id": "ref-filters-at_least",
+    "file_name": "at_least",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-avatar",
+    "file_name": "avatar",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "avatar フィルター（顧客アバター画像の HTML 生成）"
+    }
+  },
+  {
+    "id": "ref-filters-at_most",
+    "file_name": "at_most",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-base64_encode",
+    "file_name": "base64_encode",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 41,
+      "title": "base64_encode フィルター（文字列を Base64 形式にエンコード）"
+    }
+  },
+  {
+    "id": "ref-filters-base64_decode",
+    "file_name": "base64_decode",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 41,
+      "title": "base64_decode フィルター（Base64 エンコード文字列をデコード）"
+    }
+  },
+  {
+    "id": "ref-filters-base64_url_safe_encode",
+    "file_name": "base64_url_safe_encode",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 47,
+      "title": "base64_url_safe_encode フィルター（URL安全なBase64エンコード）"
+    }
+  },
+  {
+    "id": "ref-filters-blake3",
+    "file_name": "blake3",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "blake3 フィルター（文字列をBLAKE3ハッシュに変換）"
+    }
+  },
+  {
+    "id": "ref-filters-base64_url_safe_decode",
+    "file_name": "base64_url_safe_decode",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 47,
+      "title": "base64_url_safe_decode フィルター（URL安全なBase64をデコード）"
+    }
+  },
+  {
+    "id": "ref-filters-brightness_difference",
+    "file_name": "brightness_difference",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "where_to_paste_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "brightness_difference フィルター（色のコントラスト計算）"
+    }
+  },
+  {
+    "id": "ref-filters-camelize",
+    "file_name": "camelize",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-capitalize",
+    "file_name": "capitalize",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-collection_img_url",
+    "file_name": "collection_img_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 47,
+      "title": "collection_img_url フィルター（コレクション画像の CDN URL を取得）"
+    }
+  },
+  {
+    "id": "ref-filters-ceil",
+    "file_name": "ceil",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_contrast",
+    "file_name": "color_contrast",
+    "style_normalized": [
+      "title_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 36,
+      "title": "color_contrast フィルター（2色間のコントラスト比を計算）"
+    }
+  },
+  {
+    "id": "ref-filters-color_brightness",
+    "file_name": "color_brightness",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "color_brightness フィルター（色の明るさを数値で取得）"
+    }
+  },
+  {
+    "id": "ref-filters-color_darken",
+    "file_name": "color_darken",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_extract",
+    "file_name": "color_extract",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_difference",
+    "file_name": "color_difference",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 38,
+      "title": "color_difference フィルター（2色間のコントラスト差を計算）"
+    }
+  },
+  {
+    "id": "ref-filters-color_desaturate",
+    "file_name": "color_desaturate",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "color_desaturate フィルター（色の彩度を下げる）"
+    }
+  },
+  {
+    "id": "ref-filters-color_lighten",
+    "file_name": "color_lighten",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_mix",
+    "file_name": "color_mix",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "color_mix フィルター（2色をブレンドして中間色を生成）"
+    }
+  },
+  {
+    "id": "ref-filters-color_to_hex",
+    "file_name": "color_to_hex",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "color_to_hex フィルター（CSS色を16進数に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-color_saturate",
+    "file_name": "color_saturate",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_to_oklch",
+    "file_name": "color_to_oklch",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 40,
+      "title": "color_to_oklch フィルター（CSS 色を OKLCH 形式に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-color_modify",
+    "file_name": "color_modify",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-color_to_hsl",
+    "file_name": "color_to_hsl",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "color_to_hsl フィルター（CSS色をHSL形式に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-color_to_rgb",
+    "file_name": "color_to_rgb",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "color_to_rgb フィルター（CSS色をRGB形式に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-concat",
+    "file_name": "concat",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-compact",
+    "file_name": "compact",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-currency_selector",
+    "file_name": "currency_selector",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 38,
+      "title": "currency_selector フィルター（通貨選択ドロップダウン生成）"
+    }
+  },
+  {
+    "id": "ref-filters-customer_logout_link",
+    "file_name": "customer_logout_link",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 38,
+      "title": "customer_logout_link フィルター（ログアウトリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-customer_register_link",
+    "file_name": "customer_register_link",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 44,
+      "title": "customer_register_link フィルター（顧客登録ページへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-customer_login_link",
+    "file_name": "customer_login_link",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 41,
+      "title": "customer_login_link フィルター（ログインページへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-default_errors",
+    "file_name": "default_errors",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 36,
+      "title": "default_errors フィルター（フォーム送信エラーを日本語化）"
+    }
+  },
+  {
+    "id": "ref-filters-default",
+    "file_name": "default",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 40,
+      "title": "default フィルター（空値・false・nil をデフォルト値に置き換え）"
+    }
+  },
+  {
+    "id": "ref-filters-date",
+    "file_name": "date",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-date",
+    "file_name": "date",
+    "style_normalized": [
+      "title_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-default_pagination",
+    "file_name": "default_pagination",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "default_pagination フィルター（ページネーションリンクを自動生成）"
+    }
+  },
+  {
+    "id": "ref-filters-downcase",
+    "file_name": "downcase",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-divided_by",
+    "file_name": "divided_by",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-escape_once",
+    "file_name": "escape_once",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 44,
+      "title": "escape_once フィルター（HTML エスケープ済み文字を二重エスケープしない）"
+    }
+  },
+  {
+    "id": "ref-filters-escape",
+    "file_name": "escape",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-file_img_url",
+    "file_name": "file_img_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "file_img_url フィルター（ファイルから画像URLを取得）"
+    }
+  },
+  {
+    "id": "ref-filters-external_video_url",
+    "file_name": "external_video_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "external_video_url フィルター（外部動画の URL を生成）"
+    }
+  },
+  {
+    "id": "ref-filters-external_video_tag",
+    "file_name": "external_video_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "external_video_tag フィルター（外部動画の埋め込みタグ生成）"
+    }
+  },
+  {
+    "id": "ref-filters-file_url",
+    "file_name": "file_url",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "file_url フィルター（ファイルのCDN URLを取得）"
+    }
+  },
+  {
+    "id": "ref-filters-find",
+    "file_name": "find",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-floor",
+    "file_name": "floor",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-first",
+    "file_name": "first",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-find_index",
+    "file_name": "find_index",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "find_index フィルター（配列内のマッチ要素インデックス取得）"
+    }
+  },
+  {
+    "id": "ref-filters-font_face",
+    "file_name": "font_face",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "font_face フィルター（フォント読み込み用の@font-face宣言を生成）"
+    }
+  },
+  {
+    "id": "ref-filters-font_url",
+    "file_name": "font_url",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "font_url フィルター（フォント CDN URL を取得）"
+    }
+  },
+  {
+    "id": "ref-filters-font_modify",
+    "file_name": "font_modify",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 36,
+      "title": "font_modify フィルター（フォントのウェイト・スタイルを変更）"
+    }
+  },
+  {
+    "id": "ref-filters-format_address",
+    "file_name": "format_address",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "format_address フィルター（住所を地域形式で整形）"
+    }
+  },
+  {
+    "id": "ref-filters-has",
+    "file_name": "has",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-handleize",
+    "file_name": "handleize",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-hex_to_rgba",
+    "file_name": "hex_to_rgba",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 36,
+      "title": "hex_to_rgba フィルター（16進数カラーをRGBA形式に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-global_asset_url",
+    "file_name": "global_asset_url",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 49,
+      "title": "global_asset_url フィルター（Shopify CDN上の共有アセットのURL取得）"
+    }
+  },
+  {
+    "id": "ref-filters-highlight",
+    "file_name": "highlight",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-hmac_sha256",
+    "file_name": "hmac_sha256",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "hmac_sha256 フィルター（HMAC-SHA256ハッシュ化）"
+    }
+  },
+  {
+    "id": "ref-filters-highlight_active_tag",
+    "file_name": "highlight_active_tag",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 40,
+      "title": "highlight_active_tag フィルター（アクティブなタグをマーク）"
+    }
+  },
+  {
+    "id": "ref-filters-hmac_sha1",
+    "file_name": "hmac_sha1",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "hmac_sha1 フィルター（HMAC-SHA1ハッシュ生成）"
+    }
+  },
+  {
+    "id": "ref-filters-image_tag",
+    "file_name": "image_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "image_tag フィルター（画像を HTML img タグで出力）"
+    }
+  },
+  {
+    "id": "ref-filters-img_tag",
+    "file_name": "img_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "img_tag フィルター（廃止・image_tag への移行推奨）"
+    }
+  },
+  {
+    "id": "ref-filters-image_url",
+    "file_name": "image_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "image_url フィルター（画像のリサイズ URL 生成）"
+    }
+  },
+  {
+    "id": "ref-filters-inline_asset_content",
+    "file_name": "inline_asset_content",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 43,
+      "title": "inline_asset_content フィルター（アセットの内容をインライン展開）"
+    }
+  },
+  {
+    "id": "ref-filters-join",
+    "file_name": "join",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-img_url",
+    "file_name": "img_url",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-item_count_for_variant",
+    "file_name": "item_count_for_variant",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 43,
+      "title": "item_count_for_variant フィルター（カート内の特定バリアント数）"
+    }
+  },
+  {
+    "id": "ref-filters-json",
+    "file_name": "json",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-link_to",
+    "file_name": "link_to",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-line_items_for",
+    "file_name": "line_items_for",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 40,
+      "title": "line_items_for フィルター（カート内の特定商品の行アイテムを抽出）"
+    }
+  },
+  {
+    "id": "ref-filters-link_to_type",
+    "file_name": "link_to_type",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "link_to_type フィルター（商品タイプ別コレクションへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-last",
+    "file_name": "last",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-link_to_tag",
+    "file_name": "link_to_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "link_to_tag フィルター（タグでフィルタリングされたページへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-link_to_add_tag",
+    "file_name": "link_to_add_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 38,
+      "title": "link_to_add_tag フィルター（タグフィルタリングのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-link_to_remove_tag",
+    "file_name": "link_to_remove_tag",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 43,
+      "title": "link_to_remove_tag フィルター（タグを除外したフィルタリングリンク）"
+    }
+  },
+  {
+    "id": "ref-filters-lstrip",
+    "file_name": "lstrip",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-login_button",
+    "file_name": "login_button",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "login_button フィルター（顧客ログインボタンの生成）"
+    }
+  },
+  {
+    "id": "ref-filters-link_to_vendor",
+    "file_name": "link_to_vendor",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "link_to_vendor フィルター（ベンダーコレクションへのリンク生成）"
+    }
+  },
+  {
+    "id": "ref-filters-md5",
+    "file_name": "md5",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-map",
+    "file_name": "map",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-media_tag",
+    "file_name": "media_tag",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "media_tag フィルター（メディアを適切なHTML要素に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-minus",
+    "file_name": "minus",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-metafield_tag",
+    "file_name": "metafield_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 40,
+      "title": "metafield_tag フィルター（メタフィールドを HTML タグに変換）"
+    }
+  },
+  {
+    "id": "ref-filters-metafield_text",
+    "file_name": "metafield_text",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "metafield_text フィルター（メタフィールドをテキスト形式で抽出）"
+    }
+  },
+  {
+    "id": "ref-filters-modulo",
+    "file_name": "modulo",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-money",
+    "file_name": "money",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-model_viewer_tag",
+    "file_name": "model_viewer_tag",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "model_viewer_tag フィルター（3D モデル表示）"
+    }
+  },
+  {
+    "id": "ref-filters-money_amount",
+    "file_name": "money_amount",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 31,
+      "title": "money_amount フィルター（価格を小数点形式で整形）"
+    }
+  },
+  {
+    "id": "ref-filters-money_with_currency",
+    "file_name": "money_with_currency",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "money_with_currency フィルター（金額をストア通貨記号付きで整形）"
+    }
+  },
+  {
+    "id": "ref-filters-money_without_trailing_zeros",
+    "file_name": "money_without_trailing_zeros",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 46,
+      "title": "money_without_trailing_zeros フィルター（末尾ゼロなし金額表示）"
+    }
+  },
+  {
+    "id": "ref-filters-money_without_currency",
+    "file_name": "money_without_currency",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "money_without_currency フィルター（金額を通貨記号なしで整形）"
+    }
+  },
+  {
+    "id": "ref-filters-newline_to_br",
+    "file_name": "newline_to_br",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "newline_to_br フィルター（改行をHTML改行に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-payment_button",
+    "file_name": "payment_button",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 34,
+      "title": "payment_button フィルター（決済ボタンのコンテナ生成）"
+    }
+  },
+  {
+    "id": "ref-filters-payment_terms",
+    "file_name": "payment_terms",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "payment_terms フィルター（Shop Pay分割払いバナーを生成）"
+    },
+    "unknown_plurals": [
+      "installments"
+    ]
+  },
+  {
+    "id": "ref-filters-payment_type_img_url",
+    "file_name": "payment_type_img_url",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 47,
+      "title": "payment_type_img_url フィルター（決済方法のアイコン画像 URL を取得）"
+    }
+  },
+  {
+    "id": "ref-filters-payment_type_svg_tag",
+    "file_name": "payment_type_svg_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "payment_type_svg_tag フィルター（決済方法アイコンをSVG生成）"
+    }
+  },
+  {
+    "id": "ref-filters-plus",
+    "file_name": "plus",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-placeholder_svg_tag",
+    "file_name": "placeholder_svg_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 41,
+      "title": "placeholder_svg_tag フィルター（プレースホルダーSVGを生成）"
+    }
+  },
+  {
+    "id": "ref-filters-prepend",
+    "file_name": "prepend",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-pluralize",
+    "file_name": "pluralize",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "pluralize フィルター（数に応じて単数・複数形を切り替え）"
+    }
+  },
+  {
+    "id": "ref-filters-preload_tag",
+    "file_name": "preload_tag",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-product_img_url",
+    "file_name": "product_img_url",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "product_img_url フィルター（商品画像の CDN URL 取得）"
+    }
+  },
+  {
+    "id": "ref-filters-reject",
+    "file_name": "reject",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-remove",
+    "file_name": "remove",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-remove_last",
+    "file_name": "remove_last",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-remove_first",
+    "file_name": "remove_first",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "remove_first フィルター（文字列の最初の1つを削除）"
+    }
+  },
+  {
+    "id": "ref-filters-replace_first",
+    "file_name": "replace_first",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-replace",
+    "file_name": "replace",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-reverse",
+    "file_name": "reverse",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-replace_last",
+    "file_name": "replace_last",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "replace_last フィルター（文字列の最後に出現する部分文字列を置換）"
+    }
+  },
+  {
+    "id": "ref-filters-rstrip",
+    "file_name": "rstrip",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-sha1",
+    "file_name": "sha1",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-script_tag",
+    "file_name": "script_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 49,
+      "title": "script_tag フィルター（JavaScript ファイルを <script> タグに変換）"
+    }
+  },
+  {
+    "id": "ref-filters-sha256",
+    "file_name": "sha256",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-size",
+    "file_name": "size",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-slice",
+    "file_name": "slice",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-round",
+    "file_name": "round",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-shopify_asset_url",
+    "file_name": "shopify_asset_url",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 53,
+      "title": "shopify_asset_url フィルター（Shopifyグローバルアセット CDN URL を取得）"
+    }
+  },
+  {
+    "id": "ref-filters-sort",
+    "file_name": "sort",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-sort_by",
+    "file_name": "sort_by",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "sort_by フィルター（コレクション URL にソート条件を追加）"
+    }
+  },
+  {
+    "id": "ref-filters-sort_natural",
+    "file_name": "sort_natural",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "sort_natural フィルター（配列を自然な文字順でソート）"
+    }
+  },
+  {
+    "id": "ref-filters-strip",
+    "file_name": "strip",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-strip_html",
+    "file_name": "strip_html",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-strip_newlines",
+    "file_name": "strip_newlines",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-structured_data",
+    "file_name": "structured_data",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja"
+    ],
+    "title_too_long": {
+      "len": 43,
+      "title": "structured_data フィルター（schema.org 構造化データに変換）"
+    }
+  },
+  {
+    "id": "ref-filters-stylesheet_tag",
+    "file_name": "stylesheet_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "stylesheet_tag フィルター（CSS ファイルのリンクタグを生成）"
+    }
+  },
+  {
+    "id": "ref-filters-split",
+    "file_name": "split",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-sum",
+    "file_name": "sum",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-upcase",
+    "file_name": "upcase",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-times",
+    "file_name": "times",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-uniq",
+    "file_name": "uniq",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-truncatewords",
+    "file_name": "truncatewords",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "truncatewords フィルター（文字列を単語数で切詰める）"
+    }
+  },
+  {
+    "id": "ref-filters-time_tag",
+    "file_name": "time_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 36,
+      "title": "time_tag フィルター（タイムスタンプをHTMLの時刻要素に変換）"
+    }
+  },
+  {
+    "id": "ref-filters-unit_price_with_measurement",
+    "file_name": "unit_price_with_measurement",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 45,
+      "title": "unit_price_with_measurement フィルター（単価と計量単位の表示）"
+    }
+  },
+  {
+    "id": "ref-filters-truncate",
+    "file_name": "truncate",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "unknown_plurals": [
+      "ellipsis"
+    ]
+  },
+  {
+    "id": "ref-filters-translate",
+    "file_name": "translate",
+    "style_normalized": [
+      "title_ja",
+      "where_to_paste_ja"
+    ],
+    "title_too_long": {
+      "len": 33,
+      "title": "translate フィルター（多言語テキストを翻訳キーから取得）"
+    },
+    "unknown_plurals": [
+      "locales"
+    ]
+  },
+  {
+    "id": "ref-filters-url_decode",
+    "file_name": "url_decode",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "url_decode フィルター（URL エンコード文字列をデコード）"
+    }
+  },
+  {
+    "id": "ref-filters-url_encode",
+    "file_name": "url_encode",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-url_for_type",
+    "file_name": "url_for_type",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "url_for_type フィルター（商品タイプ別URLを生成）"
+    }
+  },
+  {
+    "id": "ref-filters-url_param_escape",
+    "file_name": "url_param_escape",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "url_param_escape フィルター（URL パラメータ用文字列エスケープ）"
+    }
+  },
+  {
+    "id": "ref-filters-url_for_vendor",
+    "file_name": "url_for_vendor",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 38,
+      "title": "url_for_vendor フィルター（ベンダー別コレクションURL生成）"
+    }
+  },
+  {
+    "id": "ref-filters-url_escape",
+    "file_name": "url_escape",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "url_escape フィルター（URL 安全文字にエスケープ）"
+    }
+  },
+  {
+    "id": "ref-filters-video_tag",
+    "file_name": "video_tag",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "unknown_plurals": [
+      "hls"
+    ]
+  },
+  {
+    "id": "ref-filters-weight_with_unit",
+    "file_name": "weight_with_unit",
+    "style_normalized": [
+      "title_ja",
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 39,
+      "title": "weight_with_unit フィルター（バリアント重量を単位付きで整形）"
+    }
+  },
+  {
+    "id": "ref-filters-where",
+    "file_name": "where",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-filters-within",
+    "file_name": "within",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-assign",
+    "file_name": "assign",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "unknown_plurals": [
+      "basics"
+    ]
+  },
+  {
+    "id": "ref-tags-break",
+    "file_name": "break",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-case",
+    "file_name": "case",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-capture",
+    "file_name": "capture",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-comment",
+    "file_name": "comment",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-continue",
+    "file_name": "continue",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-content_for",
+    "file_name": "content_for",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-cycle",
+    "file_name": "cycle",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-decrement",
+    "file_name": "decrement",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-echo",
+    "file_name": "echo",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-else",
+    "file_name": "else",
+    "style_normalized": [
+      "title_ja",
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-else",
+    "file_name": "else",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-doc",
+    "file_name": "doc",
+    "style_normalized": [
+      "title_ja"
+    ],
+    "unknown_plurals": [
+      "developer-tools"
+    ]
+  },
+  {
+    "id": "ref-tags-for",
+    "file_name": "for",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-form",
+    "file_name": "form",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-include",
+    "file_name": "include",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-if",
+    "file_name": "if",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-increment",
+    "file_name": "increment",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-javascript",
+    "file_name": "javascript",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 42,
+      "title": "javascript タグ（セクション・ブロック内の JavaScript コード）"
+    }
+  },
+  {
+    "id": "ref-tags-layout",
+    "file_name": "layout",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-liquid",
+    "file_name": "liquid",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-paginate",
+    "file_name": "paginate",
+    "style_normalized": [
+      "title_ja",
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-raw",
+    "file_name": "raw",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-render",
+    "file_name": "render",
+    "style_normalized": [
+      "title_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-sections",
+    "file_name": "sections",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-section",
+    "file_name": "section",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-tags-style",
+    "file_name": "style",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "ref-tags-stylesheet",
+    "file_name": "stylesheet",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 37,
+      "title": "stylesheet タグ（セクション・ブロック・スニペットのCSS定義）"
+    }
+  },
+  {
+    "id": "ref-tags-tablerow",
+    "file_name": "tablerow",
+    "style_normalized": [
+      "title_ja",
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "cols"
+    ]
+  },
+  {
+    "id": "ref-tags-unless",
+    "file_name": "unless",
+    "style_normalized": [
+      "title_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-additional_checkout_buttons",
+    "file_name": "additional_checkout_buttons",
+    "title_too_long": {
+      "len": 34,
+      "title": "additional_checkout_buttons オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-all_products",
+    "file_name": "all_products",
+    "unknown_plurals": [
+      "all-products"
+    ]
+  },
+  {
+    "id": "ref-objects-articles",
+    "file_name": "articles",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-article",
+    "file_name": "article",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-block",
+    "file_name": "block",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-brand_color",
+    "file_name": "brand_color",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja"
+    ],
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "ref-objects-cart",
+    "file_name": "cart",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-color_scheme",
+    "file_name": "color_scheme",
+    "style_normalized": [
+      "use_case_ja"
+    ],
+    "unknown_plurals": [
+      "settings"
+    ]
+  },
+  {
+    "id": "ref-objects-color_scheme_group",
+    "file_name": "color_scheme_group",
+    "unknown_plurals": [
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "ref-objects-collection",
+    "file_name": "collection",
+    "unknown_plurals": [
+      "properties"
+    ]
+  },
+  {
+    "id": "ref-objects-comment",
+    "file_name": "comment",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-company",
+    "file_name": "company",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-company_location",
+    "file_name": "company_location",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-company_address",
+    "file_name": "company_address",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-content_for_header",
+    "file_name": "content_for_header",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-content_for_additional_checkout_buttons",
+    "file_name": "content_for_additional_checkout_buttons",
+    "style_normalized": [
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 46,
+      "title": "content_for_additional_checkout_buttons オブジェクト"
+    },
+    "unknown_plurals": [
+      "additional-checkout-buttons"
+    ]
+  },
+  {
+    "id": "ref-objects-content_for_layout",
+    "file_name": "content_for_layout",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-currency",
+    "file_name": "currency",
+    "style_normalized": [
+      "where_to_paste_ja",
+      "caveats_ja"
+    ],
+    "unknown_plurals": [
+      "markets"
+    ]
+  },
+  {
+    "id": "ref-objects-current_page",
+    "file_name": "current_page",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-filter",
+    "file_name": "filter",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-focal_point",
+    "file_name": "focal_point",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-font",
+    "file_name": "font",
+    "unknown_plurals": [
+      "settings"
+    ]
+  },
+  {
+    "id": "ref-objects-generic_file",
+    "file_name": "generic_file",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-images",
+    "file_name": "images",
+    "unknown_plurals": [
+      "images"
+    ]
+  },
+  {
+    "id": "ref-objects-linklist",
+    "file_name": "linklist",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-handle",
+    "file_name": "handle",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-link",
+    "file_name": "link",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-localization",
+    "file_name": "localization",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-linklists",
+    "file_name": "linklists",
+    "style_normalized": [
+      "description_ja",
+      "where_to_paste_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-location",
+    "file_name": "location",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-market",
+    "file_name": "market",
+    "style_normalized": [
+      "description_ja"
+    ],
+    "unknown_plurals": [
+      "shopify-markets"
+    ]
+  },
+  {
+    "id": "ref-objects-metaobject_definition",
+    "file_name": "metaobject_definition",
+    "unknown_plurals": [
+      "values"
+    ]
+  },
+  {
+    "id": "ref-objects-metaobject_system",
+    "file_name": "metaobject_system",
+    "style_normalized": [
+      "where_to_paste_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-page",
+    "file_name": "page",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-parent_relationship",
+    "file_name": "parent_relationship",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-part",
+    "file_name": "part",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-pending_payment_instruction_input",
+    "file_name": "pending_payment_instruction_input",
+    "title_too_long": {
+      "len": 40,
+      "title": "pending_payment_instruction_input オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-powered_by_link",
+    "file_name": "powered_by_link",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-predictive_search_resources",
+    "file_name": "predictive_search_resources",
+    "title_too_long": {
+      "len": 34,
+      "title": "predictive_search_resources オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-product",
+    "file_name": "product",
+    "unknown_plurals": [
+      "properties"
+    ]
+  },
+  {
+    "id": "ref-objects-quantity_rule",
+    "file_name": "quantity_rule",
+    "style_normalized": [
+      "description_ja",
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-remote_product",
+    "file_name": "remote_product",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-script",
+    "file_name": "script",
+    "unknown_plurals": [
+      "shopify-functions"
+    ]
+  },
+  {
+    "id": "ref-objects-scripts",
+    "file_name": "scripts",
+    "unknown_plurals": [
+      "scripts",
+      "shopify-functions"
+    ]
+  },
+  {
+    "id": "ref-objects-routes",
+    "file_name": "routes",
+    "unknown_plurals": [
+      "routes"
+    ]
+  },
+  {
+    "id": "ref-objects-section",
+    "file_name": "section",
+    "unknown_plurals": [
+      "settings"
+    ]
+  },
+  {
+    "id": "ref-objects-search",
+    "file_name": "search",
+    "style_normalized": [
+      "use_case_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-selling_plan_allocation_price_adjustment",
+    "file_name": "selling_plan_allocation_price_adjustment",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 47,
+      "title": "selling_plan_allocation_price_adjustment オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-selling_plan_allocation",
+    "file_name": "selling_plan_allocation",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-selling_plan_checkout_charge",
+    "file_name": "selling_plan_checkout_charge",
+    "style_normalized": [
+      "description_ja",
+      "caveats_ja"
+    ],
+    "title_too_long": {
+      "len": 35,
+      "title": "selling_plan_checkout_charge オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-selling_plan_group_option",
+    "file_name": "selling_plan_group_option",
+    "style_normalized": [
+      "description_ja"
+    ],
+    "title_too_long": {
+      "len": 32,
+      "title": "selling_plan_group_option オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-selling_plan_option",
+    "file_name": "selling_plan_option",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-selling_plan_price_adjustment",
+    "file_name": "selling_plan_price_adjustment",
+    "title_too_long": {
+      "len": 36,
+      "title": "selling_plan_price_adjustment オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-settings",
+    "file_name": "settings",
+    "unknown_plurals": [
+      "settings"
+    ]
+  },
+  {
+    "id": "ref-objects-sitemap",
+    "file_name": "sitemap",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-store_availability",
+    "file_name": "store_availability",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-tax_line",
+    "file_name": "tax_line",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-theme",
+    "file_name": "theme",
+    "style_normalized": [
+      "description_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-transaction",
+    "file_name": "transaction",
+    "style_normalized": [
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-transaction_payment_details",
+    "file_name": "transaction_payment_details",
+    "title_too_long": {
+      "len": 34,
+      "title": "transaction_payment_details オブジェクト"
+    }
+  },
+  {
+    "id": "ref-objects-user_agent",
+    "file_name": "user_agent",
+    "style_normalized": [
+      "use_case_ja",
+      "caveats_ja"
+    ]
+  },
+  {
+    "id": "ref-objects-video_source",
+    "file_name": "video_source",
+    "unknown_plurals": [
+      "hls"
+    ]
+  }
+]

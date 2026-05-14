@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none">
+  <!-- Liquid を象徴するロゴ:
+       液滴形 + 内部に「{{ }}」(Liquid のテンプレ構文) を組み合わせる
+       配色: 紫グラデーション(violet-600 → violet-800) -->
+  <defs>
+    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <!-- 液滴形 -->
+  <path d="M32 6
+           C32 6 14 30 14 42
+           a18 18 0 0 0 36 0
+           C50 30 32 6 32 6 Z"
+        fill="url(#drop)"/>
+  <!-- 内部の「{{ }}」マーク(白抜き、Liquid 構文を示唆) -->
+  <text x="32" y="49"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="13"
+        font-weight="700"
+        text-anchor="middle"
+        fill="white"
+        letter-spacing="-1">{{}}</text>
+  <!-- ロゴテキスト -->
+  <text x="68" y="36"
+        font-family="-apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic UI', sans-serif"
+        font-size="22"
+        font-weight="800"
+        fill="#0f172a">Liquid Snippets</text>
+  <text x="68" y="54"
+        font-family="-apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic UI', sans-serif"
+        font-size="11"
+        font-weight="500"
+        fill="#64748b"
+        letter-spacing="2">BY ALSEL</text>
+</svg>

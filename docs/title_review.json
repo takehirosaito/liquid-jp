@@ -1,0 +1,651 @@
+{
+  "A": [
+    {
+      "id": "comm-Shopify-theme-tools-d68d2a71da",
+      "before": "Prettier Liquid プラグインの括弧配置設定テスト",
+      "after": "Prettier Liquid プラグイン括弧配置設定テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-b5bcdb5fb4",
+      "before": "Prettier Liquid プラグイン設定テスト（括弧位置）",
+      "after": "Prettier Liquid プラグイン括弧位置テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-3e8310202b",
+      "before": "increment・decrement タグ（カウンタ変数の増減）",
+      "after": "increment・decrement タグ（変数の増減）"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-af4bebb9bd",
+      "before": "cycle タグの書式テスト（Prettier フォーマッタ検証）",
+      "after": "cycle タグの書式テスト（Prettier検証）"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-dfd2c8351d",
+      "before": "Prettier Liquid プラグインのホワイトスペース処理テスト",
+      "after": "Prettier Liquid ホワイトスペース処理テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-30cb3ea8ea",
+      "before": "Liquid と JavaScript の混在時のインデント制御",
+      "after": "Liquid と JavaScript のインデント制御"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-58733aa625",
+      "before": "Prettier フォーマット無視コメント（Liquid・HTML）",
+      "after": "Prettier フォーマット無視コメント"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-c6a4410259",
+      "before": "render タグのフォーマット規則（prettier プラグインテスト）",
+      "after": "render タグのフォーマット規則"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-b93ffaecde",
+      "before": "assign タグのフォーマット規則（Prettier プラグイン）",
+      "after": "assign タグのフォーマット規則（Prettier）"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-24b2d052db",
+      "before": "Prettier による Liquid コードのフォーマット（HTML タグ整形）",
+      "after": "Prettier による Liquid コードのフォーマット"
+    },
+    {
+      "id": "ref-filters-asset_url",
+      "before": "asset_url フィルター（テーマアセットのCDN URLを取得）",
+      "after": "asset_url フィルター（CDN URLを取得）"
+    },
+    {
+      "id": "ref-filters-avatar",
+      "before": "avatar フィルター（顧客アバター画像の HTML 生成）",
+      "after": "avatar フィルター（顧客アバター画像HTML生成）"
+    },
+    {
+      "id": "ref-filters-blake3",
+      "before": "blake3 フィルター（文字列をBLAKE3ハッシュに変換）",
+      "after": "blake3 フィルター（BLAKE3ハッシュ変換）"
+    },
+    {
+      "id": "ref-filters-color_brightness",
+      "before": "color_brightness フィルター（色の明るさを数値で取得）",
+      "after": "color_brightness フィルター（明るさ取得）"
+    },
+    {
+      "id": "ref-filters-color_desaturate",
+      "before": "color_desaturate フィルター（色の彩度を下げる）",
+      "after": "color_desaturate フィルター（彩度低下）"
+    },
+    {
+      "id": "ref-filters-color_mix",
+      "before": "color_mix フィルター（2色をブレンドして中間色を生成）",
+      "after": "color_mix フィルター（色のブレンド）"
+    },
+    {
+      "id": "ref-filters-currency_selector",
+      "before": "currency_selector フィルター（通貨選択ドロップダウン生成）",
+      "after": "currency_selector フィルター（通貨選択）"
+    },
+    {
+      "id": "ref-filters-default",
+      "before": "default フィルター（空値・false・nil をデフォルト値に置き換え）",
+      "after": "default フィルター（空値をデフォルト値に置き換え）"
+    },
+    {
+      "id": "ref-filters-escape_once",
+      "before": "escape_once フィルター（HTML エスケープ済み文字を二重エスケープしない）",
+      "after": "escape_once フィルター（二重エスケープ防止）"
+    },
+    {
+      "id": "ref-filters-file_url",
+      "before": "file_url フィルター（ファイルのCDN URLを取得）",
+      "after": "file_url フィルター（ファイルCDN URL取得）"
+    },
+    {
+      "id": "ref-filters-font_modify",
+      "before": "font_modify フィルター（フォントのウェイト・スタイルを変更）",
+      "after": "font_modify フィルター（フォント装飾変更）"
+    },
+    {
+      "id": "ref-filters-image_tag",
+      "before": "image_tag フィルター（画像を HTML img タグで出力）",
+      "after": "image_tag フィルター（画像をHTMLタグ化）"
+    },
+    {
+      "id": "ref-filters-image_url",
+      "before": "image_url フィルター（画像のリサイズ URL 生成）",
+      "after": "image_url フィルター（画像リサイズ URL 生成）"
+    },
+    {
+      "id": "ref-filters-link_to_tag",
+      "before": "link_to_tag フィルター（タグでフィルタリングされたページへのリンク生成）",
+      "after": "link_to_tag フィルター（タグでフィルタリング）"
+    },
+    {
+      "id": "ref-filters-metafield_tag",
+      "before": "metafield_tag フィルター（メタフィールドを HTML タグに変換）",
+      "after": "metafield_tag フィルター（HTMLタグ変換）"
+    },
+    {
+      "id": "ref-filters-money_amount",
+      "before": "money_amount フィルター（価格を小数点形式で整形）",
+      "after": "money_amount フィルター（価格形式に整形）"
+    },
+    {
+      "id": "ref-filters-payment_button",
+      "before": "payment_button フィルター（決済ボタンのコンテナ生成）",
+      "after": "payment_button フィルター（決済ボタン生成）"
+    },
+    {
+      "id": "ref-filters-pluralize",
+      "before": "pluralize フィルター（数に応じて単数・複数形を切り替え）",
+      "after": "pluralize フィルター（単数・複数形の切り替え）"
+    },
+    {
+      "id": "ref-filters-sort_by",
+      "before": "sort_by フィルター（コレクション URL にソート条件を追加）",
+      "after": "sort_by フィルター（URL にソート条件を追加）"
+    },
+    {
+      "id": "ref-filters-sort_natural",
+      "before": "sort_natural フィルター（配列を自然な文字順でソート）",
+      "after": "sort_natural フィルター（自然な文字順でソート）"
+    },
+    {
+      "id": "ref-filters-truncatewords",
+      "before": "truncatewords フィルター（文字列を単語数で切詰める）",
+      "after": "truncatewords フィルター（単語数で切詰め）"
+    },
+    {
+      "id": "ref-filters-translate",
+      "before": "translate フィルター（多言語テキストを翻訳キーから取得）",
+      "after": "translate フィルター（翻訳キーから取得）"
+    },
+    {
+      "id": "ref-filters-url_decode",
+      "before": "url_decode フィルター（URL エンコード文字列をデコード）",
+      "after": "url_decode フィルター（URL デコード）"
+    },
+    {
+      "id": "ref-filters-url_escape",
+      "before": "url_escape フィルター（URL 安全文字にエスケープ）",
+      "after": "url_escape フィルター（URL エスケープ）"
+    },
+    {
+      "id": "ref-tags-javascript",
+      "before": "javascript タグ（セクション・ブロック内の JavaScript コード）",
+      "after": "javascript タグ（セクション・ブロック内のコード）"
+    },
+    {
+      "id": "ref-tags-stylesheet",
+      "before": "stylesheet タグ（セクション・ブロック・スニペットのCSS定義）",
+      "after": "stylesheet タグ（CSS定義）"
+    }
+  ],
+  "B": [
+    {
+      "id": "comm-Shopify-theme-tools-11c44e5bb0",
+      "title": "prettier-plugin-liquid のフォーマット検証",
+      "reason": "AI 短縮版も 32 字: prettier-plugin-liquid のフォーマット検証"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-ecf040ee73",
+      "title": "Prettier Liquid プラグインのドキュメント段落テスト",
+      "reason": "AI 短縮版も 32 字: Prettier Liquid プラグインドキュメント段落テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-d8730940dd",
+      "title": "Liquid コード整形（else タグのホワイトスペース制御）",
+      "reason": "AI 短縮版も 87 字: Liquid コード整形（else タグのホワイトスペース制御）\n\nこのタイトルは既に32字のため、短縮が必要です。\n\n**短縮案:**\nelse タグのホワイトスペース制御"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-1652a7193c",
+      "title": "Prettier Liquid プラグインの末尾空白処理テスト",
+      "reason": "AI 短縮版も 31 字: Prettier Liquid プラグインの末尾空白処理テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-4d6a4abff3",
+      "title": "content_for タグ（レイアウトへのコンテンツ埋め込み）",
+      "reason": "AI 短縮版も 32 字: content_for タグ（レイアウトへのコンテンツ埋め込み）"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-f592dbb05b",
+      "title": "Liquid と JavaScript のインデント整形ルール",
+      "reason": "AI 短縮版も 31 字: Liquid と JavaScript のインデント整形ルール"
+    },
+    {
+      "id": "comm-kondasoft-ks-bootshop-d439de13e6",
+      "title": "Organization・WebSite・Product・Article構造化データ",
+      "reason": "AI 短縮版も 120 字: Organization・WebSite・Product・Article構造化データ\n\nこのタイトルは既に 42 字で、30 字以内に短縮する必要があります。\n\nDIFFICULT: 4つの構造化データタイプの並列を30字以内に維持できない"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-4210b761bd",
+      "title": "Prettier Liquid プラグインのホワイトスペース処理テスト",
+      "reason": "AI 短縮版も 118 字: Prettier Liquid プラグインのホワイトスペース処理テスト\n\nDIFFICULT: 元タイトルが既に35字で、重要キーワード(Prettier, Liquid, プラグイン, ホワイトスペース, 処理, テスト)が多く、削除"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-7836ef8a2d",
+      "title": "Prettier Liquid プラグインのHTML要素フォーマットテスト",
+      "reason": "AI 短縮版も 37 字: Prettier Liquid プラグインのHTML要素フォーマットテスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-70611b9dc4",
+      "title": "Prettier Plugin Liquid のHTML要素フォーマットテスト",
+      "reason": "AI 短縮版も 38 字: Prettier Plugin Liquid HTML要素フォーマットテスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-ba5da12478",
+      "title": "Prettier Liquid プラグインの空白文字処理テスト",
+      "reason": "AI 短縮版も 31 字: Prettier Liquid プラグインの空白文字処理テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-8190e96af8",
+      "title": "Prettier Liquid プラグイン：条件分岐の空白整形テスト",
+      "reason": "AI 短縮版も 34 字: Prettier Liquid プラグイン：条件分岐の空白整形テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-cf54418c0e",
+      "title": "Prettier Liquid プラグイン: 末尾空白の最適化テスト",
+      "reason": "AI 短縮版も 31 字: Prettier Liquid プラグイン末尾空白最適化テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-07eb4c157c",
+      "title": "Prettier Liquid プラグイン・自己クローズタグのフォーマット仕様",
+      "reason": "AI 短縮版も 32 字: Prettier Liquid プラグイン・自己クローズタグ仕様"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-6c27a4faf1",
+      "title": "Prettier Liquid プラグインのスクリプトタグ整形テスト",
+      "reason": "AI 短縮版も 34 字: Prettier Liquid プラグインのスクリプトタグ整形テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-17f84c4d15",
+      "title": "Prettier Liquid プラグインのインデント設定テスト",
+      "reason": "AI 短縮版も 32 字: Prettier Liquid プラグインのインデント設定テスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-5e087b890a",
+      "title": "Prettier Liquid プラグインのフォーマットテスト",
+      "reason": "AI 短縮版も 31 字: Prettier Liquid プラグインのフォーマットテスト"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-404b14aeea",
+      "title": "Prettier Liquid プラグインの HTML 属性フォーマットテスト",
+      "reason": "AI 短縮版も 31 字: Prettier Liquid HTML属性フォーマットテスト"
+    },
+    {
+      "id": "ref-filters-asset_img_url",
+      "title": "asset_img_url フィルター（テーマアセット画像の CDN URL 取得）",
+      "reason": "AI 短縮版も 31 字: asset_img_url フィルター（CDN URL 取得）"
+    },
+    {
+      "id": "ref-filters-article_img_url",
+      "title": "article_img_url フィルター（ブログ記事画像の CDN URL を取得）",
+      "reason": "AI 短縮版も 38 字: article_img_url フィルター（ブログ記事画像 CDN URL）"
+    },
+    {
+      "id": "comm-Shopify-theme-tools-54c805bde0",
+      "title": "Prettier Liquid プラグインの HTML 空要素フォーマット仕様",
+      "reason": "AI 短縮版も 36 字: Prettier Liquid プラグイン HTML 空要素フォーマット"
+    },
+    {
+      "id": "ref-filters-base64_decode",
+      "title": "base64_decode フィルター（Base64 エンコード文字列をデコード）",
+      "reason": "AI 短縮版も 32 字: base64_decode フィルター（Base64 デコード）"
+    },
+    {
+      "id": "ref-filters-base64_url_safe_encode",
+      "title": "base64_url_safe_encode フィルター（URL安全なBase64エンコード）",
+      "reason": "AI 短縮版も 40 字: base64_url_safe_encode フィルター（URL安全エンコード）"
+    },
+    {
+      "id": "ref-filters-base64_encode",
+      "title": "base64_encode フィルター（文字列を Base64 形式にエンコード）",
+      "reason": "AI 短縮版も 33 字: base64_encode フィルター（Base64 エンコード）"
+    },
+    {
+      "id": "ref-filters-base64_url_safe_decode",
+      "title": "base64_url_safe_decode フィルター（URL安全なBase64をデコード）",
+      "reason": "AI 短縮版も 46 字: base64_url_safe_decode フィルター（URL安全なBase64デコード）"
+    },
+    {
+      "id": "ref-filters-brightness_difference",
+      "title": "brightness_difference フィルター（色のコントラスト計算）",
+      "reason": "AI 短縮版も 37 字: brightness_difference フィルター（コントラスト計算）"
+    },
+    {
+      "id": "ref-filters-collection_img_url",
+      "title": "collection_img_url フィルター（コレクション画像の CDN URL を取得）",
+      "reason": "AI 短縮版も 41 字: collection_img_url フィルター（コレクション画像 URL 取得）"
+    },
+    {
+      "id": "ref-filters-color_contrast",
+      "title": "color_contrast フィルター（2色間のコントラスト比を計算）",
+      "reason": "AI 短縮版も 31 字: color_contrast フィルター（コントラスト比計算）"
+    },
+    {
+      "id": "ref-filters-color_difference",
+      "title": "color_difference フィルター（2色間のコントラスト差を計算）",
+      "reason": "AI 短縮版も 34 字: color_difference フィルター（色のコントラスト計算）"
+    },
+    {
+      "id": "ref-filters-color_to_oklch",
+      "title": "color_to_oklch フィルター（CSS 色を OKLCH 形式に変換）",
+      "reason": "AI 短縮版も 37 字: color_to_oklch フィルター（CSS色をOKLCH形式に変換）"
+    },
+    {
+      "id": "ref-filters-color_to_hex",
+      "title": "color_to_hex フィルター（CSS色を16進数に変換）",
+      "reason": "AI 短縮版も 32 字: color_to_hex フィルター（CSS色を16進数に変換）"
+    },
+    {
+      "id": "ref-filters-color_to_hsl",
+      "title": "color_to_hsl フィルター（CSS色をHSL形式に変換）",
+      "reason": "AI 短縮版も 33 字: color_to_hsl フィルター（CSS色をHSL形式に変換）"
+    },
+    {
+      "id": "ref-filters-customer_logout_link",
+      "title": "customer_logout_link フィルター（ログアウトリンク生成）",
+      "reason": "AI 短縮版も 38 字: customer_logout_link フィルター（ログアウトリンク生成）"
+    },
+    {
+      "id": "ref-filters-color_to_rgb",
+      "title": "color_to_rgb フィルター（CSS色をRGB形式に変換）",
+      "reason": "AI 短縮版も 33 字: color_to_rgb フィルター（CSS色をRGB形式に変換）"
+    },
+    {
+      "id": "ref-filters-customer_register_link",
+      "title": "customer_register_link フィルター（顧客登録ページへのリンク生成）",
+      "reason": "AI 短縮版も 42 字: customer_register_link フィルター（顧客登録ページリンク生成）"
+    },
+    {
+      "id": "ref-filters-default_pagination",
+      "title": "default_pagination フィルター（ページネーションリンクを自動生成）",
+      "reason": "AI 短縮版も 36 字: default_pagination フィルター（ページネーション生成）"
+    },
+    {
+      "id": "ref-filters-file_img_url",
+      "title": "file_img_url フィルター（ファイルから画像URLを取得）",
+      "reason": "AI 短縮版も 33 字: file_img_url フィルター（ファイルから画像URL取得）"
+    },
+    {
+      "id": "ref-filters-default_errors",
+      "title": "default_errors フィルター（フォーム送信エラーを日本語化）",
+      "reason": "AI 短縮版も 35 字: default_errors フィルター（フォーム送信エラー日本語化）"
+    },
+    {
+      "id": "ref-filters-customer_login_link",
+      "title": "customer_login_link フィルター（ログインページへのリンク生成）",
+      "reason": "AI 短縮版も 39 字: customer_login_link フィルター（ログインページリンク生成）"
+    },
+    {
+      "id": "ref-filters-external_video_url",
+      "title": "external_video_url フィルター（外部動画の URL を生成）",
+      "reason": "AI 短縮版も 35 字: external_video_url フィルター（外部動画URL生成）"
+    },
+    {
+      "id": "ref-filters-hex_to_rgba",
+      "title": "hex_to_rgba フィルター（16進数カラーをRGBA形式に変換）",
+      "reason": "AI 短縮版も 33 字: hex_to_rgba フィルター（16進数をRGBA形式に変換）"
+    },
+    {
+      "id": "ref-filters-find_index",
+      "title": "find_index フィルター（配列内のマッチ要素インデックス取得）",
+      "reason": "AI 短縮版も 34 字: find_index フィルター（配列内マッチ要素インデックス取得）"
+    },
+    {
+      "id": "ref-filters-external_video_tag",
+      "title": "external_video_tag フィルター（外部動画の埋め込みタグ生成）",
+      "reason": "AI 短縮版も 32 字: external_video_tag フィルター（動画埋め込み）"
+    },
+    {
+      "id": "ref-filters-font_face",
+      "title": "font_face フィルター（フォント読み込み用の@font-face宣言を生成）",
+      "reason": "AI 短縮版も 33 字: font_face フィルター（@font-face 宣言の生成）"
+    },
+    {
+      "id": "ref-filters-format_address",
+      "title": "format_address フィルター（住所を地域形式で整形）",
+      "reason": "AI 短縮版も 32 字: format_address フィルター（住所を地域形式で整形）"
+    },
+    {
+      "id": "ref-filters-font_url",
+      "title": "font_url フィルター（フォント CDN URL を取得）",
+      "reason": "AI 短縮版も 31 字: font_url フィルター（フォント CDN URL 取得）"
+    },
+    {
+      "id": "ref-filters-highlight_active_tag",
+      "title": "highlight_active_tag フィルター（アクティブなタグをマーク）",
+      "reason": "AI 短縮版も 40 字: highlight_active_tag フィルター（アクティブなタグをマーク）"
+    },
+    {
+      "id": "ref-filters-hmac_sha1",
+      "title": "hmac_sha1 フィルター（HMAC-SHA1ハッシュ生成）",
+      "reason": "AI 短縮版も 32 字: hmac_sha1 フィルター（HMAC-SHA1ハッシュ生成）"
+    },
+    {
+      "id": "ref-filters-global_asset_url",
+      "title": "global_asset_url フィルター（Shopify CDN上の共有アセットのURL取得）",
+      "reason": "AI 短縮版も 41 字: global_asset_url フィルター（CDN上の共有アセット URL取得）"
+    },
+    {
+      "id": "ref-filters-img_tag",
+      "title": "img_tag フィルター（廃止・image_tag への移行推奨）",
+      "reason": "AI 短縮版も 31 字: img_tag フィルター（image_tag への移行推奨）"
+    },
+    {
+      "id": "ref-filters-hmac_sha256",
+      "title": "hmac_sha256 フィルター（HMAC-SHA256ハッシュ化）",
+      "reason": "AI 短縮版も 35 字: hmac_sha256 フィルター（HMAC-SHA256ハッシュ化）"
+    },
+    {
+      "id": "ref-filters-inline_asset_content",
+      "title": "inline_asset_content フィルター（アセットの内容をインライン展開）",
+      "reason": "AI 短縮版も 35 字: inline_asset_content フィルター（インライン展開）"
+    },
+    {
+      "id": "ref-filters-item_count_for_variant",
+      "title": "item_count_for_variant フィルター（カート内の特定バリアント数）",
+      "reason": "AI 短縮版も 40 字: item_count_for_variant フィルター（カート内バリアント数）"
+    },
+    {
+      "id": "ref-filters-line_items_for",
+      "title": "line_items_for フィルター（カート内の特定商品の行アイテムを抽出）",
+      "reason": "AI 短縮版も 34 字: line_items_for フィルター（カート内の特定商品を抽出）"
+    },
+    {
+      "id": "ref-filters-link_to_add_tag",
+      "title": "link_to_add_tag フィルター（タグフィルタリングのリンク生成）",
+      "reason": "AI 短縮版も 32 字: link_to_add_tag フィルター（タグ追加リンク生成）"
+    },
+    {
+      "id": "ref-filters-link_to_remove_tag",
+      "title": "link_to_remove_tag フィルター（タグを除外したフィルタリングリンク）",
+      "reason": "AI 短縮版も 33 字: link_to_remove_tag フィルター（タグ除外リンク）"
+    },
+    {
+      "id": "ref-filters-link_to_vendor",
+      "title": "link_to_vendor フィルター（ベンダーコレクションへのリンク生成）",
+      "reason": "AI 短縮版も 37 字: link_to_vendor フィルター（ベンダーコレクションリンク生成）"
+    },
+    {
+      "id": "ref-filters-login_button",
+      "title": "login_button フィルター（顧客ログインボタンの生成）",
+      "reason": "AI 短縮版も 31 字: login_button フィルター（顧客ログインボタン生成）"
+    },
+    {
+      "id": "ref-filters-link_to_type",
+      "title": "link_to_type フィルター（商品タイプ別コレクションへのリンク生成）",
+      "reason": "AI 短縮版も 31 字: link_to_type フィルター（商品タイプ別リンク生成）"
+    },
+    {
+      "id": "ref-filters-media_tag",
+      "title": "media_tag フィルター（メディアを適切なHTML要素に変換）",
+      "reason": "AI 短縮版も 31 字: media_tag フィルター（メディアをHTML要素に変換）"
+    },
+    {
+      "id": "ref-filters-metafield_text",
+      "title": "metafield_text フィルター（メタフィールドをテキスト形式で抽出）",
+      "reason": "AI 短縮版も 31 字: metafield_text フィルター（テキスト形式で抽出）"
+    },
+    {
+      "id": "ref-filters-money_without_trailing_zeros",
+      "title": "money_without_trailing_zeros フィルター（末尾ゼロなし金額表示）",
+      "reason": "AI 短縮版も 44 字: money_without_trailing_zeros フィルター（末尾ゼロなし金額）"
+    },
+    {
+      "id": "ref-filters-money_with_currency",
+      "title": "money_with_currency フィルター（金額をストア通貨記号付きで整形）",
+      "reason": "AI 短縮版も 37 字: money_with_currency フィルター（通貨記号付き金額表示）"
+    },
+    {
+      "id": "ref-filters-model_viewer_tag",
+      "title": "model_viewer_tag フィルター（3D モデル表示）",
+      "reason": "AI 短縮版も 32 字: model_viewer_tag フィルター（3D モデル表示）"
+    },
+    {
+      "id": "ref-filters-money_without_currency",
+      "title": "money_without_currency フィルター（金額を通貨記号なしで整形）",
+      "reason": "AI 短縮版も 38 字: money_without_currency フィルター（通貨記号なし整形）"
+    },
+    {
+      "id": "ref-filters-newline_to_br",
+      "title": "newline_to_br フィルター（改行をHTML改行に変換）",
+      "reason": "AI 短縮版も 31 字: newline_to_br フィルター（改行を<br>に変換）"
+    },
+    {
+      "id": "ref-filters-payment_terms",
+      "title": "payment_terms フィルター（Shop Pay分割払いバナーを生成）",
+      "reason": "AI 短縮版も 38 字: payment_terms フィルター（Shop Pay分割払いバナー生成）"
+    },
+    {
+      "id": "ref-filters-placeholder_svg_tag",
+      "title": "placeholder_svg_tag フィルター（プレースホルダーSVGを生成）",
+      "reason": "AI 短縮版も 32 字: placeholder_svg_tag フィルター（SVG生成）"
+    },
+    {
+      "id": "ref-filters-payment_type_img_url",
+      "title": "payment_type_img_url フィルター（決済方法のアイコン画像 URL を取得）",
+      "reason": "AI 短縮版も 43 字: payment_type_img_url フィルター（決済方法アイコン URL 取得）"
+    },
+    {
+      "id": "ref-filters-product_img_url",
+      "title": "product_img_url フィルター（商品画像の CDN URL 取得）",
+      "reason": "AI 短縮版も 34 字: product_img_url フィルター（商品画像 URL 取得）"
+    },
+    {
+      "id": "ref-filters-payment_type_svg_tag",
+      "title": "payment_type_svg_tag フィルター（決済方法アイコンをSVG生成）",
+      "reason": "AI 短縮版も 38 字: payment_type_svg_tag フィルター（決済方法アイコン生成）"
+    },
+    {
+      "id": "ref-filters-remove_first",
+      "title": "remove_first フィルター（文字列の最初の1つを削除）",
+      "reason": "AI 短縮版も 32 字: remove_first フィルター（文字列の最初の1つを削除）"
+    },
+    {
+      "id": "ref-filters-replace_last",
+      "title": "replace_last フィルター（文字列の最後に出現する部分文字列を置換）",
+      "reason": "AI 短縮版も 34 字: replace_last フィルター（文字列末尾の部分文字列を置換）"
+    },
+    {
+      "id": "ref-filters-script_tag",
+      "title": "script_tag フィルター（JavaScript ファイルを <script> タグに変換）",
+      "reason": "AI 短縮版も 43 字: script_tag フィルター（JavaScript を script タグに変換）"
+    },
+    {
+      "id": "ref-filters-structured_data",
+      "title": "structured_data フィルター（schema.org 構造化データに変換）",
+      "reason": "AI 短縮版も 42 字: structured_data フィルター（schema.org 構造化データ対応）"
+    },
+    {
+      "id": "ref-filters-stylesheet_tag",
+      "title": "stylesheet_tag フィルター（CSS ファイルのリンクタグを生成）",
+      "reason": "AI 短縮版も 33 字: stylesheet_tag フィルター（CSS リンクタグ生成）"
+    },
+    {
+      "id": "ref-filters-shopify_asset_url",
+      "title": "shopify_asset_url フィルター（Shopifyグローバルアセット CDN URL を取得）",
+      "reason": "AI 短縮版も 40 字: shopify_asset_url フィルター（アセット CDN URL 取得）"
+    },
+    {
+      "id": "ref-filters-unit_price_with_measurement",
+      "title": "unit_price_with_measurement フィルター（単価と計量単位の表示）",
+      "reason": "AI 短縮版も 42 字: unit_price_with_measurement フィルター（単価と計量単位）"
+    },
+    {
+      "id": "ref-filters-time_tag",
+      "title": "time_tag フィルター（タイムスタンプをHTMLの時刻要素に変換）",
+      "reason": "AI 短縮版も 31 字: time_tag フィルター（タイムスタンプを時刻要素に変換）"
+    },
+    {
+      "id": "ref-filters-url_param_escape",
+      "title": "url_param_escape フィルター（URL パラメータ用文字列エスケープ）",
+      "reason": "AI 短縮版も 38 字: url_param_escape フィルター（URL パラメータエスケープ）"
+    },
+    {
+      "id": "ref-filters-url_for_vendor",
+      "title": "url_for_vendor フィルター（ベンダー別コレクションURL生成）",
+      "reason": "AI 短縮版も 32 字: url_for_vendor フィルター（ベンダー別URL生成）"
+    },
+    {
+      "id": "ref-filters-url_for_type",
+      "title": "url_for_type フィルター（商品タイプ別URLを生成）",
+      "reason": "AI 短縮版も 31 字: url_for_type フィルター（商品タイプ別URL生成）"
+    },
+    {
+      "id": "ref-objects-additional_checkout_buttons",
+      "title": "additional_checkout_buttons オブジェクト",
+      "reason": "AI 短縮版も 34 字: additional_checkout_buttons オブジェクト"
+    },
+    {
+      "id": "ref-filters-weight_with_unit",
+      "title": "weight_with_unit フィルター（バリアント重量を単位付きで整形）",
+      "reason": "AI 短縮版も 34 字: weight_with_unit フィルター（重量を単位付きで整形）"
+    },
+    {
+      "id": "ref-objects-content_for_additional_checkout_buttons",
+      "title": "content_for_additional_checkout_buttons オブジェクト",
+      "reason": "AI 短縮版も 46 字: content_for_additional_checkout_buttons オブジェクト"
+    },
+    {
+      "id": "ref-objects-predictive_search_resources",
+      "title": "predictive_search_resources オブジェクト",
+      "reason": "AI 短縮版も 34 字: predictive_search_resources オブジェクト"
+    },
+    {
+      "id": "ref-objects-pending_payment_instruction_input",
+      "title": "pending_payment_instruction_input オブジェクト",
+      "reason": "AI 短縮版も 40 字: pending_payment_instruction_input オブジェクト"
+    },
+    {
+      "id": "ref-objects-selling_plan_allocation_price_adjustment",
+      "title": "selling_plan_allocation_price_adjustment オブジェクト",
+      "reason": "AI 短縮版も 47 字: selling_plan_allocation_price_adjustment オブジェクト"
+    },
+    {
+      "id": "ref-objects-selling_plan_price_adjustment",
+      "title": "selling_plan_price_adjustment オブジェクト",
+      "reason": "AI 短縮版も 36 字: selling_plan_price_adjustment オブジェクト"
+    },
+    {
+      "id": "ref-objects-transaction_payment_details",
+      "title": "transaction_payment_details オブジェクト",
+      "reason": "AI 短縮版も 34 字: transaction_payment_details オブジェクト"
+    },
+    {
+      "id": "ref-objects-selling_plan_group_option",
+      "title": "selling_plan_group_option オブジェクト",
+      "reason": "AI 短縮版も 32 字: selling_plan_group_option オブジェクト"
+    },
+    {
+      "id": "ref-objects-selling_plan_checkout_charge",
+      "title": "selling_plan_checkout_charge オブジェクト",
+      "reason": "AI 短縮版も 35 字: selling_plan_checkout_charge オブジェクト"
+    }
+  ],
+  "C": [],
+  "total": 128,
+  "elapsed_seconds": 17.1,
+  "cost_usd": 0.074745,
+  "cache_hit_rate": 0.0
+}

@@ -1,0 +1,236 @@
+[
+  {
+    "repo": "Shopify/skeleton-theme",
+    "spdx_id": "NOASSERTION",
+    "license_name": "Other",
+    "license_path": "LICENSE.md",
+    "content": "Copyright (c) 2018-present Shopify Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, sell and/or create derivative works of the Software or any part thereof, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe rights granted above may only be exercised to develop themes that integrate or interoperate with Shopify software or services, and, if applicable, to distribute, offer for sale or otherwise make available any such themes via the Shopify Theme Store. All other uses of the Software are strictly prohibited.\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [
+      "integrate or interoperate with shopify",
+      "develop themes that integrate",
+      "all other uses of the software are strictly prohibited",
+      "shopify software or services",
+      "themes that integrate or interoperate"
+    ],
+    "verdict": "RESTRICTED",
+    "archived": false,
+    "stars": 708,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/skeleton-theme",
+    "license_url": "https://github.com/Shopify/skeleton-theme/blob/main/LICENSE.md"
+  },
+  {
+    "repo": "Shopify/mcliquid-theme",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "\nCopyright 2024-present, Shopify Inc.\n\n​​\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n​\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n​\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 17,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/mcliquid-theme",
+    "license_url": "https://github.com/Shopify/mcliquid-theme/blob/main/LICENSE"
+  },
+  {
+    "repo": "Shopify/liquid",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "Copyright (c) 2005, 2006 Tobias Luetke\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n\"Software\"), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be\nincluded in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND\nNONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE\nLIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION\nOF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 11786,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/liquid",
+    "license_url": "https://github.com/Shopify/liquid/blob/main/LICENSE"
+  },
+  {
+    "repo": "Shopify/theme-tools",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE.md",
+    "content": "\nCopyright 2022-present, Shopify Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 211,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/theme-tools",
+    "license_url": "https://github.com/Shopify/theme-tools/blob/main/LICENSE.md"
+  },
+  {
+    "repo": "Shopify/theme-liquid-docs",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE.md",
+    "content": "Copyright 2022-present, Shopify Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 101,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/theme-liquid-docs",
+    "license_url": "https://github.com/Shopify/theme-liquid-docs/blob/main/LICENSE.md"
+  },
+  {
+    "repo": "kondasoft/ks-bootshop",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "MIT License\n\nCopyright (c) 2020 KondaSoft\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 210,
+    "default_branch": "master",
+    "html_url": "https://github.com/kondasoft/ks-bootshop",
+    "license_url": "https://github.com/kondasoft/ks-bootshop/blob/master/LICENSE"
+  },
+  {
+    "repo": "mirceapiturca/Sections",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "MIT License\n\nCopyright (c) 2018 mirceapiturca\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 214,
+    "default_branch": "master",
+    "html_url": "https://github.com/mirceapiturca/Sections",
+    "license_url": "https://github.com/mirceapiturca/Sections/blob/master/LICENSE"
+  },
+  {
+    "repo": "vikrantnegi/shopify-code-snippets",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "MIT License\n\nCopyright (c) 2017 Vikrant Negi\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 257,
+    "default_branch": "master",
+    "html_url": "https://github.com/vikrantnegi/shopify-code-snippets",
+    "license_url": "https://github.com/vikrantnegi/shopify-code-snippets/blob/master/LICENSE"
+  },
+  {
+    "repo": "pgrimaud/shopify-snippets",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "MIT License\n\nCopyright (c) 2021 Pierre Grimaud\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 29,
+    "default_branch": "main",
+    "html_url": "https://github.com/pgrimaud/shopify-snippets",
+    "license_url": "https://github.com/pgrimaud/shopify-snippets/blob/main/LICENSE"
+  },
+  {
+    "repo": "freakdesign/shopify-code-snippets",
+    "spdx_id": "NOASSERTION",
+    "license_name": "Other",
+    "license_path": "LICENSE",
+    "content": "License\n\nCopyright (c) Jason Bowman\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "REVIEW",
+    "archived": false,
+    "stars": 599,
+    "default_branch": "master",
+    "html_url": "https://github.com/freakdesign/Shopify-code-snippets",
+    "license_url": "https://github.com/freakdesign/Shopify-code-snippets/blob/master/LICENSE"
+  },
+  {
+    "repo": "instantcommerce/shopify-headless-theme",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "MIT License\n\nCopyright (c) 2021 Instant Commerce\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 407,
+    "default_branch": "master",
+    "html_url": "https://github.com/instantcommerce/shopify-headless-theme",
+    "license_url": "https://github.com/instantcommerce/shopify-headless-theme/blob/master/LICENSE"
+  },
+  {
+    "repo": "uicrooks/shopify-theme-lab",
+    "spdx_id": "MIT",
+    "license_name": "MIT License",
+    "license_path": "LICENSE",
+    "content": "The MIT License (MIT)\n\nCopyright (c) 2020-present, Sergej Samsonenko\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
+    "restriction_hits": [],
+    "verdict": "OK",
+    "archived": false,
+    "stars": 814,
+    "default_branch": "main",
+    "html_url": "https://github.com/uicrooks/shopify-theme-lab",
+    "license_url": "https://github.com/uicrooks/shopify-theme-lab/blob/main/LICENSE"
+  },
+  {
+    "repo": "Shopify/dawn",
+    "spdx_id": "NOASSERTION",
+    "license_name": "Other",
+    "license_path": "LICENSE.md",
+    "content": "Copyright (c) 2021-present Shopify Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, sell and/or create derivative works of the Software or any part thereof, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe rights granted above may only be exercised to develop themes that integrate or interoperate with Shopify software or services, and, if applicable, to distribute, offer for sale or otherwise make available any such themes via the Shopify Theme Store.   All other uses of the Software are strictly prohibited.\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [
+      "integrate or interoperate with shopify",
+      "develop themes that integrate",
+      "all other uses of the software are strictly prohibited",
+      "shopify software or services",
+      "themes that integrate or interoperate"
+    ],
+    "verdict": "RESTRICTED",
+    "archived": false,
+    "stars": 2992,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/dawn",
+    "license_url": "https://github.com/Shopify/dawn/blob/main/LICENSE.md"
+  },
+  {
+    "repo": "Shopify/horizon",
+    "spdx_id": "NOASSERTION",
+    "license_name": "Other",
+    "license_path": "LICENSE.md",
+    "content": "Copyright (c) 2025-present Shopify Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, sell and/or create derivative works of the Software or any part thereof, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe rights granted above may only be exercised to develop themes that integrate or interoperate with Shopify software or services. All other uses of the Software are strictly prohibited.\n\nFor the avoidance of doubt, you may not submit, list, market, sell, distribute, or otherwise make available any theme that is based on, derived from, or incorporates any portion of the Software (a “Derived Theme”) via the Shopify Theme Store, any other Shopify-operated channel, or any off-platform channel (including your own website or third-party marketplaces). Shopify may determine, in its sole discretion, whether a theme is a Derived Theme for purposes of this restriction. You may not circumvent this restriction by making insubstantial changes, reformatting or reorganizing code, or by otherwise claiming independent creation.\n\nNotwithstanding the foregoing, you may deliver a Derived Theme directly to merchants as part of services engagements, solely for those merchants’ own use in their Shopify stores. Any such delivery may not be marketed or offered as a general-purpose product, and the Derived Theme may not be resold, relicensed, or redistributed by you or the merchant.\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+    "restriction_hits": [
+      "integrate or interoperate with shopify",
+      "develop themes that integrate",
+      "all other uses of the software are strictly prohibited",
+      "shopify software or services",
+      "themes that integrate or interoperate"
+    ],
+    "verdict": "RESTRICTED",
+    "archived": false,
+    "stars": 385,
+    "default_branch": "main",
+    "html_url": "https://github.com/Shopify/horizon",
+    "license_url": "https://github.com/Shopify/horizon/blob/main/LICENSE.md"
+  },
+  {
+    "repo": "Shopify/refresh",
+    "error": "Not Found"
+  },
+  {
+    "repo": "Shopify/sense",
+    "error": "Not Found"
+  },
+  {
+    "repo": "Shopify/craft",
+    "error": "Not Found"
+  },
+  {
+    "repo": "Shopify/studio",
+    "error": "Not Found"
+  },
+  {
+    "repo": "Shopify/origin",
+    "error": "Not Found"
+  }
+]

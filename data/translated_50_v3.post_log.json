@@ -1,0 +1,71 @@
+[
+  {
+    "id": "comm-Shopify-skeleton-theme-1a3fea12",
+    "file_name": "page.liquid",
+    "title_suffix_removed": {
+      "word": "セクション",
+      "before": "固定ページの基本セクション",
+      "after": "固定ページの基本",
+      "before_len": 13,
+      "after_len": 8
+    }
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-99b5497a",
+    "file_name": "css-variables.liquid",
+    "unknown_plurals": [
+      "css-variables",
+      "theme-settings",
+      "design-tokens"
+    ]
+  },
+  {
+    "id": "comm-Shopify-skeleton-theme-350ec0bd",
+    "file_name": "password.liquid",
+    "unknown_plurals": [
+      "css-variables"
+    ]
+  },
+  {
+    "id": "comm-instantcommerce-shopify-headless-theme-ef692b53",
+    "file_name": "theme.liquid",
+    "unknown_plurals": [
+      "css-variables",
+      "theme-settings"
+    ]
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-4410e326",
+    "file_name": "product-block-richtext.liquid",
+    "title_suffix_removed": {
+      "word": "ブロック",
+      "before": "商品ページのリッチテキストブロック",
+      "after": "商品ページのリッチテキスト",
+      "before_len": 17,
+      "after_len": 13
+    }
+  },
+  {
+    "id": "comm-kondasoft-ks-bootshop-4def233c",
+    "file_name": "section-header.liquid",
+    "unknown_plurals": [
+      "settings"
+    ]
+  },
+  {
+    "id": "ref-filters-sort_by",
+    "file_name": "sort_by",
+    "title_too_long": {
+      "len": 34,
+      "title": "sort_by フィルター(コレクションURL にソート条件を追加)"
+    }
+  },
+  {
+    "id": "ref-filters-link_to_type",
+    "file_name": "link_to_type",
+    "title_too_long": {
+      "len": 42,
+      "title": "link_to_type フィルター(商品タイプのコレクションページへのリンク生成)"
+    }
+  }
+]
