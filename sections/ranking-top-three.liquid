@@ -1,0 +1,163 @@
+{% comment %}
+============================================================
+セクション名: 楽天風ランキング表示
+用途: 売れ筋商品の 1 位・2 位・3 位を表彰台のように大きく見せ、購買意欲を高める定番セクション
+推奨設置場所: トップページ・コレクションページ・LP の中盤(ヒーロー直後やキャンペーン訴求の後)
+カスタマイズポイント:
+  - セクション見出し・サブテキスト
+  - 1位・2位・3位それぞれの商品画像・商品名・価格・リンク先・キャッチコピー
+  - 王冠の表示/非表示
+  - 背景色・見出し色・アクセント色
+注意点:
+  - 商品画像は正方形(推奨 800 × 800px、JPEG または PNG)を用意する
+  - ブロックは最大 3 つまで(1位・2位・3位)。それ以上は CSS 調整が必要
+  - 1位を中央・2位を左・3位を右に配置する表彰台レイアウト(PC のみ)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-ranking-top-three" aria-label="人気ランキング">
+  <div class="alsel-ranking-top-three__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-ranking-top-three__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-ranking-top-three__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="alsel-ranking-top-three__grid">
+    {%- for block in section.blocks -%}
+      {%- assign rank = block.settings.rank | times: 1 -%}
+      <article class="alsel-ranking-top-three__card alsel-ranking-top-three__card--rank{{ rank }}" {{ block.shopify_attributes }}>
+        <div class="alsel-ranking-top-three__badge alsel-ranking-top-three__badge--rank{{ rank }}">
+          {%- if section.settings.show_crown and rank == 1 -%}
+            <span class="alsel-ranking-top-three__crown" aria-hidden="true">👑</span>
+          {%- endif -%}
+          <span class="alsel-ranking-top-three__rank-num">{{ rank }}</span>
+          <span class="alsel-ranking-top-three__rank-label">位</span>
+        </div>
+
+        {%- if block.settings.product_image != blank -%}
+          <a class="alsel-ranking-top-three__img-wrap" href="{{ block.settings.product_link | default: '#' }}" aria-label="{{ block.settings.product_name | escape }}">
+            {{ block.settings.product_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-ranking-top-three__img', alt: block.settings.product_name | escape, widths: '300, 600, 800' }}
+          </a>
+        {%- endif -%}
+
+        <div class="alsel-ranking-top-three__body">
+          {%- if block.settings.catchcopy != blank -%}
+            <p class="alsel-ranking-top-three__catch">{{ block.settings.catchcopy | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.product_name != blank -%}
+            <h3 class="alsel-ranking-top-three__name">
+              {%- if block.settings.product_link != blank -%}
+                <a href="{{ block.settings.product_link }}">{{ block.settings.product_name | escape }}</a>
+              {%- else -%}
+                {{ block.settings.product_name | escape }}
+              {%- endif -%}
+            </h3>
+          {%- endif -%}
+          {%- if block.settings.price != blank -%}
+            <p class="alsel-ranking-top-three__price">{{ block.settings.price | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.cta_text != blank and block.settings.product_link != blank -%}
+            <a class="alsel-ranking-top-three__cta" href="{{ block.settings.product_link }}">{{ block.settings.cta_text | escape }}</a>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .alsel-ranking-top-three { --rank1: {{ section.settings.color_rank1 }}; --rank2: {{ section.settings.color_rank2 }}; --rank3: {{ section.settings.color_rank3 }}; --accent: {{ section.settings.accent_color }}; padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-ranking-top-three__header { text-align: center; margin: 0 auto 2.5rem; max-width: 800px; }
+  .alsel-ranking-top-three__heading { font-size: clamp(1.5rem, 4.5vw, 2.4rem); font-weight: 800; color: {{ section.settings.heading_color }}; margin: 0 0 0.75rem; letter-spacing: 0.04em; }
+  .alsel-ranking-top-three__sub { font-size: 0.95rem; color: #475569; margin: 0; line-height: 1.7; }
+  .alsel-ranking-top-three__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .alsel-ranking-top-three__card { position: relative; background: #fff; border-radius: 14px; padding: 2.5rem 1.25rem 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; transition: transform 0.2s ease; }
+  .alsel-ranking-top-three__card:hover { transform: translateY(-4px); }
+  .alsel-ranking-top-three__badge { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: baseline; gap: 0.15rem; padding: 0.45rem 1.1rem; border-radius: 9999px; color: #fff; font-weight: 800; box-shadow: 0 4px 10px rgba(0,0,0,0.15); white-space: nowrap; }
+  .alsel-ranking-top-three__badge--rank1 { background: var(--rank1); }
+  .alsel-ranking-top-three__badge--rank2 { background: var(--rank2); }
+  .alsel-ranking-top-three__badge--rank3 { background: var(--rank3); }
+  .alsel-ranking-top-three__crown { font-size: 1.1rem; margin-right: 0.25rem; }
+  .alsel-ranking-top-three__rank-num { font-size: 1.4rem; line-height: 1; }
+  .alsel-ranking-top-three__rank-label { font-size: 0.85rem; }
+  .alsel-ranking-top-three__img-wrap { display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 10px; background: #f1f5f9; margin: 0.5rem 0 1rem; }
+  .alsel-ranking-top-three__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-ranking-top-three__catch { font-size: 0.8rem; color: var(--accent); font-weight: 700; margin: 0 0 0.5rem; }
+  .alsel-ranking-top-three__name { font-size: 1.05rem; font-weight: 700; line-height: 1.5; margin: 0 0 0.6rem; color: #0f172a; }
+  .alsel-ranking-top-three__name a { color: inherit; text-decoration: none; }
+  .alsel-ranking-top-three__name a:hover { text-decoration: underline; }
+  .alsel-ranking-top-three__price { font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0 0 1rem; }
+  .alsel-ranking-top-three__cta { display: inline-block; padding: 0.7rem 1.6rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 9999px; font-size: 0.9rem; font-weight: 700; }
+  .alsel-ranking-top-three__cta:hover { opacity: 0.9; }
+
+  @media (min-width: 750px) {
+    .alsel-ranking-top-three { padding: 5rem 2rem; }
+    .alsel-ranking-top-three__grid { grid-template-columns: repeat(3, 1fr); align-items: end; gap: 2rem; }
+    .alsel-ranking-top-three__card--rank1 { order: 2; transform: scale(1.08); }
+    .alsel-ranking-top-three__card--rank1:hover { transform: scale(1.08) translateY(-4px); }
+    .alsel-ranking-top-three__card--rank2 { order: 1; }
+    .alsel-ranking-top-three__card--rank3 { order: 3; }
+    .alsel-ranking-top-three__card--rank1 .alsel-ranking-top-three__badge { padding: 0.6rem 1.4rem; }
+    .alsel-ranking-top-three__card--rank1 .alsel-ranking-top-three__rank-num { font-size: 1.7rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "楽天風ランキングTOP3",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "人気ランキング" },
+    { "type": "text", "id": "subheading", "label": "サブテキスト", "default": "お客様に選ばれた人気商品TOP3を紹介する。" },
+    { "type": "checkbox", "id": "show_crown", "label": "1位に王冠アイコンを表示", "default": true },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff7ed" },
+    { "type": "color", "id": "heading_color", "label": "見出しの文字色", "default": "#0f172a" },
+    { "type": "color", "id": "color_rank1", "label": "1位の色(金)", "default": "#d4a017" },
+    { "type": "color", "id": "color_rank2", "label": "2位の色(銀)", "default": "#94a3b8" },
+    { "type": "color", "id": "color_rank3", "label": "3位の色(銅)", "default": "#b45309" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(ボタン・キャッチ)", "default": "#dc2626" }
+  ],
+  "blocks": [
+    {
+      "type": "rank_item",
+      "name": "ランキング商品",
+      "settings": [
+        { "type": "select", "id": "rank", "label": "順位",
+          "options": [
+            { "value": "1", "label": "1位" },
+            { "value": "2", "label": "2位" },
+            { "value": "3", "label": "3位" }
+          ],
+          "default": "1" },
+        { "type": "image_picker", "id": "product_image", "label": "商品画像", "info": "推奨 800 × 800px の正方形画像" },
+        { "type": "text", "id": "catchcopy", "label": "キャッチコピー", "info": "「ベストセラー」「リピート率No.1」など短い訴求文" },
+        { "type": "text", "id": "product_name", "label": "商品名", "default": "商品名がここに入る" },
+        { "type": "text", "id": "price", "label": "価格", "default": "¥3,980(税込)" },
+        { "type": "url", "id": "product_link", "label": "商品ページのリンク先" },
+        { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しく見る" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "ALSEL監修 / 楽天風ランキング表示",
+      "settings": {
+        "heading": "人気ランキング",
+        "subheading": "お客様に選ばれた人気商品TOP3を紹介する。"
+      },
+      "blocks": [
+        { "type": "rank_item", "settings": { "rank": "1", "catchcopy": "ベストセラー", "product_name": "1位の商品名", "price": "¥4,980(税込)", "cta_text": "詳しく見る" } },
+        { "type": "rank_item", "settings": { "rank": "2", "catchcopy": "リピート多数", "product_name": "2位の商品名", "price": "¥3,980(税込)", "cta_text": "詳しく見る" } },
+        { "type": "rank_item", "settings": { "rank": "3", "catchcopy": "話題沸騰中", "product_name": "3位の商品名", "price": "¥2,980(税込)", "cta_text": "詳しく見る" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+{
+  "model": "claude-opus-4-7",
+  "elapsed_seconds": 54.0,
+  "ok": 5,
+  "err": 0,
+  "input_tokens": 743,
+  "output_tokens": 21740,
+  "cache_creation_input_tokens": 25275,
+  "cache_read_input_tokens": 0,
+  "cache_hit_rate": 0.0,
+  "est_cost_usd": 2.115551
+}

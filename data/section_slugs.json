@@ -1,0 +1,602 @@
+[
+  {
+    "number": 1,
+    "slug": "hero-fv-lp",
+    "name_ja": "ファーストビューLPヒーロー",
+    "desc_ja": "画像、見出し、CTA、実績バッジを入れるだけでLPっぽくなる"
+  },
+  {
+    "number": 2,
+    "slug": "hero-mobile",
+    "name_ja": "スマホ専用ヒーロー",
+    "desc_ja": "PCとスマホで別画像・別コピーを出せる"
+  },
+  {
+    "number": 3,
+    "slug": "ranking-top-three",
+    "name_ja": "楽天風ランキング表示",
+    "desc_ja": "1位、2位、3位の商品を大きく見せる"
+  },
+  {
+    "number": 4,
+    "slug": "best-seller-ranking",
+    "name_ja": "売れ筋商品ランキング",
+    "desc_ja": "コレクションから自動で商品を並べる"
+  },
+  {
+    "number": 5,
+    "slug": "new-products-list",
+    "name_ja": "新商品一覧",
+    "desc_ja": "「NEW」バッジ付きで新着商品を表示"
+  },
+  {
+    "number": 6,
+    "slug": "restock-products",
+    "name_ja": "再入荷商品一覧",
+    "desc_ja": "再入荷アピール用の一覧セクション"
+  },
+  {
+    "number": 7,
+    "slug": "free-shipping-bar",
+    "name_ja": "送料無料ライン訴求バー",
+    "desc_ja": "「あと◯円で送料無料」を上部に固定表示"
+  },
+  {
+    "number": 8,
+    "slug": "coupon-promotion",
+    "name_ja": "クーポン訴求帯",
+    "desc_ja": "クーポンコード、期限、コピー用ボタンを表示"
+  },
+  {
+    "number": 9,
+    "slug": "limited-sale-banner",
+    "name_ja": "期間限定SALEバナー",
+    "desc_ja": "開始日・終了日・割引率を設定できる"
+  },
+  {
+    "number": 10,
+    "slug": "countdown-timer",
+    "name_ja": "カウントダウンタイマー",
+    "desc_ja": "セール終了までの残り時間を表示"
+  },
+  {
+    "number": 11,
+    "slug": "bulk-buy-offer",
+    "name_ja": "3点購入でお得セクション",
+    "desc_ja": "まとめ買い訴求を画像付きで表示"
+  },
+  {
+    "number": 12,
+    "slug": "first-time-offer",
+    "name_ja": "初回限定オファー",
+    "desc_ja": "初回購入者向けの特典訴求"
+  },
+  {
+    "number": 13,
+    "slug": "subscription-benefits",
+    "name_ja": "定期購入訴求セクション",
+    "desc_ja": "サブスク商品のメリットを説明"
+  },
+  {
+    "number": 14,
+    "slug": "gift-promotion",
+    "name_ja": "ギフト訴求セクション",
+    "desc_ja": "母の日、父の日、誕生日、内祝い向け"
+  },
+  {
+    "number": 15,
+    "slug": "seasonal-event",
+    "name_ja": "季節イベントバナー",
+    "desc_ja": "お中元、お歳暮、クリスマス、バレンタイン対応"
+  },
+  {
+    "number": 16,
+    "slug": "three-reasons-why",
+    "name_ja": "3つの選ばれる理由",
+    "desc_ja": "初心者が一番欲しがる定番訴求"
+  },
+  {
+    "number": 17,
+    "slug": "brand-story",
+    "name_ja": "ブランドストーリー",
+    "desc_ja": "代表者の想い、創業背景を見せる"
+  },
+  {
+    "number": 18,
+    "slug": "producer-profile",
+    "name_ja": "生産者紹介",
+    "desc_ja": "農産品、食品、工芸品、D2C向け"
+  },
+  {
+    "number": 19,
+    "slug": "store-manager-pick",
+    "name_ja": "店長のおすすめ",
+    "desc_ja": "手書き風コメント付きの商品紹介"
+  },
+  {
+    "number": 20,
+    "slug": "customer-review-card",
+    "name_ja": "お客様の声カード",
+    "desc_ja": "レビュー風の声を画像・星付きで表示"
+  },
+  {
+    "number": 21,
+    "slug": "review-carousel",
+    "name_ja": "レビュー横スクロール",
+    "desc_ja": "スマホで横スワイプできる口コミ一覧"
+  },
+  {
+    "number": 22,
+    "slug": "before-after",
+    "name_ja": "Before / After 比較",
+    "desc_ja": "美容、健康、掃除用品、リフォーム系に強い"
+  },
+  {
+    "number": 23,
+    "slug": "product-comparison",
+    "name_ja": "商品比較表",
+    "desc_ja": "複数商品をスペック表で比較"
+  },
+  {
+    "number": 24,
+    "slug": "competitor-comparison",
+    "name_ja": "競合比較表",
+    "desc_ja": "自社商品と一般品を比較して強みを出す"
+  },
+  {
+    "number": 25,
+    "slug": "size-guide-table",
+    "name_ja": "サイズ比較表",
+    "desc_ja": "アパレル、靴、家具、寝具向け"
+  },
+  {
+    "number": 26,
+    "slug": "how-to-use-steps",
+    "name_ja": "使い方3ステップ",
+    "desc_ja": "商品の使い方を画像付きで説明"
+  },
+  {
+    "number": 27,
+    "slug": "purchase-flow",
+    "name_ja": "購入までの流れ",
+    "desc_ja": "注文、配送、受け取りまでを図解"
+  },
+  {
+    "number": 28,
+    "slug": "faq-accordion",
+    "name_ja": "よくある質問FAQ",
+    "desc_ja": "アコーディオン式のFAQ"
+  },
+  {
+    "number": 29,
+    "slug": "shipping-info",
+    "name_ja": "配送・送料案内",
+    "desc_ja": "配送日数、送料、沖縄・離島注意を表示"
+  },
+  {
+    "number": 30,
+    "slug": "returns-guide",
+    "name_ja": "返品交換ガイド",
+    "desc_ja": "初心者店舗の信頼感アップに有効"
+  },
+  {
+    "number": 31,
+    "slug": "payment-methods",
+    "name_ja": "支払い方法アイコン",
+    "desc_ja": "クレカ、PayPay、Amazon Pay、コンビニ払い等"
+  },
+  {
+    "number": 32,
+    "slug": "assurance-badge",
+    "name_ja": "安心保証バナー",
+    "desc_ja": "30日保証、返金保証、初期不良対応など"
+  },
+  {
+    "number": 33,
+    "slug": "official-shop-badge",
+    "name_ja": "公式ショップ訴求",
+    "desc_ja": "「正規販売店」「メーカー直営」を見せる"
+  },
+  {
+    "number": 34,
+    "slug": "media-coverage",
+    "name_ja": "メディア掲載実績",
+    "desc_ja": "雑誌、テレビ、Web掲載をロゴで表示"
+  },
+  {
+    "number": 35,
+    "slug": "award-certifications",
+    "name_ja": "受賞歴・認証表示",
+    "desc_ja": "モンドセレクション、楽天受賞風、ISOなど"
+  },
+  {
+    "number": 36,
+    "slug": "instagram-gallery",
+    "name_ja": "Instagram埋め込み風",
+    "desc_ja": "実際の埋め込みではなく画像グリッドで見せる"
+  },
+  {
+    "number": 37,
+    "slug": "ugc-gallery",
+    "name_ja": "UGC投稿ギャラリー",
+    "desc_ja": "お客様投稿風の写真一覧"
+  },
+  {
+    "number": 38,
+    "slug": "staff-wearing-review",
+    "name_ja": "スタッフ着用レビュー",
+    "desc_ja": "アパレル向け。身長、体型、着用サイズを表示"
+  },
+  {
+    "number": 39,
+    "slug": "coordinate-suggestion",
+    "name_ja": "コーディネート提案",
+    "desc_ja": "商品と合わせ買い商品を紹介"
+  },
+  {
+    "number": 40,
+    "slug": "related-products",
+    "name_ja": "関連商品スライダー",
+    "desc_ja": "商品ページ下におすすめ商品を表示"
+  },
+  {
+    "number": 41,
+    "slug": "bundled-set",
+    "name_ja": "セット販売提案",
+    "desc_ja": "「この商品と一緒に買われています」風"
+  },
+  {
+    "number": 42,
+    "slug": "cart-notice",
+    "name_ja": "カート追加前の注意事項",
+    "desc_ja": "受注生産、予約品、冷凍便などの注意喚起"
+  },
+  {
+    "number": 43,
+    "slug": "preorder-label",
+    "name_ja": "予約販売ラベル",
+    "desc_ja": "発送予定日を目立たせる"
+  },
+  {
+    "number": 44,
+    "slug": "low-stock-badge",
+    "name_ja": "在庫残りわずか表示",
+    "desc_ja": "在庫数や「残りわずか」を訴求"
+  },
+  {
+    "number": 45,
+    "slug": "alternative-products",
+    "name_ja": "売り切れ時の代替商品",
+    "desc_ja": "欠品時におすすめ商品を表示"
+  },
+  {
+    "number": 46,
+    "slug": "specs-table",
+    "name_ja": "商品スペック表",
+    "desc_ja": "成分、素材、サイズ、原産国などを表形式で表示"
+  },
+  {
+    "number": 47,
+    "slug": "ingredient-icons",
+    "name_ja": "成分・素材アイコン",
+    "desc_ja": "無添加、国産、オーガニック、綿100%など"
+  },
+  {
+    "number": 48,
+    "slug": "allergen-display",
+    "name_ja": "アレルゲン表示",
+    "desc_ja": "食品向け。卵、乳、小麦などを見やすく表示"
+  },
+  {
+    "number": 49,
+    "slug": "nutrition-facts",
+    "name_ja": "栄養成分表示",
+    "desc_ja": "食品D2C向けの表セクション"
+  },
+  {
+    "number": 50,
+    "slug": "expiry-storage",
+    "name_ja": "賞味期限・保存方法",
+    "desc_ja": "食品・冷凍・冷蔵商品で必須級"
+  },
+  {
+    "number": 51,
+    "slug": "product-mini-lp",
+    "name_ja": "商品ページ用ミニLP",
+    "desc_ja": "商品説明をLP風に縦長構成できる"
+  },
+  {
+    "number": 52,
+    "slug": "image-text-alternate",
+    "name_ja": "LP用画像＋テキスト交互配置",
+    "desc_ja": "画像、見出し、本文、CTAをブロックで増やせる"
+  },
+  {
+    "number": 53,
+    "slug": "image-only-lp",
+    "name_ja": "画像だけLPセクション",
+    "desc_ja": "楽天の商品画像LPをShopifyでも流用したい人向け"
+  },
+  {
+    "number": 54,
+    "slug": "scroll-cta-button",
+    "name_ja": "スクロール追従CTA",
+    "desc_ja": "スマホ下部に「購入する」ボタンを固定"
+  },
+  {
+    "number": 55,
+    "slug": "sticky-purchase-bar",
+    "name_ja": "商品ページ下部固定購入バー",
+    "desc_ja": "商品名、価格、カートボタンを追従表示"
+  },
+  {
+    "number": 56,
+    "slug": "lp-table-of-contents",
+    "name_ja": "目次付きLPセクション",
+    "desc_ja": "長いLPの各見出しへジャンプ"
+  },
+  {
+    "number": 57,
+    "slug": "anchor-link-buttons",
+    "name_ja": "アンカーリンクボタン群",
+    "desc_ja": "「特徴」「レビュー」「送料」「FAQ」へ移動"
+  },
+  {
+    "number": 58,
+    "slug": "comic-story-section",
+    "name_ja": "縦長漫画風セクション",
+    "desc_ja": "悩み→解決→商品紹介を漫画風に見せる"
+  },
+  {
+    "number": 59,
+    "slug": "problem-checklist",
+    "name_ja": "悩み訴求チェックリスト",
+    "desc_ja": "「こんなお悩みありませんか？」"
+  },
+  {
+    "number": 60,
+    "slug": "solution-section",
+    "name_ja": "解決訴求セクション",
+    "desc_ja": "商品がどう解決するかを3〜5項目で表示"
+  },
+  {
+    "number": 61,
+    "slug": "benefits-card",
+    "name_ja": "ベネフィットカード",
+    "desc_ja": "機能ではなく購入後の良さをカード表示"
+  },
+  {
+    "number": 62,
+    "slug": "brand-stats",
+    "name_ja": "数字で見るブランド",
+    "desc_ja": "累計販売数、レビュー数、満足度などを表示"
+  },
+  {
+    "number": 63,
+    "slug": "client-logos",
+    "name_ja": "導入実績ロゴ一覧",
+    "desc_ja": "BtoB、卸、法人向けにも使える"
+  },
+  {
+    "number": 64,
+    "slug": "b2b-inquiry-cta",
+    "name_ja": "法人向け問い合わせCTA",
+    "desc_ja": "大口注文、卸、見積もり誘導"
+  },
+  {
+    "number": 65,
+    "slug": "line-signup",
+    "name_ja": "LINE登録誘導",
+    "desc_ja": "クーポン配布、再入荷通知、相談窓口に誘導"
+  },
+  {
+    "number": 66,
+    "slug": "newsletter-signup",
+    "name_ja": "メルマガ登録強化",
+    "desc_ja": "登録特典付きのニュースレター誘導"
+  },
+  {
+    "number": 67,
+    "slug": "popup-notice",
+    "name_ja": "ポップアップ風セクション",
+    "desc_ja": "実際のポップアップではなく目立つ告知枠"
+  },
+  {
+    "number": 68,
+    "slug": "header-alert-bar",
+    "name_ja": "上部固定お知らせバー",
+    "desc_ja": "休業日、配送遅延、セール告知に使う"
+  },
+  {
+    "number": 69,
+    "slug": "notice-carousel",
+    "name_ja": "複数お知らせスライダー",
+    "desc_ja": "お知らせを横に流す"
+  },
+  {
+    "number": 70,
+    "slug": "business-calendar",
+    "name_ja": "営業日カレンダー風",
+    "desc_ja": "店休日、発送休止日を表示"
+  },
+  {
+    "number": 71,
+    "slug": "shipping-estimate",
+    "name_ja": "発送目安表示",
+    "desc_ja": "「本日注文で最短◯日発送」風"
+  },
+  {
+    "number": 72,
+    "slug": "regional-shipping",
+    "name_ja": "地域別配送目安",
+    "desc_ja": "関東、関西、九州、北海道など"
+  },
+  {
+    "number": 73,
+    "slug": "gift-wrapping-info",
+    "name_ja": "ギフトラッピング案内",
+    "desc_ja": "のし、メッセージカード、包装対応"
+  },
+  {
+    "number": 74,
+    "slug": "personalization-info",
+    "name_ja": "名入れ対応案内",
+    "desc_ja": "刺繍、刻印、オーダーメイド向け"
+  },
+  {
+    "number": 75,
+    "slug": "custom-order-steps",
+    "name_ja": "オーダーメイド手順",
+    "desc_ja": "注文後の確認フローを説明"
+  },
+  {
+    "number": 76,
+    "slug": "product-finder-quiz",
+    "name_ja": "診断チャート風セクション",
+    "desc_ja": "「あなたに合う商品は？」を静的に表示"
+  },
+  {
+    "number": 77,
+    "slug": "selection-guide",
+    "name_ja": "商品選びガイド",
+    "desc_ja": "初心者に選び方を教える"
+  },
+  {
+    "number": 78,
+    "slug": "use-case-recommendations",
+    "name_ja": "用途別おすすめ商品",
+    "desc_ja": "自宅用、ギフト用、法人用など"
+  },
+  {
+    "number": 79,
+    "slug": "price-range-guide",
+    "name_ja": "価格帯別おすすめ",
+    "desc_ja": "3,000円以下、5,000円以下、1万円以下"
+  },
+  {
+    "number": 80,
+    "slug": "age-group-guide",
+    "name_ja": "年代別おすすめ",
+    "desc_ja": "20代、30代、40代、シニア向け"
+  },
+  {
+    "number": 81,
+    "slug": "gender-guide",
+    "name_ja": "性別別おすすめ",
+    "desc_ja": "メンズ、レディース、ユニセックス"
+  },
+  {
+    "number": 82,
+    "slug": "concern-guide",
+    "name_ja": "悩み別おすすめ",
+    "desc_ja": "肌悩み、睡眠、肩こり、収納など"
+  },
+  {
+    "number": 83,
+    "slug": "category-nav",
+    "name_ja": "カテゴリーナビ",
+    "desc_ja": "楽天市場っぽいカテゴリーバナー一覧"
+  },
+  {
+    "number": 84,
+    "slug": "mega-menu-grid",
+    "name_ja": "画像付きメガメニュー風",
+    "desc_ja": "トップページ内にカテゴリ導線を作る"
+  },
+  {
+    "number": 85,
+    "slug": "collection-features",
+    "name_ja": "コレクション特集グリッド",
+    "desc_ja": "特集ページの入口をカードで並べる"
+  },
+  {
+    "number": 86,
+    "slug": "blog-cards",
+    "name_ja": "ブログ記事カード",
+    "desc_ja": "読み物、使い方記事、比較記事へ誘導"
+  },
+  {
+    "number": 87,
+    "slug": "blog-to-product",
+    "name_ja": "コラムLP導線",
+    "desc_ja": "SEO記事から商品へつなぐCTA"
+  },
+  {
+    "number": 88,
+    "slug": "video-embed",
+    "name_ja": "動画埋め込みセクション",
+    "desc_ja": "YouTube、商品紹介動画、使い方動画"
+  },
+  {
+    "number": 89,
+    "slug": "short-form-video",
+    "name_ja": "縦型ショート動画風",
+    "desc_ja": "TikTok/Reels風の縦動画カード"
+  },
+  {
+    "number": 90,
+    "slug": "product-video-gallery",
+    "name_ja": "商品動画ギャラリー",
+    "desc_ja": "複数動画をタブやカードで表示"
+  },
+  {
+    "number": 91,
+    "slug": "lookbook",
+    "name_ja": "アパレルLOOKBOOK",
+    "desc_ja": "モデル画像を大きく並べる"
+  },
+  {
+    "number": 92,
+    "slug": "swipe-banner",
+    "name_ja": "スワイプ型バナー",
+    "desc_ja": "スマホファーストのカルーセル"
+  },
+  {
+    "number": 93,
+    "slug": "tab-product-list",
+    "name_ja": "タブ切り替え商品一覧",
+    "desc_ja": "新着、人気、セール、ギフトを切替"
+  },
+  {
+    "number": 94,
+    "slug": "tab-description",
+    "name_ja": "タブ切り替え説明欄",
+    "desc_ja": "特徴、成分、使い方、レビューを切替"
+  },
+  {
+    "number": 95,
+    "slug": "accordion-specs",
+    "name_ja": "アコーディオン商品説明",
+    "desc_ja": "長い商品説明を整理して見せる"
+  },
+  {
+    "number": 96,
+    "slug": "sticky-toc",
+    "name_ja": "追従サイド目次",
+    "desc_ja": "PCでLPの右側に目次を固定"
+  },
+  {
+    "number": 97,
+    "slug": "account-navigation",
+    "name_ja": "マイページ誘導セクション",
+    "desc_ja": "会員登録、注文履歴、ポイント説明"
+  },
+  {
+    "number": 98,
+    "slug": "member-tier-info",
+    "name_ja": "会員ランク説明",
+    "desc_ja": "VIP、ゴールド、シルバーなどの制度説明"
+  },
+  {
+    "number": 99,
+    "slug": "loyalty-points-guide",
+    "name_ja": "ポイント制度案内",
+    "desc_ja": "付与率、使い方、注意事項を説明"
+  },
+  {
+    "number": 100,
+    "slug": "complete-lp-template",
+    "name_ja": "店舗まるごとLPテンプレセクション",
+    "desc_ja": "ヒーロー、特徴、商品、レビュー、FAQ、CTAを1ファイルで完結"
+  }
+]
