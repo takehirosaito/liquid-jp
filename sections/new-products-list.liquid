@@ -46,9 +46,10 @@
               <span class="alsel-new-products-list__badge" aria-label="新商品">{{ section.settings.badge_text }}</span>
             {%- endif -%}
             {%- if product.featured_image != blank -%}
-              {{ product.featured_image
+              {%- assign alt_1 = product.title | escape -%}
+{{ product.featured_image
                 | image_url: width: 800
-                | image_tag: loading: 'lazy', class: 'alsel-new-products-list__img', alt: product.title | escape, widths: '300, 500, 700, 800', sizes: '(min-width: 750px) 25vw, 50vw' }}
+                | image_tag: loading: 'lazy', class: 'alsel-new-products-list__img', alt: alt_1, widths: '300, 500, 700, 800', sizes: '(min-width: 750px) 25vw, 50vw' }}
             {%- else -%}
               <div class="alsel-new-products-list__noimg" aria-hidden="true">No Image</div>
             {%- endif -%}
@@ -84,7 +85,7 @@
     color: {{ section.settings.text_color }};
   }
   .alsel-new-products-list__header { text-align: center; margin: 0 auto 2rem; max-width: 720px; }
-  .alsel-new-products-list__title { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; margin: 0 0 0.5rem; letter-spacing: 0.02em; }
+  .alsel-new-products-list__title { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.5rem; letter-spacing: 0.02em; }
   .alsel-new-products-list__sub { font-size: 0.95rem; line-height: 1.7; margin: 0; opacity: 0.8; }
   .alsel-new-products-list__grid {
     display: grid;

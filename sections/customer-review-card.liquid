@@ -1,0 +1,185 @@
+{% comment %}
+============================================================
+セクション名: お客様の声カード
+用途: 実際に購入したお客様のレビューを、顔写真・名前・星評価付きで紹介し、ストアの信頼性と購入後のイメージを高める
+推奨設置場所: トップページ中盤、商品ページ下部、LP のクロージング直前
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各カードのお客様画像・名前・属性(年齢/職業など)・星評価・コメント
+  - 背景色・カード背景色・星の色
+  - カードの追加・削除(ブロック単位で自由に増減)
+注意点:
+  - お客様画像は正方形(推奨 400 × 400px、JPEG または PNG)を用意する
+  - 星評価は 1〜5 の数値で選択する
+  - 個人情報の掲載はお客様の同意を得てから行うこと
+  - ブロックは 2〜6 個推奨
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-customer-review-card" aria-label="お客様の声">
+  <div class="alsel-customer-review-card__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-customer-review-card__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-customer-review-card__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="alsel-customer-review-card__grid">
+    {%- for block in section.blocks -%}
+      <article class="alsel-customer-review-card__card" {{ block.shopify_attributes }}>
+        <div class="alsel-customer-review-card__profile">
+          {%- if block.settings.avatar != blank -%}
+            {%- assign alt_1 = block.settings.name | escape -%}
+{{ block.settings.avatar
+              | image_url: width: 200
+              | image_tag: loading: 'lazy', class: 'alsel-customer-review-card__avatar', alt: alt_1, widths: '120, 200, 300' }}
+          {%- else -%}
+            <span class="alsel-customer-review-card__avatar alsel-customer-review-card__avatar--placeholder" aria-hidden="true">{{ block.settings.name | slice: 0, 1 | escape }}</span>
+          {%- endif -%}
+          <div class="alsel-customer-review-card__meta">
+            {%- if block.settings.name != blank -%}
+              <p class="alsel-customer-review-card__name">{{ block.settings.name | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.attribute != blank -%}
+              <p class="alsel-customer-review-card__attr">{{ block.settings.attribute | escape }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- assign rating = block.settings.rating | plus: 0 -%}
+        <div class="alsel-customer-review-card__stars" aria-label="評価 {{ rating }} / 5">
+          {%- for i in (1..5) -%}
+            {%- if i <= rating -%}
+              <span class="alsel-customer-review-card__star alsel-customer-review-card__star--on" aria-hidden="true">★</span>
+            {%- else -%}
+              <span class="alsel-customer-review-card__star" aria-hidden="true">★</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if block.settings.title != blank -%}
+          <h3 class="alsel-customer-review-card__title">{{ block.settings.title | escape }}</h3>
+        {%- endif -%}
+
+        {%- if block.settings.comment != blank -%}
+          <p class="alsel-customer-review-card__comment">{{ block.settings.comment | escape | newline_to_br }}</p>
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .alsel-customer-review-card {
+    --alsel-crc-bg: {{ section.settings.bg_color }};
+    --alsel-crc-card-bg: {{ section.settings.card_bg_color }};
+    --alsel-crc-star: {{ section.settings.star_color }};
+    --alsel-crc-accent: {{ section.settings.accent_color }};
+    padding: 3rem 1rem;
+    background: var(--alsel-crc-bg);
+  }
+  .alsel-customer-review-card__head { text-align: center; max-width: 720px; margin: 0 auto 2rem; }
+  .alsel-customer-review-card__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.75rem; color: #0f172a; }
+  .alsel-customer-review-card__sub { font-size: 0.95rem; line-height: 1.7; color: #475569; margin: 0; }
+  .alsel-customer-review-card__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+  .alsel-customer-review-card__card { background: var(--alsel-crc-card-bg); padding: 1.5rem; border-radius: 14px; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06); display: flex; flex-direction: column; gap: 0.85rem; }
+  .alsel-customer-review-card__profile { display: flex; align-items: center; gap: 0.85rem; }
+  .alsel-customer-review-card__avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex-shrink: 0; background: #e2e8f0; }
+  .alsel-customer-review-card__avatar--placeholder { display: inline-flex; align-items: center; justify-content: center; color: #fff; background: var(--alsel-crc-accent); font-weight: 700; font-size: 1.25rem; }
+  .alsel-customer-review-card__meta { display: flex; flex-direction: column; gap: 0.15rem; }
+  .alsel-customer-review-card__name { font-size: 1rem; font-weight: 700; color: #0f172a; margin: 0; }
+  .alsel-customer-review-card__attr { font-size: 0.8rem; color: #64748b; margin: 0; }
+  .alsel-customer-review-card__stars { display: flex; gap: 0.15rem; font-size: 1.1rem; line-height: 1; }
+  .alsel-customer-review-card__star { color: #e2e8f0; }
+  .alsel-customer-review-card__star--on { color: var(--alsel-crc-star); }
+  .alsel-customer-review-card__title { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0; line-height: 1.5; }
+  .alsel-customer-review-card__comment { font-size: 0.92rem; line-height: 1.75; color: #334155; margin: 0; }
+  @media (min-width: 750px) {
+    .alsel-customer-review-card { padding: 5rem 2rem; }
+    .alsel-customer-review-card__grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .alsel-customer-review-card__card { padding: 1.75rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "お客様の声カード",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "お客様の声" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "実際にご利用いただいたお客様からいただいた声を紹介する。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "star_color", "label": "星の色", "default": "#f59e0b" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "info": "画像が無いときの名前イニシャル背景に使う", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "お客様の声カード",
+      "settings": [
+        { "type": "image_picker", "id": "avatar", "label": "お客様画像", "info": "推奨 400 × 400px、正方形。未設定の場合はイニシャルが表示される" },
+        { "type": "text", "id": "name", "label": "お名前", "default": "山田 様" },
+        { "type": "text", "id": "attribute", "label": "属性(年代・職業など)", "info": "例: 30代 / 会社員", "default": "30代 / 女性" },
+        {
+          "type": "select",
+          "id": "rating",
+          "label": "星評価",
+          "options": [
+            { "value": "5", "label": "★★★★★ (5)" },
+            { "value": "4", "label": "★★★★☆ (4)" },
+            { "value": "3", "label": "★★★☆☆ (3)" },
+            { "value": "2", "label": "★★☆☆☆ (2)" },
+            { "value": "1", "label": "★☆☆☆☆ (1)" }
+          ],
+          "default": "5"
+        },
+        { "type": "text", "id": "title", "label": "レビュータイトル", "default": "期待以上の品質だった" },
+        { "type": "textarea", "id": "comment", "label": "コメント本文", "default": "実際に使ってみて、想像以上に良かった。リピート購入したいと思える商品だった。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / お客様の声カード",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "name": "佐藤 様",
+            "attribute": "30代 / 女性",
+            "rating": "5",
+            "title": "期待以上の品質だった",
+            "comment": "丁寧な梱包と商品の質の高さに驚いた。友人にも勧めたいと思える商品だった。"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "鈴木 様",
+            "attribute": "40代 / 男性",
+            "rating": "5",
+            "title": "対応が早くて安心",
+            "comment": "注文から到着までスムーズで、サポートの対応も丁寧だった。安心して購入できた。"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "田中 様",
+            "attribute": "20代 / 女性",
+            "rating": "4",
+            "title": "デザインが好み",
+            "comment": "サイトの写真通りで、デザインも質感も気に入った。次回も利用したい。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

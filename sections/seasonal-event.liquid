@@ -1,0 +1,345 @@
+{% comment %}
+============================================================
+セクション名: 季節イベントバナー
+用途: お中元・お歳暮・クリスマス・バレンタインなど、季節イベントの告知バナーとして使う。期間限定キャンペーンや特集ページへの誘導に最適。
+推奨設置場所: トップページの上部・中部、商品ページ、コレクションページ
+カスタマイズポイント:
+  - イベントテーマ(お中元・お歳暮・クリスマス・バレンタイン・その他)
+  - 背景画像・オーバーレイ濃度
+  - メイン見出し・サブ見出し・期間表示
+  - CTA ボタンの文字・リンク先・色
+  - 文字色・配置
+  - 装飾の表示有無
+注意点:
+  - 背景画像は推奨 1600 × 720px(JPEG または PNG)
+  - 期間表示はテキスト入力なので、自由に "12/1〜12/25 まで" のように書ける
+  - テーマカラーを変えると装飾の色が連動する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section
+  class="alsel-seasonal-event alsel-seasonal-event--{{ section.settings.theme }}"
+  aria-label="{{ section.settings.heading | escape }}"
+>
+  {%- if section.settings.background_image != blank -%}
+    <div class="alsel-seasonal-event__bg-wrap">
+      {%- assign alt_1 = section.settings.heading | escape -%}
+{{ section.settings.background_image
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'lazy',
+          class: 'alsel-seasonal-event__bg',
+          alt: alt_1,
+          widths: '375, 750, 1100, 1500, 1600',
+          sizes: '100vw' }}
+      <div class="alsel-seasonal-event__overlay"></div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_decoration -%}
+    <span class="alsel-seasonal-event__deco alsel-seasonal-event__deco--left" aria-hidden="true"></span>
+    <span class="alsel-seasonal-event__deco alsel-seasonal-event__deco--right" aria-hidden="true"></span>
+  {%- endif -%}
+
+  <div class="alsel-seasonal-event__inner">
+    {%- if section.settings.label != blank -%}
+      <span class="alsel-seasonal-event__label">{{ section.settings.label | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-seasonal-event__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-seasonal-event__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.period != blank -%}
+      <p class="alsel-seasonal-event__period">
+        <span class="alsel-seasonal-event__period-label">期間</span>
+        <span class="alsel-seasonal-event__period-text">{{ section.settings.period | escape }}</span>
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <a
+        class="alsel-seasonal-event__cta"
+        href="{{ section.settings.cta_link }}"
+        aria-label="{{ section.settings.cta_text | escape }}"
+      >
+        {{ section.settings.cta_text }}
+        <span class="alsel-seasonal-event__cta-arrow" aria-hidden="true">→</span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-seasonal-event {
+    --se-text: {{ section.settings.text_color }};
+    --se-cta-bg: {{ section.settings.cta_bg }};
+    --se-cta-color: {{ section.settings.cta_color }};
+    --se-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --se-accent: #c9a36b;
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.25rem;
+    color: var(--se-text);
+    text-align: {{ section.settings.text_align }};
+    background: #1a1a1a;
+  }
+  .alsel-seasonal-event--ochugen { --se-accent: #4a7c59; background: #f0ede4; }
+  .alsel-seasonal-event--oseibo { --se-accent: #8b1a1a; background: #2a1a1a; }
+  .alsel-seasonal-event--christmas { --se-accent: #c0392b; background: #1e3a2f; }
+  .alsel-seasonal-event--valentine { --se-accent: #d63384; background: #2a1520; }
+
+  .alsel-seasonal-event__bg-wrap { position: absolute; inset: 0; z-index: 0; }
+  .alsel-seasonal-event__bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-seasonal-event__overlay {
+    position: absolute; inset: 0;
+    background: rgba(0, 0, 0, var(--se-overlay));
+  }
+
+  .alsel-seasonal-event__deco {
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 1px;
+    background: var(--se-accent);
+    z-index: 1;
+    opacity: 0.8;
+  }
+  .alsel-seasonal-event__deco--left { left: 1rem; }
+  .alsel-seasonal-event__deco--right { right: 1rem; }
+  .alsel-seasonal-event__deco::before,
+  .alsel-seasonal-event__deco::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--se-accent);
+  }
+  .alsel-seasonal-event__deco::before { left: 0; }
+  .alsel-seasonal-event__deco::after { right: 0; }
+
+  .alsel-seasonal-event__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .alsel-seasonal-event__label {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    background: var(--se-accent);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .alsel-seasonal-event__title {
+    font-size: clamp(1.6rem, 5.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .alsel-seasonal-event__sub {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.7;
+    margin: 0 0 1.25rem;
+    opacity: 0.95;
+  }
+
+  .alsel-seasonal-event__period {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 1.75rem;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+  .alsel-seasonal-event__period-label {
+    background: var(--se-accent);
+    color: #fff;
+    padding: 0.15rem 0.55rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .alsel-seasonal-event__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.95rem 2.2rem;
+    background: var(--se-cta-bg);
+    color: var(--se-cta-color);
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+  .alsel-seasonal-event__cta:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
+  .alsel-seasonal-event__cta-arrow { transition: transform 0.2s ease; }
+  .alsel-seasonal-event__cta:hover .alsel-seasonal-event__cta-arrow { transform: translateX(4px); }
+
+  @media (min-width: 750px) {
+    .alsel-seasonal-event { min-height: 460px; padding: 5rem 2rem; }
+    .alsel-seasonal-event__deco { width: 100px; }
+    .alsel-seasonal-event__deco--left { left: 3rem; }
+    .alsel-seasonal-event__deco--right { right: 3rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "季節イベントバナー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "イベントテーマ",
+      "info": "テーマに合わせて装飾の色が自動で変わる",
+      "options": [
+        { "value": "ochugen", "label": "お中元(夏・グリーン系)" },
+        { "value": "oseibo", "label": "お歳暮(冬・レッド系)" },
+        { "value": "christmas", "label": "クリスマス(グリーン × レッド)" },
+        { "value": "valentine", "label": "バレンタイン(ピンク系)" },
+        { "value": "custom", "label": "カスタム(色を自由に設定)" }
+      ],
+      "default": "oseibo"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "背景画像",
+      "info": "推奨 1600 × 720px、JPEG または PNG"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "背景画像の暗さ",
+      "info": "文字を読みやすくするための黒オーバーレイの濃度",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 35
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "ラベル(小見出し)",
+      "info": "見出しの上に表示される短いタグ",
+      "default": "期間限定"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "メイン見出し",
+      "default": "お歳暮特集 2024"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "サブコピー",
+      "default": "大切な方へ、感謝の気持ちを込めた贈り物を。"
+    },
+    {
+      "type": "text",
+      "id": "period",
+      "label": "期間表示",
+      "info": "例: 12/1(日) 〜 12/25(水) まで",
+      "default": "12/1 〜 12/25 まで"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "ボタンの文字",
+      "default": "特集ページを見る"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "ボタンのリンク先"
+    },
+    {
+      "type": "header",
+      "content": "色・配置の調整"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "ボタン背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "ボタン文字色",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "文字の配置",
+      "options": [
+        { "value": "left", "label": "左寄せ" },
+        { "value": "center", "label": "中央" },
+        { "value": "right", "label": "右寄せ" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decoration",
+      "label": "装飾ライン(左右)を表示する",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 季節イベントバナー",
+      "settings": {
+        "theme": "oseibo",
+        "label": "期間限定",
+        "heading": "お歳暮特集 2024",
+        "subheading": "大切な方へ、感謝の気持ちを込めた贈り物を。",
+        "period": "12/1 〜 12/25 まで",
+        "cta_text": "特集ページを見る",
+        "overlay_opacity": 35,
+        "text_color": "#ffffff",
+        "cta_bg": "#ffffff",
+        "cta_color": "#1a1a1a",
+        "text_align": "center",
+        "show_decoration": true
+      }
+    }
+  ]
+}
+{% endschema %}

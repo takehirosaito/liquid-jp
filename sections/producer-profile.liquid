@@ -1,0 +1,242 @@
+{% comment %}
+============================================================
+セクション名: 生産者紹介
+用途: 農産品・食品・工芸品・D2C ブランドで、作り手の顔と想いを伝える定番セクション。商品の背景にあるストーリーを訴求し、購入の納得感を高めるために使う。
+推奨設置場所: トップページの中盤、商品ページの下部、ブランドストーリーページ(LP)
+カスタマイズポイント:
+  - 生産者の顔写真(円形 / 角丸 / 四角を選択可能)
+  - 名前・肩書き(○○農園 代表 など)
+  - 産地・所在地の表示
+  - 紹介文(長文に対応)
+  - こだわりポイント(ブロックで自由に追加)
+  - 詳細ページへのリンクボタン
+  - レイアウト(写真の位置: 左 / 右)
+  - 背景色・文字色
+注意点:
+  - 顔写真は推奨 800 × 800px(正方形、JPEG または PNG)
+  - こだわりポイントは 2〜4 個を推奨
+  - Online Store 2.0 必須
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-producer-profile alsel-producer-profile--{{ section.settings.layout }}" aria-label="生産者紹介: {{ section.settings.producer_name | escape }}">
+  <div class="alsel-producer-profile__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-producer-profile__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-producer-profile__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="alsel-producer-profile__grid">
+      <div class="alsel-producer-profile__media">
+        {%- if section.settings.photo != blank -%}
+          {%- assign alt_1 = section.settings.producer_name | escape -%}
+{{ section.settings.photo
+            | image_url: width: 800
+            | image_tag:
+              loading: 'lazy',
+              class: 'alsel-producer-profile__photo',
+              alt: alt_1,
+              widths: '300, 500, 700, 800',
+              sizes: '(min-width: 750px) 40vw, 80vw' }}
+        {%- else -%}
+          <div class="alsel-producer-profile__photo alsel-producer-profile__photo--placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+        {%- if section.settings.location != blank -%}
+          <p class="alsel-producer-profile__location">
+            <span class="alsel-producer-profile__pin" aria-hidden="true">📍</span>
+            {{ section.settings.location | escape }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      <div class="alsel-producer-profile__body">
+        {%- if section.settings.producer_name != blank -%}
+          <p class="alsel-producer-profile__role">{{ section.settings.role | escape }}</p>
+          <h3 class="alsel-producer-profile__name">{{ section.settings.producer_name | escape }}</h3>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <div class="alsel-producer-profile__description">{{ section.settings.description }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="alsel-producer-profile__points">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'point' -%}
+                <li class="alsel-producer-profile__point" {{ block.shopify_attributes }}>
+                  {%- if block.settings.icon != blank -%}
+                    <span class="alsel-producer-profile__point-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+                  {%- endif -%}
+                  <div class="alsel-producer-profile__point-text">
+                    <strong class="alsel-producer-profile__point-title">{{ block.settings.title | escape }}</strong>
+                    {%- if block.settings.body != blank -%}
+                      <span class="alsel-producer-profile__point-body">{{ block.settings.body | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+          <a class="alsel-producer-profile__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+            {{ section.settings.cta_text | escape }}
+            <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-producer-profile {
+    --apf-bg: {{ section.settings.bg_color }};
+    --apf-text: {{ section.settings.text_color }};
+    --apf-accent: {{ section.settings.accent_color }};
+    --apf-card: {{ section.settings.card_color }};
+    padding: 3rem 1rem;
+    background: var(--apf-bg);
+    color: var(--apf-text);
+  }
+  .alsel-producer-profile__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-producer-profile__eyebrow {
+    font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--apf-accent); margin: 0 0 0.75rem; text-align: center; font-weight: 600;
+  }
+  .alsel-producer-profile__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem); text-align: center;
+    margin: 0 0 2.5rem; font-weight: 700; line-height: 1.4;
+  }
+  .alsel-producer-profile__grid {
+    display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start;
+  }
+  .alsel-producer-profile__media { text-align: center; }
+  .alsel-producer-profile__photo {
+    width: 100%; max-width: 360px; aspect-ratio: 1 / 1;
+    object-fit: cover; display: block; margin: 0 auto;
+    border-radius: {{ section.settings.photo_radius }};
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .alsel-producer-profile__photo--placeholder { background: #e2e8f0; }
+  .alsel-producer-profile__location {
+    margin: 1rem 0 0; font-size: 0.95rem; color: var(--apf-text); opacity: 0.85;
+  }
+  .alsel-producer-profile__pin { margin-right: 0.25rem; }
+  .alsel-producer-profile__body {
+    background: var(--apf-card); padding: 1.75rem 1.5rem;
+    border-radius: 16px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  }
+  .alsel-producer-profile__role {
+    font-size: 0.9rem; color: var(--apf-accent); margin: 0 0 0.35rem; font-weight: 600;
+  }
+  .alsel-producer-profile__name {
+    font-size: 1.5rem; font-weight: 700; margin: 0 0 1.25rem; line-height: 1.4;
+  }
+  .alsel-producer-profile__description {
+    font-size: 1rem; line-height: 1.9; margin: 0 0 1.5rem;
+  }
+  .alsel-producer-profile__points {
+    list-style: none; padding: 0; margin: 0 0 1.75rem;
+    display: grid; gap: 0.85rem;
+  }
+  .alsel-producer-profile__point {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    padding: 0.85rem 1rem; background: rgba(0, 0, 0, 0.03); border-radius: 10px;
+    border-left: 3px solid var(--apf-accent);
+  }
+  .alsel-producer-profile__point-icon { font-size: 1.4rem; line-height: 1.3; flex-shrink: 0; }
+  .alsel-producer-profile__point-text { display: flex; flex-direction: column; gap: 0.2rem; }
+  .alsel-producer-profile__point-title { font-size: 0.98rem; font-weight: 700; }
+  .alsel-producer-profile__point-body { font-size: 0.88rem; line-height: 1.6; opacity: 0.85; }
+  .alsel-producer-profile__cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 1.75rem; background: var(--apf-accent); color: #fff;
+    text-decoration: none; border-radius: 9999px; font-weight: 700;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .alsel-producer-profile__cta:hover { transform: translateX(3px); opacity: 0.92; }
+  @media (min-width: 750px) {
+    .alsel-producer-profile { padding: 5rem 2rem; }
+    .alsel-producer-profile__grid { grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: center; }
+    .alsel-producer-profile--right .alsel-producer-profile__media { order: 2; }
+    .alsel-producer-profile__body { padding: 2.5rem; }
+    .alsel-producer-profile__points { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "生産者紹介",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セクション見出し" },
+    { "type": "text", "id": "eyebrow", "label": "小見出し", "default": "PRODUCER" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "作り手の顔が見える、安心の品" },
+    { "type": "header", "content": "生産者情報" },
+    { "type": "image_picker", "id": "photo", "label": "生産者の写真", "info": "推奨 800 × 800px(正方形)、JPEG または PNG" },
+    { "type": "select", "id": "photo_radius", "label": "写真の形",
+      "options": [
+        { "value": "50%", "label": "円形" },
+        { "value": "16px", "label": "角丸" },
+        { "value": "0", "label": "四角" }
+      ],
+      "default": "16px" },
+    { "type": "text", "id": "role", "label": "肩書き", "default": "○○農園 三代目代表" },
+    { "type": "text", "id": "producer_name", "label": "生産者名", "default": "山田 太郎" },
+    { "type": "text", "id": "location", "label": "産地・所在地", "default": "長野県安曇野市", "info": "都道府県+市町村名を入れると訴求力が上がる" },
+    { "type": "richtext", "id": "description", "label": "紹介文・想い", "default": "<p>祖父の代から続く家族経営の農園で、無農薬にこだわって育てている。土づくりからすべて手作業で行い、本当においしいと胸を張れるものだけをお届けしている。</p>" },
+    { "type": "header", "content": "ボタン" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しいストーリーを見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "header", "content": "レイアウト・配色" },
+    { "type": "select", "id": "layout", "label": "写真の位置",
+      "options": [
+        { "value": "left", "label": "左に写真" },
+        { "value": "right", "label": "右に写真" }
+      ],
+      "default": "left" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f5f1ea" },
+    { "type": "color", "id": "card_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#2d2a26" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#6b8e23" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "こだわりポイント",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン(絵文字)", "default": "🌱", "info": "絵文字 1 文字を入れる。例: 🌱 🌾 🍅 ✋ 🏆" },
+        { "type": "text", "id": "title", "label": "ポイント名", "default": "無農薬栽培" },
+        { "type": "text", "id": "body", "label": "補足説明", "default": "化学肥料は一切使わない。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 生産者紹介",
+      "settings": {
+        "eyebrow": "PRODUCER",
+        "heading": "作り手の顔が見える、安心の品",
+        "role": "○○農園 三代目代表",
+        "producer_name": "山田 太郎",
+        "location": "長野県安曇野市",
+        "cta_text": "詳しいストーリーを見る"
+      },
+      "blocks": [
+        { "type": "point", "settings": { "icon": "🌱", "title": "無農薬栽培", "body": "化学肥料は一切使わない。" } },
+        { "type": "point", "settings": { "icon": "✋", "title": "手摘み収穫", "body": "一つひとつ丁寧に収穫する。" } },
+        { "type": "point", "settings": { "icon": "🏆", "title": "受賞歴", "body": "県品評会で金賞を受賞。" } },
+        { "type": "point", "settings": { "icon": "📦", "title": "産地直送", "body": "収穫翌日にお届けする。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,178 @@
+{% comment %}
+============================================================
+セクション名: 期間限定SALEバナー
+用途: 開始日と終了日、割引率を設定して期間限定セールを訴求するバナー。開始前・期間中・終了後で表示が自動で切り替わる
+推奨設置場所: トップページ・コレクションページ・商品ページの上部
+カスタマイズポイント:
+  - セール開始日・終了日(YYYY-MM-DD 形式で入力)
+  - 割引率(数値、例: 20)
+  - キャッチコピー・補足文・ボタンの文字とリンク先
+  - 背景色・文字色・アクセントカラー
+  - 終了後の表示メッセージ
+注意点:
+  - 日付は店舗のタイムゾーン(管理画面の設定)に従って判定される
+  - 割引率はあくまで表示用。実際の割引設定は Shopify の「割引」メニューから別途設定する必要あり
+  - カウントダウンは JavaScript で動作し、終了日 23:59:59 まで表示される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign start_date = section.settings.start_date -%}
+{%- assign end_date = section.settings.end_date -%}
+{%- assign now_ts = 'now' | date: '%s' | times: 1 -%}
+{%- assign start_ts = start_date | append: ' 00:00:00' | date: '%s' | times: 1 -%}
+{%- assign end_ts = end_date | append: ' 23:59:59' | date: '%s' | times: 1 -%}
+
+{%- assign status = 'before' -%}
+{%- if start_date == blank or end_date == blank -%}
+  {%- assign status = 'active' -%}
+{%- elsif now_ts >= start_ts and now_ts <= end_ts -%}
+  {%- assign status = 'active' -%}
+{%- elsif now_ts > end_ts -%}
+  {%- assign status = 'ended' -%}
+{%- endif -%}
+
+<section class="alsel-limited-sale-banner" aria-label="期間限定セールバナー">
+  {%- if status == 'active' -%}
+    <div class="alsel-limited-sale-banner__inner alsel-limited-sale-banner__inner--active">
+      <div class="alsel-limited-sale-banner__badge">期間限定</div>
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-limited-sale-banner__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.discount_rate > 0 -%}
+        <div class="alsel-limited-sale-banner__discount">
+          <span class="alsel-limited-sale-banner__discount-num">{{ section.settings.discount_rate }}</span>
+          <span class="alsel-limited-sale-banner__discount-unit">%OFF</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="alsel-limited-sale-banner__sub">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+      {%- if end_date != blank -%}
+        <div class="alsel-limited-sale-banner__period">
+          開催期間: {{ start_date | date: '%Y年%-m月%-d日' }} 〜 {{ end_date | date: '%Y年%-m月%-d日' }}
+        </div>
+        {%- if section.settings.show_countdown -%}
+          <div class="alsel-limited-sale-banner__countdown" data-end="{{ end_ts }}" aria-live="polite">
+            <div class="alsel-limited-sale-banner__cd-item"><span class="alsel-limited-sale-banner__cd-num" data-days>00</span><span class="alsel-limited-sale-banner__cd-label">日</span></div>
+            <div class="alsel-limited-sale-banner__cd-item"><span class="alsel-limited-sale-banner__cd-num" data-hours>00</span><span class="alsel-limited-sale-banner__cd-label">時間</span></div>
+            <div class="alsel-limited-sale-banner__cd-item"><span class="alsel-limited-sale-banner__cd-num" data-mins>00</span><span class="alsel-limited-sale-banner__cd-label">分</span></div>
+            <div class="alsel-limited-sale-banner__cd-item"><span class="alsel-limited-sale-banner__cd-num" data-secs>00</span><span class="alsel-limited-sale-banner__cd-label">秒</span></div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+        <a class="alsel-limited-sale-banner__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- elsif status == 'before' -%}
+    <div class="alsel-limited-sale-banner__inner alsel-limited-sale-banner__inner--before">
+      <div class="alsel-limited-sale-banner__badge">開催予告</div>
+      <h2 class="alsel-limited-sale-banner__title">{{ section.settings.heading }}</h2>
+      <p class="alsel-limited-sale-banner__sub">{{ start_date | date: '%Y年%-m月%-d日' }} スタート予定</p>
+    </div>
+  {%- else -%}
+    {%- if section.settings.show_ended -%}
+      <div class="alsel-limited-sale-banner__inner alsel-limited-sale-banner__inner--ended">
+        <p class="alsel-limited-sale-banner__ended">{{ section.settings.ended_text }}</p>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-limited-sale-banner { padding: 2rem 1rem; }
+  .alsel-limited-sale-banner__inner { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem; border-radius: 14px; text-align: center; color: {{ section.settings.text_color }}; }
+  .alsel-limited-sale-banner__inner--active { background: linear-gradient(135deg, {{ section.settings.bg_color }} 0%, {{ section.settings.accent_color }} 100%); }
+  .alsel-limited-sale-banner__inner--before { background: #f1f5f9; color: #334155; }
+  .alsel-limited-sale-banner__inner--ended { background: #e2e8f0; color: #475569; padding: 1.25rem; }
+  .alsel-limited-sale-banner__badge { display: inline-block; padding: 0.3rem 1rem; background: rgba(255,255,255,0.95); color: {{ section.settings.accent_color }}; font-weight: 700; font-size: 0.85rem; border-radius: 9999px; margin-bottom: 1rem; letter-spacing: 0.05em; }
+  .alsel-limited-sale-banner__title { font-size: clamp(1.4rem, 4.5vw, 2.4rem); font-weight: 700; line-height: 1.3; margin: 0 0 1rem; }
+  .alsel-limited-sale-banner__discount { display: inline-flex; align-items: baseline; gap: 0.3rem; margin: 0.5rem 0 1rem; }
+  .alsel-limited-sale-banner__discount-num { font-size: clamp(3rem, 10vw, 5.5rem); font-weight: 700; line-height: 1; }
+  .alsel-limited-sale-banner__discount-unit { font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 700; }
+  .alsel-limited-sale-banner__sub { font-size: 1rem; line-height: 1.7; margin: 0 0 1rem; opacity: 0.95; }
+  .alsel-limited-sale-banner__period { font-size: 0.95rem; font-weight: 600; margin: 0 0 1.25rem; opacity: 0.95; }
+  .alsel-limited-sale-banner__countdown { display: flex; justify-content: center; gap: 0.6rem; margin: 0 0 1.5rem; flex-wrap: wrap; }
+  .alsel-limited-sale-banner__cd-item { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 0.6rem 0.8rem; min-width: 60px; backdrop-filter: blur(4px); }
+  .alsel-limited-sale-banner__cd-num { display: block; font-size: 1.6rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  .alsel-limited-sale-banner__cd-label { display: block; font-size: 0.7rem; margin-top: 0.25rem; opacity: 0.9; }
+  .alsel-limited-sale-banner__cta { display: inline-block; padding: 0.95rem 2.5rem; background: #ffffff; color: {{ section.settings.accent_color }}; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: transform 0.2s; }
+  .alsel-limited-sale-banner__cta:hover { transform: translateY(-2px); }
+  .alsel-limited-sale-banner__ended { margin: 0; font-size: 1rem; font-weight: 600; }
+  @media (min-width: 750px) {
+    .alsel-limited-sale-banner { padding: 3rem 2rem; }
+    .alsel-limited-sale-banner__inner { padding: 3rem 2rem; }
+    .alsel-limited-sale-banner__cd-item { min-width: 80px; padding: 0.85rem 1rem; }
+    .alsel-limited-sale-banner__cd-num { font-size: 2.2rem; }
+    .alsel-limited-sale-banner__cd-label { font-size: 0.8rem; }
+  }
+</style>
+
+<script>
+  (function() {
+    var root = document.querySelector('.alsel-limited-sale-banner__countdown');
+    if (!root) return;
+    var endTs = parseInt(root.getAttribute('data-end'), 10) * 1000;
+    var dEl = root.querySelector('[data-days]');
+    var hEl = root.querySelector('[data-hours]');
+    var mEl = root.querySelector('[data-mins]');
+    var sEl = root.querySelector('[data-secs]');
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function tick() {
+      var diff = endTs - Date.now();
+      if (diff <= 0) { dEl.textContent = '00'; hEl.textContent = '00'; mEl.textContent = '00'; sEl.textContent = '00'; return; }
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      dEl.textContent = pad(d); hEl.textContent = pad(h); mEl.textContent = pad(m); sEl.textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "期間限定SALEバナー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セール期間" },
+    { "type": "text", "id": "start_date", "label": "開始日", "info": "YYYY-MM-DD 形式で入力(例: 2025-12-01)。空欄の場合は常に開催中として表示する", "default": "2025-12-01" },
+    { "type": "text", "id": "end_date", "label": "終了日", "info": "YYYY-MM-DD 形式で入力(例: 2025-12-31)。終了日の 23:59:59 まで開催扱い", "default": "2025-12-31" },
+    { "type": "header", "content": "表示内容" },
+    { "type": "text", "id": "heading", "label": "キャッチコピー", "default": "年末特別SALE開催中" },
+    { "type": "range", "id": "discount_rate", "label": "割引率(%)", "min": 0, "max": 90, "step": 5, "default": 30, "info": "0 にすると非表示。表示用の数値で、実際の割引は Shopify の割引機能で設定する" },
+    { "type": "textarea", "id": "subtext", "label": "補足テキスト", "default": "対象商品が全品お買い得価格。この機会をお見逃しなく。" },
+    { "type": "checkbox", "id": "show_countdown", "label": "カウントダウンを表示する", "default": true },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "SALE会場へ" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "header", "content": "終了後の表示" },
+    { "type": "checkbox", "id": "show_ended", "label": "終了後もメッセージを表示する", "default": false },
+    { "type": "text", "id": "ended_text", "label": "終了後メッセージ", "default": "セールは終了した。ご利用ありがとうございました。" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色(グラデーション開始)", "default": "#dc2626" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(グラデーション終了)", "default": "#9333ea" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#ffffff" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 期間限定SALEバナー",
+      "settings": {
+        "start_date": "2025-12-01",
+        "end_date": "2025-12-31",
+        "heading": "年末特別SALE開催中",
+        "discount_rate": 30,
+        "subtext": "対象商品が全品お買い得価格。この機会をお見逃しなく。",
+        "show_countdown": true,
+        "cta_text": "SALE会場へ"
+      }
+    }
+  ]
+}
+{% endschema %}

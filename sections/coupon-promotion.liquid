@@ -1,0 +1,248 @@
+{% comment %}
+============================================================
+セクション名: クーポン訴求帯
+用途: 期間限定クーポンをお客様に強く訴求し、ワンクリックでコードをコピーできるようにする販促帯
+推奨設置場所: トップページ最上部、商品ページ、カートページの直前など、購買直前の導線
+カスタマイズポイント:
+  - クーポンコード(コピー対象の文字列)
+  - 訴求メッセージ(例: 「初回限定 10%OFF」)
+  - 補足説明(例: 「5000 円以上のお買い物で利用可」)
+  - 有効期限(日付表示)
+  - 背景色・文字色・アクセント色
+  - コピーボタンの文字
+注意点:
+  - クーポンコードは Shopify 管理画面の「割引」で事前に作成しておく必要がある
+  - コピー機能は HTTPS 環境でのみ動作(本番ストアでは問題なし)
+  - 期限切れ後は手動で非表示にするか、内容を更新する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-coupon-promotion" aria-label="クーポン訴求帯">
+  <div class="alsel-coupon-promotion__inner">
+    {%- if section.settings.label != blank -%}
+      <span class="alsel-coupon-promotion__label">{{ section.settings.label }}</span>
+    {%- endif -%}
+
+    <div class="alsel-coupon-promotion__main">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-coupon-promotion__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="alsel-coupon-promotion__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="alsel-coupon-promotion__code-area">
+      {%- if section.settings.code != blank -%}
+        <div class="alsel-coupon-promotion__code-box">
+          <span class="alsel-coupon-promotion__code-prefix">{{ section.settings.code_prefix }}</span>
+          <span class="alsel-coupon-promotion__code" id="alsel-coupon-code-{{ section.id }}">{{ section.settings.code | escape }}</span>
+        </div>
+        <button
+          type="button"
+          class="alsel-coupon-promotion__copy-btn"
+          data-alsel-copy-target="alsel-coupon-code-{{ section.id }}"
+          data-alsel-copy-text="{{ section.settings.copy_text | escape }}"
+          data-alsel-copied-text="{{ section.settings.copied_text | escape }}"
+          aria-label="クーポンコードをコピー">
+          <span class="alsel-coupon-promotion__copy-btn-label">{{ section.settings.copy_text }}</span>
+        </button>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.expiry_text != blank -%}
+      <p class="alsel-coupon-promotion__expiry">
+        <span class="alsel-coupon-promotion__expiry-icon" aria-hidden="true">⏰</span>
+        {{ section.settings.expiry_text }}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-coupon-promotion {
+    padding: 1.5rem 1rem;
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-coupon-promotion__inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+  .alsel-coupon-promotion__label {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.accent_text_color }};
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+  }
+  .alsel-coupon-promotion__heading {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+  }
+  .alsel-coupon-promotion__description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+  }
+  .alsel-coupon-promotion__code-area {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 0.5rem;
+  }
+  .alsel-coupon-promotion__code-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1rem;
+    background: #ffffff;
+    border: 2px dashed {{ section.settings.accent_color }};
+    border-radius: 8px;
+  }
+  .alsel-coupon-promotion__code-prefix {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .alsel-coupon-promotion__code {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.1em;
+
+  }
+  .alsel-coupon-promotion__copy-btn {
+    padding: 0.85rem 1.5rem;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.accent_text_color }};
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .alsel-coupon-promotion__copy-btn:hover { opacity: 0.9; }
+  .alsel-coupon-promotion__copy-btn:active { transform: scale(0.98); }
+  .alsel-coupon-promotion__copy-btn.is-copied {
+    background: #10b981;
+    color: #ffffff;
+  }
+  .alsel-coupon-promotion__expiry {
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+    opacity: 0.85;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  @media (min-width: 750px) {
+    .alsel-coupon-promotion { padding: 2rem 2rem; }
+    .alsel-coupon-promotion__code-area {
+      flex-direction: row;
+      align-items: center;
+      max-width: 600px;
+    }
+    .alsel-coupon-promotion__code-box { flex: 1; }
+  }
+</style>
+
+<script>
+  (function () {
+    var section = document.currentScript.closest('.alsel-coupon-promotion') || document.querySelector('.alsel-coupon-promotion');
+    if (!section) return;
+    var buttons = section.querySelectorAll('.alsel-coupon-promotion__copy-btn');
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var targetId = btn.getAttribute('data-alsel-copy-target');
+        var target = document.getElementById(targetId);
+        if (!target) return;
+        var text = target.textContent.trim();
+        var copiedLabel = btn.getAttribute('data-alsel-copied-text') || 'コピーしました';
+        var originalLabel = btn.getAttribute('data-alsel-copy-text') || 'コピー';
+        var labelEl = btn.querySelector('.alsel-coupon-promotion__copy-btn-label');
+        var done = function () {
+          if (labelEl) labelEl.textContent = copiedLabel;
+          btn.classList.add('is-copied');
+          setTimeout(function () {
+            if (labelEl) labelEl.textContent = originalLabel;
+            btn.classList.remove('is-copied');
+          }, 2000);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "クーポン訴求帯",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "label", "label": "ラベル(小バッジ)", "default": "期間限定", "info": "クーポンの上に小さく表示されるバッジ" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "初回限定 10%OFF クーポン" },
+    { "type": "text", "id": "description", "label": "補足説明", "default": "5000 円以上のお買い物でご利用いただける。" },
+    { "type": "text", "id": "code_prefix", "label": "コードの前置きテキスト", "default": "クーポンコード:" },
+    { "type": "text", "id": "code", "label": "クーポンコード", "default": "WELCOME10", "info": "Shopify 管理画面「割引」で事前に作成したコードを入力する" },
+    { "type": "text", "id": "copy_text", "label": "コピーボタンの文字", "default": "コードをコピー" },
+    { "type": "text", "id": "copied_text", "label": "コピー完了後の文字", "default": "コピーしました!" },
+    { "type": "text", "id": "expiry_text", "label": "有効期限の文字", "default": "2025年12月31日 23:59 まで", "info": "期限切れ後は手動で更新するか非表示にする" },
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fef3c7" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(ボタン・枠線)", "default": "#dc2626" },
+    { "type": "color", "id": "accent_text_color", "label": "アクセント上の文字色", "default": "#ffffff" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / クーポン訴求帯",
+      "settings": {
+        "label": "期間限定",
+        "heading": "初回限定 10%OFF クーポン",
+        "description": "5000 円以上のお買い物でご利用いただける。",
+        "code_prefix": "クーポンコード:",
+        "code": "WELCOME10",
+        "copy_text": "コードをコピー",
+        "copied_text": "コピーしました!",
+        "expiry_text": "2025年12月31日 23:59 まで"
+      }
+    }
+  ]
+}
+{% endschema %}

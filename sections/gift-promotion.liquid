@@ -1,0 +1,282 @@
+{% comment %}
+============================================================
+セクション名: ギフト訴求セクション
+用途: 母の日・父の日・誕生日・内祝いなどのギフト需要を訴求し、ギフト対応商品ページや特集ページへ誘導するためのバナー型セクション
+推奨設置場所: トップページの中段、コレクションページの上部、ギフト特集 LP など
+カスタマイズポイント:
+  - 背景画像(ギフトボックスやリボンなどの写真)
+  - キャッチコピー・サブコピー・補足テキスト
+  - シーンタグ(母の日・父の日・誕生日・内祝いなど)をブロックで自由に追加・削除
+  - CTA ボタン(リンク先と文字)
+  - 配色(文字色・タグ色・ボタン色・オーバーレイ濃度)
+注意点:
+  - 背景画像は推奨 1600 × 1000px、JPEG または WebP
+  - シーンタグは 2〜6 個推奨。多すぎるとモバイルで折り返しが増える
+  - 画像が暗い場合はオーバーレイ濃度を上げて文字の視認性を確保する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-gift-promotion" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-gift-promotion__media">
+    {%- if section.settings.background_image != blank -%}
+      {%- assign alt_1 = section.settings.heading | escape -%}
+{{ section.settings.background_image
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'lazy',
+          class: 'alsel-gift-promotion__bg',
+          alt: alt_1,
+          sizes: '(min-width: 750px) 100vw, 100vw',
+          widths: '375, 750, 1100, 1500, 1600' }}
+    {%- endif -%}
+    <div class="alsel-gift-promotion__overlay" aria-hidden="true"></div>
+  </div>
+
+  <div class="alsel-gift-promotion__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-gift-promotion__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-gift-promotion__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-gift-promotion__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="alsel-gift-promotion__tags" aria-label="ギフトシーン">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'scene' and block.settings.label != blank -%}
+            {%- if block.settings.link != blank -%}
+              <li class="alsel-gift-promotion__tag-item" {{ block.shopify_attributes }}>
+                <a class="alsel-gift-promotion__tag alsel-gift-promotion__tag--link" href="{{ block.settings.link }}" aria-label="{{ block.settings.label | escape }}の特集ページへ">
+                  {%- if block.settings.icon != blank -%}
+                    <span class="alsel-gift-promotion__tag-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+                  {%- endif -%}
+                  <span class="alsel-gift-promotion__tag-label">{{ block.settings.label }}</span>
+                </a>
+              </li>
+            {%- else -%}
+              <li class="alsel-gift-promotion__tag-item" {{ block.shopify_attributes }}>
+                <span class="alsel-gift-promotion__tag">
+                  {%- if block.settings.icon != blank -%}
+                    <span class="alsel-gift-promotion__tag-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+                  {%- endif -%}
+                  <span class="alsel-gift-promotion__tag-label">{{ block.settings.label }}</span>
+                </span>
+              </li>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-gift-promotion__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <a class="alsel-gift-promotion__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+        <span class="alsel-gift-promotion__cta-text">{{ section.settings.cta_text }}</span>
+        <span class="alsel-gift-promotion__cta-arrow" aria-hidden="true">→</span>
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-gift-promotion {
+    --gp-text: {{ section.settings.text_color }};
+    --gp-eyebrow: {{ section.settings.accent_color }};
+    --gp-tag-bg: {{ section.settings.tag_bg }};
+    --gp-tag-color: {{ section.settings.tag_color }};
+    --gp-cta-bg: {{ section.settings.cta_bg }};
+    --gp-cta-color: {{ section.settings.cta_color }};
+    --gp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 0;
+  }
+  .alsel-gift-promotion__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .alsel-gift-promotion__bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .alsel-gift-promotion__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(20, 10, 30, var(--gp-overlay)) 0%, rgba(60, 20, 40, calc(var(--gp-overlay) * 0.7)) 100%);
+  }
+  .alsel-gift-promotion__inner {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 1.25rem;
+    max-width: 880px;
+    margin: 0 auto;
+    color: var(--gp-text);
+    text-align: center;
+  }
+  .alsel-gift-promotion__eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--gp-eyebrow);
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+  }
+  .alsel-gift-promotion__heading {
+    font-size: clamp(1.5rem, 5.5vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 1rem;
+    letter-spacing: 0.02em;
+  }
+  .alsel-gift-promotion__sub {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    line-height: 1.8;
+    margin: 0 auto 1.75rem;
+    max-width: 640px;
+    opacity: 0.95;
+  }
+  .alsel-gift-promotion__tags {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .alsel-gift-promotion__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: var(--gp-tag-bg);
+    color: var(--gp-tag-color);
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .alsel-gift-promotion__tag--link:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+  }
+  .alsel-gift-promotion__tag-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+  .alsel-gift-promotion__note {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+    opacity: 0.85;
+  }
+  .alsel-gift-promotion__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.95rem 2.2rem;
+    background: var(--gp-cta-bg);
+    color: var(--gp-cta-color);
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .alsel-gift-promotion__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  .alsel-gift-promotion__cta-arrow {
+    transition: transform 0.2s ease;
+  }
+  .alsel-gift-promotion__cta:hover .alsel-gift-promotion__cta-arrow {
+    transform: translateX(4px);
+  }
+  @media (min-width: 750px) {
+    .alsel-gift-promotion__inner {
+      padding: 5.5rem 2rem;
+    }
+    .alsel-gift-promotion__tags {
+      gap: 0.75rem;
+    }
+    .alsel-gift-promotion__tag {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ギフト訴求",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "背景・配色" },
+    { "type": "image_picker", "id": "background_image", "label": "背景画像", "info": "推奨 1600 × 1000px、ギフトボックスやリボンなどの写真" },
+    { "type": "range", "id": "overlay_opacity", "label": "オーバーレイ濃度", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 45, "info": "画像が明るすぎて文字が読みにくいときは数値を上げる" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アイブロウ(小見出し)の色", "default": "#fbcfe8" },
+    { "type": "header", "content": "テキスト" },
+    { "type": "text", "id": "eyebrow", "label": "アイブロウ(小見出し)", "default": "GIFT COLLECTION", "info": "見出しの上に表示される小さな英字テキスト" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "大切な人へ、特別なギフトを。" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "母の日、父の日、誕生日、内祝いなど。シーンに合わせて選べるギフトをご用意している。" },
+    { "type": "text", "id": "note", "label": "補足テキスト", "default": "ラッピング・のし・メッセージカード無料対応", "info": "ギフト対応の特典などを短く記載すると効果的" },
+    { "type": "header", "content": "シーンタグの色" },
+    { "type": "color", "id": "tag_bg", "label": "タグの背景色", "default": "#ffffff" },
+    { "type": "color", "id": "tag_color", "label": "タグの文字色", "default": "#9d174d" },
+    { "type": "header", "content": "CTA ボタン" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "ギフト特集を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#be185d" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "scene",
+      "name": "ギフトシーン",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン(絵文字)", "default": "🌷", "info": "絵文字を 1 文字入れると視認性が上がる。空欄でも可" },
+        { "type": "text", "id": "label", "label": "シーン名", "default": "母の日" },
+        { "type": "url", "id": "link", "label": "リンク先", "info": "特集コレクションやタグ検索ページの URL を設定する。空欄なら表示のみ" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / ギフト訴求セクション",
+      "settings": {
+        "eyebrow": "GIFT COLLECTION",
+        "heading": "大切な人へ、特別なギフトを。",
+        "subheading": "母の日、父の日、誕生日、内祝いなど。シーンに合わせて選べるギフトをご用意している。",
+        "note": "ラッピング・のし・メッセージカード無料対応",
+        "cta_text": "ギフト特集を見る"
+      },
+      "blocks": [
+        { "type": "scene", "settings": { "icon": "🌷", "label": "母の日" } },
+        { "type": "scene", "settings": { "icon": "🎩", "label": "父の日" } },
+        { "type": "scene", "settings": { "icon": "🎂", "label": "誕生日" } },
+        { "type": "scene", "settings": { "icon": "🎁", "label": "内祝い" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

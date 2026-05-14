@@ -1,0 +1,259 @@
+{% comment %}
+============================================================
+セクション名: カウントダウンタイマー
+用途: セールやキャンペーン終了までの残り時間を「日・時・分・秒」で表示し、購買意欲を高める
+推奨設置場所: トップページ・商品ページ・LP の上部または CTA ボタン直前
+カスタマイズポイント:
+  - 終了日時(年・月・日・時・分)
+  - 見出し・サブテキスト
+  - 終了後に表示するメッセージ
+  - 背景色・文字色・数字背景色
+  - CTA ボタン(任意)
+注意点:
+  - 終了日時はストアのブラウザ表示時刻ではなく、設定した日時(現地時間)を基準にする
+  - 0 になった瞬間に「終了メッセージ」へ自動切替
+  - JavaScript が無効な環境では数字は更新されない(初期値が表示される)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-countdown-timer" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-countdown-timer__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-countdown-timer__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-countdown-timer__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- assign end_year = section.settings.end_year -%}
+    {%- assign end_month = section.settings.end_month -%}
+    {%- assign end_day = section.settings.end_day -%}
+    {%- assign end_hour = section.settings.end_hour -%}
+    {%- assign end_minute = section.settings.end_minute -%}
+
+    <div
+      class="alsel-countdown-timer__timer"
+      data-alsel-countdown
+      data-year="{{ end_year }}"
+      data-month="{{ end_month }}"
+      data-day="{{ end_day }}"
+      data-hour="{{ end_hour }}"
+      data-minute="{{ end_minute }}"
+      role="timer"
+      aria-live="polite"
+    >
+      <div class="alsel-countdown-timer__unit">
+        <span class="alsel-countdown-timer__num" data-days>00</span>
+        <span class="alsel-countdown-timer__label">日</span>
+      </div>
+      <span class="alsel-countdown-timer__colon" aria-hidden="true">:</span>
+      <div class="alsel-countdown-timer__unit">
+        <span class="alsel-countdown-timer__num" data-hours>00</span>
+        <span class="alsel-countdown-timer__label">時間</span>
+      </div>
+      <span class="alsel-countdown-timer__colon" aria-hidden="true">:</span>
+      <div class="alsel-countdown-timer__unit">
+        <span class="alsel-countdown-timer__num" data-minutes>00</span>
+        <span class="alsel-countdown-timer__label">分</span>
+      </div>
+      <span class="alsel-countdown-timer__colon" aria-hidden="true">:</span>
+      <div class="alsel-countdown-timer__unit">
+        <span class="alsel-countdown-timer__num" data-seconds>00</span>
+        <span class="alsel-countdown-timer__label">秒</span>
+      </div>
+    </div>
+
+    <p class="alsel-countdown-timer__ended" data-alsel-countdown-ended hidden>
+      {{ section.settings.ended_text | escape }}
+    </p>
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <a class="alsel-countdown-timer__cta" href="{{ section.settings.cta_link }}">
+        {{ section.settings.cta_text }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-countdown-timer {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    padding: 2.5rem 1rem;
+  }
+  .alsel-countdown-timer__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .alsel-countdown-timer__heading {
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+  .alsel-countdown-timer__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    opacity: 0.85;
+  }
+  .alsel-countdown-timer__timer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+  }
+  .alsel-countdown-timer__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 56px;
+  }
+  .alsel-countdown-timer__num {
+    display: inline-block;
+    background: {{ section.settings.num_bg_color }};
+    color: {{ section.settings.num_text_color }};
+    font-size: clamp(1.4rem, 5vw, 2.4rem);
+    font-weight: 700;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    min-width: 2.4em;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+  }
+  .alsel-countdown-timer__label {
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    opacity: 0.8;
+  }
+  .alsel-countdown-timer__colon {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 700;
+    align-self: flex-start;
+    padding-top: 0.6rem;
+    opacity: 0.6;
+  }
+  .alsel-countdown-timer__ended {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0;
+  }
+  .alsel-countdown-timer__cta {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.9rem 2rem;
+    background: {{ section.settings.cta_bg }};
+    color: {{ section.settings.cta_color }};
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    transition: opacity 0.2s ease;
+  }
+  .alsel-countdown-timer__cta:hover {
+    opacity: 0.85;
+  }
+  @media (min-width: 750px) {
+    .alsel-countdown-timer {
+      padding: 4rem 2rem;
+    }
+    .alsel-countdown-timer__timer {
+      gap: 0.75rem;
+    }
+    .alsel-countdown-timer__unit {
+      min-width: 88px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.currentScript.parentElement.querySelector('[data-alsel-countdown]');
+    if (!root) return;
+    var endedEl = document.currentScript.parentElement.querySelector('[data-alsel-countdown-ended]');
+    var y = parseInt(root.dataset.year, 10);
+    var mo = parseInt(root.dataset.month, 10) - 1;
+    var d = parseInt(root.dataset.day, 10);
+    var h = parseInt(root.dataset.hour, 10);
+    var mi = parseInt(root.dataset.minute, 10);
+    var target = new Date(y, mo, d, h, mi, 0).getTime();
+    var daysEl = root.querySelector('[data-days]');
+    var hoursEl = root.querySelector('[data-hours]');
+    var minutesEl = root.querySelector('[data-minutes]');
+    var secondsEl = root.querySelector('[data-seconds]');
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function tick() {
+      var diff = target - new Date().getTime();
+      if (diff <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minutesEl.textContent = '00';
+        secondsEl.textContent = '00';
+        root.setAttribute('hidden', '');
+        if (endedEl) endedEl.removeAttribute('hidden');
+        clearInterval(timer);
+        return;
+      }
+      var s = Math.floor(diff / 1000);
+      var days = Math.floor(s / 86400);
+      var hours = Math.floor((s % 86400) / 3600);
+      var minutes = Math.floor((s % 3600) / 60);
+      var seconds = s % 60;
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
+    tick();
+    var timer = setInterval(tick, 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "カウントダウンタイマー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "終了日時" },
+    { "type": "number", "id": "end_year", "label": "年", "default": 2025, "info": "西暦4桁で入力する" },
+    { "type": "number", "id": "end_month", "label": "月", "default": 12, "info": "1〜12" },
+    { "type": "number", "id": "end_day", "label": "日", "default": 31, "info": "1〜31" },
+    { "type": "number", "id": "end_hour", "label": "時", "default": 23, "info": "0〜23(24時間表記)" },
+    { "type": "number", "id": "end_minute", "label": "分", "default": 59, "info": "0〜59" },
+    { "type": "header", "content": "テキスト" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "セール終了まで残り" },
+    { "type": "text", "id": "subheading", "label": "サブテキスト", "default": "このチャンスをお見逃しなく。" },
+    { "type": "text", "id": "ended_text", "label": "終了後のメッセージ", "default": "このセールは終了しました。" },
+    { "type": "header", "content": "CTA ボタン(任意)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#0f172a" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#ffffff" },
+    { "type": "color", "id": "num_bg_color", "label": "数字の背景色", "default": "#ef4444" },
+    { "type": "color", "id": "num_text_color", "label": "数字の文字色", "default": "#ffffff" },
+    { "type": "color", "id": "cta_bg", "label": "ボタンの背景色", "default": "#ef4444" },
+    { "type": "color", "id": "cta_color", "label": "ボタンの文字色", "default": "#ffffff" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / カウントダウンタイマー",
+      "settings": {
+        "heading": "セール終了まで残り",
+        "subheading": "このチャンスをお見逃しなく。",
+        "ended_text": "このセールは終了しました。",
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 31,
+        "end_hour": 23,
+        "end_minute": 59
+      }
+    }
+  ]
+}
+{% endschema %}

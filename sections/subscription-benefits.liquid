@@ -1,0 +1,201 @@
+{% comment %}
+============================================================
+セクション名: 定期購入訴求セクション
+用途: サブスク(定期購入)商品のメリットを訴求し、申し込みを後押しする
+推奨設置場所: 商品ページ・LP の中盤・トップページの特集エリア
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - メリットカード(アイコン・タイトル・説明)の追加・編集
+  - 価格比較表示(通常価格・定期価格・割引率)
+  - CTA ボタン(申し込みリンク・文字)
+  - 背景色・アクセントカラー
+注意点:
+  - アイコンは正方形(推奨 200 × 200px、PNG 透過)を推奨
+  - メリットカードは 3〜4 個推奨(レスポンシブで自動調整)
+  - 定期購入アプリ(Shopify Subscriptions など)との連携は別途必要
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-subscription-benefits" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-subscription-benefits__inner">
+    {%- if section.settings.badge != blank -%}
+      <span class="alsel-subscription-benefits__badge">{{ section.settings.badge }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-subscription-benefits__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-subscription-benefits__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.show_price_compare -%}
+      <div class="alsel-subscription-benefits__compare" role="group" aria-label="価格比較">
+        <div class="alsel-subscription-benefits__price-box alsel-subscription-benefits__price-box--regular">
+          <span class="alsel-subscription-benefits__price-label">通常購入</span>
+          <span class="alsel-subscription-benefits__price-value">{{ section.settings.regular_price }}</span>
+        </div>
+        <div class="alsel-subscription-benefits__arrow" aria-hidden="true">▶</div>
+        <div class="alsel-subscription-benefits__price-box alsel-subscription-benefits__price-box--sub">
+          <span class="alsel-subscription-benefits__price-label">定期購入</span>
+          <span class="alsel-subscription-benefits__price-value">{{ section.settings.sub_price }}</span>
+          {%- if section.settings.discount_text != blank -%}
+            <span class="alsel-subscription-benefits__discount">{{ section.settings.discount_text }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="alsel-subscription-benefits__grid">
+        {%- for block in section.blocks -%}
+          <li class="alsel-subscription-benefits__card" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {%- assign alt_1 = block.settings.title | escape -%}
+{{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-subscription-benefits__icon', alt: alt_1, widths: '100, 200' }}
+            {%- else -%}
+              <div class="alsel-subscription-benefits__num" aria-hidden="true">{{ forloop.index }}</div>
+            {%- endif -%}
+            <h3 class="alsel-subscription-benefits__card-title">{{ block.settings.title }}</h3>
+            <p class="alsel-subscription-benefits__card-body">{{ block.settings.body }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-subscription-benefits__cta-wrap">
+        <a class="alsel-subscription-benefits__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+        {%- if section.settings.cta_note != blank -%}
+          <p class="alsel-subscription-benefits__cta-note">{{ section.settings.cta_note }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-subscription-benefits {
+    --accent: {{ section.settings.accent_color }};
+    --bg: {{ section.settings.bg_color }};
+    --text: {{ section.settings.text_color }};
+    padding: 3rem 1rem;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .alsel-subscription-benefits__inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+  .alsel-subscription-benefits__badge {
+    display: inline-block; padding: 0.35rem 1rem; background: var(--accent); color: #fff;
+    border-radius: 9999px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 1rem;
+  }
+  .alsel-subscription-benefits__heading { font-size: clamp(1.5rem, 4.5vw, 2.4rem); font-weight: 700; line-height: 1.3; margin: 0 0 1rem; }
+  .alsel-subscription-benefits__lead { font-size: 1rem; line-height: 1.8; margin: 0 auto 2rem; max-width: 720px; opacity: 0.85; }
+  .alsel-subscription-benefits__compare {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem;
+    margin: 0 auto 2.5rem; max-width: 560px;
+  }
+  .alsel-subscription-benefits__price-box {
+    width: 100%; padding: 1.25rem; border-radius: 12px; background: #fff; border: 2px solid #e2e8f0;
+    display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  }
+  .alsel-subscription-benefits__price-box--sub { border-color: var(--accent); background: #fff; position: relative; }
+  .alsel-subscription-benefits__price-label { font-size: 0.85rem; font-weight: 600; color: #64748b; }
+  .alsel-subscription-benefits__price-box--sub .alsel-subscription-benefits__price-label { color: var(--accent); }
+  .alsel-subscription-benefits__price-value { font-size: 1.5rem; font-weight: 700; color: #1e293b; }
+  .alsel-subscription-benefits__discount {
+    margin-top: 0.35rem; padding: 0.25rem 0.75rem; background: var(--accent); color: #fff;
+    border-radius: 9999px; font-size: 0.8rem; font-weight: 700;
+  }
+  .alsel-subscription-benefits__arrow { color: var(--accent); font-size: 1.5rem; transform: rotate(90deg); }
+  .alsel-subscription-benefits__grid {
+    list-style: none; padding: 0; margin: 0 0 2.5rem;
+    display: grid; grid-template-columns: 1fr; gap: 1.25rem;
+  }
+  .alsel-subscription-benefits__card {
+    background: #fff; padding: 1.75rem 1.25rem; border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06); text-align: center;
+  }
+  .alsel-subscription-benefits__icon { width: 72px; height: 72px; object-fit: contain; margin: 0 auto 1rem; display: block; }
+  .alsel-subscription-benefits__num {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; margin: 0 auto 1rem;
+  }
+  .alsel-subscription-benefits__card-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.75rem; color: #1e293b; }
+  .alsel-subscription-benefits__card-body { font-size: 0.95rem; line-height: 1.75; color: #475569; margin: 0; }
+  .alsel-subscription-benefits__cta-wrap { margin-top: 2rem; }
+  .alsel-subscription-benefits__cta {
+    display: inline-block; padding: 1.1rem 2.5rem; background: var(--accent); color: #fff;
+    text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1.05rem;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15); transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .alsel-subscription-benefits__cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2); }
+  .alsel-subscription-benefits__cta-note { margin: 0.75rem 0 0; font-size: 0.85rem; color: #64748b; }
+  @media (min-width: 750px) {
+    .alsel-subscription-benefits { padding: 5rem 2rem; }
+    .alsel-subscription-benefits__compare { flex-direction: row; max-width: 720px; }
+    .alsel-subscription-benefits__arrow { transform: rotate(0deg); }
+    .alsel-subscription-benefits__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "定期購入訴求",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セクション全体" },
+    { "type": "text", "id": "badge", "label": "上部バッジ文字", "default": "SUBSCRIPTION", "info": "見出しの上に表示される小さなラベル" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "定期購入でもっとお得に、もっと便利に" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "毎回注文する手間なく、自動でお届け。続けるほどお得になる定期購入をおすすめする。" },
+    { "type": "header", "content": "価格比較" },
+    { "type": "checkbox", "id": "show_price_compare", "label": "価格比較を表示する", "default": true },
+    { "type": "text", "id": "regular_price", "label": "通常購入の価格", "default": "¥5,000" },
+    { "type": "text", "id": "sub_price", "label": "定期購入の価格", "default": "¥4,000" },
+    { "type": "text", "id": "discount_text", "label": "割引バッジ文字", "default": "20% OFF" },
+    { "type": "header", "content": "ボタン(CTA)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "定期購入に申し込む" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "text", "id": "cta_note", "label": "ボタン下の注意書き", "default": "いつでも解約・スキップ可能" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#e11d48", "info": "バッジ・ボタン・強調部分に使われる" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "メリットカード",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過。未設定の場合は番号が自動表示される" },
+        { "type": "text", "id": "title", "label": "タイトル", "default": "メリット名" },
+        { "type": "textarea", "id": "body", "label": "説明文", "default": "定期購入のメリットをわかりやすく説明する。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 定期購入訴求セクション",
+      "settings": {
+        "badge": "SUBSCRIPTION",
+        "heading": "定期購入でもっとお得に、もっと便利に",
+        "lead": "毎回注文する手間なく、自動でお届け。続けるほどお得になる定期購入をおすすめする。",
+        "show_price_compare": true,
+        "regular_price": "¥5,000",
+        "sub_price": "¥4,000",
+        "discount_text": "20% OFF",
+        "cta_text": "定期購入に申し込む",
+        "cta_note": "いつでも解約・スキップ可能"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "ずっと割引価格", "body": "通常購入よりも 20% お得な特別価格で続けられる。" } },
+        { "type": "benefit", "settings": { "title": "自動でお届け", "body": "注文の手間なく、決まったサイクルで自動的に届く。" } },
+        { "type": "benefit", "settings": { "title": "いつでも解約OK", "body": "回数の縛りなし。マイページから簡単に解約・スキップが可能。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

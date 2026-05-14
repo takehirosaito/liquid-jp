@@ -20,18 +20,21 @@
 <section class="alsel-hero-mobile" aria-label="{{ section.settings.heading_pc | escape }}">
   <div class="alsel-hero-mobile__media">
     {%- if section.settings.image_pc != blank -%}
-      {{ section.settings.image_pc
+      {%- assign alt_1 = section.settings.heading_pc | escape -%}
+{{ section.settings.image_pc
         | image_url: width: 1600
-        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--pc', alt: section.settings.heading_pc | escape, widths: '750, 1100, 1500, 1600' }}
+        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--pc', alt: alt_1, widths: '750, 1100, 1500, 1600' }}
     {%- endif -%}
     {%- if section.settings.image_sp != blank -%}
-      {{ section.settings.image_sp
+      {%- assign alt_2 = section.settings.heading_sp | escape -%}
+{{ section.settings.image_sp
         | image_url: width: 1000
-        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--sp', alt: section.settings.heading_sp | escape, widths: '375, 600, 750, 1000' }}
+        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--sp', alt: alt_2, widths: '375, 600, 750, 1000' }}
     {%- elsif section.settings.image_pc != blank -%}
-      {{ section.settings.image_pc
+      {%- assign alt_3 = section.settings.heading_pc | escape -%}
+{{ section.settings.image_pc
         | image_url: width: 1000
-        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--sp', alt: section.settings.heading_pc | escape, widths: '375, 600, 750, 1000' }}
+        | image_tag: loading: 'eager', class: 'alsel-hero-mobile__img alsel-hero-mobile__img--sp', alt: alt_3, widths: '375, 600, 750, 1000' }}
     {%- endif -%}
     <div class="alsel-hero-mobile__overlay" aria-hidden="true"></div>
   </div>
@@ -101,7 +104,7 @@
   .alsel-hero-mobile__content--sp { display: block; }
   .alsel-hero-mobile__title {
     font-size: clamp(1.6rem, 6vw, 2.4rem);
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.35;
     margin: 0 0 1rem;
   }

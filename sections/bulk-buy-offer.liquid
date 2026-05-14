@@ -1,0 +1,260 @@
+{% comment %}
+============================================================
+セクション名: 3点購入でお得セクション
+用途: 「3点まとめ買いで割引・特典」など、まとめ買いを促す訴求を画像と一緒に分かりやすく見せる
+推奨設置場所: トップページの中盤、商品ページのレコメンド付近、キャンペーン LP
+カスタマイズポイント:
+  - メイン画像(まとめ買いのイメージ写真)
+  - キャッチ(例: 3点購入で20%OFF)
+  - 説明文
+  - 3つの特典・ステップ(ブロックで追加・削除可能)
+  - CTA ボタン(コレクションページへの誘導など)
+  - 背景色・アクセントカラー
+注意点:
+  - メイン画像は推奨 1200 × 900px、JPEG または PNG
+  - ブロックは 3 個を推奨(2〜4 個まで対応)
+  - 割引クーポンの実適用は別途 Shopify 管理画面で設定する必要あり
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-bulk-buy-offer" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-bulk-buy-offer__inner">
+
+    <div class="alsel-bulk-buy-offer__media">
+      {%- if section.settings.main_image != blank -%}
+        {%- assign alt_1 = section.settings.heading | escape -%}
+{{ section.settings.main_image
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', class: 'alsel-bulk-buy-offer__image', alt: alt_1, widths: '375, 600, 900, 1200', sizes: '(min-width: 750px) 50vw, 100vw' }}
+      {%- endif -%}
+      {%- if section.settings.badge_text != blank -%}
+        <span class="alsel-bulk-buy-offer__badge" aria-hidden="true">{{ section.settings.badge_text }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="alsel-bulk-buy-offer__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="alsel-bulk-buy-offer__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-bulk-buy-offer__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="alsel-bulk-buy-offer__desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="alsel-bulk-buy-offer__list">
+          {%- for block in section.blocks -%}
+            <li class="alsel-bulk-buy-offer__item" {{ block.shopify_attributes }}>
+              <span class="alsel-bulk-buy-offer__num" aria-hidden="true">{{ forloop.index }}</span>
+              <div class="alsel-bulk-buy-offer__item-body">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="alsel-bulk-buy-offer__item-title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="alsel-bulk-buy-offer__item-text">{{ block.settings.text }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+        <a class="alsel-bulk-buy-offer__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.note != blank -%}
+        <p class="alsel-bulk-buy-offer__note">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .alsel-bulk-buy-offer {
+    --abbo-bg: {{ section.settings.bg_color }};
+    --abbo-accent: {{ section.settings.accent_color }};
+    --abbo-text: {{ section.settings.text_color }};
+    --abbo-cta-bg: {{ section.settings.cta_bg }};
+    --abbo-cta-color: {{ section.settings.cta_color }};
+    background: var(--abbo-bg);
+    color: var(--abbo-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-bulk-buy-offer__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .alsel-bulk-buy-offer__media {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .alsel-bulk-buy-offer__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+  .alsel-bulk-buy-offer__badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--abbo-accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .alsel-bulk-buy-offer__eyebrow {
+    color: var(--abbo-accent);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.75rem;
+  }
+  .alsel-bulk-buy-offer__heading {
+    font-size: clamp(1.5rem, 4.5vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 1rem;
+  }
+  .alsel-bulk-buy-offer__desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0 0 1.5rem;
+  }
+  .alsel-bulk-buy-offer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .alsel-bulk-buy-offer__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    background: #fff;
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .alsel-bulk-buy-offer__num {
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background: var(--abbo-accent);
+    color: #fff;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+  .alsel-bulk-buy-offer__item-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem;
+  }
+  .alsel-bulk-buy-offer__item-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #475569;
+  }
+  .alsel-bulk-buy-offer__cta {
+    display: inline-block;
+    padding: 1rem 2.2rem;
+    background: var(--abbo-cta-bg);
+    color: var(--abbo-cta-color);
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-align: center;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .alsel-bulk-buy-offer__cta:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+  }
+  .alsel-bulk-buy-offer__note {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 1rem 0 0;
+  }
+  @media (min-width: 750px) {
+    .alsel-bulk-buy-offer { padding: 5rem 2rem; }
+    .alsel-bulk-buy-offer__inner { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .alsel-bulk-buy-offer__badge { top: 1.5rem; left: 1.5rem; font-size: 1.05rem; padding: 0.6rem 1.2rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "まとめ買い訴求",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "メイン表示" },
+    { "type": "image_picker", "id": "main_image", "label": "メイン画像", "info": "推奨 1200 × 900px、JPEG または PNG" },
+    { "type": "text", "id": "badge_text", "label": "画像上のバッジ文字", "default": "20%OFF", "info": "空欄にすると非表示になる" },
+    { "type": "text", "id": "eyebrow", "label": "小見出し(アイブロウ)", "default": "BULK BUY OFFER" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "3点購入で20%OFF" },
+    { "type": "textarea", "id": "description", "label": "説明文", "default": "対象商品を3点まとめてご購入いただくと、お会計時に自動で割引が適用される。家族や友人とのシェア買いにもぴったり。" },
+    { "type": "header", "content": "CTA(誘導ボタン)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "対象商品を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先", "info": "対象コレクションページの URL を指定する" },
+    { "type": "text", "id": "note", "label": "注釈テキスト", "default": "※ 一部対象外の商品がある。詳細は商品ページを確認。" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff7ed" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#ea580c" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#0f172a" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "特典・ステップ",
+      "settings": [
+        { "type": "text", "id": "title", "label": "タイトル", "default": "対象商品を選ぶ" },
+        { "type": "textarea", "id": "text", "label": "説明文", "default": "キャンペーン対象の商品から、お好きなアイテムを3点選ぶ。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 3点購入でお得セクション",
+      "settings": {
+        "badge_text": "20%OFF",
+        "eyebrow": "BULK BUY OFFER",
+        "heading": "3点購入で20%OFF",
+        "description": "対象商品を3点まとめてご購入いただくと、お会計時に自動で割引が適用される。家族や友人とのシェア買いにもぴったり。",
+        "cta_text": "対象商品を見る",
+        "note": "※ 一部対象外の商品がある。詳細は商品ページを確認。"
+      },
+      "blocks": [
+        { "type": "step", "settings": { "title": "対象商品を選ぶ", "text": "キャンペーン対象の商品から、お好きなアイテムを3点選ぶ。" } },
+        { "type": "step", "settings": { "title": "カートに追加する", "text": "3点をカートに入れると、自動で割引が適用される。" } },
+        { "type": "step", "settings": { "title": "そのまま購入する", "text": "クーポンコードの入力は不要。お得な価格でお届け。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

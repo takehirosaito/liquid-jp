@@ -1,0 +1,270 @@
+{% comment %}
+============================================================
+セクション名: 店長のおすすめ
+用途: 店長やバイヤーが「いま売り出したい商品」を、手書き風コメント付きで紹介するためのセクション。お客様との距離を縮め、商品の魅力を人柄ごと伝える。
+推奨設置場所: トップページの中段・商品ページの関連商品エリア・LP の信頼訴求ブロック
+カスタマイズポイント:
+  - 店長の顔写真(丸型アイコン)
+  - 店長の名前・肩書き
+  - 紹介商品(Shopify の商品ピッカーで選択)
+  - 手書き風コメント(吹き出し内に表示)
+  - 背景色・アクセントカラー
+  - ボタンの文字
+注意点:
+  - 店長の写真は正方形(推奨 400 × 400px、JPEG または PNG)を用意する
+  - 商品を選択しないと商品情報は表示されない
+  - 手書き風フォントは Google Fonts の「Yomogi」を読み込む
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-store-manager-pick" aria-label="店長のおすすめ商品">
+  <div class="alsel-store-manager-pick__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-store-manager-pick__heading">
+        <span class="alsel-store-manager-pick__heading-mark">PICK UP</span>
+        {{ section.settings.heading | escape }}
+      </h2>
+    {%- endif -%}
+
+    <div class="alsel-store-manager-pick__layout">
+      <div class="alsel-store-manager-pick__manager">
+        {%- if section.settings.manager_image != blank -%}
+          {%- assign alt_1 = section.settings.manager_name | escape -%}
+{{ section.settings.manager_image
+            | image_url: width: 400
+            | image_tag: loading: 'lazy', class: 'alsel-store-manager-pick__avatar', alt: alt_1, widths: '200, 400' }}
+        {%- else -%}
+          <div class="alsel-store-manager-pick__avatar alsel-store-manager-pick__avatar--placeholder" aria-hidden="true">店長</div>
+        {%- endif -%}
+        <p class="alsel-store-manager-pick__role">{{ section.settings.manager_role | escape }}</p>
+        <p class="alsel-store-manager-pick__name">{{ section.settings.manager_name | escape }}</p>
+      </div>
+
+      <div class="alsel-store-manager-pick__bubble">
+        <div class="alsel-store-manager-pick__comment">
+          {{ section.settings.comment }}
+        </div>
+      </div>
+
+      {%- assign product = section.settings.product -%}
+      {%- if product != blank -%}
+        <a class="alsel-store-manager-pick__product" href="{{ product.url }}" aria-label="{{ product.title | escape }}の商品ページへ">
+          <div class="alsel-store-manager-pick__product-image-wrap">
+            {%- if product.featured_image != blank -%}
+              {%- assign alt_2 = product.title | escape -%}
+{{ product.featured_image
+                | image_url: width: 800
+                | image_tag: loading: 'lazy', class: 'alsel-store-manager-pick__product-image', alt: alt_2, widths: '400, 600, 800' }}
+            {%- endif -%}
+            <span class="alsel-store-manager-pick__badge" aria-hidden="true">店長イチオシ</span>
+          </div>
+          <div class="alsel-store-manager-pick__product-info">
+            <h3 class="alsel-store-manager-pick__product-title">{{ product.title | escape }}</h3>
+            <p class="alsel-store-manager-pick__product-price">
+              {{ product.price | money }}
+              {%- if product.compare_at_price > product.price -%}
+                <span class="alsel-store-manager-pick__product-compare">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </p>
+            <span class="alsel-store-manager-pick__cta">
+              {{ section.settings.cta_text | escape }}
+              <span class="alsel-store-manager-pick__cta-arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      {%- else -%}
+        <div class="alsel-store-manager-pick__product alsel-store-manager-pick__product--empty" aria-hidden="true">
+          <p>テーマエディタから紹介商品を選択する。</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-store-manager-pick {
+    --asmp-bg: {{ section.settings.bg_color }};
+    --asmp-accent: {{ section.settings.accent_color }};
+    --asmp-text: {{ section.settings.text_color }};
+    --asmp-bubble: #ffffff;
+    padding: 3rem 1rem;
+    background: var(--asmp-bg);
+    color: var(--asmp-text);
+
+  }
+  .alsel-store-manager-pick__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-store-manager-pick__heading {
+    text-align: center;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    margin: 0 0 2rem;
+    line-height: 1.4;
+  }
+  .alsel-store-manager-pick__heading-mark {
+    display: inline-block;
+    background: var(--asmp-accent);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+  .alsel-store-manager-pick__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .alsel-store-manager-pick__manager {
+    text-align: center;
+    padding: 1rem;
+  }
+  .alsel-store-manager-pick__avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 0.75rem;
+    display: block;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .alsel-store-manager-pick__avatar--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--asmp-accent);
+    color: #fff;
+    font-weight: 700;
+  }
+  .alsel-store-manager-pick__role { font-size: 0.8rem; color: #64748b; margin: 0 0 0.25rem; }
+  .alsel-store-manager-pick__name { font-size: 1rem; font-weight: 700; margin: 0; }
+  .alsel-store-manager-pick__bubble {
+    position: relative;
+    background: var(--asmp-bubble);
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .alsel-store-manager-pick__bubble::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 20px;
+    height: 20px;
+    background: var(--asmp-bubble);
+    box-shadow: -2px -2px 4px rgba(0,0,0,0.03);
+  }
+  .alsel-store-manager-pick__comment {
+
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #334155;
+    white-space: pre-wrap;
+  }
+  .alsel-store-manager-pick__product {
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .alsel-store-manager-pick__product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .alsel-store-manager-pick__product--empty {
+    padding: 2rem;
+    text-align: center;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.5);
+    border: 2px dashed #cbd5e1;
+  }
+  .alsel-store-manager-pick__product-image-wrap { position: relative; aspect-ratio: 1 / 1; background: #f1f5f9; }
+  .alsel-store-manager-pick__product-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-store-manager-pick__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--asmp-accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
+    border-radius: 9999px;
+  }
+  .alsel-store-manager-pick__product-info { padding: 1.25rem; }
+  .alsel-store-manager-pick__product-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.5rem; line-height: 1.5; }
+  .alsel-store-manager-pick__product-price { font-size: 1.15rem; font-weight: 700; color: var(--asmp-accent); margin: 0 0 1rem; }
+  .alsel-store-manager-pick__product-compare { font-size: 0.85rem; color: #94a3b8; text-decoration: line-through; font-weight: 400; margin-left: 0.5rem; }
+  .alsel-store-manager-pick__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--asmp-accent);
+  }
+  .alsel-store-manager-pick__cta-arrow { transition: transform 0.2s ease; }
+  .alsel-store-manager-pick__product:hover .alsel-store-manager-pick__cta-arrow { transform: translateX(4px); }
+  @media (min-width: 750px) {
+    .alsel-store-manager-pick { padding: 5rem 2rem; }
+    .alsel-store-manager-pick__layout {
+      grid-template-columns: 180px 1fr 320px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .alsel-store-manager-pick__bubble { padding: 2rem; }
+    .alsel-store-manager-pick__bubble::before {
+      top: 50%;
+      left: -10px;
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+</style>
+
+
+{% schema %}
+{
+  "name": "店長のおすすめ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セクション全体" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "店長が自信を持っておすすめ" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fef9f3" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#e85d4e", "info": "バッジ・価格・ボタンに使う色" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "header", "content": "店長プロフィール" },
+    { "type": "image_picker", "id": "manager_image", "label": "店長の写真", "info": "推奨 400 × 400px、正方形の JPEG または PNG" },
+    { "type": "text", "id": "manager_role", "label": "肩書き", "default": "店長" },
+    { "type": "text", "id": "manager_name", "label": "店長の名前", "default": "山田 太郎" },
+    { "type": "header", "content": "手書き風コメント" },
+    { "type": "richtext", "id": "comment", "label": "コメント本文", "default": "<p>はじめて使ったとき、その違いに驚いた一品。毎日の暮らしに、ちょっとした幸せを運んでくれる。ぜひ一度試してみてほしい。</p>", "info": "改行を活かして自然な手書き風になる" },
+    { "type": "header", "content": "紹介商品" },
+    { "type": "product", "id": "product", "label": "紹介する商品", "info": "Shopify に登録済みの商品から選択する" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "商品を見る" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 店長のおすすめ",
+      "settings": {
+        "heading": "店長が自信を持っておすすめ",
+        "manager_role": "店長",
+        "manager_name": "山田 太郎",
+        "comment": "<p>はじめて使ったとき、その違いに驚いた一品。毎日の暮らしに、ちょっとした幸せを運んでくれる。ぜひ一度試してみてほしい。</p>",
+        "cta_text": "商品を見る"
+      }
+    }
+  ]
+}
+{% endschema %}

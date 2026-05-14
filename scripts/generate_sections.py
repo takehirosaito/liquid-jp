@@ -288,11 +288,43 @@ USER_TEMPLATE = """# 生成依頼
 
 slug: {slug}
 セクション名(日本語): {name_ja}
-説明: {desc_ja}
+説明: {desc_ja}{category_hint}
 
 上記のセクションを、SYSTEM プロンプトのルールに従って完全実装してください。
 出力は Liquid コードのみ(前置き禁止、コードフェンス禁止、JSON ラップ禁止)。
 """
+
+# 日本市場特化(送料・配送・税込・のし・名入れ・ポイント・会員制度等)
+JAPAN_SPECIFIC = {7, 29, 31, 65, 66, 71, 72, 73, 74, 75, 97, 98, 99}
+# LP系(楽天文化・濃いデザイン・縦長訴求)
+LP_HEAVY = {51, 52, 53, 56, 58, 59, 60, 61, 87, 100}
+
+HINT_JP = """
+
+# 追加コンテキスト: 日本市場特化
+このセクションは「日本市場特化」カテゴリ。ALSEL の 18 年・5,000 社の EC 支援経験を反映し、
+日本の EC 文化(税込価格・送料計算・配送日数表示・のし対応・領収書・軽減税率・
+配送地域別表記・営業日カレンダー連動など)を実装に取り込むこと。
+プリセットのデフォルト値も、日本の EC 事業者がそのまま運用できる実用的な内容にする。
+"""
+
+HINT_LP = """
+
+# 追加コンテキスト: LP系セクション
+このセクションは「LP系」カテゴリ。楽天市場の縦長LPで見られる濃いデザイン
+(強調帯・ビビッドな配色・矢印や吹き出し風装飾・大きく赤や黄色のアクセント・
+感情を動かす日本語コピー)で実装すること。
+プリセットのデフォルト値も、楽天文化を踏まえた強い訴求コピーで埋める
+(例: 「今だけ!」「業界No.1」「ご好評につき◯◯%OFF」など)。
+"""
+
+
+def category_hint(number: int) -> str:
+    if number in JAPAN_SPECIFIC:
+        return HINT_JP
+    if number in LP_HEAVY:
+        return HINT_LP
+    return ""
 
 
 def load_slugs():
@@ -302,7 +334,10 @@ def load_slugs():
 def generate_one(rec):
     slug = rec["slug"]
     user_msg = USER_TEMPLATE.format(
-        slug=slug, name_ja=rec["name_ja"], desc_ja=rec["desc_ja"]
+        slug=slug,
+        name_ja=rec["name_ja"],
+        desc_ja=rec["desc_ja"],
+        category_hint=category_hint(rec["number"]),
     )
     for attempt in range(MAX_RETRIES + 1):
         try:

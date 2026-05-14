@@ -1,0 +1,285 @@
+{% comment %}
+============================================================
+セクション名: 送料無料ライン訴求バー
+用途: ストア上部に「あと◯円で送料無料」を表示し、カートの追加購入を促す
+       日本の EC 慣習(税込価格表示・送料無料ライン・配送日数案内)に対応
+推奨設置場所: theme.liquid の <body> 直後、もしくは header セクションの直上
+カスタマイズポイント:
+  - 送料無料になる金額(税込)
+  - 達成前メッセージ・達成後メッセージ
+  - 配送日数・営業日案内テキスト
+  - 背景色・文字色・進捗バー色
+  - 表示位置(固定 / 通常)
+  - 税込/税抜の判定方法
+注意点:
+  - 金額は税込基準で設定する(日本の EC 慣習)
+  - カート総額(cart.total_price)は最小通貨単位(銭)で取得されるため 100 で除算する想定
+  - Online Store 2.0 のセクション機能を利用
+  - Ajax カート更新時に自動で再計算するため data 属性を出力している
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign threshold_yen = section.settings.free_shipping_threshold | times: 1 -%}
+{%- assign cart_total_yen = cart.total_price | divided_by: 100 -%}
+{%- assign remaining_yen = threshold_yen | minus: cart_total_yen -%}
+{%- if remaining_yen < 0 -%}{%- assign remaining_yen = 0 -%}{%- endif -%}
+{%- assign achieved = false -%}
+{%- if cart_total_yen >= threshold_yen -%}{%- assign achieved = true -%}{%- endif -%}
+{%- assign progress_percent = cart_total_yen | times: 100 | divided_by: threshold_yen -%}
+{%- if progress_percent > 100 -%}{%- assign progress_percent = 100 -%}{%- endif -%}
+
+<section
+  class="alsel-free-shipping-bar{% if section.settings.is_sticky %} alsel-free-shipping-bar--sticky{% endif %}"
+  aria-label="送料無料までの残り金額の案内"
+  data-alsel-fsb
+  data-threshold="{{ threshold_yen }}"
+  data-achieved-message="{{ section.settings.message_achieved | escape }}"
+  data-pending-message="{{ section.settings.message_pending | escape }}"
+>
+  <div class="alsel-free-shipping-bar__inner">
+    <p class="alsel-free-shipping-bar__message" data-alsel-fsb-message>
+      {%- if achieved -%}
+        🎉 {{ section.settings.message_achieved }}
+      {%- else -%}
+        あと <span class="alsel-free-shipping-bar__amount" data-alsel-fsb-remaining>¥{{ remaining_yen }}</span>(税込)で{{ section.settings.message_pending }}
+      {%- endif -%}
+    </p>
+
+    {%- if section.settings.show_progress -%}
+      <div class="alsel-free-shipping-bar__progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress_percent }}">
+        <div class="alsel-free-shipping-bar__progress-fill" data-alsel-fsb-progress style="width: {{ progress_percent }}%;"></div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_delivery_info and section.settings.delivery_info != blank -%}
+      <p class="alsel-free-shipping-bar__delivery">{{ section.settings.delivery_info }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-free-shipping-bar {
+    --fsb-bg: {{ section.settings.bg_color }};
+    --fsb-text: {{ section.settings.text_color }};
+    --fsb-accent: {{ section.settings.accent_color }};
+    --fsb-progress-bg: {{ section.settings.progress_bg_color }};
+    background: var(--fsb-bg);
+    color: var(--fsb-text);
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .alsel-free-shipping-bar--sticky {
+    position: sticky;
+    top: 0;
+  }
+  .alsel-free-shipping-bar__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.6rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: center;
+    text-align: center;
+  }
+  .alsel-free-shipping-bar__message {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 600;
+  }
+  .alsel-free-shipping-bar__amount {
+    color: var(--fsb-accent);
+    font-weight: 700;
+    font-size: 1.05em;
+  }
+  .alsel-free-shipping-bar__progress {
+    width: 100%;
+    max-width: 480px;
+    height: 6px;
+    background: var(--fsb-progress-bg);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .alsel-free-shipping-bar__progress-fill {
+    height: 100%;
+    background: var(--fsb-accent);
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+  }
+  .alsel-free-shipping-bar__delivery {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin: 0;
+    opacity: 0.85;
+  }
+  @media (min-width: 750px) {
+    .alsel-free-shipping-bar__inner {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0.7rem 1.5rem;
+    }
+    .alsel-free-shipping-bar__message { font-size: 0.95rem; }
+    .alsel-free-shipping-bar__progress { max-width: 280px; }
+    .alsel-free-shipping-bar__delivery { font-size: 0.8rem; }
+  }
+</style>
+
+<script>
+  (function() {
+    var root = document.querySelector('[data-alsel-fsb]');
+    if (!root) return;
+    var threshold = parseInt(root.dataset.threshold, 10);
+    var achievedMsg = root.dataset.achievedMessage;
+    var pendingMsg = root.dataset.pendingMessage;
+    var msgEl = root.querySelector('[data-alsel-fsb-message]');
+    var progressEl = root.querySelector('[data-alsel-fsb-progress]');
+
+    function formatYen(n) {
+      return '¥' + n.toLocaleString('ja-JP');
+    }
+
+    function update() {
+      fetch('/cart.js', { credentials: 'same-origin' })
+        .then(function(r) { return r.json(); })
+        .then(function(cart) {
+          var totalYen = Math.floor(cart.total_price / 100);
+          var remaining = Math.max(threshold - totalYen, 0);
+          var percent = Math.min(Math.floor(totalYen * 100 / threshold), 100);
+          if (remaining <= 0) {
+            msgEl.innerHTML = '🎉 ' + achievedMsg;
+          } else {
+            msgEl.innerHTML = 'あと <span class="alsel-free-shipping-bar__amount">' + formatYen(remaining) + '</span>(税込)で' + pendingMsg;
+          }
+          if (progressEl) progressEl.style.width = percent + '%';
+        })
+        .catch(function() {});
+    }
+
+    document.addEventListener('cart:updated', update);
+    document.addEventListener('cart:refresh', update);
+    document.body.addEventListener('cart:change', update);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "送料無料ライン訴求バー",
+  "tag": "section",
+  "class": "alsel-section-fsb",
+  "settings": [
+    {
+      "type": "header",
+      "content": "送料無料ラインの設定"
+    },
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "送料無料になる金額(税込・円)",
+      "default": 5500,
+      "info": "日本の EC 慣習に合わせて税込金額で設定する。例: 5,500 円(税込)"
+    },
+    {
+      "type": "text",
+      "id": "message_pending",
+      "label": "達成前のメッセージ",
+      "default": "全国送料無料!",
+      "info": "「あと ¥◯◯(税込)で」の後ろに表示される文言"
+    },
+    {
+      "type": "text",
+      "id": "message_achieved",
+      "label": "達成後のメッセージ",
+      "default": "送料無料が適用された。このままご注文へ進める。"
+    },
+    {
+      "type": "header",
+      "content": "進捗バー"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "進捗バーを表示する",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "配送・営業日案内"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_delivery_info",
+      "label": "配送日数の案内を表示する",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "delivery_info",
+      "label": "配送日数・営業日テキスト",
+      "default": "平日15時までのご注文で当日発送 / 通常 1〜3 営業日でお届け",
+      "info": "のし・領収書・配送地域別の納期などをここに記載できる"
+    },
+    {
+      "type": "header",
+      "content": "表示位置"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_sticky",
+      "label": "画面上部に固定表示する",
+      "default": true,
+      "info": "スクロールしても常に上部に表示される"
+    },
+    {
+      "type": "header",
+      "content": "デザイン"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#fff7ed"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字色",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "アクセント色(金額・進捗バー)",
+      "default": "#dc2626"
+    },
+    {
+      "type": "color",
+      "id": "progress_bg_color",
+      "label": "進捗バーの背景色",
+      "default": "#fde68a"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 送料無料ライン訴求バー",
+      "settings": {
+        "free_shipping_threshold": 5500,
+        "message_pending": "全国送料無料!",
+        "message_achieved": "送料無料が適用された。このままご注文へ進める。",
+        "show_progress": true,
+        "show_delivery_info": true,
+        "delivery_info": "平日15時までのご注文で当日発送 / 通常 1〜3 営業日でお届け / 領収書・のし対応可",
+        "is_sticky": true,
+        "bg_color": "#fff7ed",
+        "text_color": "#1f2937",
+        "accent_color": "#dc2626",
+        "progress_bg_color": "#fde68a"
+      }
+    }
+  ]
+}
+{% endschema %}
