@@ -1,0 +1,251 @@
+{% comment %}
+============================================================
+セクション名: 競合比較表
+用途: 自社商品と一般品の違いを表形式で見せることで、購入前の不安を払拭し優位性を伝える
+推奨設置場所: 商品ページの説明エリア・LP の中盤(特徴紹介の後・お客様の声の前)
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 比較する列のラベル(自社・他社 A・他社 B など)
+  - 比較項目(ブロックで自由に追加・削除)
+  - 各項目ごとの評価(◎・○・△・×・自由入力)
+  - 強調色・背景色・自社列のハイライト色
+注意点:
+  - 比較項目は 4〜8 個が読みやすい目安
+  - 比較列は 2〜4 列推奨。CSS の grid 列数は自動調整される
+  - 景品表示法・薬機法に抵触する誇大表現は避けること
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign col_count = 0 -%}
+{%- if section.settings.col1_label != blank -%}{%- assign col_count = col_count | plus: 1 -%}{%- endif -%}
+{%- if section.settings.col2_label != blank -%}{%- assign col_count = col_count | plus: 1 -%}{%- endif -%}
+{%- if section.settings.col3_label != blank -%}{%- assign col_count = col_count | plus: 1 -%}{%- endif -%}
+{%- assign total_cols = col_count | plus: 1 -%}
+
+<section class="alsel-competitor-comparison" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-competitor-comparison__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-competitor-comparison__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-competitor-comparison__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-competitor-comparison__empty">
+        比較項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-competitor-comparison__scroll">
+        <table class="alsel-competitor-comparison__table" style="--col-total: {{ total_cols }};">
+          <thead>
+            <tr>
+              <th class="alsel-competitor-comparison__th alsel-competitor-comparison__th--item" scope="col">
+                {{ section.settings.item_header }}
+              </th>
+              <th class="alsel-competitor-comparison__th alsel-competitor-comparison__th--own" scope="col">
+                {%- if section.settings.own_badge != blank -%}
+                  <span class="alsel-competitor-comparison__badge">{{ section.settings.own_badge }}</span>
+                {%- endif -%}
+                <span class="alsel-competitor-comparison__col-label">{{ section.settings.col1_label }}</span>
+              </th>
+              {%- if section.settings.col2_label != blank -%}
+                <th class="alsel-competitor-comparison__th" scope="col">{{ section.settings.col2_label }}</th>
+              {%- endif -%}
+              {%- if section.settings.col3_label != blank -%}
+                <th class="alsel-competitor-comparison__th" scope="col">{{ section.settings.col3_label }}</th>
+              {%- endif -%}
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <th class="alsel-competitor-comparison__row-head" scope="row">
+                  {{ block.settings.item_name }}
+                </th>
+                <td class="alsel-competitor-comparison__cell alsel-competitor-comparison__cell--own">
+                  <span class="alsel-competitor-comparison__mark alsel-competitor-comparison__mark--{{ block.settings.own_mark }}">
+                    {%- case block.settings.own_mark -%}
+                      {%- when 'best' -%}◎
+                      {%- when 'good' -%}○
+                      {%- when 'fair' -%}△
+                      {%- when 'bad' -%}×
+                      {%- else -%}{{ block.settings.own_text }}
+                    {%- endcase -%}
+                  </span>
+                  {%- if block.settings.own_note != blank -%}
+                    <span class="alsel-competitor-comparison__note">{{ block.settings.own_note }}</span>
+                  {%- endif -%}
+                </td>
+                {%- if section.settings.col2_label != blank -%}
+                  <td class="alsel-competitor-comparison__cell">
+                    <span class="alsel-competitor-comparison__mark alsel-competitor-comparison__mark--{{ block.settings.col2_mark }}">
+                      {%- case block.settings.col2_mark -%}
+                        {%- when 'best' -%}◎
+                        {%- when 'good' -%}○
+                        {%- when 'fair' -%}△
+                        {%- when 'bad' -%}×
+                        {%- else -%}{{ block.settings.col2_text }}
+                      {%- endcase -%}
+                    </span>
+                  </td>
+                {%- endif -%}
+                {%- if section.settings.col3_label != blank -%}
+                  <td class="alsel-competitor-comparison__cell">
+                    <span class="alsel-competitor-comparison__mark alsel-competitor-comparison__mark--{{ block.settings.col3_mark }}">
+                      {%- case block.settings.col3_mark -%}
+                        {%- when 'best' -%}◎
+                        {%- when 'good' -%}○
+                        {%- when 'fair' -%}△
+                        {%- when 'bad' -%}×
+                        {%- else -%}{{ block.settings.col3_text }}
+                      {%- endcase -%}
+                    </span>
+                  </td>
+                {%- endif -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+
+      {%- if section.settings.note != blank -%}
+        <p class="alsel-competitor-comparison__footer-note">{{ section.settings.note }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+        <div class="alsel-competitor-comparison__cta-wrap">
+          <a class="alsel-competitor-comparison__cta" href="{{ section.settings.cta_link }}">
+            {{ section.settings.cta_text }}
+          </a>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-competitor-comparison { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-competitor-comparison__inner { max-width: 1000px; margin: 0 auto; }
+  .alsel-competitor-comparison__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); text-align: center; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; font-weight: 700; }
+  .alsel-competitor-comparison__sub { text-align: center; font-size: 0.95rem; line-height: 1.7; color: {{ section.settings.text_color }}; opacity: 0.85; margin: 0 0 2rem; }
+  .alsel-competitor-comparison__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-competitor-comparison__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .alsel-competitor-comparison__table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.9rem; }
+  .alsel-competitor-comparison__th { padding: 1rem 0.75rem; text-align: center; font-weight: 700; background: #f1f5f9; color: #334155; border-bottom: 2px solid #e2e8f0; vertical-align: middle; }
+  .alsel-competitor-comparison__th--item { text-align: left; min-width: 110px; }
+  .alsel-competitor-comparison__th--own { background: {{ section.settings.own_color }}; color: #fff; position: relative; }
+  .alsel-competitor-comparison__badge { display: inline-block; background: #fff; color: {{ section.settings.own_color }}; font-size: 0.7rem; padding: 0.15rem 0.6rem; border-radius: 9999px; margin-right: 0.4rem; font-weight: 700; }
+  .alsel-competitor-comparison__col-label { display: inline-block; vertical-align: middle; }
+  .alsel-competitor-comparison__row-head { padding: 1rem 0.75rem; text-align: left; font-weight: 600; background: #f8fafc; color: #1e293b; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  .alsel-competitor-comparison__cell { padding: 1rem 0.75rem; text-align: center; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+  .alsel-competitor-comparison__cell--own { background: {{ section.settings.own_color }}0d; }
+  .alsel-competitor-comparison__mark { display: inline-block; font-size: 1.3rem; font-weight: 700; line-height: 1; }
+  .alsel-competitor-comparison__mark--best { color: {{ section.settings.own_color }}; font-size: 1.6rem; }
+  .alsel-competitor-comparison__mark--good { color: #16a34a; }
+  .alsel-competitor-comparison__mark--fair { color: #f59e0b; }
+  .alsel-competitor-comparison__mark--bad { color: #94a3b8; }
+  .alsel-competitor-comparison__mark--text { font-size: 0.9rem; }
+  .alsel-competitor-comparison__note { display: block; font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; line-height: 1.4; }
+  .alsel-competitor-comparison__footer-note { font-size: 0.8rem; color: #64748b; margin: 1rem 0 0; text-align: center; line-height: 1.6; }
+  .alsel-competitor-comparison__cta-wrap { text-align: center; margin-top: 2rem; }
+  .alsel-competitor-comparison__cta { display: inline-block; padding: 1rem 2.5rem; background: {{ section.settings.own_color }}; color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1rem; transition: opacity 0.2s; }
+  .alsel-competitor-comparison__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-competitor-comparison { padding: 5rem 2rem; }
+    .alsel-competitor-comparison__table { font-size: 1rem; }
+    .alsel-competitor-comparison__th, .alsel-competitor-comparison__cell, .alsel-competitor-comparison__row-head { padding: 1.25rem 1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "競合比較表",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "他社製品との比較" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "当店の商品が選ばれる理由を、他社製品と比較してご紹介します。" },
+    { "type": "header", "content": "比較列の設定" },
+    { "type": "text", "id": "item_header", "label": "項目列のヘッダー", "default": "比較項目" },
+    { "type": "text", "id": "own_badge", "label": "自社列のバッジ文字", "default": "当店", "info": "空欄にするとバッジは非表示になります" },
+    { "type": "text", "id": "col1_label", "label": "自社列のラベル", "default": "自社商品" },
+    { "type": "text", "id": "col2_label", "label": "他社 A 列のラベル", "default": "一般的な商品 A", "info": "空欄にするとこの列は非表示になります" },
+    { "type": "text", "id": "col3_label", "label": "他社 B 列のラベル", "default": "一般的な商品 B", "info": "空欄にするとこの列は非表示になります" },
+    { "type": "header", "content": "色設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "見出し文字色", "default": "#0f172a" },
+    { "type": "color", "id": "own_color", "label": "自社列の強調色", "default": "#6d28d9" },
+    { "type": "header", "content": "補足・CTA" },
+    { "type": "textarea", "id": "note", "label": "注釈文", "info": "比較表の下に小さく表示される補足説明", "default": "※ 表内の評価は当店調べによるものであり、すべての商品に当てはまるわけではありません。" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しく見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "比較項目(行)",
+      "settings": [
+        { "type": "text", "id": "item_name", "label": "項目名", "default": "品質" },
+        { "type": "header", "content": "自社の評価" },
+        { "type": "select", "id": "own_mark", "label": "評価マーク",
+          "options": [
+            { "value": "best", "label": "◎ 非常に良い" },
+            { "value": "good", "label": "○ 良い" },
+            { "value": "fair", "label": "△ 普通" },
+            { "value": "bad", "label": "× 弱い" },
+            { "value": "text", "label": "自由入力テキスト" }
+          ],
+          "default": "best" },
+        { "type": "text", "id": "own_text", "label": "自由入力テキスト", "info": "上で「自由入力テキスト」を選んだ時のみ表示されます" },
+        { "type": "text", "id": "own_note", "label": "補足コメント", "info": "マークの下に小さく表示されます" },
+        { "type": "header", "content": "他社 A の評価" },
+        { "type": "select", "id": "col2_mark", "label": "評価マーク",
+          "options": [
+            { "value": "best", "label": "◎ 非常に良い" },
+            { "value": "good", "label": "○ 良い" },
+            { "value": "fair", "label": "△ 普通" },
+            { "value": "bad", "label": "× 弱い" },
+            { "value": "text", "label": "自由入力テキスト" }
+          ],
+          "default": "fair" },
+        { "type": "text", "id": "col2_text", "label": "自由入力テキスト" },
+        { "type": "header", "content": "他社 B の評価" },
+        { "type": "select", "id": "col3_mark", "label": "評価マーク",
+          "options": [
+            { "value": "best", "label": "◎ 非常に良い" },
+            { "value": "good", "label": "○ 良い" },
+            { "value": "fair", "label": "△ 普通" },
+            { "value": "bad", "label": "× 弱い" },
+            { "value": "text", "label": "自由入力テキスト" }
+          ],
+          "default": "bad" },
+        { "type": "text", "id": "col3_text", "label": "自由入力テキスト" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "ALSEL監修 / 競合比較表(◎○△×形式)",
+      "settings": {
+        "heading": "他社製品との比較",
+        "subheading": "当店の商品が選ばれる理由を、他社製品と比較してご紹介します。",
+        "col1_label": "自社商品",
+        "col2_label": "一般的な商品 A",
+        "col3_label": "一般的な商品 B"
+      },
+      "blocks": [
+        { "type": "row", "settings": { "item_name": "品質", "own_mark": "best", "own_note": "厳選素材を使用", "col2_mark": "good", "col3_mark": "fair" } },
+        { "type": "row", "settings": { "item_name": "価格", "own_mark": "good", "col2_mark": "fair", "col3_mark": "good" } },
+        { "type": "row", "settings": { "item_name": "送料", "own_mark": "best", "own_note": "5000 円以上で無料", "col2_mark": "fair", "col3_mark": "bad" } },
+        { "type": "row", "settings": { "item_name": "返品保証", "own_mark": "best", "own_note": "30 日間保証", "col2_mark": "bad", "col3_mark": "fair" } },
+        { "type": "row", "settings": { "item_name": "サポート体制", "own_mark": "best", "col2_mark": "good", "col3_mark": "fair" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

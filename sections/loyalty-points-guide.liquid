@@ -1,0 +1,184 @@
+{% comment %}
+============================================================
+セクション名: ポイント制度案内
+用途: 自社ストアのポイント制度(付与率・使い方・注意事項)をお客様にわかりやすく伝えるためのセクション。リピート促進と会員登録誘導に効果的。
+推奨設置場所: トップページ中段・会員登録ページ・マイページ案内・LP 内のお得情報セクション
+カスタマイズポイント:
+  - 見出し・リード文
+  - 付与率の表示(通常会員・上位会員・キャンペーン時)
+  - 「貯め方」「使い方」「注意事項」の 3 ステップ表示
+  - 各ブロックのアイコン絵文字・タイトル・本文
+  - CTA ボタン(会員登録 / マイページへ)
+  - 背景色・アクセントカラー
+注意点:
+  - 日本の EC 慣習に合わせて「税込価格に対する付与」「1 ポイント = 1 円」を明記する形式
+  - ポイント有効期限・除外商品(セール品・送料・ギフト券等)を注意事項に必ず記載
+  - 軽減税率対象商品の扱いはストア運用に合わせて文言調整
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-loyalty-points-guide" aria-label="{{ sec_heading }}">
+  <div class="alsel-loyalty-points-guide__inner">
+    <header class="alsel-loyalty-points-guide__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="alsel-loyalty-points-guide__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-loyalty-points-guide__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.lead != blank -%}
+        <p class="alsel-loyalty-points-guide__lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="alsel-loyalty-points-guide__rates">
+      <div class="alsel-loyalty-points-guide__rate-card">
+        <span class="alsel-loyalty-points-guide__rate-label">{{ section.settings.rate1_label }}</span>
+        <span class="alsel-loyalty-points-guide__rate-value">{{ section.settings.rate1_value }}</span>
+        <span class="alsel-loyalty-points-guide__rate-note">{{ section.settings.rate1_note }}</span>
+      </div>
+      <div class="alsel-loyalty-points-guide__rate-card alsel-loyalty-points-guide__rate-card--accent">
+        <span class="alsel-loyalty-points-guide__rate-label">{{ section.settings.rate2_label }}</span>
+        <span class="alsel-loyalty-points-guide__rate-value">{{ section.settings.rate2_value }}</span>
+        <span class="alsel-loyalty-points-guide__rate-note">{{ section.settings.rate2_note }}</span>
+      </div>
+      <div class="alsel-loyalty-points-guide__rate-card">
+        <span class="alsel-loyalty-points-guide__rate-label">{{ section.settings.rate3_label }}</span>
+        <span class="alsel-loyalty-points-guide__rate-value">{{ section.settings.rate3_value }}</span>
+        <span class="alsel-loyalty-points-guide__rate-note">{{ section.settings.rate3_note }}</span>
+      </div>
+    </div>
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-loyalty-points-guide__empty" style="text-align:center;color:#888;padding:2rem 0;">
+        現在表示できる項目はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="alsel-loyalty-points-guide__steps">
+        {%- for block in section.blocks -%}
+          <li class="alsel-loyalty-points-guide__step" {{ block.shopify_attributes }}>
+            <span class="alsel-loyalty-points-guide__step-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+            <h3 class="alsel-loyalty-points-guide__step-title">{{ block.settings.title }}</h3>
+            <p class="alsel-loyalty-points-guide__step-body">{{ block.settings.body }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.notes != blank -%}
+      <div class="alsel-loyalty-points-guide__notes">
+        <h3 class="alsel-loyalty-points-guide__notes-title">{{ section.settings.notes_title }}</h3>
+        <div class="alsel-loyalty-points-guide__notes-body">{{ section.settings.notes }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-loyalty-points-guide__cta-wrap">
+        <a class="alsel-loyalty-points-guide__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-loyalty-points-guide { --accent: {{ section.settings.accent_color }}; --bg: {{ section.settings.bg_color }}; --text: {{ section.settings.text_color }}; padding: 3rem 1rem; background: var(--bg); color: var(--text); }
+  .alsel-loyalty-points-guide__inner { max-width: 1080px; margin: 0 auto; }
+  .alsel-loyalty-points-guide__header { text-align: center; margin-bottom: 2rem; }
+  .alsel-loyalty-points-guide__eyebrow { display: inline-block; font-size: 0.85rem; letter-spacing: 0.1em; padding: 0.25rem 0.9rem; background: var(--accent); color: #fff; border-radius: 9999px; margin: 0 0 0.75rem; font-weight: 700; }
+  .alsel-loyalty-points-guide__heading { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-loyalty-points-guide__lead { font-size: 0.95rem; line-height: 1.8; margin: 0; color: #555; }
+  .alsel-loyalty-points-guide__rates { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; }
+  .alsel-loyalty-points-guide__rate-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 1.5rem 1rem; text-align: center; display: flex; flex-direction: column; gap: 0.4rem; }
+  .alsel-loyalty-points-guide__rate-card--accent { background: var(--accent); color: #fff; border-color: var(--accent); transform: scale(1); }
+  .alsel-loyalty-points-guide__rate-label { font-size: 0.9rem; font-weight: 700; opacity: 0.85; }
+  .alsel-loyalty-points-guide__rate-value { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; line-height: 1.2; }
+  .alsel-loyalty-points-guide__rate-note { font-size: 0.8rem; opacity: 0.8; line-height: 1.5; }
+  .alsel-loyalty-points-guide__steps { list-style: none; padding: 0; margin: 0 0 2.5rem; display: grid; grid-template-columns: 1fr; gap: 1rem; counter-reset: step; }
+  .alsel-loyalty-points-guide__step { background: #fff; border-radius: 14px; padding: 1.5rem 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; }
+  .alsel-loyalty-points-guide__step::before { counter-increment: step; content: "STEP " counter(step); display: inline-block; font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+  .alsel-loyalty-points-guide__step-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+  .alsel-loyalty-points-guide__step-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; }
+  .alsel-loyalty-points-guide__step-body { font-size: 0.92rem; line-height: 1.8; margin: 0; color: #475569; }
+  .alsel-loyalty-points-guide__notes { background: #fff8e1; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem 1.25rem 1.25rem 1.5rem; margin-bottom: 2rem; }
+  .alsel-loyalty-points-guide__notes-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.6rem; color: #92400e; }
+  .alsel-loyalty-points-guide__notes-body { font-size: 0.88rem; line-height: 1.8; color: #4b3a10; }
+  .alsel-loyalty-points-guide__notes-body p { margin: 0 0 0.4rem; }
+  .alsel-loyalty-points-guide__cta-wrap { text-align: center; }
+  .alsel-loyalty-points-guide__cta { display: inline-block; padding: 1rem 2.5rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1rem; transition: opacity 0.2s; }
+  .alsel-loyalty-points-guide__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-loyalty-points-guide { padding: 5rem 2rem; }
+    .alsel-loyalty-points-guide__rates { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .alsel-loyalty-points-guide__rate-card--accent { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .alsel-loyalty-points-guide__steps { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ポイント制度案内",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出しエリア" },
+    { "type": "text", "id": "eyebrow", "label": "小見出し(バッジ)", "default": "POINT PROGRAM" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "お得なポイント制度のご案内" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "当ストアでは、ご購入金額(税込)に応じてポイントを付与しております。貯まったポイントは 1 ポイント = 1 円として、次回以降のお買い物にご利用いただけます。" },
+    { "type": "header", "content": "付与率カード(3 段階)" },
+    { "type": "text", "id": "rate1_label", "label": "カード 1:ランク名", "default": "通常会員さま" },
+    { "type": "text", "id": "rate1_value", "label": "カード 1:付与率", "default": "1%" },
+    { "type": "text", "id": "rate1_note", "label": "カード 1:補足", "default": "ご購入金額(税込)100 円ごとに 1 ポイントを付与いたします。" },
+    { "type": "text", "id": "rate2_label", "label": "カード 2:ランク名(中央・強調)", "default": "シルバー会員さま" },
+    { "type": "text", "id": "rate2_value", "label": "カード 2:付与率", "default": "3%" },
+    { "type": "text", "id": "rate2_note", "label": "カード 2:補足", "default": "年間お買い上げ金額が 30,000 円(税込)を超えた方が対象となります。" },
+    { "type": "text", "id": "rate3_label", "label": "カード 3:ランク名", "default": "ゴールド会員さま" },
+    { "type": "text", "id": "rate3_value", "label": "カード 3:付与率", "default": "5%" },
+    { "type": "text", "id": "rate3_note", "label": "カード 3:補足", "default": "年間お買い上げ金額が 100,000 円(税込)を超えた方が対象となります。" },
+    { "type": "header", "content": "注意事項エリア" },
+    { "type": "text", "id": "notes_title", "label": "注意事項の見出し", "default": "ご利用にあたっての注意事項" },
+    { "type": "richtext", "id": "notes", "label": "注意事項の本文", "info": "ポイント有効期限・除外商品・送料の扱いなど、トラブル防止のため必ず明記してください。", "default": "<p>・ポイントの有効期限は最終ご利用日から 1 年間です。</p><p>・送料・ギフト券・のし代・セール対象商品はポイント付与の対象外となります。</p><p>・ポイントのご利用は会員さま本人のアカウントに限ります(譲渡・現金化はできません)。</p><p>・ご注文キャンセルや返品の際は、付与済みポイントを差し引かせていただきます。</p>" },
+    { "type": "header", "content": "CTA ボタン" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "無料の会員登録でポイントを貯める" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先", "info": "会員登録ページまたはマイページのリンクを設定してください。" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#d97706" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "ステップカード",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン(絵文字推奨)", "default": "🛒", "info": "絵文字 1 文字を入れると視認性が高まります(例: 🛒 💳 🎁)。" },
+        { "type": "text", "id": "title", "label": "ステップタイトル", "default": "ステップ見出し" },
+        { "type": "textarea", "id": "body", "label": "ステップ本文", "default": "ステップの説明文をご入力ください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / ポイント制度案内(3 ステップ + 付与率比較)",
+      "settings": {
+        "eyebrow": "POINT PROGRAM",
+        "heading": "お得なポイント制度のご案内",
+        "lead": "当ストアでは、ご購入金額(税込)に応じてポイントを付与しております。貯まったポイントは 1 ポイント = 1 円として、次回以降のお買い物にご利用いただけます。",
+        "cta_text": "無料の会員登録でポイントを貯める"
+      },
+      "blocks": [
+        { "type": "step", "settings": { "icon": "📝", "title": "会員登録をする", "body": "メールアドレスのご登録だけで、すぐにポイントを貯めはじめていただけます。登録時に 300 ポイントをプレゼントいたします。" } },
+        { "type": "step", "settings": { "icon": "🛍️", "title": "お買い物でポイントを貯める", "body": "ご購入金額(税込)に応じて、自動的にポイントが付与されます。商品発送完了後、マイページからご確認いただけます。" } },
+        { "type": "step", "settings": { "icon": "💳", "title": "次回のお買い物で使う", "body": "ご注文の確認画面で、ご利用ポイント数をご指定いただけます。1 ポイント = 1 円として、1 ポイントからお使いいただけます。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

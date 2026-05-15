@@ -1,0 +1,248 @@
+{% comment %}
+============================================================
+セクション名: 用途別おすすめ商品
+用途: 自宅用・ギフト用・法人用など、お客様の利用シーンに合わせたおすすめ商品をタブ切替で紹介する
+推奨設置場所: トップページ中段・コレクションページ上部・LP の商品提案エリア
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 用途タブごとのアイコン・タイトル・説明文・商品リスト(最大 4 商品)
+  - 背景色・アクセントカラー
+  - タブの追加・削除で用途数を変更
+注意点:
+  - 商品ブロックは 1〜6 個推奨
+  - 各タブには商品を最大 4 つまで設定可能
+  - 商品未選択時はそのスロットは表示されない
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-use-case-recommendations" aria-label="{{ sec_heading }}">
+  <div class="alsel-use-case-recommendations__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-use-case-recommendations__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-use-case-recommendations__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-use-case-recommendations__empty">
+        現在表示できる用途はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-use-case-recommendations__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            role="tab"
+            class="alsel-use-case-recommendations__tab{%- if forloop.first %} is-active{%- endif -%}"
+            data-target="alsel-uc-panel-{{ block.id }}"
+            aria-selected="{%- if forloop.first %}true{%- else %}false{%- endif -%}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.icon != blank -%}
+              {%- assign icon_alt = block.settings.tab_label | escape -%}
+              {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', class: 'alsel-use-case-recommendations__tab-icon', alt: icon_alt }}
+            {%- endif -%}
+            <span class="alsel-use-case-recommendations__tab-label">{{ block.settings.tab_label }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="alsel-use-case-recommendations__panels">
+        {%- for block in section.blocks -%}
+          <div
+            id="alsel-uc-panel-{{ block.id }}"
+            class="alsel-use-case-recommendations__panel{%- if forloop.first %} is-active{%- endif -%}"
+            role="tabpanel"
+          >
+            <div class="alsel-use-case-recommendations__panel-head">
+              <h3 class="alsel-use-case-recommendations__panel-title">{{ block.settings.title }}</h3>
+              {%- if block.settings.description != blank -%}
+                <p class="alsel-use-case-recommendations__panel-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+
+            <div class="alsel-use-case-recommendations__products">
+              {%- assign has_product = false -%}
+              {%- if block.settings.product_1 != blank or block.settings.product_2 != blank or block.settings.product_3 != blank or block.settings.product_4 != blank -%}
+                {%- assign has_product = true -%}
+              {%- endif -%}
+
+              {%- if has_product == false -%}
+                <p class="alsel-use-case-recommendations__no-product">
+                  このタブに表示する商品をテーマエディタから追加してください。
+                </p>
+              {%- else -%}
+                {%- for i in (1..4) -%}
+                  {%- assign key = 'product_' | append: i -%}
+                  {%- assign p = block.settings[key] -%}
+                  {%- if p != blank -%}
+                  {%- assign p_alt = p.title | escape -%}
+                  <a class="alsel-use-case-recommendations__card" href="{{ p.url }}" aria-label="{{ p_alt }}の詳細を見る">
+                    <div class="alsel-use-case-recommendations__card-media">
+                      {%- if p.featured_image != blank -%}
+                        {{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'alsel-use-case-recommendations__card-img', alt: p_alt, widths: '300, 600, 900' }}
+                      {%- else -%}
+                        <div class="alsel-use-case-recommendations__card-placeholder" aria-hidden="true"></div>
+                      {%- endif -%}
+                    </div>
+                    <div class="alsel-use-case-recommendations__card-body">
+                      <p class="alsel-use-case-recommendations__card-title">{{ p.title }}</p>
+                      <p class="alsel-use-case-recommendations__card-price">{{ p.price | money }}</p>
+                    </div>
+                  </a>{%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.cta_text != blank and block.settings.cta_link != blank -%}
+              <div class="alsel-use-case-recommendations__cta-wrap">
+                <a class="alsel-use-case-recommendations__cta" href="{{ block.settings.cta_link }}">
+                  {{ block.settings.cta_text }}
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-use-case-recommendations {
+    --accent: {{ section.settings.accent_color }};
+    --bg: {{ section.settings.bg_color }};
+    background: var(--bg);
+    padding: 3rem 1rem;
+  }
+  .alsel-use-case-recommendations__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-use-case-recommendations__heading { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; color: #1f2937; }
+  .alsel-use-case-recommendations__sub { text-align: center; color: #64748b; font-size: 0.95rem; line-height: 1.7; margin: 0 0 2rem; }
+  .alsel-use-case-recommendations__empty,
+  .alsel-use-case-recommendations__no-product { text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem; }
+  .alsel-use-case-recommendations__tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin: 0 0 2rem; }
+  .alsel-use-case-recommendations__tab { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.2rem; background: #fff; border: 2px solid #e5e7eb; border-radius: 9999px; font-size: 0.9rem; font-weight: 700; color: #475569; cursor: pointer; transition: all 0.2s ease; }
+  .alsel-use-case-recommendations__tab:hover { border-color: var(--accent); color: var(--accent); }
+  .alsel-use-case-recommendations__tab.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .alsel-use-case-recommendations__tab-icon { width: 24px; height: 24px; object-fit: contain; }
+  .alsel-use-case-recommendations__tab.is-active .alsel-use-case-recommendations__tab-icon { filter: brightness(0) invert(1); }
+  .alsel-use-case-recommendations__panel { display: none; }
+  .alsel-use-case-recommendations__panel.is-active { display: block; }
+  .alsel-use-case-recommendations__panel-head { text-align: center; margin: 0 0 1.5rem; }
+  .alsel-use-case-recommendations__panel-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; color: #1f2937; }
+  .alsel-use-case-recommendations__panel-desc { font-size: 0.95rem; line-height: 1.7; color: #475569; margin: 0; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .alsel-use-case-recommendations__products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .alsel-use-case-recommendations__card { display: block; background: #fff; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .alsel-use-case-recommendations__card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+  .alsel-use-case-recommendations__card-media { aspect-ratio: 1 / 1; overflow: hidden; background: #f1f5f9; }
+  .alsel-use-case-recommendations__card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-use-case-recommendations__card-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); }
+  .alsel-use-case-recommendations__card-body { padding: 0.9rem; }
+  .alsel-use-case-recommendations__card-title { font-size: 0.9rem; font-weight: 600; line-height: 1.5; margin: 0 0 0.4rem; color: #1f2937; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .alsel-use-case-recommendations__card-price { font-size: 0.95rem; font-weight: 700; color: var(--accent); margin: 0; }
+  .alsel-use-case-recommendations__cta-wrap { text-align: center; margin: 2rem 0 0; }
+  .alsel-use-case-recommendations__cta { display: inline-block; padding: 0.85rem 2.2rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; transition: opacity 0.2s ease; }
+  .alsel-use-case-recommendations__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-use-case-recommendations { padding: 5rem 2rem; }
+    .alsel-use-case-recommendations__tab { padding: 0.85rem 1.6rem; font-size: 0.95rem; }
+    .alsel-use-case-recommendations__products { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .alsel-use-case-recommendations__card-body { padding: 1.1rem; }
+    .alsel-use-case-recommendations__card-title { font-size: 0.95rem; }
+  }
+</style>
+
+<script>
+  (function() {
+    var root = document.currentScript.closest('.alsel-use-case-recommendations');
+    if (!root) return;
+    var tabs = root.querySelectorAll('.alsel-use-case-recommendations__tab');
+    var panels = root.querySelectorAll('.alsel-use-case-recommendations__panel');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var target = tab.getAttribute('data-target');
+        tabs.forEach(function(t) { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(function(p) { p.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        var panel = root.querySelector('#' + target);
+        if (panel) panel.classList.add('is-active');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "用途別おすすめ商品",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "用途別おすすめ商品" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご利用シーンに合わせて、おすすめの商品をご紹介します。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "info": "タブ選択時・価格・ボタンに使われます", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "use_case",
+      "name": "用途タブ",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "タブアイコン", "info": "推奨 80 × 80px、PNG 透過(任意)" },
+        { "type": "text", "id": "tab_label", "label": "タブの文字", "default": "自宅用" },
+        { "type": "text", "id": "title", "label": "用途タイトル", "default": "ご自宅でお楽しみいただける商品" },
+        { "type": "textarea", "id": "description", "label": "用途の説明文", "default": "毎日の暮らしに彩りを添える、定番のおすすめ商品をご紹介します。" },
+        { "type": "product", "id": "product_1", "label": "おすすめ商品 1" },
+        { "type": "product", "id": "product_2", "label": "おすすめ商品 2" },
+        { "type": "product", "id": "product_3", "label": "おすすめ商品 3" },
+        { "type": "product", "id": "product_4", "label": "おすすめ商品 4" },
+        { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "この用途の商品を全て見る" },
+        { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 用途別おすすめ商品(タブ切替型)",
+      "settings": {
+        "heading": "用途別おすすめ商品(タブ切替型)",
+        "subheading": "ご利用シーンに合わせて、おすすめの商品をご紹介します。"
+      },
+      "blocks": [
+        {
+          "type": "use_case",
+          "settings": {
+            "tab_label": "自宅用",
+            "title": "ご自宅でお楽しみいただける商品",
+            "description": "毎日の暮らしに彩りを添える、定番のおすすめ商品をご紹介します。",
+            "cta_text": "自宅用の商品を全て見る"
+          }
+        },
+        {
+          "type": "use_case",
+          "settings": {
+            "tab_label": "ギフト用",
+            "title": "大切な方への贈り物におすすめの商品",
+            "description": "誕生日・記念日・お祝いごとに喜ばれる、ギフト包装対応の商品です。",
+            "cta_text": "ギフト用の商品を全て見る"
+          }
+        },
+        {
+          "type": "use_case",
+          "settings": {
+            "tab_label": "法人用",
+            "title": "ビジネスシーンでご利用いただける商品",
+            "description": "ご挨拶・ご贈答・社内利用など、法人のお客様におすすめの商品をご紹介します。",
+            "cta_text": "法人用の商品を全て見る"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

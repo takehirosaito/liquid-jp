@@ -1,0 +1,246 @@
+{% comment %}
+============================================================
+セクション名: 商品比較表
+用途: 複数の商品をスペック・特徴ごとに横並びで比較する表。価格・機能・サイズなどを一覧化し、購入検討中のお客様の意思決定をサポートする
+推奨設置場所: 商品ページの詳細下・コレクションページの上部・比較特集 LP
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 比較商品(ブロック)の追加・削除(2〜5 個推奨)
+  - 各商品の画像・商品名・価格・購入リンク・おすすめバッジ
+  - 比較項目(最大 8 項目)のラベルと各商品の値
+  - 強調列(おすすめ商品)の色設定
+注意点:
+  - 商品画像は正方形(推奨 600 × 600px)を用意するときれいに見える
+  - 比較項目は全商品で揃える(空欄は「-」表示にすると良い)
+  - モバイルでは横スクロール対応で、最初の列(項目名)は固定される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-product-comparison" aria-label="{{ heading_alt }}">
+  <div class="alsel-product-comparison__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-product-comparison__title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-product-comparison__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-product-comparison__empty">
+      比較する商品はまだ登録されていません。テーマエディタから商品ブロックを追加してください。
+    </p>
+  {%- else -%}
+    <div class="alsel-product-comparison__scroll">
+      <table class="alsel-product-comparison__table">
+        <thead>
+          <tr>
+            <th class="alsel-product-comparison__th-label" scope="col">
+              <span class="alsel-product-comparison__th-label-text">比較項目</span>
+            </th>
+            {%- for block in section.blocks -%}
+              <th class="alsel-product-comparison__th{%- if block.settings.is_recommended %} alsel-product-comparison__th--recommend{%- endif -%}" scope="col" {{ block.shopify_attributes }}>
+                {%- if block.settings.is_recommended -%}
+                  <span class="alsel-product-comparison__badge">{{ block.settings.recommend_label }}</span>
+                {%- endif -%}
+                {%- if block.settings.image != blank -%}
+                  {%- assign img_alt = block.settings.name | escape -%}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'alsel-product-comparison__img', alt: img_alt, widths: '200, 400, 600' }}
+                {%- else -%}
+                  <div class="alsel-product-comparison__img-placeholder" aria-hidden="true"></div>
+                {%- endif -%}
+                <h3 class="alsel-product-comparison__name">{{ block.settings.name }}</h3>
+                {%- if block.settings.price != blank -%}
+                  <p class="alsel-product-comparison__price">{{ block.settings.price }}</p>
+                {%- endif -%}
+                {%- if block.settings.cta_text != blank and block.settings.cta_link != blank -%}
+                  <a class="alsel-product-comparison__cta" href="{{ block.settings.cta_link }}" aria-label="{{ block.settings.name | escape }}の詳細ページへ">
+                    {{ block.settings.cta_text }}
+                  </a>
+                {%- endif -%}
+              </th>
+            {%- endfor -%}
+          </tr>
+        </thead>
+        <tbody>
+          {%- for i in (1..8) -%}
+            {%- assign label_key = 'item_' | append: i | append: '_label' -%}
+            {%- assign current_label = section.settings[label_key] -%}
+            {%- if current_label != blank -%}
+              <tr>
+                <th class="alsel-product-comparison__row-label" scope="row">{{ current_label }}</th>
+                {%- for block in section.blocks -%}
+                  {%- assign value_key = 'item_' | append: i | append: '_value' -%}
+                  {%- assign current_value = block.settings[value_key] -%}
+                  <td class="alsel-product-comparison__cell{%- if block.settings.is_recommended %} alsel-product-comparison__cell--recommend{%- endif -%}">
+                    {%- if current_value != blank -%}
+                      {{ current_value }}
+                    {%- else -%}
+                      <span class="alsel-product-comparison__dash" aria-label="該当なし">-</span>
+                    {%- endif -%}
+                  </td>
+                {%- endfor -%}
+              </tr>
+            {%- endif -%}
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    <p class="alsel-product-comparison__hint" aria-hidden="true">← 横にスクロールできます →</p>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-product-comparison {
+    --apc-accent: {{ section.settings.accent_color }};
+    --apc-accent-bg: {{ section.settings.accent_bg_color }};
+    --apc-border: #e5e7eb;
+    --apc-text: #1f2937;
+    --apc-muted: #6b7280;
+    padding: 3rem 1rem;
+    background: {{ section.settings.bg_color }};
+    color: var(--apc-text);
+  }
+  .alsel-product-comparison__head { text-align: center; max-width: 800px; margin: 0 auto 2rem; }
+  .alsel-product-comparison__title { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-product-comparison__sub { font-size: 0.95rem; line-height: 1.7; color: var(--apc-muted); margin: 0; }
+  .alsel-product-comparison__empty { text-align: center; color: var(--apc-muted); padding: 2rem 0; margin: 0; }
+  .alsel-product-comparison__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 1200px; margin: 0 auto; border-radius: 12px; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .alsel-product-comparison__table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  .alsel-product-comparison__th-label, .alsel-product-comparison__row-label {
+    background: #f9fafb; font-weight: 600; text-align: left; padding: 1rem; font-size: 0.85rem; color: var(--apc-muted);
+    position: sticky; left: 0; z-index: 2; border-right: 1px solid var(--apc-border); border-bottom: 1px solid var(--apc-border); min-width: 110px;
+  }
+  .alsel-product-comparison__th-label-text { display: block; }
+  .alsel-product-comparison__th {
+    padding: 1.25rem 1rem; vertical-align: top; text-align: center; border-bottom: 1px solid var(--apc-border); border-right: 1px solid var(--apc-border); background: #fff; position: relative; min-width: 180px;
+  }
+  .alsel-product-comparison__th--recommend { background: var(--apc-accent-bg); }
+  .alsel-product-comparison__badge { display: inline-block; background: var(--apc-accent); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 9999px; margin-bottom: 0.75rem; }
+  .alsel-product-comparison__img { width: 100%; max-width: 140px; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; margin: 0 auto 0.75rem; display: block; }
+  .alsel-product-comparison__img-placeholder { width: 100%; max-width: 140px; aspect-ratio: 1 / 1; background: #f3f4f6; border-radius: 8px; margin: 0 auto 0.75rem; }
+  .alsel-product-comparison__name { font-size: 1rem; font-weight: 700; margin: 0 0 0.5rem; line-height: 1.4; }
+  .alsel-product-comparison__price { font-size: 1.05rem; font-weight: 700; color: var(--apc-accent); margin: 0 0 0.85rem; }
+  .alsel-product-comparison__cta { display: inline-block; padding: 0.6rem 1.25rem; background: var(--apc-accent); color: #fff; text-decoration: none; border-radius: 9999px; font-size: 0.85rem; font-weight: 700; }
+  .alsel-product-comparison__cta:hover { opacity: 0.85; }
+  .alsel-product-comparison__cell { padding: 1rem; text-align: center; font-size: 0.9rem; line-height: 1.6; border-bottom: 1px solid var(--apc-border); border-right: 1px solid var(--apc-border); background: #fff; }
+  .alsel-product-comparison__cell--recommend { background: var(--apc-accent-bg); font-weight: 600; }
+  .alsel-product-comparison__dash { color: #d1d5db; }
+  .alsel-product-comparison__hint { text-align: center; font-size: 0.8rem; color: var(--apc-muted); margin: 0.75rem 0 0; }
+  @media (min-width: 750px) {
+    .alsel-product-comparison { padding: 5rem 2rem; }
+    .alsel-product-comparison__hint { display: none; }
+    .alsel-product-comparison__th { min-width: 200px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "商品比較表",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し設定" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "商品を比較する" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "用途やご予算に合わせて、最適な商品をお選びいただけます。" },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(価格・ボタン・バッジ)", "default": "#dc2626" },
+    { "type": "color", "id": "accent_bg_color", "label": "おすすめ列の背景色", "default": "#fef2f2" },
+    { "type": "header", "content": "比較項目(最大 8 項目)", "info": "ここで定義したラベルが表の左列に並ぶ。各商品ブロック側で対応する値を入力する。" },
+    { "type": "text", "id": "item_1_label", "label": "項目 1 ラベル", "default": "価格帯" },
+    { "type": "text", "id": "item_2_label", "label": "項目 2 ラベル", "default": "容量・サイズ" },
+    { "type": "text", "id": "item_3_label", "label": "項目 3 ラベル", "default": "主な素材" },
+    { "type": "text", "id": "item_4_label", "label": "項目 4 ラベル", "default": "カラー展開" },
+    { "type": "text", "id": "item_5_label", "label": "項目 5 ラベル", "default": "保証期間" },
+    { "type": "text", "id": "item_6_label", "label": "項目 6 ラベル", "default": "こんな方におすすめ" },
+    { "type": "text", "id": "item_7_label", "label": "項目 7 ラベル" },
+    { "type": "text", "id": "item_8_label", "label": "項目 8 ラベル" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "比較商品",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "商品画像", "info": "推奨 600 × 600px の正方形画像" },
+        { "type": "text", "id": "name", "label": "商品名", "default": "商品名を入力します" },
+        { "type": "text", "id": "price", "label": "価格表示", "default": "¥4,980" },
+        { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しく見る" },
+        { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+        { "type": "checkbox", "id": "is_recommended", "label": "おすすめ列として強調する", "default": false },
+        { "type": "text", "id": "recommend_label", "label": "おすすめバッジの文字", "default": "人気No.1" },
+        { "type": "header", "content": "各項目の値" },
+        { "type": "text", "id": "item_1_value", "label": "項目 1 の値" },
+        { "type": "text", "id": "item_2_value", "label": "項目 2 の値" },
+        { "type": "text", "id": "item_3_value", "label": "項目 3 の値" },
+        { "type": "text", "id": "item_4_value", "label": "項目 4 の値" },
+        { "type": "text", "id": "item_5_value", "label": "項目 5 の値" },
+        { "type": "text", "id": "item_6_value", "label": "項目 6 の値" },
+        { "type": "text", "id": "item_7_value", "label": "項目 7 の値" },
+        { "type": "text", "id": "item_8_value", "label": "項目 8 の値" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 商品比較表(スペック一覧テーブル)",
+      "settings": {
+        "heading": "商品を比較する",
+        "subheading": "用途やご予算に合わせて、最適な商品をお選びいただけます。"
+      },
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "name": "スタンダードモデル",
+            "price": "¥4,980",
+            "cta_text": "詳しく見る",
+            "is_recommended": false,
+            "item_1_value": "¥4,980",
+            "item_2_value": "Mサイズ",
+            "item_3_value": "コットン100%",
+            "item_4_value": "3色",
+            "item_5_value": "6ヶ月",
+            "item_6_value": "はじめての方"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "name": "プレミアムモデル",
+            "price": "¥7,980",
+            "cta_text": "詳しく見る",
+            "is_recommended": true,
+            "recommend_label": "人気No.1",
+            "item_1_value": "¥7,980",
+            "item_2_value": "L・XLサイズ",
+            "item_3_value": "オーガニックコットン",
+            "item_4_value": "6色",
+            "item_5_value": "12ヶ月",
+            "item_6_value": "長く使いたい方"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "name": "プロフェッショナルモデル",
+            "price": "¥12,800",
+            "cta_text": "詳しく見る",
+            "is_recommended": false,
+            "item_1_value": "¥12,800",
+            "item_2_value": "全サイズ",
+            "item_3_value": "高機能素材",
+            "item_4_value": "10色",
+            "item_5_value": "24ヶ月",
+            "item_6_value": "プロ・上級者の方"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

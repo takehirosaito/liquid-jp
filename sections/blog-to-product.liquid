@@ -1,0 +1,332 @@
+{% comment %}
+============================================================
+セクション名: コラムLP導線(SEO記事→商品CTA帯)
+用途: ブログ記事やコラムの本文末尾・途中に挿入し、本命商品へ自然につなぐ強訴求の CTA セクション
+推奨設置場所: ブログ記事ページ(article.liquid)・コラム記事の本文下部・LP の中盤
+カスタマイズポイント:
+  - キャッチ吹き出し(上部の赤帯)
+  - メイン見出し・サブコピー
+  - 商品画像(推奨 800 × 800px)
+  - 価格・割引バッジ・ベネフィット 3 項目
+  - CTA ボタンの文字とリンク先
+  - 各種カラー(背景・帯・ボタン)
+注意点:
+  - 商品画像は正方形(推奨 800 × 800px、JPEG または PNG)
+  - 画像未設定時は自動で 1 カラム表示に切り替わる
+  - 強訴求デザインのため、ブランドトーンに合わせて色味を調整するとよい
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign img_alt = section.settings.product_name | default: section.settings.heading | escape -%}
+
+<section
+  class="alsel-blog-to-product{%- if section.settings.product_image == blank %} alsel-blog-to-product--no-image{%- endif -%}"
+  aria-label="{{ section.settings.heading | escape }}"
+  style="background: {{ section.settings.bg_color }};"
+>
+  {%- if section.settings.bubble_text != blank -%}
+    <div class="alsel-blog-to-product__bubble" style="background: {{ section.settings.accent_color }};">
+      <span class="alsel-blog-to-product__bubble-text">{{ section.settings.bubble_text }}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="alsel-blog-to-product__inner">
+    <div class="alsel-blog-to-product__media">
+      {%- if section.settings.product_image != blank -%}
+        {{ section.settings.product_image
+          | image_url: width: 800
+          | image_tag:
+            loading: 'lazy',
+            class: 'alsel-blog-to-product__image',
+            alt: img_alt,
+            widths: '320, 480, 640, 800',
+            sizes: '(min-width: 750px) 400px, 90vw' }}
+        {%- if section.settings.discount_badge != blank -%}
+          <span class="alsel-blog-to-product__badge" style="background: {{ section.settings.accent_color }};">
+            {{ section.settings.discount_badge }}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="alsel-blog-to-product__body">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="alsel-blog-to-product__eyebrow">▼ {{ section.settings.eyebrow }} ▼</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-blog-to-product__heading">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="alsel-blog-to-product__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="alsel-blog-to-product__benefits">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              <li class="alsel-blog-to-product__benefit" {{ block.shopify_attributes }}>
+                <span class="alsel-blog-to-product__check" style="color: {{ section.settings.accent_color }};">✓</span>
+                <span class="alsel-blog-to-product__benefit-text">{{ block.settings.text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="alsel-blog-to-product__empty" style="text-align:center;color:#888;padding:1rem 0;">
+          ベネフィット項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+        </p>
+      {%- endif -%}
+
+      <div class="alsel-blog-to-product__price-box">
+        {%- if section.settings.price_label != blank -%}
+          <span class="alsel-blog-to-product__price-label">{{ section.settings.price_label }}</span>
+        {%- endif -%}
+        {%- if section.settings.original_price != blank -%}
+          <span class="alsel-blog-to-product__price-original">{{ section.settings.original_price }}</span>
+        {%- endif -%}
+        {%- if section.settings.sale_price != blank -%}
+          <span class="alsel-blog-to-product__price-sale" style="color: {{ section.settings.accent_color }};">
+            {{ section.settings.sale_price }}
+          </span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+        <a
+          class="alsel-blog-to-product__cta"
+          href="{{ section.settings.cta_link }}"
+          aria-label="{{ section.settings.cta_text | escape }}"
+          style="background: {{ section.settings.cta_bg }}; color: {{ section.settings.cta_color }};"
+        >
+          <span class="alsel-blog-to-product__cta-text">{{ section.settings.cta_text }}</span>
+          <span class="alsel-blog-to-product__cta-arrow" aria-hidden="true">›</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.footnote != blank -%}
+        <p class="alsel-blog-to-product__footnote">{{ section.settings.footnote }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-blog-to-product {
+    position: relative;
+    padding: 2.5rem 1rem 2rem;
+    margin: 2rem 0;
+    border: 3px solid {{ section.settings.accent_color }};
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .alsel-blog-to-product__bubble {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.4rem 1.5rem;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 0 0 8px 8px;
+    white-space: nowrap;
+    max-width: 90%;
+    text-align: center;
+  }
+  .alsel-blog-to-product__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0.5rem auto 0;
+  }
+  .alsel-blog-to-product__media {
+    position: relative;
+    text-align: center;
+  }
+  .alsel-blog-to-product__image {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .alsel-blog-to-product__badge {
+    position: absolute;
+    top: -10px;
+    right: 10%;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 50%;
+    min-width: 64px;
+    min-height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1;
+    text-align: center;
+    transform: rotate(-8deg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  .alsel-blog-to-product__body { display: flex; flex-direction: column; }
+  .alsel-blog-to-product__eyebrow {
+    text-align: center;
+    color: {{ section.settings.accent_color }};
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+  }
+  .alsel-blog-to-product__heading {
+    font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 0.75rem;
+    color: #1a1a1a;
+    text-align: center;
+  }
+  .alsel-blog-to-product__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444;
+    margin: 0 0 1rem;
+  }
+  .alsel-blog-to-product__benefits {
+    list-style: none;
+    padding: 0.8rem 1rem;
+    margin: 0 0 1rem;
+    background: #fffceb;
+    border-radius: 6px;
+  }
+  .alsel-blog-to-product__benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .alsel-blog-to-product__check { font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
+  .alsel-blog-to-product__price-box {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+  }
+  .alsel-blog-to-product__price-label { font-size: 0.85rem; color: #555; }
+  .alsel-blog-to-product__price-original {
+    font-size: 0.95rem;
+    color: #888;
+    text-decoration: line-through;
+  }
+  .alsel-blog-to-product__price-sale { font-size: 1.6rem; font-weight: 700; }
+  .alsel-blog-to-product__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    transition: transform 0.15s ease;
+  }
+  .alsel-blog-to-product__cta:hover { transform: translateY(-2px); }
+  .alsel-blog-to-product__cta-arrow { font-size: 1.4rem; line-height: 1; }
+  .alsel-blog-to-product__footnote {
+    font-size: 0.8rem;
+    color: #777;
+    text-align: center;
+    margin: 0.75rem 0 0;
+  }
+  .alsel-blog-to-product--no-image .alsel-blog-to-product__media { display: none; }
+  @media (min-width: 750px) {
+    .alsel-blog-to-product { padding: 3rem 2rem 2.5rem; }
+    .alsel-blog-to-product__inner { grid-template-columns: 360px 1fr; gap: 2.5rem; align-items: center; }
+    .alsel-blog-to-product--no-image .alsel-blog-to-product__inner { grid-template-columns: 1fr; max-width: 720px; }
+    .alsel-blog-to-product__heading { text-align: left; }
+    .alsel-blog-to-product--no-image .alsel-blog-to-product__heading { text-align: center; }
+    .alsel-blog-to-product__image { max-width: 360px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "コラムLP導線",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "上部の吹き出し帯" },
+    { "type": "text", "id": "bubble_text", "label": "吹き出し帯の文言", "default": "記事をお読みのあなたへ" },
+
+    { "type": "header", "content": "見出し・本文" },
+    { "type": "text", "id": "eyebrow", "label": "見出し上のリード", "default": "ご好評につき期間限定キャンペーン中" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "業界No.1の実力をぜひお試しください" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "記事でご紹介した悩みを、こちらの商品ですっきり解決できます。今だけの特別価格でご提供しております。" },
+
+    { "type": "header", "content": "商品画像" },
+    { "type": "image_picker", "id": "product_image", "label": "商品画像", "info": "推奨 800 × 800px、JPEG または PNG" },
+    { "type": "text", "id": "product_name", "label": "商品名(画像 alt 用)", "default": "おすすめ商品" },
+    { "type": "text", "id": "discount_badge", "label": "丸バッジの文言", "default": "50%OFF" },
+
+    { "type": "header", "content": "価格表示" },
+    { "type": "text", "id": "price_label", "label": "価格の前ラベル", "default": "通常価格" },
+    { "type": "text", "id": "original_price", "label": "通常価格(取り消し線)", "default": "¥9,800" },
+    { "type": "text", "id": "sale_price", "label": "セール価格", "default": "¥4,980(税込)" },
+
+    { "type": "header", "content": "CTA ボタン" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "今すぐ詳しく見てみる" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "text", "id": "footnote", "label": "ボタン下の補足", "default": "※キャンペーン価格は予告なく終了する場合がございます" },
+
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff5f5" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(帯・バッジ)", "default": "#d32030" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#ff8800" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "ベネフィット項目",
+      "settings": [
+        { "type": "text", "id": "text", "label": "ベネフィット文言", "default": "うれしいポイントをここに記載します" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / コラムLP導線(SEO記事→商品CTA帯)",
+      "settings": {
+        "bubble_text": "記事をお読みのあなたへ",
+        "eyebrow": "ご好評につき期間限定キャンペーン中",
+        "heading": "業界No.1の実力をぜひお試しください",
+        "subheading": "記事でご紹介した悩みを、こちらの商品ですっきり解決できます。今だけの特別価格でご提供しております。",
+        "product_name": "おすすめ商品",
+        "discount_badge": "50%OFF",
+        "price_label": "通常価格",
+        "original_price": "¥9,800",
+        "sale_price": "¥4,980(税込)",
+        "cta_text": "今すぐ詳しく見てみる",
+        "footnote": "※キャンペーン価格は予告なく終了する場合がございます"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "累計販売10万個突破の人気商品です" } },
+        { "type": "benefit", "settings": { "text": "全国どこでも送料無料でお届けします" } },
+        { "type": "benefit", "settings": { "text": "30日間の返品保証付きで安心です" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

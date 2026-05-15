@@ -1,0 +1,169 @@
+{% comment %}
+============================================================
+セクション名: コレクション特集グリッド
+用途: 特集ページやカテゴリページの入口を、画像 + タイトル + 説明のカードで横並びに紹介する。シーズン特集・ブランド特集・カテゴリ別おすすめなど、複数の入口をひとまとめに見せたいときに使う。
+推奨設置場所: トップページの中段(ヒーロー直下や新着商品の下)、コレクション一覧の冒頭、LP の導線セクション
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - カードごとの画像・タイトル・説明文・リンク先
+  - 1 行あたりの表示カード数(2 / 3 / 4 カラム)
+  - 背景色・文字色・カード角丸の強さ
+  - ブロックの追加・削除で特集数を自由に変更可能
+注意点:
+  - カード画像は推奨 800 × 600px(4:3)、JPEG または PNG
+  - ブロックは最低 2 個、最大 12 個を推奨
+  - ブロック未登録時は空メッセージが表示される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign section_heading = section.settings.heading | escape -%}
+
+<section class="alsel-collection-features" aria-label="{{ section_heading }}">
+  <div class="alsel-collection-features__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-collection-features__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-collection-features__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-collection-features__empty">
+        表示する特集はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-collection-features__grid alsel-collection-features__grid--cols-{{ section.settings.columns_desktop }}">
+        {%- for block in section.blocks -%}
+          {%- assign card_alt = block.settings.title | escape -%}
+          <article class="alsel-collection-features__card" {{ block.shopify_attributes }}>
+            <a class="alsel-collection-features__link" href="{{ block.settings.link | default: '#' }}" aria-label="{{ card_alt }}の特集ページへ">
+              <div class="alsel-collection-features__media">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image
+                    | image_url: width: 800
+                    | image_tag: loading: 'lazy', class: 'alsel-collection-features__img', alt: card_alt, widths: '300, 500, 800, 1100' }}
+                {%- else -%}
+                  <div class="alsel-collection-features__placeholder" aria-hidden="true">No Image</div>
+                {%- endif -%}
+                {%- if block.settings.badge != blank -%}
+                  <span class="alsel-collection-features__badge">{{ block.settings.badge }}</span>
+                {%- endif -%}
+              </div>
+              <div class="alsel-collection-features__body">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="alsel-collection-features__title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <p class="alsel-collection-features__desc">{{ block.settings.description }}</p>
+                {%- endif -%}
+                {%- if block.settings.cta_text != blank -%}
+                  <span class="alsel-collection-features__cta">
+                    {{ block.settings.cta_text }}
+                    <span class="alsel-collection-features__arrow" aria-hidden="true">→</span>
+                  </span>
+                {%- endif -%}
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-collection-features {
+    --acf-bg: {{ section.settings.bg_color }};
+    --acf-text: {{ section.settings.text_color }};
+    --acf-card-bg: {{ section.settings.card_bg }};
+    --acf-accent: {{ section.settings.accent_color }};
+    --acf-radius: {{ section.settings.card_radius }}px;
+    background: var(--acf-bg);
+    color: var(--acf-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-collection-features__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-collection-features__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-collection-features__sub { font-size: 0.95rem; line-height: 1.7; text-align: center; opacity: 0.8; margin: 0 0 2rem; }
+  .alsel-collection-features__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-collection-features__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .alsel-collection-features__card { background: var(--acf-card-bg); border-radius: var(--acf-radius); overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .alsel-collection-features__card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .alsel-collection-features__link { display: block; color: inherit; text-decoration: none; }
+  .alsel-collection-features__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #f1f5f9; }
+  .alsel-collection-features__img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .alsel-collection-features__card:hover .alsel-collection-features__img { transform: scale(1.05); }
+  .alsel-collection-features__placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 0.9rem; }
+  .alsel-collection-features__badge { position: absolute; top: 0.75rem; left: 0.75rem; background: var(--acf-accent); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 9999px; }
+  .alsel-collection-features__body { padding: 1.1rem 1.2rem 1.3rem; }
+  .alsel-collection-features__title { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; line-height: 1.4; }
+  .alsel-collection-features__desc { font-size: 0.9rem; line-height: 1.6; margin: 0 0 0.8rem; opacity: 0.8; }
+  .alsel-collection-features__cta { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--acf-accent); font-size: 0.9rem; font-weight: 700; }
+  .alsel-collection-features__arrow { transition: transform 0.3s ease; }
+  .alsel-collection-features__card:hover .alsel-collection-features__arrow { transform: translateX(4px); }
+  @media (min-width: 750px) {
+    .alsel-collection-features { padding: 5rem 2rem; }
+    .alsel-collection-features__grid { gap: 1.75rem; }
+    .alsel-collection-features__grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .alsel-collection-features__grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .alsel-collection-features__grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+    .alsel-collection-features__sub { margin-bottom: 3rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "コレクション特集グリッド",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "おすすめの特集" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "気になるテーマからお気に入りの商品をお探しください。" },
+    {
+      "type": "select", "id": "columns_desktop", "label": "PC 表示時のカード数(1 行あたり)",
+      "options": [
+        { "value": "2", "label": "2 カラム" },
+        { "value": "3", "label": "3 カラム" },
+        { "value": "4", "label": "4 カラム" }
+      ],
+      "default": "3"
+    },
+    { "type": "range", "id": "card_radius", "label": "カードの角丸", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(バッジ・リンク)", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "feature_card",
+      "name": "特集カード",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "カード画像", "info": "推奨 800 × 600px(4:3)、JPEG または PNG" },
+        { "type": "text", "id": "badge", "label": "バッジ(任意)", "info": "「期間限定」「新着特集」などの短いタグ" },
+        { "type": "text", "id": "title", "label": "タイトル", "default": "特集タイトル" },
+        { "type": "textarea", "id": "description", "label": "説明文", "default": "特集の魅力を一言でご紹介します。" },
+        { "type": "text", "id": "cta_text", "label": "CTA テキスト", "default": "特集を見る" },
+        { "type": "url", "id": "link", "label": "リンク先(コレクション・ページ・商品など)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / コレクション特集グリッド(3 カラム)",
+      "settings": {
+        "heading": "おすすめの特集",
+        "subheading": "気になるテーマからお気に入りの商品をお探しください。",
+        "columns_desktop": "3"
+      },
+      "blocks": [
+        { "type": "feature_card", "settings": { "badge": "新着特集", "title": "夏のおすすめアイテム", "description": "暑い季節を快適に過ごせるアイテムを集めました。", "cta_text": "特集を見る" } },
+        { "type": "feature_card", "settings": { "badge": "期間限定", "title": "ギフトコレクション", "description": "大切な方への贈り物にぴったりのラインナップです。", "cta_text": "特集を見る" } },
+        { "type": "feature_card", "settings": { "badge": "人気特集", "title": "ベストセラー", "description": "お客様に長く愛され続けている定番商品をご紹介します。", "cta_text": "特集を見る" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

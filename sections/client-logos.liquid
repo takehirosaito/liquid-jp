@@ -1,0 +1,244 @@
+{% comment %}
+============================================================
+セクション名: 導入実績ロゴ一覧
+用途: BtoB・卸・法人向けに「これだけの企業に導入されている」という信頼感を訴求するセクション
+推奨設置場所: トップページ中段・LP の信頼訴求パート・法人向け説明ページ・お問い合わせ前の安心訴求
+カスタマイズポイント:
+  - セクション見出し・サブコピー(任意)
+  - 導入企業ロゴ画像(ブロックで追加・削除可)
+  - 各ロゴのリンク先(任意。導入事例ページなどへ)
+  - グレースケール表示の ON/OFF(統一感を出したい場合に有効)
+  - 1 行あたりの表示数(モバイル / PC)
+  - 背景色・区切り線の色
+注意点:
+  - ロゴ画像は PNG 透過(推奨 400 × 200px、横長想定)を推奨
+  - ロゴが少ない場合でも、3 つ以上設置するのが望ましい
+  - グレースケールを ON にすると、ブランドの世界観を損なわずに掲載できる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-client-logos{%- if section.settings.grayscale %} alsel-client-logos--grayscale{%- endif -%}" aria-label="{{ sec_heading }}">
+  <div class="alsel-client-logos__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-client-logos__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-client-logos__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-client-logos__empty">
+        表示できる導入企業ロゴはまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-client-logos__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign logo_alt = block.settings.company_name | default: 'ロゴ' | escape -%}
+          <li class="alsel-client-logos__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="alsel-client-logos__link" href="{{ block.settings.link }}" aria-label="{{ logo_alt }}の詳細を見る">
+            {%- endif -%}
+            {%- if block.settings.logo != blank -%}
+              {{ block.settings.logo
+                | image_url: width: 400
+                | image_tag: loading: 'lazy', class: 'alsel-client-logos__image', alt: logo_alt, widths: '160, 240, 320, 400' }}
+            {%- else -%}
+              <span class="alsel-client-logos__placeholder">{{ block.settings.company_name | default: '企業名' }}</span>
+            {%- endif -%}
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-client-logos__cta-wrap">
+        <a class="alsel-client-logos__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-client-logos {
+    --alsel-cl-bg: {{ section.settings.bg_color }};
+    --alsel-cl-text: {{ section.settings.text_color }};
+    --alsel-cl-border: {{ section.settings.border_color }};
+    --alsel-cl-cta-bg: {{ section.settings.cta_bg }};
+    --alsel-cl-cta-color: {{ section.settings.cta_color }};
+    --alsel-cl-cols-mobile: {{ section.settings.cols_mobile }};
+    --alsel-cl-cols-pc: {{ section.settings.cols_pc }};
+    background: var(--alsel-cl-bg);
+    padding: 3rem 1rem;
+    color: var(--alsel-cl-text);
+  }
+  .alsel-client-logos__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .alsel-client-logos__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-client-logos__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: center;
+    margin: 0 0 2rem;
+    color: #475569;
+  }
+  .alsel-client-logos__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+  }
+  .alsel-client-logos__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--alsel-cl-cols-mobile), 1fr);
+    gap: 1px;
+    background: var(--alsel-cl-border);
+    border: 1px solid var(--alsel-cl-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .alsel-client-logos__item {
+    background: #ffffff;
+    aspect-ratio: 2 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .alsel-client-logos__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  .alsel-client-logos__link:hover {
+    opacity: 0.7;
+  }
+  .alsel-client-logos__image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+  }
+  .alsel-client-logos--grayscale .alsel-client-logos__image {
+    filter: grayscale(100%);
+    opacity: 0.75;
+  }
+  .alsel-client-logos--grayscale .alsel-client-logos__link:hover .alsel-client-logos__image {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  .alsel-client-logos__placeholder {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    text-align: center;
+  }
+  .alsel-client-logos__cta-wrap {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .alsel-client-logos__cta {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background: var(--alsel-cl-cta-bg);
+    color: var(--alsel-cl-cta-color);
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  @media (min-width: 750px) {
+    .alsel-client-logos {
+      padding: 5rem 2rem;
+    }
+    .alsel-client-logos__sub {
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .alsel-client-logos__grid {
+      grid-template-columns: repeat(var(--alsel-cl-cols-pc), 1fr);
+    }
+    .alsel-client-logos__item {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "導入実績ロゴ一覧",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "導入企業のご紹介" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "業界・規模を問わず、多くの企業様にご導入いただいております。" },
+    { "type": "checkbox", "id": "grayscale", "label": "ロゴをグレースケールで表示する", "default": true, "info": "統一感のある印象になります。マウスホバー時はカラー表示に切り替わります。" },
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "cols_mobile", "label": "モバイル時の 1 行表示数", "min": 2, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "cols_pc", "label": "PC 時の 1 行表示数", "min": 3, "max": 6, "step": 1, "default": 5 },
+    { "type": "header", "content": "ボタン(任意)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "info": "「導入事例を詳しく見る」などのリンクを設置できます。" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "border_color", "label": "区切り線の色", "default": "#e2e8f0" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#0f172a" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "導入企業ロゴ",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "ロゴ画像", "info": "推奨 400 × 200px、PNG 透過、横長の構図がおすすめです。" },
+        { "type": "text", "id": "company_name", "label": "企業名", "info": "alt 属性および画像未設定時の代替表示に使われます。" },
+        { "type": "url", "id": "link", "label": "リンク先(任意)", "info": "導入事例ページなどへ遷移させたい場合に設定します。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 導入実績ロゴ一覧(グリッド)",
+      "settings": {
+        "heading": "導入企業のご紹介",
+        "subheading": "業界・規模を問わず、多くの企業様にご導入いただいております。",
+        "grayscale": true,
+        "cols_mobile": 2,
+        "cols_pc": 5,
+        "cta_text": "導入事例を詳しく見る"
+      },
+      "blocks": [
+        { "type": "logo", "settings": { "company_name": "株式会社サンプルA" } },
+        { "type": "logo", "settings": { "company_name": "株式会社サンプルB" } },
+        { "type": "logo", "settings": { "company_name": "株式会社サンプルC" } },
+        { "type": "logo", "settings": { "company_name": "株式会社サンプルD" } },
+        { "type": "logo", "settings": { "company_name": "株式会社サンプルE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

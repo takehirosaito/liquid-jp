@@ -1,0 +1,312 @@
+{% comment %}
+============================================================
+セクション名: オーダーメイド手順
+用途: オーダーメイド商品の注文後の確認フロー(ヒアリング・デザイン確認・制作・発送)を、
+      お客様に分かりやすくステップ形式でご案内するためのセクション
+推奨設置場所: オーダーメイド商品ページ・特集 LP・ご利用案内ページ
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 各ステップのアイコン画像・タイトル・本文・所要日数の目安
+  - ステップ番号の表示色・アクセントカラー
+  - 末尾の補足注釈(納期目安・送料・領収書発行など)
+注意点:
+  - アイコン画像は正方形(推奨 200 × 200px、PNG 透過)を用意する
+  - ブロックは 3〜6 個推奨。それ以上は横スクロール表示になる
+  - 営業日換算の日数表記は事業者側で別途案内する必要がある
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-custom-order-steps" aria-label="{{ sec_heading }}">
+  <div class="alsel-custom-order-steps__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-custom-order-steps__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-custom-order-steps__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-custom-order-steps__empty">
+        手順はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ol class="alsel-custom-order-steps__list">
+        {%- for block in section.blocks -%}
+          {%- assign block_alt = block.settings.title | escape -%}
+          <li class="alsel-custom-order-steps__item" {{ block.shopify_attributes }}>
+            <div class="alsel-custom-order-steps__num" aria-hidden="true">
+              <span class="alsel-custom-order-steps__num-label">STEP</span>
+              <span class="alsel-custom-order-steps__num-value">{{ forloop.index }}</span>
+            </div>
+            <div class="alsel-custom-order-steps__card">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-custom-order-steps__icon', alt: block_alt, widths: '100, 150, 200' }}
+              {%- endif -%}
+              <div class="alsel-custom-order-steps__body">
+                {%- if block.settings.duration != blank -%}
+                  <span class="alsel-custom-order-steps__duration">目安:{{ block.settings.duration }}</span>
+                {%- endif -%}
+                <h3 class="alsel-custom-order-steps__title">{{ block.settings.title }}</h3>
+                <p class="alsel-custom-order-steps__text">{{ block.settings.body }}</p>
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <div class="alsel-custom-order-steps__note">
+        <p>{{ section.settings.note }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-custom-order-steps__cta-wrap">
+        <a class="alsel-custom-order-steps__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-custom-order-steps {
+    --accent: {{ section.settings.accent_color }};
+    --bg: {{ section.settings.bg_color }};
+    --card-bg: #ffffff;
+    --text: #1f2937;
+    --muted: #64748b;
+    background: var(--bg);
+    padding: 3rem 1rem;
+    color: var(--text);
+  }
+  .alsel-custom-order-steps__inner { max-width: 960px; margin: 0 auto; }
+  .alsel-custom-order-steps__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    text-align: center;
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .alsel-custom-order-steps__lead {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin: 0 0 2.5rem;
+  }
+  .alsel-custom-order-steps__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    margin: 0;
+  }
+  .alsel-custom-order-steps__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+  }
+  .alsel-custom-order-steps__item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 0.75rem;
+    align-items: stretch;
+    position: relative;
+  }
+  .alsel-custom-order-steps__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 31px;
+    top: 64px;
+    bottom: -1.25rem;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0.25;
+  }
+  .alsel-custom-order-steps__num {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .alsel-custom-order-steps__num-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .alsel-custom-order-steps__num-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .alsel-custom-order-steps__card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .alsel-custom-order-steps__icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .alsel-custom-order-steps__body { flex: 1; min-width: 0; }
+  .alsel-custom-order-steps__duration {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(0,0,0,0.04);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    margin: 0 0 0.5rem;
+  }
+  .alsel-custom-order-steps__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+  .alsel-custom-order-steps__text {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin: 0;
+  }
+  .alsel-custom-order-steps__note {
+    margin-top: 2rem;
+    padding: 1rem 1.25rem;
+    background: rgba(0,0,0,0.03);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .alsel-custom-order-steps__note p { margin: 0; }
+  .alsel-custom-order-steps__cta-wrap { text-align: center; margin-top: 2rem; }
+  .alsel-custom-order-steps__cta {
+    display: inline-block;
+    padding: 0.95rem 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  @media (min-width: 750px) {
+    .alsel-custom-order-steps { padding: 5rem 2rem; }
+    .alsel-custom-order-steps__item { grid-template-columns: 80px 1fr; gap: 1.25rem; }
+    .alsel-custom-order-steps__item:not(:last-child)::after { left: 39px; top: 80px; }
+    .alsel-custom-order-steps__num { width: 80px; height: 80px; }
+    .alsel-custom-order-steps__num-value { font-size: 1.75rem; }
+    .alsel-custom-order-steps__card { padding: 1.5rem 1.75rem; }
+    .alsel-custom-order-steps__icon { width: 72px; height: 72px; }
+    .alsel-custom-order-steps__title { font-size: 1.15rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "オーダーメイド手順",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "オーダーメイドのご注文の流れ" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "ご注文からお届けまでの流れをご紹介します。お客様一人ひとりのご希望に沿った世界に一つだけの一品を、丁寧にお仕立てします。" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#b45309" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fdfaf5" },
+    { "type": "textarea", "id": "note", "label": "補足注釈", "default": "※ 表示の日数は営業日換算の目安となります(土日祝日・年末年始を除く)。 ※ 配送地域により到着日が前後する場合がございます。 ※ ご注文確定後のキャンセル・仕様変更はお受けできません。 ※ 領収書・のし対応をご希望の方はご注文時の備考欄にてお知らせください。" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "オーダーメイドを相談する" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "手順ステップ",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "text", "id": "title", "label": "ステップタイトル", "default": "ステップ名" },
+        { "type": "text", "id": "duration", "label": "所要日数の目安", "info": "例:即日 / 1〜3 営業日 / 約 2 週間" },
+        { "type": "textarea", "id": "body", "label": "本文", "default": "ステップの内容説明をご記入ください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / オーダーメイド手順(縦並びステップ)",
+      "settings": {
+        "heading": "オーダーメイドのご注文の流れ",
+        "lead": "ご注文からお届けまでの流れをご紹介します。お客様一人ひとりのご希望に沿った世界に一つだけの一品を、丁寧にお仕立てします。",
+        "accent_color": "#b45309",
+        "bg_color": "#fdfaf5",
+        "cta_text": "オーダーメイドを相談する"
+      },
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "ご注文・お申し込み",
+            "duration": "即日",
+            "body": "商品ページよりご希望のオプション(素材・サイズ・刻印など)をご選択のうえ、ご注文へお進みください。税込価格で表示しています。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "ヒアリング・お見積もり",
+            "duration": "1〜3 営業日",
+            "body": "ご注文内容を確認のうえ、専任スタッフよりメールにてご連絡します。詳細仕様・追加費用・納期の目安をお知らせします。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "デザイン確認・ご承認",
+            "duration": "3〜7 営業日",
+            "body": "デザイン案や仕上がりイメージを画像にてご提案します。修正は 2 回まで無料で承ります。ご承認後に制作へ進みます。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "制作・品質チェック",
+            "duration": "約 2〜4 週間",
+            "body": "熟練の職人が一点一点丁寧にお仕立てします。完成後は社内検品にて品質を厳しくチェックします。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "発送・お届け",
+            "duration": "1〜3 営業日",
+            "body": "ご希望に応じて、のし・ラッピング・領収書同梱を承ります。配送状況は追跡番号にてご確認いただけます。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

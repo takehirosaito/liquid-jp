@@ -1,0 +1,245 @@
+{% comment %}
+============================================================
+セクション名: 栄養成分表示
+用途: 食品 D2C ストアで商品の栄養成分を表形式で見やすく表示します。健康志向のお客様に安心感を提供する定番セクションです。
+推奨設置場所: 商品ページ・商品詳細 LP・ブランドストーリーページ
+カスタマイズポイント:
+  - 見出し・補足テキスト
+  - 1食あたりの分量(○○g あたり等)
+  - 栄養成分項目(ブロックで自由に追加・並び替え)
+  - 表のヘッダー色・縞模様の有無
+  - 出典・注釈テキスト
+注意点:
+  - ブロックは最大 20 個まで追加可能(食品表示法に沿った項目を推奨)
+  - 数値は文字列として入力するため「2.5」「微量」「0」など自由に記載可能
+  - 表記基準(推定値・分析値など)は注釈欄に明記してください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign aria_label = section.settings.heading | default: '栄養成分表示' | escape -%}
+
+<section class="alsel-nutrition-facts" aria-label="{{ aria_label }}">
+  <div class="alsel-nutrition-facts__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-nutrition-facts__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-nutrition-facts__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.serving_label != blank -%}
+      <p class="alsel-nutrition-facts__serving">{{ section.settings.serving_label }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-nutrition-facts__empty">
+        栄養成分はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-nutrition-facts__table-wrap">
+        <table class="alsel-nutrition-facts__table{%- if section.settings.striped %} alsel-nutrition-facts__table--striped{%- endif -%}">
+          <thead class="alsel-nutrition-facts__thead">
+            <tr>
+              <th scope="col" class="alsel-nutrition-facts__th alsel-nutrition-facts__th--name">
+                {{ section.settings.col_name | escape }}
+              </th>
+              <th scope="col" class="alsel-nutrition-facts__th alsel-nutrition-facts__th--value">
+                {{ section.settings.col_value | escape }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr class="alsel-nutrition-facts__row{%- if block.settings.is_highlight %} alsel-nutrition-facts__row--highlight{%- endif -%}" {{ block.shopify_attributes }}>
+                <th scope="row" class="alsel-nutrition-facts__cell alsel-nutrition-facts__cell--name">
+                  {{ block.settings.name | escape }}
+                  {%- if block.settings.note != blank -%}
+                    <span class="alsel-nutrition-facts__note">{{ block.settings.note | escape }}</span>
+                  {%- endif -%}
+                </th>
+                <td class="alsel-nutrition-facts__cell alsel-nutrition-facts__cell--value">
+                  <span class="alsel-nutrition-facts__number">{{ block.settings.value | escape }}</span>
+                  {%- if block.settings.unit != blank -%}
+                    <span class="alsel-nutrition-facts__unit">{{ block.settings.unit | escape }}</span>
+                  {%- endif -%}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="alsel-nutrition-facts__footnote">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-nutrition-facts {
+    --anf-header-bg: {{ section.settings.header_bg }};
+    --anf-header-color: {{ section.settings.header_color }};
+    --anf-border: {{ section.settings.border_color }};
+    --anf-stripe: {{ section.settings.stripe_color }};
+    --anf-highlight: {{ section.settings.highlight_color }};
+    --anf-bg: {{ section.settings.bg_color }};
+    padding: 3rem 1rem;
+    background: var(--anf-bg);
+  }
+  .alsel-nutrition-facts__inner { max-width: 720px; margin: 0 auto; }
+  .alsel-nutrition-facts__heading {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    color: #1f2937;
+  }
+  .alsel-nutrition-facts__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: center;
+    color: #475569;
+    margin: 0 0 1rem;
+  }
+  .alsel-nutrition-facts__serving {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 0.4rem 0.9rem;
+    border-radius: 9999px;
+    margin: 0 auto 1.25rem;
+    text-align: center;
+  }
+  .alsel-nutrition-facts__inner > .alsel-nutrition-facts__serving { display: block; max-width: max-content; }
+  .alsel-nutrition-facts__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    margin: 0;
+  }
+  .alsel-nutrition-facts__table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--anf-border);
+    border-radius: 10px;
+  }
+  .alsel-nutrition-facts__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+  }
+  .alsel-nutrition-facts__th {
+    background: var(--anf-header-bg);
+    color: var(--anf-header-color);
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.9rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--anf-border);
+  }
+  .alsel-nutrition-facts__th--value { text-align: right; }
+  .alsel-nutrition-facts__row { border-bottom: 1px solid var(--anf-border); }
+  .alsel-nutrition-facts__row:last-child { border-bottom: none; }
+  .alsel-nutrition-facts__table--striped .alsel-nutrition-facts__row:nth-child(even) {
+    background: var(--anf-stripe);
+  }
+  .alsel-nutrition-facts__row--highlight {
+    background: var(--anf-highlight) !important;
+  }
+  .alsel-nutrition-facts__cell {
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    color: #1f2937;
+    vertical-align: middle;
+  }
+  .alsel-nutrition-facts__cell--name { font-weight: 500; text-align: left; }
+  .alsel-nutrition-facts__cell--value { text-align: right; white-space: nowrap; }
+  .alsel-nutrition-facts__note {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 400;
+    margin-top: 0.15rem;
+  }
+  .alsel-nutrition-facts__number { font-weight: 700; font-size: 1rem; }
+  .alsel-nutrition-facts__unit { font-size: 0.85rem; color: #475569; margin-left: 0.25rem; }
+  .alsel-nutrition-facts__footnote {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 1rem 0 0;
+    text-align: left;
+  }
+  @media (min-width: 750px) {
+    .alsel-nutrition-facts { padding: 5rem 2rem; }
+    .alsel-nutrition-facts__heading { margin-bottom: 1rem; }
+    .alsel-nutrition-facts__cell, .alsel-nutrition-facts__th { padding: 1rem 1.25rem; font-size: 1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "栄養成分表示",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出しエリア" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "栄養成分表示" },
+    { "type": "textarea", "id": "subheading", "label": "補足テキスト", "default": "本商品の栄養成分は以下のとおりです。" },
+    { "type": "text", "id": "serving_label", "label": "1食あたりの分量表記", "default": "1食(30g)あたり", "info": "例: 「1袋(100g)あたり」「100ml あたり」のように記載します。" },
+    { "type": "header", "content": "表のヘッダー" },
+    { "type": "text", "id": "col_name", "label": "左列の見出し", "default": "栄養成分" },
+    { "type": "text", "id": "col_value", "label": "右列の見出し", "default": "含有量" },
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "checkbox", "id": "striped", "label": "縞模様を表示する", "default": true },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#ffffff" },
+    { "type": "color", "id": "header_bg", "label": "表ヘッダー背景色", "default": "#0f766e" },
+    { "type": "color", "id": "header_color", "label": "表ヘッダー文字色", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "罫線の色", "default": "#e2e8f0" },
+    { "type": "color", "id": "stripe_color", "label": "縞模様の色", "default": "#f8fafc" },
+    { "type": "color", "id": "highlight_color", "label": "強調行の背景色", "default": "#fef3c7" },
+    { "type": "header", "content": "注釈" },
+    { "type": "textarea", "id": "footnote", "label": "出典・注釈", "default": "※ この表示値は目安です。製造ロットにより若干変動する場合があります。" }
+  ],
+  "blocks": [
+    {
+      "type": "nutrient",
+      "name": "栄養成分",
+      "settings": [
+        { "type": "text", "id": "name", "label": "成分名", "default": "エネルギー" },
+        { "type": "text", "id": "value", "label": "数値", "default": "120", "info": "「微量」「0」「2.5」など自由に入力できます。" },
+        { "type": "text", "id": "unit", "label": "単位", "default": "kcal" },
+        { "type": "text", "id": "note", "label": "補足(任意)", "info": "例: 「推定値」「うち糖類」など、成分名の下に小さく表示されます。" },
+        { "type": "checkbox", "id": "is_highlight", "label": "この行を強調表示する", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "ALSEL監修 / 栄養成分表示(2列テーブル)",
+      "settings": {
+        "heading": "栄養成分表示",
+        "subheading": "本商品の栄養成分は以下のとおりです。",
+        "serving_label": "1食(30g)あたり",
+        "col_name": "栄養成分",
+        "col_value": "含有量",
+        "striped": true,
+        "footnote": "※ この表示値は目安です。製造ロットにより若干変動する場合があります。"
+      },
+      "blocks": [
+        { "type": "nutrient", "settings": { "name": "エネルギー", "value": "120", "unit": "kcal" } },
+        { "type": "nutrient", "settings": { "name": "たんぱく質", "value": "8.5", "unit": "g" } },
+        { "type": "nutrient", "settings": { "name": "脂質", "value": "3.2", "unit": "g" } },
+        { "type": "nutrient", "settings": { "name": "炭水化物", "value": "15.0", "unit": "g", "note": "うち糖類 4.0g" } },
+        { "type": "nutrient", "settings": { "name": "食塩相当量", "value": "0.3", "unit": "g" } },
+        { "type": "nutrient", "settings": { "name": "食物繊維", "value": "2.1", "unit": "g", "is_highlight": true } }
+      ]
+    }
+  ]
+}
+{% endschema %}

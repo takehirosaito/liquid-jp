@@ -30,6 +30,9 @@
     {%- endif -%}
 
     <div class="alsel-three-reasons-why__grid">
+      {%- if section.blocks.size == 0 -%}
+    <p class="alsel-three-reasons-why__empty" style="text-align:center;color:#888;padding:2rem 0;">表示する項目をテーマエディタからブロックとして追加してください。</p>
+  {%- endif -%}
       {%- for block in section.blocks -%}
         <article class="alsel-three-reasons-why__card" {{ block.shopify_attributes }}>
           <div class="alsel-three-reasons-why__num" aria-hidden="true">
@@ -172,7 +175,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "上部の小見出し", "default": "REASONS", "info": "見出しの上に表示する英字や短い言葉" },
     { "type": "text", "id": "heading", "label": "セクション見出し", "default": "選ばれる3つの理由" },
-    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "お客様に選ばれ続ける、当店の強みを紹介する。" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "お客様に選ばれ続ける、当店の強みをご紹介します。" },
     { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
     { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
@@ -196,12 +199,12 @@
       "settings": {
         "eyebrow": "REASONS",
         "heading": "選ばれる3つの理由",
-        "subheading": "お客様に選ばれ続ける、当店の強みを紹介する。"
+        "subheading": "お客様に選ばれ続ける、当店の強みをご紹介します。"
       },
       "blocks": [
         { "type": "reason", "settings": { "title": "高品質な素材", "body": "厳選した素材だけを使い、丁寧に仕上げている。" } },
         { "type": "reason", "settings": { "title": "送料無料", "body": "5,000 円以上のご注文で全国どこでも送料無料である。" } },
-        { "type": "reason", "settings": { "title": "安心の返品保証", "body": "ご購入から 30 日以内であれば返品・交換に対応する。" } }
+        { "type": "reason", "settings": { "title": "安心の返品保証", "body": "ご購入から 30 日以内であれば返品・交換に対応します。" } }
       ]
     }
   ]

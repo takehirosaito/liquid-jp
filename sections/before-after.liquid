@@ -1,0 +1,161 @@
+{% comment %}
+============================================================
+セクション名: Before / After 比較
+用途: 商品やサービスの使用前後の変化を 2 枚の画像で視覚的に伝えるためのセクション。美容・健康・掃除用品・リフォームなど「変化が成果になる商材」で効果を強く訴求できる
+推奨設置場所: トップページの訴求エリア、商品ページの説明セクション、LP の中盤(課題提示の直後)
+カスタマイズポイント:
+  - Before / After それぞれの画像とラベル
+  - セクション見出し・サブコピー
+  - 補足説明文(変化のポイント)
+  - 矢印アイコンの表示有無
+  - 背景色・アクセントカラー
+  - レイアウト(横並び / 縦並び)
+注意点:
+  - Before / After 画像は同じサイズ・同じアングルで撮影した画像を使うと比較効果が高まる
+  - 推奨サイズ: 800 × 800px(正方形) または 800 × 1000px(縦長)、JPEG または PNG
+  - 景品表示法・薬機法に注意し、必ず「個人の感想です」など注釈を入れる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign before_alt = section.settings.before_label | append: 'の画像' | escape -%}
+{%- assign after_alt = section.settings.after_label | append: 'の画像' | escape -%}
+
+<section class="alsel-before-after alsel-before-after--{{ section.settings.layout }}" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-before-after__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-before-after__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-before-after__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="alsel-before-after__compare">
+      <figure class="alsel-before-after__item alsel-before-after__item--before">
+        <span class="alsel-before-after__badge alsel-before-after__badge--before">{{ section.settings.before_label }}</span>
+        {%- if section.settings.before_image != blank -%}
+          {{ section.settings.before_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-before-after__image', alt: before_alt, widths: '375, 600, 800' }}
+        {%- else -%}
+          <div class="alsel-before-after__placeholder" aria-hidden="true">Before 画像未設定</div>
+        {%- endif -%}
+        {%- if section.settings.before_caption != blank -%}
+          <figcaption class="alsel-before-after__caption">{{ section.settings.before_caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+
+      {%- if section.settings.show_arrow -%}
+        <div class="alsel-before-after__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+      {%- endif -%}
+
+      <figure class="alsel-before-after__item alsel-before-after__item--after">
+        <span class="alsel-before-after__badge alsel-before-after__badge--after">{{ section.settings.after_label }}</span>
+        {%- if section.settings.after_image != blank -%}
+          {{ section.settings.after_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-before-after__image', alt: after_alt, widths: '375, 600, 800' }}
+        {%- else -%}
+          <div class="alsel-before-after__placeholder" aria-hidden="true">After 画像未設定</div>
+        {%- endif -%}
+        {%- if section.settings.after_caption != blank -%}
+          <figcaption class="alsel-before-after__caption">{{ section.settings.after_caption }}</figcaption>
+        {%- endif -%}
+      </figure>
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-before-after__note">※ {{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-before-after {
+    --ba-bg: {{ section.settings.bg_color }};
+    --ba-accent: {{ section.settings.accent_color }};
+    --ba-before: {{ section.settings.before_color }};
+    --ba-text: {{ section.settings.text_color }};
+    background: var(--ba-bg);
+    padding: 3rem 1rem;
+    color: var(--ba-text);
+  }
+  .alsel-before-after__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-before-after__heading { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-before-after__sub { font-size: 1rem; line-height: 1.7; text-align: center; margin: 0 0 2rem; color: #555; }
+  .alsel-before-after__compare { display: grid; grid-template-columns: 1fr; gap: 1.25rem; align-items: center; }
+  .alsel-before-after__item { position: relative; margin: 0; padding: 0; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .alsel-before-after__badge { position: absolute; top: 0.75rem; left: 0.75rem; z-index: 2; padding: 0.4rem 0.9rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 0.05em; }
+  .alsel-before-after__badge--before { background: var(--ba-before); }
+  .alsel-before-after__badge--after { background: var(--ba-accent); }
+  .alsel-before-after__image { width: 100%; height: auto; display: block; aspect-ratio: 1 / 1; object-fit: cover; }
+  .alsel-before-after__placeholder { width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: #f1f5f9; color: #94a3b8; font-size: 0.95rem; }
+  .alsel-before-after__caption { padding: 0.9rem 1rem; font-size: 0.95rem; line-height: 1.6; text-align: center; color: #334155; border-top: 1px solid #f1f5f9; }
+  .alsel-before-after__arrow { display: flex; align-items: center; justify-content: center; color: var(--ba-accent); transform: rotate(90deg); padding: 0.25rem 0; }
+  .alsel-before-after__note { margin: 1.5rem 0 0; font-size: 0.8rem; line-height: 1.6; text-align: center; color: #94a3b8; }
+
+  @media (min-width: 750px) {
+    .alsel-before-after { padding: 5rem 2rem; }
+    .alsel-before-after--horizontal .alsel-before-after__compare { grid-template-columns: 1fr auto 1fr; gap: 1.5rem; }
+    .alsel-before-after--horizontal .alsel-before-after__arrow { transform: rotate(0deg); padding: 0 0.5rem; }
+    .alsel-before-after--vertical .alsel-before-after__compare { max-width: 600px; margin: 0 auto; }
+    .alsel-before-after__badge { font-size: 0.95rem; padding: 0.5rem 1.1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Before / After 比較",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "使用前と使用後の違い" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "実際にご利用いただいたお客様の変化をご紹介します。" },
+
+    { "type": "header", "content": "Before(使用前)" },
+    { "type": "image_picker", "id": "before_image", "label": "Before 画像", "info": "推奨 800 × 800px、JPEG または PNG。After と同じサイズ・アングルが効果的です。" },
+    { "type": "text", "id": "before_label", "label": "Before ラベル", "default": "BEFORE" },
+    { "type": "text", "id": "before_caption", "label": "Before キャプション", "default": "使用前の状態がこちらです。" },
+
+    { "type": "header", "content": "After(使用後)" },
+    { "type": "image_picker", "id": "after_image", "label": "After 画像", "info": "推奨 800 × 800px、JPEG または PNG。Before と同条件で撮影してください。" },
+    { "type": "text", "id": "after_label", "label": "After ラベル", "default": "AFTER" },
+    { "type": "text", "id": "after_caption", "label": "After キャプション", "default": "使用後はこのように変化します。" },
+
+    { "type": "header", "content": "レイアウト・装飾" },
+    { "type": "select", "id": "layout", "label": "並び方",
+      "options": [
+        { "value": "horizontal", "label": "横並び(PC のみ。モバイルは縦)" },
+        { "value": "vertical", "label": "縦並び" }
+      ],
+      "default": "horizontal" },
+    { "type": "checkbox", "id": "show_arrow", "label": "Before → After の矢印を表示する", "default": true },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
+    { "type": "color", "id": "before_color", "label": "Before バッジ色", "default": "#64748b" },
+    { "type": "color", "id": "accent_color", "label": "After バッジ・矢印色", "default": "#e11d48" },
+
+    { "type": "header", "content": "注釈" },
+    { "type": "textarea", "id": "note", "label": "注釈文(※ 印で表示)", "info": "景品表示法・薬機法に配慮し、必要に応じて記載してください。", "default": "効果には個人差があります。" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / Before / After 比較(2 枚並列)",
+      "settings": {
+        "heading": "使用前と使用後の違い",
+        "subheading": "実際にご利用いただいたお客様の変化をご紹介します。",
+        "before_label": "BEFORE",
+        "before_caption": "使用前の状態がこちらです。",
+        "after_label": "AFTER",
+        "after_caption": "使用後はこのように変化します。",
+        "layout": "horizontal",
+        "show_arrow": true,
+        "note": "効果には個人差があります。"
+      }
+    }
+  ]
+}
+{% endschema %}

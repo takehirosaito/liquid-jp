@@ -1,0 +1,245 @@
+{% comment %}
+============================================================
+セクション名: 発送目安表示
+用途: 商品ページやカート手前で「本日◯時までのご注文で最短◯日発送」と訴求し、購入の後押しをするセクション
+推奨設置場所: 商品ページ(価格・カートボタン直下)、トップページの送料訴求帯、LP の購入導線手前
+カスタマイズポイント:
+  - カットオフ時刻(本日発送の締切時刻)
+  - 本日注文時の最短発送日数(営業日)
+  - カットオフ後の発送日数
+  - 定休日(曜日)指定で営業日カレンダー連動
+  - 配送地域別の到着目安表(北海道・本州・九州・沖縄など)
+  - アイコン絵文字・背景色・文字色
+  - 補足表示(送料無料ライン・のし対応・領収書発行)
+注意点:
+  - 日付計算は JavaScript で実行(ストアのタイムゾーンに依存せずブラウザ時刻基準)
+  - サーバー時刻と数時間ずれる場合があるためカットオフは余裕を持って設定する
+  - 定休日を指定する場合は実際の営業カレンダーと一致させる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_id = 'alsel-shipping-estimate-' | append: section.id -%}
+
+<section
+  class="alsel-shipping-estimate"
+  id="{{ sec_id }}"
+  aria-label="発送目安のご案内"
+  data-cutoff-hour="{{ section.settings.cutoff_hour }}"
+  data-cutoff-minute="{{ section.settings.cutoff_minute }}"
+  data-today-days="{{ section.settings.today_days }}"
+  data-after-days="{{ section.settings.after_days }}"
+  data-closed-days="{{ section.settings.closed_days }}"
+>
+  <div class="alsel-shipping-estimate__inner">
+    <div class="alsel-shipping-estimate__main">
+      <span class="alsel-shipping-estimate__icon" aria-hidden="true">{{ section.settings.icon }}</span>
+      <div class="alsel-shipping-estimate__text">
+        <p class="alsel-shipping-estimate__lead" data-role="lead">{{ section.settings.lead_default }}</p>
+        <p class="alsel-shipping-estimate__main-msg">
+          <span data-role="prefix">{{ section.settings.prefix_text }}</span>
+          <strong class="alsel-shipping-estimate__date" data-role="ship-date">—</strong>
+          <span>{{ section.settings.suffix_text }}</span>
+        </p>
+        <p class="alsel-shipping-estimate__countdown" data-role="countdown" hidden></p>
+      </div>
+    </div>
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-shipping-estimate__empty">配送地域別の目安はまだ登録されていません。テーマエディタからブロックを追加してください。</p>
+    {%- else -%}
+      <details class="alsel-shipping-estimate__regions">
+        <summary class="alsel-shipping-estimate__regions-summary">配送地域別のお届け目安を見る</summary>
+        <table class="alsel-shipping-estimate__table">
+          <thead>
+            <tr>
+              <th scope="col">配送地域</th>
+              <th scope="col">お届け目安</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr {{ block.shopify_attributes }}>
+                <th scope="row">{{ block.settings.region | escape }}</th>
+                <td>{{ block.settings.days | escape }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </details>
+    {%- endif -%}
+
+    {%- if section.settings.note_1 != blank or section.settings.note_2 != blank or section.settings.note_3 != blank -%}
+      <ul class="alsel-shipping-estimate__notes">
+        {%- if section.settings.note_1 != blank -%}<li>{{ section.settings.note_1 }}</li>{%- endif -%}
+        {%- if section.settings.note_2 != blank -%}<li>{{ section.settings.note_2 }}</li>{%- endif -%}
+        {%- if section.settings.note_3 != blank -%}<li>{{ section.settings.note_3 }}</li>{%- endif -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  #{{ sec_id }}.alsel-shipping-estimate {
+    --alsel-se-bg: {{ section.settings.bg_color }};
+    --alsel-se-fg: {{ section.settings.text_color }};
+    --alsel-se-accent: {{ section.settings.accent_color }};
+    background: var(--alsel-se-bg);
+    color: var(--alsel-se-fg);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    margin: 1.5rem auto;
+    max-width: 720px;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .alsel-shipping-estimate__inner { display: flex; flex-direction: column; gap: 1rem; }
+  .alsel-shipping-estimate__main { display: flex; gap: 0.875rem; align-items: flex-start; }
+  .alsel-shipping-estimate__icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+  .alsel-shipping-estimate__text { flex: 1; min-width: 0; }
+  .alsel-shipping-estimate__lead { font-size: 0.85rem; margin: 0 0 0.25rem; opacity: 0.85; }
+  .alsel-shipping-estimate__main-msg { font-size: 1rem; margin: 0; line-height: 1.6; }
+  .alsel-shipping-estimate__date { color: var(--alsel-se-accent); font-weight: 700; font-size: 1.15rem; padding: 0 0.25rem; }
+  .alsel-shipping-estimate__countdown { font-size: 0.85rem; margin: 0.5rem 0 0; color: var(--alsel-se-accent); font-weight: 700; }
+  .alsel-shipping-estimate__empty { text-align: center; color: #888; padding: 1rem 0; margin: 0; font-size: 0.9rem; }
+  .alsel-shipping-estimate__regions { border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 0.875rem; }
+  .alsel-shipping-estimate__regions-summary { cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--alsel-se-accent); user-select: none; }
+  .alsel-shipping-estimate__table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; font-size: 0.9rem; }
+  .alsel-shipping-estimate__table th,
+  .alsel-shipping-estimate__table td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .alsel-shipping-estimate__table thead th { background: rgba(0,0,0,0.04); font-weight: 700; }
+  .alsel-shipping-estimate__notes { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; opacity: 0.85; }
+  .alsel-shipping-estimate__notes li::before { content: '※ '; }
+  @media (min-width: 750px) {
+    #{{ sec_id }}.alsel-shipping-estimate { padding: 1.5rem 1.75rem; }
+    .alsel-shipping-estimate__lead { font-size: 0.9rem; }
+    .alsel-shipping-estimate__main-msg { font-size: 1.1rem; }
+    .alsel-shipping-estimate__date { font-size: 1.3rem; }
+  }
+</style>
+
+<script>
+(function(){
+  var root = document.getElementById('{{ sec_id }}');
+  if (!root) return;
+  var cutoffH = parseInt(root.dataset.cutoffHour, 10) || 0;
+  var cutoffM = parseInt(root.dataset.cutoffMinute, 10) || 0;
+  var todayDays = parseInt(root.dataset.todayDays, 10) || 1;
+  var afterDays = parseInt(root.dataset.afterDays, 10) || 2;
+  var closedRaw = (root.dataset.closedDays || '').split(',').map(function(s){return parseInt(s,10);}).filter(function(n){return !isNaN(n);});
+  var WEEK = ['日','月','火','水','木','金','土'];
+
+  function addBusinessDays(date, days) {
+    var d = new Date(date.getTime());
+    var added = 0;
+    while (added < days) {
+      d.setDate(d.getDate() + 1);
+      if (closedRaw.indexOf(d.getDay()) === -1) added++;
+    }
+    return d;
+  }
+
+  function format(d) {
+    return (d.getMonth()+1) + '月' + d.getDate() + '日(' + WEEK[d.getDay()] + ')';
+  }
+
+  function update() {
+    var now = new Date();
+    var cutoff = new Date(now.getFullYear(), now.getMonth(), now.getDate(), cutoffH, cutoffM, 0);
+    var beforeCutoff = now < cutoff;
+    var isClosedToday = closedRaw.indexOf(now.getDay()) !== -1;
+    var base = (beforeCutoff && !isClosedToday) ? new Date(now.getFullYear(), now.getMonth(), now.getDate()-1) : now;
+    var days = (beforeCutoff && !isClosedToday) ? todayDays : afterDays;
+    var shipDate = addBusinessDays(base, days);
+
+    var dateEl = root.querySelector('[data-role="ship-date"]');
+    if (dateEl) dateEl.textContent = format(shipDate);
+
+    var leadEl = root.querySelector('[data-role="lead"]');
+    if (leadEl) {
+      leadEl.textContent = (beforeCutoff && !isClosedToday)
+        ? '本日中のご注文で最短発送いたします'
+        : '本日のご注文受付は終了しました。翌営業日以降の発送となります';
+    }
+
+    var cdEl = root.querySelector('[data-role="countdown"]');
+    if (cdEl && beforeCutoff && !isClosedToday) {
+      var diff = Math.floor((cutoff - now) / 1000);
+      var h = Math.floor(diff / 3600);
+      var m = Math.floor((diff % 3600) / 60);
+      var s = diff % 60;
+      cdEl.hidden = false;
+      cdEl.textContent = '⏰ 締切まで残り ' + h + '時間 ' + m + '分 ' + s + '秒';
+    } else if (cdEl) {
+      cdEl.hidden = true;
+    }
+  }
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "発送目安表示",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "発送タイミング" },
+    { "type": "text", "id": "icon", "label": "アイコン絵文字", "default": "🚚", "info": "📦 🚚 ⏰ ✈️ などの絵文字を 1 つ入れてください" },
+    { "type": "text", "id": "prefix_text", "label": "発送日の前置きテキスト", "default": "最短" },
+    { "type": "text", "id": "suffix_text", "label": "発送日の後置きテキスト", "default": "に発送いたします" },
+    { "type": "text", "id": "lead_default", "label": "初期表示のリードテキスト", "default": "本日中のご注文で最短発送いたします" },
+    { "type": "header", "content": "カットオフ時刻(本日発送の締切)" },
+    { "type": "range", "id": "cutoff_hour", "label": "締切時刻(時)", "min": 0, "max": 23, "step": 1, "default": 14, "unit": "時" },
+    { "type": "range", "id": "cutoff_minute", "label": "締切時刻(分)", "min": 0, "max": 59, "step": 1, "default": 0, "unit": "分" },
+    { "type": "header", "content": "発送までの営業日数" },
+    { "type": "range", "id": "today_days", "label": "締切前注文の発送日数(営業日)", "min": 0, "max": 7, "step": 1, "default": 0, "unit": "日", "info": "0 にすると即日発送になります" },
+    { "type": "range", "id": "after_days", "label": "締切後注文の発送日数(営業日)", "min": 1, "max": 14, "step": 1, "default": 1, "unit": "日" },
+    { "type": "header", "content": "定休日(発送のないお休み)" },
+    { "type": "text", "id": "closed_days", "label": "定休日(曜日番号)", "default": "0,6", "info": "日曜=0, 月=1, 火=2, 水=3, 木=4, 金=5, 土=6。カンマ区切りで指定します(例: 0,6 で土日休み)" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff8e7" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#d97706" },
+    { "type": "header", "content": "補足表示" },
+    { "type": "text", "id": "note_1", "label": "補足 1", "default": "5,500 円(税込)以上のご購入で送料無料でお届けします" },
+    { "type": "text", "id": "note_2", "label": "補足 2", "default": "のし・ギフトラッピング・領収書発行に対応しております" },
+    { "type": "text", "id": "note_3", "label": "補足 3", "default": "土日祝・年末年始は出荷をお休みいたします" }
+  ],
+  "blocks": [
+    {
+      "type": "region",
+      "name": "配送地域",
+      "settings": [
+        { "type": "text", "id": "region", "label": "地域名", "default": "本州・四国" },
+        { "type": "text", "id": "days", "label": "お届け目安", "default": "発送日から 1〜2 日でお届け" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 発送目安表示(カウントダウン付き)",
+      "settings": {
+        "icon": "🚚",
+        "prefix_text": "最短",
+        "suffix_text": "に発送いたします",
+        "lead_default": "本日中のご注文で最短発送いたします",
+        "cutoff_hour": 14,
+        "cutoff_minute": 0,
+        "today_days": 0,
+        "after_days": 1,
+        "closed_days": "0,6",
+        "note_1": "5,500 円(税込)以上のご購入で送料無料でお届けします",
+        "note_2": "のし・ギフトラッピング・領収書発行に対応しております",
+        "note_3": "土日祝・年末年始は出荷をお休みいたします"
+      },
+      "blocks": [
+        { "type": "region", "settings": { "region": "関東・中部・関西", "days": "発送日の翌日にお届け" } },
+        { "type": "region", "settings": { "region": "東北・中国・四国・九州", "days": "発送日から 1〜2 日でお届け" } },
+        { "type": "region", "settings": { "region": "北海道・沖縄・離島", "days": "発送日から 2〜4 日でお届け" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

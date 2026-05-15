@@ -1,0 +1,279 @@
+{% comment %}
+============================================================
+セクション名: Instagram埋め込み風ギャラリー
+用途: 公式 Instagram の世界観をストアに溶け込ませて見せたい時に使用する。実際の埋め込み API を使わず、画像グリッドで Instagram 風の見た目を再現するため、表示速度が早く、外部サービスの仕様変更にも左右されない
+推奨設置場所: トップページ下部・ブランドストーリーページ・商品ページの世界観訴求エリア
+カスタマイズポイント:
+  - セクション見出し・サブテキスト・ユーザー名(@ から始まる表記)
+  - フォローボタンの文字とリンク先
+  - グリッドの列数(モバイル 2 / 3 列、PC 3 / 4 / 5 / 6 列)
+  - 各投稿の画像・キャプション・いいね数風の数値・リンク先
+  - ホバー時のオーバーレイ色と透過度
+注意点:
+  - 画像は正方形(推奨 1080 × 1080px、JPEG または PNG)が最も Instagram らしく見える
+  - 実際の Instagram API を使わないため、運用上は手動で画像を差し替える必要がある
+  - 投稿リンクは外部 URL(Instagram の投稿 URL)を貼ると、新規タブで開く
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+<section class="alsel-instagram-gallery" aria-label="Instagram ギャラリー">
+  <div class="alsel-instagram-gallery__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-instagram-gallery__heading">
+        <span class="alsel-instagram-gallery__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+          </svg>
+        </span>
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.username != blank -%}
+      <p class="alsel-instagram-gallery__username">{{ section.settings.username }}</p>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-instagram-gallery__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    {%- if section.settings.follow_text != blank and section.settings.follow_link != blank -%}
+      <a class="alsel-instagram-gallery__follow" href="{{ section.settings.follow_link }}" target="_blank" rel="noopener" aria-label="Instagram でフォローする">
+        {{ section.settings.follow_text }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-instagram-gallery__empty">
+      表示できる投稿はまだ登録されていません。テーマエディタからブロックを追加してください。
+    </p>
+  {%- else -%}
+    <div class="alsel-instagram-gallery__grid">
+      {%- for block in section.blocks -%}
+        {%- assign post_alt = block.settings.caption | default: 'Instagram 投稿画像' | escape -%}
+        {%- if block.settings.link != blank -%}
+          <a class="alsel-instagram-gallery__item" href="{{ block.settings.link }}" target="_blank" rel="noopener" aria-label="{{ post_alt }}" {{ block.shopify_attributes }}>
+        {%- else -%}
+          <div class="alsel-instagram-gallery__item" {{ block.shopify_attributes }}>
+        {%- endif -%}
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-instagram-gallery__img', alt: post_alt, widths: '300, 500, 800' }}
+          {%- else -%}
+            <div class="alsel-instagram-gallery__placeholder" aria-hidden="true">
+              {{ 'image' | placeholder_svg_tag: 'alsel-instagram-gallery__placeholder-svg' }}
+            </div>
+          {%- endif -%}
+          <div class="alsel-instagram-gallery__overlay">
+            <div class="alsel-instagram-gallery__overlay-inner">
+              {%- if block.settings.likes != blank -%}
+                <span class="alsel-instagram-gallery__likes">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5 6.5 5c2 0 3.5 1 5.5 3 2-2 3.5-3 5.5-3 4 0 5.5 4 4 7-2.5 4.5-9.5 9-9.5 9z"/>
+                  </svg>
+                  {{ block.settings.likes }}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.caption != blank -%}
+                <p class="alsel-instagram-gallery__caption">{{ block.settings.caption | truncate: 60 }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-instagram-gallery {
+    padding: 3rem 1rem;
+    background: {{ section.settings.bg_color }};
+    --cols-mobile: {{ section.settings.cols_mobile }};
+    --cols-desktop: {{ section.settings.cols_desktop }};
+    --overlay-color: {{ section.settings.overlay_color }};
+    --accent: {{ section.settings.accent_color }};
+  }
+  .alsel-instagram-gallery__header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 2rem;
+  }
+  .alsel-instagram-gallery__heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-instagram-gallery__icon {
+    display: inline-flex;
+    color: var(--accent);
+  }
+  .alsel-instagram-gallery__username {
+    font-size: 1rem;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+  }
+  .alsel-instagram-gallery__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: {{ section.settings.text_color }};
+    opacity: 0.75;
+    margin: 0 0 1.25rem;
+  }
+  .alsel-instagram-gallery__follow {
+    display: inline-block;
+    padding: 0.7rem 1.75rem;
+    background: var(--accent);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .alsel-instagram-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols-mobile), 1fr);
+    gap: 0.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .alsel-instagram-gallery__item {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f1f5f9;
+    text-decoration: none;
+    color: #ffffff;
+  }
+  .alsel-instagram-gallery__img,
+  .alsel-instagram-gallery__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .alsel-instagram-gallery__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    fill: #cbd5e1;
+  }
+  .alsel-instagram-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-color);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+  }
+  .alsel-instagram-gallery__item:hover .alsel-instagram-gallery__overlay,
+  .alsel-instagram-gallery__item:focus-visible .alsel-instagram-gallery__overlay {
+    opacity: 1;
+  }
+  .alsel-instagram-gallery__overlay-inner {
+    text-align: center;
+    color: #ffffff;
+  }
+  .alsel-instagram-gallery__likes {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+  .alsel-instagram-gallery__caption {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.95;
+  }
+  .alsel-instagram-gallery__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    margin: 0;
+  }
+  @media (min-width: 750px) {
+    .alsel-instagram-gallery { padding: 5rem 2rem; }
+    .alsel-instagram-gallery__grid {
+      grid-template-columns: repeat(var(--cols-desktop), 1fr);
+      gap: 0.75rem;
+    }
+    .alsel-instagram-gallery__caption { font-size: 0.9rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Instagram風ギャラリー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "ヘッダー設定" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "Instagram" },
+    { "type": "text", "id": "username", "label": "ユーザー名表記", "default": "@your_shop_name", "info": "@ から始まる Instagram のユーザー名を入力します" },
+    { "type": "textarea", "id": "subheading", "label": "サブテキスト", "default": "ブランドの世界観や最新の投稿をご紹介します。ぜひフォローしてお楽しみください。" },
+    { "type": "text", "id": "follow_text", "label": "フォローボタンの文字", "default": "Instagram をフォローする" },
+    { "type": "url", "id": "follow_link", "label": "フォローボタンのリンク先", "info": "Instagram のプロフィール URL を入力します" },
+    { "type": "header", "content": "レイアウト設定" },
+    { "type": "range", "id": "cols_mobile", "label": "モバイルの列数", "min": 2, "max": 3, "step": 1, "default": 2 },
+    { "type": "range", "id": "cols_desktop", "label": "PC の列数", "min": 3, "max": 6, "step": 1, "default": 4 },
+    { "type": "header", "content": "色設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色", "default": "#e1306c", "info": "Instagram カラーである #e1306c が推奨です" },
+    { "type": "color", "id": "overlay_color", "label": "ホバー時のオーバーレイ色", "default": "rgba(225,48,108,0.75)" }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "投稿",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "投稿画像", "info": "推奨 1080 × 1080px の正方形、JPEG または PNG" },
+        { "type": "text", "id": "caption", "label": "キャプション", "info": "ホバー時に表示されます。60 文字以内が推奨です" },
+        { "type": "text", "id": "likes", "label": "いいね数(表示用)", "info": "例: 1,234。実際の数値ではなく表示用の文字列です" },
+        { "type": "url", "id": "link", "label": "投稿のリンク先", "info": "Instagram の投稿 URL を貼ると、新規タブで開きます" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "ALSEL監修 / Instagram風ギャラリー(画像グリッド)",
+      "settings": {
+        "heading": "Instagram",
+        "username": "@your_shop_name",
+        "subheading": "ブランドの世界観や最新の投稿をご紹介します。ぜひフォローしてお楽しみください。",
+        "follow_text": "Instagram をフォローする",
+        "cols_mobile": 2,
+        "cols_desktop": 4
+      },
+      "blocks": [
+        { "type": "post", "settings": { "caption": "新商品の入荷情報をお届けします。", "likes": "1,234" } },
+        { "type": "post", "settings": { "caption": "スタッフの愛用品をご紹介します。", "likes": "892" } },
+        { "type": "post", "settings": { "caption": "コーディネートの参考にぜひご覧ください。", "likes": "2,103" } },
+        { "type": "post", "settings": { "caption": "限定キャンペーン開催中です。", "likes": "1,567" } },
+        { "type": "post", "settings": { "caption": "お客様のレビューをご紹介します。", "likes": "743" } },
+        { "type": "post", "settings": { "caption": "舞台裏の様子をお届けします。", "likes": "1,021" } },
+        { "type": "post", "settings": { "caption": "季節のおすすめアイテムです。", "likes": "1,876" } },
+        { "type": "post", "settings": { "caption": "本日のおすすめをご紹介します。", "likes": "654" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -164,7 +164,7 @@ def write_report(results: list[dict], total_files: int):
                 )
             lines.append("")
     else:
-        lines.append("\n## エラー・警告なし(全 22 件クリーン)")
+        lines.append(f"\n## エラー・警告なし(全 {total_files} 件クリーン)")
 
     out = DOCS_DIR / "phase6_check_report.md"
     out.parent.mkdir(parents=True, exist_ok=True)

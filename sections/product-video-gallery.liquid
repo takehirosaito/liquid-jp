@@ -1,0 +1,195 @@
+{% comment %}
+============================================================
+セクション名: 商品動画ギャラリー(タブ切替)
+用途: 商品紹介・使い方・お客様の声などの複数動画を、タブで切り替えて見せるためのギャラリーセクション
+推奨設置場所: 商品ページ・トップページ・LP の中盤(商品の魅力を動画で伝えたい場面)
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各動画のタブ名・サムネイル画像・動画 URL(YouTube / Vimeo / MP4)
+  - 動画の説明文
+  - 背景色・アクセントカラー
+  - ブロックの追加・削除でタブ数を変更
+注意点:
+  - サムネイル画像は推奨 1280 × 720px(16:9)、JPEG または PNG
+  - 動画 URL は YouTube の埋め込み URL(https://www.youtube.com/embed/xxxxx)を推奨
+  - MP4 直接配信の場合は Shopify Files にアップロードした URL を指定
+  - ブロックは 2〜6 個推奨。1 個でも動作するがタブとしての意味が薄れる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-product-video-gallery" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-product-video-gallery__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-product-video-gallery__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-product-video-gallery__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-product-video-gallery__empty">
+        動画はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-product-video-gallery__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          {%- assign tab_alt = block.settings.tab_label | escape -%}
+          <button
+            class="alsel-product-video-gallery__tab{%- if forloop.first %} is-active{%- endif -%}"
+            role="tab"
+            type="button"
+            data-target="alsel-pvg-panel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{%- if forloop.first -%}true{%- else -%}false{%- endif -%}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.thumbnail != blank -%}
+              {{ block.settings.thumbnail | image_url: width: 320 | image_tag: loading: 'lazy', class: 'alsel-product-video-gallery__tab-thumb', alt: tab_alt, widths: '160, 320, 480' }}
+            {%- endif -%}
+            <span class="alsel-product-video-gallery__tab-label">{{ block.settings.tab_label }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="alsel-product-video-gallery__panels">
+        {%- for block in section.blocks -%}
+          <div
+            class="alsel-product-video-gallery__panel{%- if forloop.first %} is-active{%- endif -%}"
+            id="alsel-pvg-panel-{{ section.id }}-{{ forloop.index }}"
+            role="tabpanel"
+          >
+            <div class="alsel-product-video-gallery__video">
+              {%- assign video_url = block.settings.video_url -%}
+              {%- if video_url contains 'youtube.com' or video_url contains 'youtu.be' or video_url contains 'vimeo.com' -%}
+                <iframe
+                  src="{{ video_url }}"
+                  title="{{ block.settings.tab_label | escape }}"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              {%- elsif video_url != blank -%}
+                <video controls preload="metadata" playsinline>
+                  <source src="{{ video_url }}" type="video/mp4">
+                </video>
+              {%- elsif block.settings.thumbnail != blank -%}
+                {%- assign fallback_alt = block.settings.tab_label | escape -%}
+                {{ block.settings.thumbnail | image_url: width: 1280 | image_tag: loading: 'lazy', class: 'alsel-product-video-gallery__fallback', alt: fallback_alt, widths: '640, 960, 1280' }}
+              {%- else -%}
+                <div class="alsel-product-video-gallery__placeholder">
+                  動画 URL を設定してください。
+                </div>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.video_title != blank -%}
+              <h3 class="alsel-product-video-gallery__video-title">{{ block.settings.video_title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.video_body != blank -%}
+              <p class="alsel-product-video-gallery__video-body">{{ block.settings.video_body }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-product-video-gallery { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-product-video-gallery__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-product-video-gallery__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); text-align: center; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; font-weight: 700; }
+  .alsel-product-video-gallery__sub { text-align: center; font-size: 1rem; line-height: 1.7; color: {{ section.settings.text_color }}; opacity: 0.8; margin: 0 0 2rem; }
+  .alsel-product-video-gallery__empty { text-align: center; color: #888; padding: 2rem 0; }
+
+  .alsel-product-video-gallery__tabs { display: flex; flex-wrap: nowrap; gap: 0.75rem; overflow-x: auto; padding: 0.5rem 0 1rem; margin: 0 0 1.5rem; scrollbar-width: thin; }
+  .alsel-product-video-gallery__tab { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 0.5rem; background: #fff; border: 2px solid transparent; border-radius: 10px; cursor: pointer; transition: border-color 0.2s, transform 0.2s; min-width: 120px; }
+  .alsel-product-video-gallery__tab:hover { transform: translateY(-2px); }
+  .alsel-product-video-gallery__tab.is-active { border-color: {{ section.settings.accent_color }}; }
+  .alsel-product-video-gallery__tab-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; display: block; }
+  .alsel-product-video-gallery__tab-label { font-size: 0.85rem; font-weight: 700; color: {{ section.settings.text_color }}; text-align: center; line-height: 1.4; }
+
+  .alsel-product-video-gallery__panel { display: none; }
+  .alsel-product-video-gallery__panel.is-active { display: block; animation: alsel-pvg-fade 0.3s ease; }
+  @keyframes alsel-pvg-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .alsel-product-video-gallery__video { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .alsel-product-video-gallery__video iframe,
+  .alsel-product-video-gallery__video video,
+  .alsel-product-video-gallery__fallback { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+  .alsel-product-video-gallery__placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem; }
+
+  .alsel-product-video-gallery__video-title { font-size: 1.15rem; font-weight: 700; margin: 1.25rem 0 0.5rem; color: {{ section.settings.text_color }}; }
+  .alsel-product-video-gallery__video-body { font-size: 0.95rem; line-height: 1.7; color: {{ section.settings.text_color }}; opacity: 0.85; margin: 0; }
+
+  @media (min-width: 750px) {
+    .alsel-product-video-gallery { padding: 5rem 2rem; }
+    .alsel-product-video-gallery__tabs { flex-wrap: wrap; justify-content: center; }
+    .alsel-product-video-gallery__tab { min-width: 160px; }
+  }
+</style>
+
+<script>
+  (function() {
+    var root = document.currentScript.previousElementSibling;
+    while (root && !root.classList.contains('alsel-product-video-gallery')) {
+      root = root.previousElementSibling;
+    }
+    if (!root) return;
+    var tabs = root.querySelectorAll('.alsel-product-video-gallery__tab');
+    var panels = root.querySelectorAll('.alsel-product-video-gallery__panel');
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var target = tab.getAttribute('data-target');
+        tabs.forEach(function(t) { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(function(p) { p.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        var panel = root.querySelector('#' + target);
+        if (panel) panel.classList.add('is-active');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "商品動画ギャラリー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "商品動画ギャラリー(タブ切替)" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "商品の魅力を動画でご紹介します。気になる動画をタブから選んでご覧ください。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(選択中のタブ枠)", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "動画タブ",
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "タブ名", "default": "動画タイトル", "info": "タブに表示される短いラベルです" },
+        { "type": "image_picker", "id": "thumbnail", "label": "サムネイル画像", "info": "推奨 1280 × 720px(16:9)、JPEG または PNG" },
+        { "type": "url", "id": "video_url", "label": "動画 URL", "info": "YouTube は埋め込み URL(https://www.youtube.com/embed/xxxx)、MP4 は Shopify Files の URL を指定してください" },
+        { "type": "text", "id": "video_title", "label": "動画の見出し", "default": "動画の見出しを入力します" },
+        { "type": "textarea", "id": "video_body", "label": "動画の説明文", "default": "動画の内容や見どころをこちらにご記入ください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 商品動画ギャラリー(タブ切替)",
+      "settings": {
+        "heading": "商品動画ギャラリー(タブ切替)",
+        "subheading": "商品の魅力を動画でご紹介します。気になる動画をタブから選んでご覧ください。"
+      },
+      "blocks": [
+        { "type": "video", "settings": { "tab_label": "商品紹介", "video_title": "商品の特徴をご紹介します", "video_body": "商品の魅力やこだわりのポイントを動画でお伝えします。" } },
+        { "type": "video", "settings": { "tab_label": "使い方", "video_title": "かんたんな使い方をご説明します", "video_body": "初めての方でも安心してお使いいただけるよう、使い方を丁寧にご案内します。" } },
+        { "type": "video", "settings": { "tab_label": "お客様の声", "video_title": "ご愛用者様からの声をお届けします", "video_body": "実際にご利用いただいているお客様の生の声をぜひご覧ください。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

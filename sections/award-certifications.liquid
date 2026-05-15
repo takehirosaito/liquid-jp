@@ -1,0 +1,299 @@
+{% comment %}
+============================================================
+セクション名: 受賞歴・認証表示
+用途: モンドセレクション・楽天受賞風バッジ・ISO 認証など、商品やストアの信頼性を訴求する権威付けエンブレムを並べて表示する
+推奨設置場所: 商品ページの説明文下、トップページの実績訴求エリア、LP の購入ボタン直前
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各受賞・認証ブロック(エンブレム画像、名称、受賞年、説明文、リンク先)
+  - 背景色・文字色・アクセントカラー
+  - カラム数(モバイル / PC)
+注意点:
+  - エンブレム画像は正方形または縦長(推奨 400 × 400px、PNG 透過)を推奨
+  - ブロックは 1〜8 個を想定。9 個以上は表示崩れに注意
+  - 受賞年は本番投入時に「終了表記」になることを避けるため遠未来をデフォルト値に設定済み
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_label = section.settings.heading | default: '受賞歴・認証' | escape -%}
+
+<section class="alsel-award-certifications" aria-label="{{ sec_label }}">
+  <div class="alsel-award-certifications__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-award-certifications__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-award-certifications__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-award-certifications__empty">
+        表示できる受賞歴・認証はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-award-certifications__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign emblem_alt = block.settings.title | default: '受賞・認証エンブレム' | escape -%}
+          <li class="alsel-award-certifications__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a class="alsel-award-certifications__card" href="{{ block.settings.link }}" aria-label="{{ emblem_alt }}">
+            {%- else -%}
+              <div class="alsel-award-certifications__card">
+            {%- endif -%}
+
+              <div class="alsel-award-certifications__emblem-wrap">
+                {%- if block.settings.emblem != blank -%}
+                  {{ block.settings.emblem
+                    | image_url: width: 400
+                    | image_tag: loading: 'lazy', class: 'alsel-award-certifications__emblem', alt: emblem_alt, widths: '200, 300, 400' }}
+                {%- else -%}
+                  <div class="alsel-award-certifications__emblem-placeholder" aria-hidden="true">★</div>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.year != blank -%}
+                <span class="alsel-award-certifications__year">{{ block.settings.year }}年</span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="alsel-award-certifications__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.body != blank -%}
+                <p class="alsel-award-certifications__body">{{ block.settings.body }}</p>
+              {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-award-certifications {
+    --awc-bg: {{ section.settings.bg_color }};
+    --awc-text: {{ section.settings.text_color }};
+    --awc-accent: {{ section.settings.accent_color }};
+    --awc-card-bg: {{ section.settings.card_bg }};
+    background: var(--awc-bg);
+    color: var(--awc-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-award-certifications__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-award-certifications__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-award-certifications__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: center;
+    margin: 0 auto 2.5rem;
+    max-width: 700px;
+    opacity: 0.85;
+  }
+  .alsel-award-certifications__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    margin: 0;
+  }
+  .alsel-award-certifications__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat({{ section.settings.cols_mobile }}, 1fr);
+  }
+  .alsel-award-certifications__item { display: flex; }
+  .alsel-award-certifications__card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--awc-card-bg);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  a.alsel-award-certifications__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+  .alsel-award-certifications__emblem-wrap {
+    width: clamp(80px, 30%, 130px);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .alsel-award-certifications__emblem {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .alsel-award-certifications__emblem-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--awc-accent);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .alsel-award-certifications__year {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: var(--awc-accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+  }
+  .alsel-award-certifications__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+  .alsel-award-certifications__body {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.8;
+  }
+  @media (min-width: 750px) {
+    .alsel-award-certifications { padding: 5rem 2rem; }
+    .alsel-award-certifications__grid {
+      gap: 1.5rem;
+      grid-template-columns: repeat({{ section.settings.cols_desktop }}, 1fr);
+    }
+    .alsel-award-certifications__card { padding: 2rem 1.25rem; }
+    .alsel-award-certifications__title { font-size: 1rem; }
+    .alsel-award-certifications__body { font-size: 0.85rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "受賞歴・認証表示",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "受賞歴・認証一覧" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "私たちの品質は、第三者機関からも高く評価されています。" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(年バッジ等)", "default": "#b45309" },
+    {
+      "type": "select",
+      "id": "cols_mobile",
+      "label": "モバイル時のカラム数",
+      "options": [
+        { "value": "1", "label": "1列" },
+        { "value": "2", "label": "2列" },
+        { "value": "3", "label": "3列" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "cols_desktop",
+      "label": "PC 時のカラム数",
+      "options": [
+        { "value": "2", "label": "2列" },
+        { "value": "3", "label": "3列" },
+        { "value": "4", "label": "4列" },
+        { "value": "5", "label": "5列" }
+      ],
+      "default": "4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "award",
+      "name": "受賞・認証カード",
+      "settings": [
+        { "type": "image_picker", "id": "emblem", "label": "エンブレム画像", "info": "推奨 400 × 400px、PNG 透過を推奨します。" },
+        { "type": "text", "id": "title", "label": "受賞・認証名", "default": "受賞・認証名を入力します" },
+        {
+          "type": "number",
+          "id": "year",
+          "label": "受賞・認証年",
+          "info": "西暦 4 桁で入力します。空欄の場合は非表示になります。",
+          "default": 2099
+        },
+        { "type": "textarea", "id": "body", "label": "説明文", "default": "受賞・認証の内容や評価ポイントをご紹介します。" },
+        { "type": "url", "id": "link", "label": "リンク先(任意)", "info": "公式サイトや詳細ページへのリンクを設定できます。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 受賞歴・認証表示(エンブレムグリッド)",
+      "settings": {
+        "heading": "受賞歴・認証一覧",
+        "subheading": "私たちの品質は、第三者機関からも高く評価されています。"
+      },
+      "blocks": [
+        {
+          "type": "award",
+          "settings": {
+            "title": "モンドセレクション 金賞",
+            "year": 2099,
+            "body": "国際的な品質評価機関より、最高評価をいただきました。"
+          }
+        },
+        {
+          "type": "award",
+          "settings": {
+            "title": "楽天ショップ・オブ・ザ・イヤー",
+            "year": 2099,
+            "body": "年間ベストショップとして選出されました。"
+          }
+        },
+        {
+          "type": "award",
+          "settings": {
+            "title": "ISO 9001 認証取得",
+            "year": 2099,
+            "body": "国際品質マネジメントシステムの認証を取得しています。"
+          }
+        },
+        {
+          "type": "award",
+          "settings": {
+            "title": "グッドデザイン賞",
+            "year": 2099,
+            "body": "優れたデザインとして公式に認定されました。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

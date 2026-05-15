@@ -1,0 +1,250 @@
+{% comment %}
+============================================================
+セクション名: 悩み訴求チェックリスト
+用途: LP の序盤で「こんなお悩みありませんか?」と共感を引き出し、本文への引き込みを強化する楽天 LP 風の訴求セクション
+推奨設置場所: トップページ・商品ページ・LP のヒーロー直後
+カスタマイズポイント:
+  - セクション見出し(吹き出し風の煽り文)
+  - 各お悩み項目(チェックボックス風の箇条書き、ブロックで追加)
+  - 強調カラー(赤・黄・黒の楽天系配色)
+  - 締めの一言(「そのお悩み、解決します!」など)
+注意点:
+  - ブロックは 3〜6 個推奨
+  - チェックマークは CSS のみで描画(画像不要)
+  - 強い訴求コピーのため、薬機法・景表法に配慮した文言に差し替えること
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+<section class="alsel-problem-checklist" aria-label="お悩みチェックリスト">
+  <div class="alsel-problem-checklist__inner">
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-problem-checklist__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-problem-checklist__heading">
+        <span class="alsel-problem-checklist__heading-inner">{{ section.settings.heading }}</span>
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-problem-checklist__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="alsel-problem-checklist__list" role="list">
+      {%- if section.blocks.size == 0 -%}
+        <p class="alsel-problem-checklist__empty" style="text-align:center;color:#888;padding:2rem 0;">
+          お悩み項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+        </p>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        <div class="alsel-problem-checklist__item" role="listitem" {{ block.shopify_attributes }}>
+          <span class="alsel-problem-checklist__check" aria-hidden="true"></span>
+          <span class="alsel-problem-checklist__text">
+            {%- if block.settings.highlight != blank -%}
+              <mark class="alsel-problem-checklist__mark">{{ block.settings.highlight }}</mark>
+            {%- endif -%}
+            {{ block.settings.text }}
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.closing_text != blank -%}
+      <div class="alsel-problem-checklist__closing">
+        <span class="alsel-problem-checklist__closing-arrow" aria-hidden="true"></span>
+        <p class="alsel-problem-checklist__closing-text">{{ section.settings.closing_text }}</p>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .alsel-problem-checklist {
+    --accent: {{ section.settings.accent_color }};
+    --accent-sub: {{ section.settings.accent_sub_color }};
+    --bg: {{ section.settings.bg_color }};
+    --text: {{ section.settings.text_color }};
+    background: var(--bg);
+    padding: 3rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .alsel-problem-checklist__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .alsel-problem-checklist__eyebrow {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.4rem 1.2rem;
+    border-radius: 9999px;
+    margin: 0 auto 1rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  .alsel-problem-checklist__inner { text-align: center; }
+  .alsel-problem-checklist__heading {
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 0 1.5rem;
+  }
+  .alsel-problem-checklist__heading::before,
+  .alsel-problem-checklist__heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 3px;
+    height: 80%;
+    background: var(--text);
+  }
+  .alsel-problem-checklist__heading::before { left: 0; transform: rotate(-20deg); }
+  .alsel-problem-checklist__heading::after { right: 0; transform: rotate(20deg); }
+  .alsel-problem-checklist__heading-inner mark,
+  .alsel-problem-checklist__mark {
+    background: linear-gradient(transparent 60%, {{ section.settings.marker_color }} 60%);
+    color: inherit;
+    padding: 0 0.1em;
+  }
+  .alsel-problem-checklist__sub {
+    font-size: 1rem;
+    color: var(--text);
+    margin: 0 0 2rem;
+    line-height: 1.7;
+  }
+  .alsel-problem-checklist__list {
+    background: #fff;
+    border: 3px solid var(--text);
+    border-radius: 12px;
+    padding: 1.5rem 1.2rem;
+    text-align: left;
+    box-shadow: 6px 6px 0 var(--accent);
+  }
+  .alsel-problem-checklist__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px dashed #d4d4d8;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .alsel-problem-checklist__item:last-child { border-bottom: none; }
+  .alsel-problem-checklist__check {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--accent);
+    border-radius: 6px;
+    position: relative;
+    background: #fff;
+    margin-top: 2px;
+  }
+  .alsel-problem-checklist__check::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 1px;
+    width: 9px;
+    height: 16px;
+    border-right: 4px solid var(--accent);
+    border-bottom: 4px solid var(--accent);
+    transform: rotate(45deg);
+  }
+  .alsel-problem-checklist__text { flex: 1; font-weight: 600; }
+  .alsel-problem-checklist__closing {
+    margin-top: 2.5rem;
+    position: relative;
+    padding-top: 2.5rem;
+  }
+  .alsel-problem-checklist__closing-arrow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 28px solid var(--accent);
+  }
+  .alsel-problem-checklist__closing-text {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    margin: 0;
+    box-shadow: 4px 4px 0 var(--accent-sub);
+    line-height: 1.4;
+  }
+  @media (min-width: 750px) {
+    .alsel-problem-checklist { padding: 5rem 2rem; }
+    .alsel-problem-checklist__list { padding: 2rem 2.5rem; }
+    .alsel-problem-checklist__item { font-size: 1.15rem; padding: 1.1rem 0; gap: 1.2rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "悩み訴求チェックリスト",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "上部の小バッジ", "default": "ご愛用者の声から判明!", "info": "セクション最上部に表示する小さなバッジテキストです。" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "こんなお悩みありませんか?" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "1 つでも当てはまる方は、ぜひ最後までご覧ください。" },
+    { "type": "text", "id": "closing_text", "label": "締めのひと言", "default": "そのお悩み、当店が解決します!", "info": "リスト下部の矢印付き訴求バナーです。" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff8e1" },
+    { "type": "color", "id": "text_color", "label": "文字色(濃色)", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(赤系推奨)", "default": "#e60012" },
+    { "type": "color", "id": "accent_sub_color", "label": "サブアクセント(影色)", "default": "#1a1a1a" },
+    { "type": "color", "id": "marker_color", "label": "マーカーハイライト色", "default": "#fff176" }
+  ],
+  "blocks": [
+    {
+      "type": "problem",
+      "name": "お悩み項目",
+      "settings": [
+        { "type": "text", "id": "highlight", "label": "強調ワード(黄色マーカー)", "info": "本文の前に強調マーカー付きで表示されます。空欄でも構いません。" },
+        { "type": "text", "id": "text", "label": "お悩み本文", "default": "お悩みの内容を入力します。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 悩み訴求チェックリスト(楽天LP風)",
+      "settings": {
+        "eyebrow": "ご愛用者の声から判明!",
+        "heading": "こんなお悩みありませんか?",
+        "subheading": "1 つでも当てはまる方は、ぜひ最後までご覧ください。",
+        "closing_text": "そのお悩み、当店が解決します!"
+      },
+      "blocks": [
+        { "type": "problem", "settings": { "highlight": "毎朝", "text": "鏡を見るたびにため息が出てしまいます。" } },
+        { "type": "problem", "settings": { "highlight": "色々試したけど", "text": "どれも続かず、効果も実感できませんでした。" } },
+        { "type": "problem", "settings": { "highlight": "忙しくて", "text": "ケアに時間をかけられず、諦めかけています。" } },
+        { "type": "problem", "settings": { "highlight": "年齢のせい?", "text": "最近、写真に写る自分に自信が持てません。" } },
+        { "type": "problem", "settings": { "highlight": "本気で", "text": "今度こそ、本物の商品に出会いたいです。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,245 @@
+{% comment %}
+============================================================
+セクション名: 関連商品スライダー
+用途: 商品ページの下部に「あわせて買いたい商品」や「おすすめ商品」を横スクロールで表示し、回遊率を高めるためのセクション
+推奨設置場所: 商品ページ(product.json)の下部、もしくはトップページのおすすめ枠
+カスタマイズポイント:
+  - 表示する商品リスト(コレクションを選択)
+  - セクション見出し・サブコピー
+  - 表示件数(最大 12 件)
+  - カードの角丸・背景色・ボタン色
+  - 価格・SOLD OUT 表示の ON/OFF
+注意点:
+  - コレクション未選択時はガイドメッセージを表示
+  - 商品画像は Shopify CDN で自動最適化(WebP 対応)
+  - モバイルでは横スクロール、PC ではグリッド表示に切替
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign section_label = section.settings.heading | default: '関連商品' | escape -%}
+
+<section class="alsel-related-products" aria-label="{{ section_label }}">
+  <div class="alsel-related-products__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-related-products__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-related-products__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- assign target_collection = collections[section.settings.collection] -%}
+    {%- if target_collection != blank and target_collection.products.size > 0 -%}
+      <div class="alsel-related-products__scroller" role="list">
+        {%- assign max_items = section.settings.product_limit -%}
+        {%- assign shown = 0 -%}
+        {%- for product in target_collection.products -%}
+          {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+          {%- if product.handle == nil -%}{%- continue -%}{%- endif -%}
+          {%- if template contains 'product' and product.id == product.id and product.handle == product.handle -%}{%- endif -%}
+          {%- assign alt_text = product.title | escape -%}
+          <article class="alsel-related-products__card" role="listitem">
+            <a class="alsel-related-products__link" href="{{ product.url }}" aria-label="{{ alt_text }}の詳細を見る">
+              <div class="alsel-related-products__media">
+                {%- if product.featured_image != blank -%}
+                  {{ product.featured_image
+                    | image_url: width: 600
+                    | image_tag: loading: 'lazy', class: 'alsel-related-products__image', alt: alt_text, widths: '200, 400, 600, 800' }}
+                {%- else -%}
+                  <div class="alsel-related-products__image alsel-related-products__image--empty" aria-hidden="true">No Image</div>
+                {%- endif -%}
+                {%- if section.settings.show_soldout and product.available == false -%}
+                  <span class="alsel-related-products__badge">SOLD OUT</span>
+                {%- endif -%}
+              </div>
+              <div class="alsel-related-products__body">
+                <h3 class="alsel-related-products__title">{{ product.title }}</h3>
+                {%- if section.settings.show_price -%}
+                  <p class="alsel-related-products__price">
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="alsel-related-products__price-sale">{{ product.price | money }}</span>
+                      <span class="alsel-related-products__price-compare">{{ product.compare_at_price | money }}</span>
+                    {%- else -%}
+                      <span class="alsel-related-products__price-normal">{{ product.price | money }}</span>
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+              </div>
+            </a>
+          </article>
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="alsel-related-products__empty">
+        表示する商品はまだありません。テーマエディタからコレクションをご選択ください。
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-related-products { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-related-products__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-related-products__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; text-align: center; margin: 0 0 0.5rem; color: {{ section.settings.text_color }}; }
+  .alsel-related-products__sub { font-size: 0.95rem; line-height: 1.6; text-align: center; margin: 0 0 2rem; color: {{ section.settings.text_color }}; opacity: 0.75; }
+  .alsel-related-products__empty { text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem; }
+  .alsel-related-products__scroller {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 70%;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+  .alsel-related-products__scroller::-webkit-scrollbar { height: 6px; }
+  .alsel-related-products__scroller::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+  .alsel-related-products__card { scroll-snap-align: start; background: #fff; border-radius: {{ section.settings.card_radius }}px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .alsel-related-products__card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+  .alsel-related-products__link { display: block; text-decoration: none; color: inherit; }
+  .alsel-related-products__media { position: relative; aspect-ratio: 1 / 1; background: #f3f4f6; overflow: hidden; }
+  .alsel-related-products__image { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-related-products__image--empty { display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 0.9rem; }
+  .alsel-related-products__badge { position: absolute; top: 0.5rem; left: 0.5rem; background: rgba(17,24,39,0.85); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 4px; letter-spacing: 0.05em; }
+  .alsel-related-products__body { padding: 0.85rem 0.9rem 1.1rem; }
+  .alsel-related-products__title { font-size: 0.95rem; font-weight: 600; line-height: 1.5; margin: 0 0 0.5rem; color: {{ section.settings.text_color }}; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .alsel-related-products__price { margin: 0; font-size: 0.95rem; font-weight: 700; color: {{ section.settings.price_color }}; }
+  .alsel-related-products__price-sale { color: #dc2626; margin-right: 0.5rem; }
+  .alsel-related-products__price-compare { color: #9ca3af; font-weight: 400; text-decoration: line-through; font-size: 0.85rem; }
+
+  @media (min-width: 750px) {
+    .alsel-related-products { padding: 5rem 2rem; }
+    .alsel-related-products__scroller {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+      gap: 1.5rem;
+      overflow: visible;
+    }
+    .alsel-related-products__body { padding: 1rem 1rem 1.25rem; }
+    .alsel-related-products__title { font-size: 1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "関連商品スライダー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "見出し設定"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "セクション見出し",
+      "default": "あわせて買いたい商品"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "サブコピー",
+      "default": "この商品をご覧の方は、こちらの商品もチェックされています。"
+    },
+    {
+      "type": "header",
+      "content": "表示する商品"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "表示するコレクション",
+      "info": "おすすめ商品をまとめたコレクションをご選択ください。"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "最大表示件数",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "PC 表示の列数",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "info": "モバイルは横スクロール表示で固定されます。"
+    },
+    {
+      "type": "header",
+      "content": "表示オプション"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "価格を表示する",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_soldout",
+      "label": "SOLD OUT バッジを表示する",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "デザイン設定"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字色",
+      "default": "#111827"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "価格の文字色",
+      "default": "#111827"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "カードの角丸",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 関連商品スライダー(横スクロール)",
+      "settings": {
+        "heading": "あわせて買いたい商品",
+        "subheading": "この商品をご覧の方は、こちらの商品もチェックされています。",
+        "product_limit": 8,
+        "columns_desktop": 4,
+        "show_price": true,
+        "show_soldout": true,
+        "bg_color": "#fafafa",
+        "text_color": "#111827",
+        "price_color": "#111827",
+        "card_radius": 12
+      }
+    }
+  ]
+}
+{% endschema %}

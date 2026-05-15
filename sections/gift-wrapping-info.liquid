@@ -1,0 +1,204 @@
+{% comment %}
+============================================================
+セクション名: ギフトラッピング案内
+用途: 日本の EC ストアで、のし・メッセージカード・包装対応などのギフトサービス内容をわかりやすく案内するセクション
+推奨設置場所: 商品ページの下部、トップページの中段、ギフト特集 LP、ご利用ガイドページ
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 各ギフトサービス(ブロック)のアイコン画像・タイトル・説明文・料金表記
+  - 注意事項(のし対応の表書き・配送方法など)
+  - 背景色・アクセントカラー
+  - CTA(ギフトページや問い合わせへの導線)
+注意点:
+  - アイコン画像は正方形(推奨 240 × 240px、PNG 透過)を使う
+  - ブロックは 3〜6 個推奨
+  - 料金表記は税込で記載する(日本の景品表示法・総額表示義務に対応)
+  - のし対応欄は表書き(御祝・御礼・内祝など)を明記する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-gift-wrapping-info" aria-label="{{ heading_alt }}">
+  <div class="alsel-gift-wrapping-info__inner">
+    <header class="alsel-gift-wrapping-info__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="alsel-gift-wrapping-info__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-gift-wrapping-info__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.lead != blank -%}
+        <p class="alsel-gift-wrapping-info__lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-gift-wrapping-info__empty">
+        ギフトサービスはまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    <div class="alsel-gift-wrapping-info__grid">
+      {%- for block in section.blocks -%}
+        {%- assign icon_alt = block.settings.title | escape -%}
+        <article class="alsel-gift-wrapping-info__card" {{ block.shopify_attributes }}>
+          {%- if block.settings.badge != blank -%}
+            <span class="alsel-gift-wrapping-info__badge">{{ block.settings.badge }}</span>
+          {%- endif -%}
+          {%- if block.settings.icon != blank -%}
+            {{ block.settings.icon | image_url: width: 240 | image_tag: loading: 'lazy', class: 'alsel-gift-wrapping-info__icon', alt: icon_alt, widths: '120, 240, 360' }}
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="alsel-gift-wrapping-info__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.price != blank -%}
+            <p class="alsel-gift-wrapping-info__price">{{ block.settings.price }}</p>
+          {%- endif -%}
+          {%- if block.settings.body != blank -%}
+            <p class="alsel-gift-wrapping-info__body">{{ block.settings.body }}</p>
+          {%- endif -%}
+          {%- if block.settings.note != blank -%}
+            <p class="alsel-gift-wrapping-info__note">{{ block.settings.note }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.caution != blank -%}
+      <div class="alsel-gift-wrapping-info__caution">
+        <p class="alsel-gift-wrapping-info__caution-title">ご利用にあたっての注意事項</p>
+        <div class="alsel-gift-wrapping-info__caution-body">{{ section.settings.caution }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-gift-wrapping-info__cta-wrap">
+        <a class="alsel-gift-wrapping-info__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-gift-wrapping-info {
+    --alsel-gw-bg: {{ section.settings.bg_color }};
+    --alsel-gw-card: {{ section.settings.card_color }};
+    --alsel-gw-accent: {{ section.settings.accent_color }};
+    --alsel-gw-text: {{ section.settings.text_color }};
+    background: var(--alsel-gw-bg);
+    color: var(--alsel-gw-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-gift-wrapping-info__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-gift-wrapping-info__header { text-align: center; margin: 0 0 2.5rem; }
+  .alsel-gift-wrapping-info__eyebrow { font-size: 0.85rem; letter-spacing: 0.2em; color: var(--alsel-gw-accent); margin: 0 0 0.75rem; font-weight: 700; }
+  .alsel-gift-wrapping-info__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; line-height: 1.4; margin: 0 0 1rem; }
+  .alsel-gift-wrapping-info__lead { font-size: 0.95rem; line-height: 1.8; margin: 0 auto; max-width: 720px; color: #475569; }
+  .alsel-gift-wrapping-info__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-gift-wrapping-info__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .alsel-gift-wrapping-info__card { position: relative; background: var(--alsel-gw-card); border-radius: 14px; padding: 1.75rem 1.25rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); }
+  .alsel-gift-wrapping-info__badge { display: inline-block; position: absolute; top: 0.75rem; right: 0.75rem; font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem; background: var(--alsel-gw-accent); color: #fff; border-radius: 9999px; letter-spacing: 0.05em; }
+  .alsel-gift-wrapping-info__icon { width: 80px; height: 80px; object-fit: contain; margin: 0 auto 1rem; display: block; }
+  .alsel-gift-wrapping-info__title { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; line-height: 1.5; }
+  .alsel-gift-wrapping-info__price { font-size: 0.9rem; font-weight: 700; color: var(--alsel-gw-accent); margin: 0 0 0.75rem; }
+  .alsel-gift-wrapping-info__body { font-size: 0.9rem; line-height: 1.8; color: #475569; margin: 0 0 0.5rem; text-align: left; }
+  .alsel-gift-wrapping-info__note { font-size: 0.8rem; line-height: 1.7; color: #94a3b8; margin: 0.5rem 0 0; text-align: left; }
+  .alsel-gift-wrapping-info__caution { margin: 2.5rem auto 0; max-width: 900px; background: #fff8ec; border-left: 4px solid var(--alsel-gw-accent); border-radius: 8px; padding: 1.25rem 1.5rem; }
+  .alsel-gift-wrapping-info__caution-title { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: #92400e; }
+  .alsel-gift-wrapping-info__caution-body { font-size: 0.85rem; line-height: 1.8; color: #78350f; }
+  .alsel-gift-wrapping-info__cta-wrap { text-align: center; margin: 2.5rem 0 0; }
+  .alsel-gift-wrapping-info__cta { display: inline-block; padding: 1rem 2.5rem; background: var(--alsel-gw-accent); color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; transition: opacity 0.2s; }
+  .alsel-gift-wrapping-info__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-gift-wrapping-info { padding: 5rem 2rem; }
+    .alsel-gift-wrapping-info__grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .alsel-gift-wrapping-info__card { padding: 2rem 1.5rem; }
+    .alsel-gift-wrapping-info__icon { width: 96px; height: 96px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ギフトラッピング案内",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し設定" },
+    { "type": "text", "id": "eyebrow", "label": "小見出し(英字や短いキャッチ)", "default": "GIFT SERVICE" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "ギフトラッピングのご案内" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "大切な方へのお贈りものに、無料のギフトラッピング・のし・メッセージカードをご用意しております。ご注文時にお気軽にお申し付けください。" },
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fdfaf5" },
+    { "type": "color", "id": "card_color", "label": "カードの背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#b91c1c" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "header", "content": "注意事項・CTA" },
+    { "type": "richtext", "id": "caution", "label": "ご利用にあたっての注意事項", "info": "のしの表書きや配送方法の制限など、お客様に事前にお伝えしたい内容を記載します", "default": "<p>のしは配送伝票の関係上、内のしのみのご対応となります。複数の商品をまとめて発送する場合、ラッピングは商品ごとに個別包装いたします。</p>" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "ギフト特集を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "ギフトサービス",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 240 × 240px、PNG 透過" },
+        { "type": "text", "id": "badge", "label": "バッジ(任意)", "info": "「無料対応」「人気No.1」など、目立たせたい場合に入力します" },
+        { "type": "text", "id": "title", "label": "サービス名", "default": "ギフトラッピング" },
+        { "type": "text", "id": "price", "label": "料金表記(税込)", "info": "「無料」「税込 220 円」など、総額表示で記載します", "default": "無料でご対応いたします" },
+        { "type": "textarea", "id": "body", "label": "説明文", "default": "上質な包装紙とリボンで丁寧にお包みいたします。" },
+        { "type": "textarea", "id": "note", "label": "補足・注意書き(任意)", "info": "「色は当店おまかせとなります」など補足があれば記載します" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / ギフトラッピング案内(3カラムカード)",
+      "settings": {
+        "eyebrow": "GIFT SERVICE",
+        "heading": "ギフトラッピングのご案内",
+        "lead": "大切な方へのお贈りものに、無料のギフトラッピング・のし・メッセージカードをご用意しております。ご注文時のオプションよりお気軽にお選びください。",
+        "caution": "<p>のしは配送伝票の関係上、内のしのみのご対応となります。複数の商品をまとめて発送する場合、ラッピングは商品ごとに個別包装いたします。ご不明点はお気軽にお問い合わせください。</p>",
+        "cta_text": "ギフト特集を見る"
+      },
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "badge": "無料対応",
+            "title": "ギフトラッピング",
+            "price": "無料でご対応いたします",
+            "body": "上質な包装紙とリボンで丁寧にお包みいたします。シーンに合わせた包装紙をお選びいただけます。",
+            "note": "包装紙の色は季節により変更となる場合がございます。"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "badge": "和装対応",
+            "title": "のし(熨斗)",
+            "price": "無料でご対応いたします",
+            "body": "御祝・御礼・内祝・御中元・御歳暮など、用途に合わせた表書きと贈り主名をお入れします。",
+            "note": "ご注文時のメモ欄に「表書き」と「贈り主名」をご記入ください。"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "badge": "人気",
+            "title": "メッセージカード",
+            "price": "無料でご対応いたします",
+            "body": "誕生日・記念日・お祝いなど、シーンに合わせたデザインのカードに手書き風メッセージを添えてお届けします。",
+            "note": "メッセージは 80 文字以内でご入力ください。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

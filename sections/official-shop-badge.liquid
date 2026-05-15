@@ -1,0 +1,254 @@
+{% comment %}
+============================================================
+セクション名: 公式ショップ訴求
+用途: 「正規販売店」「メーカー直営」であることをひと目で伝えるバッジ型セクション。模倣品対策や信頼性訴求として商品ページや LP に設置する
+推奨設置場所: 商品ページ(カート追加ボタン付近)、トップページ、LP の購入直前
+カスタマイズポイント:
+  - バッジロゴ画像(公式マーク・認定マークなど)
+  - タイトル・サブテキスト
+  - 訴求ポイント(ブロックで自由に追加・並び替え可能)
+  - 背景色・文字色・アクセントカラー
+  - 表示形式(画像あり / 画像なしで自動 1 カラム化)
+注意点:
+  - ロゴ画像は推奨 400 × 400px(PNG 透過)
+  - ブロックは 2〜4 個を推奨(レイアウト崩れ防止)
+  - 画像未設定時は自動で 1 カラム中央寄せレイアウトになる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign logo_alt = section.settings.logo_alt | default: section.settings.heading | escape -%}
+
+<section
+  class="alsel-official-shop-badge{%- if section.settings.logo == blank %} alsel-official-shop-badge--no-image{%- endif -%}"
+  aria-label="{{ section.settings.heading | escape }}"
+>
+  <div class="alsel-official-shop-badge__inner">
+    {%- if section.settings.logo != blank -%}
+      <div class="alsel-official-shop-badge__media">
+        {{ section.settings.logo
+          | image_url: width: 400
+          | image_tag: loading: 'lazy', class: 'alsel-official-shop-badge__logo', alt: logo_alt, widths: '200, 300, 400' }}
+        {%- if section.settings.ribbon_text != blank -%}
+          <span class="alsel-official-shop-badge__ribbon">{{ section.settings.ribbon_text }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="alsel-official-shop-badge__body">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="alsel-official-shop-badge__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-official-shop-badge__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <p class="alsel-official-shop-badge__desc">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size == 0 -%}
+        <p class="alsel-official-shop-badge__empty">現在表示できる訴求ポイントはありません。テーマエディタからブロックを追加してください。</p>
+      {%- else -%}
+        <ul class="alsel-official-shop-badge__points">
+          {%- for block in section.blocks -%}
+            <li class="alsel-official-shop-badge__point" {{ block.shopify_attributes }}>
+              <span class="alsel-official-shop-badge__check" aria-hidden="true">✓</span>
+              <div class="alsel-official-shop-badge__point-body">
+                <strong class="alsel-official-shop-badge__point-title">{{ block.settings.title }}</strong>
+                {%- if block.settings.body != blank -%}
+                  <span class="alsel-official-shop-badge__point-desc">{{ block.settings.body }}</span>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.note != blank -%}
+        <p class="alsel-official-shop-badge__note">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-official-shop-badge {
+    --alsel-osb-bg: {{ section.settings.bg_color }};
+    --alsel-osb-text: {{ section.settings.text_color }};
+    --alsel-osb-accent: {{ section.settings.accent_color }};
+    --alsel-osb-card: {{ section.settings.card_color }};
+    padding: 2.5rem 1rem;
+    background: var(--alsel-osb-bg);
+    color: var(--alsel-osb-text);
+  }
+  .alsel-official-shop-badge__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    background: var(--alsel-osb-card);
+    border: 2px solid var(--alsel-osb-accent);
+    border-radius: 16px;
+    padding: 2rem 1.25rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .alsel-official-shop-badge__media {
+    position: relative;
+    text-align: center;
+  }
+  .alsel-official-shop-badge__logo {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+  }
+  .alsel-official-shop-badge__ribbon {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.35rem 1rem;
+    background: var(--alsel-osb-accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 9999px;
+  }
+  .alsel-official-shop-badge__body { min-width: 0; }
+  .alsel-official-shop-badge__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--alsel-osb-accent);
+    letter-spacing: 0.08em;
+  }
+  .alsel-official-shop-badge__heading {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .alsel-official-shop-badge__desc {
+    margin: 0 0 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .alsel-official-shop-badge__points {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .alsel-official-shop-badge__point {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0,0,0,0.03);
+    border-radius: 8px;
+  }
+  .alsel-official-shop-badge__check {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--alsel-osb-accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .alsel-official-shop-badge__point-body { display: flex; flex-direction: column; gap: 0.15rem; }
+  .alsel-official-shop-badge__point-title { font-size: 0.95rem; font-weight: 700; }
+  .alsel-official-shop-badge__point-desc { font-size: 0.85rem; line-height: 1.6; opacity: 0.85; }
+  .alsel-official-shop-badge__note {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+  .alsel-official-shop-badge__empty {
+    text-align: center;
+    color: #888;
+    padding: 1.5rem 0;
+    margin: 0;
+  }
+  .alsel-official-shop-badge--no-image .alsel-official-shop-badge__inner {
+    max-width: 800px;
+    text-align: center;
+  }
+  .alsel-official-shop-badge--no-image .alsel-official-shop-badge__points {
+    text-align: left;
+  }
+  @media (min-width: 750px) {
+    .alsel-official-shop-badge { padding: 4rem 2rem; }
+    .alsel-official-shop-badge__inner {
+      grid-template-columns: 220px 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding: 2.5rem 2.5rem;
+    }
+    .alsel-official-shop-badge__logo { width: 180px; height: 180px; }
+    .alsel-official-shop-badge--no-image .alsel-official-shop-badge__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "公式ショップ訴求",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "ロゴ・バッジ画像" },
+    { "type": "image_picker", "id": "logo", "label": "公式ロゴ・バッジ画像", "info": "推奨 400 × 400px、PNG 透過。未設定の場合は自動で 1 カラム中央寄せになります" },
+    { "type": "text", "id": "logo_alt", "label": "ロゴの代替テキスト", "info": "画像の説明文。空欄の場合は見出しを使用します" },
+    { "type": "text", "id": "ribbon_text", "label": "ロゴ下のリボン文字", "default": "OFFICIAL" },
+
+    { "type": "header", "content": "テキスト" },
+    { "type": "text", "id": "eyebrow", "label": "小見出し(英字推奨)", "default": "OFFICIAL STORE" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "メーカー直営の正規販売店です" },
+    { "type": "textarea", "id": "description", "label": "説明文", "default": "当ショップはメーカー公式の正規販売店です。安心してお買い物いただけます。" },
+    { "type": "text", "id": "note", "label": "注意書き(小さく表示)", "default": "※ 他サイト・他店舗での販売品は、保証対象外となる場合がございます。" },
+
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(枠線・バッジ)", "default": "#c8102e" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "訴求ポイント",
+      "settings": [
+        { "type": "text", "id": "title", "label": "ポイントのタイトル", "default": "正規品 100% 保証" },
+        { "type": "textarea", "id": "body", "label": "補足説明", "default": "全商品にメーカー保証が付帯しています。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 公式ショップ訴求(バッジ型)",
+      "settings": {
+        "eyebrow": "OFFICIAL STORE",
+        "heading": "メーカー直営の正規販売店です",
+        "description": "当ショップはメーカー公式の正規販売店です。お客様には常に本物の安心と高品質な商品をお届けします。",
+        "ribbon_text": "OFFICIAL",
+        "note": "※ 他サイト・他店舗での販売品は、保証対象外となる場合がございます。"
+      },
+      "blocks": [
+        { "type": "point", "settings": { "title": "正規品 100% 保証", "body": "メーカー監修のもと、すべて正規流通品をお届けします。" } },
+        { "type": "point", "settings": { "title": "メーカー保証付き", "body": "全商品にメーカー保証が付帯し、購入後も安心です。" } },
+        { "type": "point", "settings": { "title": "公式サポート対応", "body": "ご購入後のお問い合わせは公式窓口が直接対応します。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

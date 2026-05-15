@@ -1,0 +1,240 @@
+{% comment %}
+============================================================
+セクション名: 数字で見るブランド
+用途: 累計販売数・レビュー数・満足度などの実績を数字で訴求し、ブランドの信頼性を一目で伝える
+推奨設置場所: トップページの中段・LP の信頼訴求パート・About ページ
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各統計ブロック(アイコン・数字・単位・補足ラベル)
+  - 背景色・文字色・アクセントカラー
+  - 1 行に表示するカラム数(PC 時)
+注意点:
+  - アイコンは正方形(推奨 120 × 120px、PNG 透過)を用意するときれいに表示される
+  - ブロック数は 3〜5 個を推奨。それ以外は PC 時のレイアウトを確認する
+  - 数字は大きく表示されるため、桁数が多い場合は単位(万・億)を活用する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-brand-stats" aria-label="{{ heading_alt }}">
+  <div class="alsel-brand-stats__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-brand-stats__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-brand-stats__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-brand-stats__empty">
+        表示できる実績はまだありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-brand-stats__grid" data-cols="{{ section.settings.columns_pc }}">
+        {%- for block in section.blocks -%}
+          {%- assign icon_alt = block.settings.label | escape -%}
+          <article class="alsel-brand-stats__card" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <div class="alsel-brand-stats__icon-wrap">
+                {{ block.settings.icon
+                  | image_url: width: 240
+                  | image_tag: loading: 'lazy', class: 'alsel-brand-stats__icon', alt: icon_alt, widths: '120, 240' }}
+              </div>
+            {%- endif -%}
+            <div class="alsel-brand-stats__number-row">
+              {%- if block.settings.prefix != blank -%}
+                <span class="alsel-brand-stats__prefix">{{ block.settings.prefix }}</span>
+              {%- endif -%}
+              <span class="alsel-brand-stats__number">{{ block.settings.number }}</span>
+              {%- if block.settings.unit != blank -%}
+                <span class="alsel-brand-stats__unit">{{ block.settings.unit }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.label != blank -%}
+              <p class="alsel-brand-stats__label">{{ block.settings.label }}</p>
+            {%- endif -%}
+            {%- if block.settings.note != blank -%}
+              <p class="alsel-brand-stats__note">{{ block.settings.note }}</p>
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="alsel-brand-stats__footnote">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-brand-stats {
+    --abs-bg: {{ section.settings.bg_color }};
+    --abs-text: {{ section.settings.text_color }};
+    --abs-accent: {{ section.settings.accent_color }};
+    --abs-card-bg: {{ section.settings.card_bg }};
+    background: var(--abs-bg);
+    color: var(--abs-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-brand-stats__inner { max-width: 1180px; margin: 0 auto; }
+  .alsel-brand-stats__heading {
+    font-size: clamp(1.5rem, 4.5vw, 2.4rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-brand-stats__sub {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 auto 2.5rem;
+    max-width: 720px;
+    opacity: 0.85;
+  }
+  .alsel-brand-stats__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+  }
+  .alsel-brand-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .alsel-brand-stats__card {
+    background: var(--abs-card-bg);
+    border-radius: 14px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .alsel-brand-stats__icon-wrap {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+  .alsel-brand-stats__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .alsel-brand-stats__number-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.2rem;
+    color: var(--abs-accent);
+    line-height: 1;
+  }
+  .alsel-brand-stats__prefix {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .alsel-brand-stats__number {
+    font-size: clamp(2rem, 7vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .alsel-brand-stats__unit {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .alsel-brand-stats__label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0.25rem 0 0;
+  }
+  .alsel-brand-stats__note {
+    font-size: 0.8rem;
+    margin: 0;
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+  .alsel-brand-stats__footnote {
+    margin: 2rem auto 0;
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    max-width: 720px;
+  }
+  @media (min-width: 750px) {
+    .alsel-brand-stats { padding: 5rem 2rem; }
+    .alsel-brand-stats__grid { gap: 1.5rem; }
+    .alsel-brand-stats__grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+    .alsel-brand-stats__grid[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
+    .alsel-brand-stats__grid[data-cols="5"] { grid-template-columns: repeat(5, 1fr); }
+    .alsel-brand-stats__card { padding: 2rem 1.25rem; }
+    .alsel-brand-stats__icon-wrap { width: 72px; height: 72px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "数字で見るブランド",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "数字で見るブランド" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "おかげさまで多くのお客様にご愛顧いただいております。", "info": "見出しの下に表示される補足文です。" },
+    { "type": "select", "id": "columns_pc", "label": "PC 表示時の列数",
+      "options": [
+        { "value": "3", "label": "3 列" },
+        { "value": "4", "label": "4 列" },
+        { "value": "5", "label": "5 列" }
+      ],
+      "default": "4",
+      "info": "スマートフォンでは自動的に 2 列で表示されます。" },
+    { "type": "header", "content": "色の設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "数字のアクセントカラー", "default": "#6d28d9" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "header", "content": "脚注" },
+    { "type": "text", "id": "footnote", "label": "脚注テキスト", "default": "※2024 年 12 月時点の自社調べによる数値です。", "info": "集計期間や出典を明記しておくと信頼性が高まります。" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "実績カード",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 120 × 120px、PNG 透過。未設定でも問題ありません。" },
+        { "type": "text", "id": "prefix", "label": "数字の前に付ける記号", "info": "「約」「No.」など。空欄でも問題ありません。" },
+        { "type": "text", "id": "number", "label": "数字", "default": "10,000", "info": "カンマ区切りや「1.2 万」のような表記も可能です。" },
+        { "type": "text", "id": "unit", "label": "単位", "default": "点", "info": "「点」「件」「%」「年」などを入力します。" },
+        { "type": "text", "id": "label", "label": "ラベル(項目名)", "default": "実績項目名" },
+        { "type": "text", "id": "note", "label": "補足テキスト", "info": "ラベルの下に小さく表示される補足です。空欄でも問題ありません。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 数字で見るブランド(カードグリッド)",
+      "settings": {
+        "heading": "数字で見るブランド",
+        "subheading": "おかげさまで多くのお客様にご愛顧いただいております。",
+        "columns_pc": "4",
+        "footnote": "※2024 年 12 月時点の自社調べによる数値です。"
+      },
+      "blocks": [
+        { "type": "stat", "settings": { "number": "120,000", "unit": "点", "label": "累計販売数", "note": "創業からの総出荷数です。" } },
+        { "type": "stat", "settings": { "number": "8,500", "unit": "件", "label": "お客様レビュー数", "note": "実際のご購入者様の声です。" } },
+        { "type": "stat", "settings": { "number": "98", "unit": "%", "label": "満足度", "note": "リピーターアンケート結果より。" } },
+        { "type": "stat", "settings": { "prefix": "創業", "number": "15", "unit": "年", "label": "ブランド実績", "note": "長く愛され続けています。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

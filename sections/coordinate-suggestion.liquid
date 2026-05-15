@@ -1,0 +1,192 @@
+{% comment %}
+============================================================
+セクション名: コーディネート提案
+用途: メイン商品と合わせ買い商品を並べて紹介し、ついで買い・客単価アップを狙うセクション
+推奨設置場所: 商品ページの説明文直下、トップページの特集枠
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - メイン商品の画像・名前・価格・リンク
+  - 合わせ買い商品(ブロック追加で 2〜4 点が見やすい)
+  - 背景色・アクセントカラー
+  - 「合計金額」表示の ON/OFF
+注意点:
+  - メイン画像は推奨 800 × 1000px(ポートレート)
+  - 合わせ買い商品の画像は推奨 600 × 750px
+  - 価格はテキスト入力(税込・通貨記号込みで記入)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign main_alt = section.settings.main_title | escape -%}
+
+<section class="alsel-coordinate-suggestion" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-coordinate-suggestion__inner">
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-coordinate-suggestion__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-coordinate-suggestion__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    <div class="alsel-coordinate-suggestion__layout">
+
+      <div class="alsel-coordinate-suggestion__main">
+        <span class="alsel-coordinate-suggestion__badge">メインアイテム</span>
+        <a class="alsel-coordinate-suggestion__main-link" href="{{ section.settings.main_link | default: '#' }}">
+          {%- if section.settings.main_image != blank -%}
+            {{ section.settings.main_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-coordinate-suggestion__main-image', alt: main_alt, widths: '375, 600, 800' }}
+          {%- else -%}
+            <div class="alsel-coordinate-suggestion__placeholder" aria-hidden="true">画像なし</div>
+          {%- endif -%}
+          <div class="alsel-coordinate-suggestion__main-info">
+            <p class="alsel-coordinate-suggestion__main-title">{{ section.settings.main_title }}</p>
+            <p class="alsel-coordinate-suggestion__main-price">{{ section.settings.main_price }}</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="alsel-coordinate-suggestion__plus" aria-hidden="true">＋</div>
+
+      <div class="alsel-coordinate-suggestion__subs">
+        <p class="alsel-coordinate-suggestion__subs-label">合わせ買いおすすめ</p>
+
+        {%- if section.blocks.size == 0 -%}
+          <p class="alsel-coordinate-suggestion__empty">
+            合わせ買い商品はまだ登録されていません。テーマエディタからブロックを追加してください。
+          </p>
+        {%- else -%}
+          <div class="alsel-coordinate-suggestion__subs-grid">
+            {%- for block in section.blocks -%}
+              {%- assign sub_alt = block.settings.title | escape -%}
+              <a class="alsel-coordinate-suggestion__card" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                <div class="alsel-coordinate-suggestion__card-media">
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'alsel-coordinate-suggestion__card-image', alt: sub_alt, widths: '300, 450, 600' }}
+                  {%- else -%}
+                    <div class="alsel-coordinate-suggestion__placeholder" aria-hidden="true">画像なし</div>
+                  {%- endif -%}
+                </div>
+                <p class="alsel-coordinate-suggestion__card-title">{{ block.settings.title }}</p>
+                <p class="alsel-coordinate-suggestion__card-price">{{ block.settings.price }}</p>
+              </a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.show_total and section.settings.total_text != blank -%}
+      <div class="alsel-coordinate-suggestion__total">
+        <span class="alsel-coordinate-suggestion__total-label">セット合計</span>
+        <span class="alsel-coordinate-suggestion__total-value">{{ section.settings.total_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-coordinate-suggestion__cta-wrap">
+        <a class="alsel-coordinate-suggestion__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .alsel-coordinate-suggestion { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-coordinate-suggestion__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-coordinate-suggestion__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; }
+  .alsel-coordinate-suggestion__lead { text-align: center; font-size: 0.95rem; line-height: 1.7; color: {{ section.settings.text_color }}; opacity: 0.85; margin: 0 0 2rem; }
+  .alsel-coordinate-suggestion__layout { display: grid; grid-template-columns: 1fr; gap: 1.25rem; align-items: stretch; }
+  .alsel-coordinate-suggestion__main { background: #fff; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: relative; }
+  .alsel-coordinate-suggestion__badge { display: inline-block; background: {{ section.settings.accent_color }}; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px; margin-bottom: 0.75rem; }
+  .alsel-coordinate-suggestion__main-link { display: block; text-decoration: none; color: inherit; }
+  .alsel-coordinate-suggestion__main-image { width: 100%; height: auto; border-radius: 10px; display: block; aspect-ratio: 4 / 5; object-fit: cover; }
+  .alsel-coordinate-suggestion__placeholder { width: 100%; aspect-ratio: 4 / 5; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 0.85rem; }
+  .alsel-coordinate-suggestion__main-info { margin-top: 0.85rem; }
+  .alsel-coordinate-suggestion__main-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.35rem; color: {{ section.settings.text_color }}; }
+  .alsel-coordinate-suggestion__main-price { font-size: 1.05rem; font-weight: 700; color: {{ section.settings.accent_color }}; margin: 0; }
+  .alsel-coordinate-suggestion__plus { font-size: 2rem; font-weight: 700; text-align: center; color: {{ section.settings.accent_color }}; line-height: 1; padding: 0.25rem 0; }
+  .alsel-coordinate-suggestion__subs { background: #fff; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .alsel-coordinate-suggestion__subs-label { font-size: 0.9rem; font-weight: 700; margin: 0 0 1rem; color: {{ section.settings.text_color }}; }
+  .alsel-coordinate-suggestion__subs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+  .alsel-coordinate-suggestion__card { display: block; text-decoration: none; color: inherit; }
+  .alsel-coordinate-suggestion__card-media { width: 100%; }
+  .alsel-coordinate-suggestion__card-image { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 8px; display: block; }
+  .alsel-coordinate-suggestion__card-title { font-size: 0.85rem; line-height: 1.5; margin: 0.5rem 0 0.2rem; color: {{ section.settings.text_color }}; }
+  .alsel-coordinate-suggestion__card-price { font-size: 0.9rem; font-weight: 700; margin: 0; color: {{ section.settings.accent_color }}; }
+  .alsel-coordinate-suggestion__empty { text-align: center; color: #888; padding: 2rem 0; margin: 0; font-size: 0.9rem; }
+  .alsel-coordinate-suggestion__total { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; padding: 1rem 1.25rem; background: #fff; border: 2px dashed {{ section.settings.accent_color }}; border-radius: 12px; }
+  .alsel-coordinate-suggestion__total-label { font-size: 0.95rem; font-weight: 700; color: {{ section.settings.text_color }}; }
+  .alsel-coordinate-suggestion__total-value { font-size: 1.25rem; font-weight: 700; color: {{ section.settings.accent_color }}; }
+  .alsel-coordinate-suggestion__cta-wrap { text-align: center; margin-top: 1.75rem; }
+  .alsel-coordinate-suggestion__cta { display: inline-block; padding: 0.95rem 2.5rem; background: {{ section.settings.accent_color }}; color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1rem; }
+  @media (min-width: 750px) {
+    .alsel-coordinate-suggestion { padding: 5rem 2rem; }
+    .alsel-coordinate-suggestion__layout { grid-template-columns: 1fr auto 1.4fr; gap: 1.5rem; align-items: center; }
+    .alsel-coordinate-suggestion__plus { font-size: 2.5rem; padding: 0 0.5rem; }
+    .alsel-coordinate-suggestion__subs-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "コーディネート提案",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し設定" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "一緒に揃えたいコーディネート" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "メインアイテムと相性のよい組み合わせをご紹介します。" },
+    { "type": "header", "content": "メイン商品" },
+    { "type": "image_picker", "id": "main_image", "label": "メイン商品画像", "info": "推奨 800 × 1000px(縦長 4:5)" },
+    { "type": "text", "id": "main_title", "label": "メイン商品名", "default": "メイン商品名がここに入ります" },
+    { "type": "text", "id": "main_price", "label": "メイン商品価格", "info": "例: ¥4,980(税込)", "default": "¥4,980(税込)" },
+    { "type": "url", "id": "main_link", "label": "メイン商品リンク" },
+    { "type": "header", "content": "セット合計表示" },
+    { "type": "checkbox", "id": "show_total", "label": "セット合計を表示する", "default": true },
+    { "type": "text", "id": "total_text", "label": "合計金額(テキスト)", "info": "例: ¥9,800(税込)", "default": "¥9,800(税込)" },
+    { "type": "header", "content": "ボタン" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "セットを詳しく見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f6f4ef" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#c2410c" }
+  ],
+  "blocks": [
+    {
+      "type": "sub_item",
+      "name": "合わせ買い商品",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "商品画像", "info": "推奨 600 × 750px(縦長 4:5)" },
+        { "type": "text", "id": "title", "label": "商品名", "default": "合わせ買い商品名" },
+        { "type": "text", "id": "price", "label": "価格", "info": "例: ¥2,480(税込)", "default": "¥2,480(税込)" },
+        { "type": "url", "id": "link", "label": "商品リンク" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / コーディネート提案(メイン+合わせ買い)",
+      "settings": {
+        "heading": "一緒に揃えたいコーディネート",
+        "lead": "メインアイテムと相性のよい組み合わせをご紹介します。",
+        "main_title": "ベーシックTシャツ(ホワイト)",
+        "main_price": "¥4,980(税込)",
+        "show_total": true,
+        "total_text": "¥9,860(税込)",
+        "cta_text": "セットを詳しく見る"
+      },
+      "blocks": [
+        { "type": "sub_item", "settings": { "title": "デニムパンツ(インディゴ)", "price": "¥6,980(税込)" } },
+        { "type": "sub_item", "settings": { "title": "レザーベルト(ブラック)", "price": "¥2,880(税込)" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

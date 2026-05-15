@@ -1,0 +1,280 @@
+{% comment %}
+============================================================
+セクション名: ブログ記事カード
+用途: 読み物・使い方・比較記事などのブログ記事をカード形式で並べて、回遊率を高める
+推奨設置場所: トップページ下部・商品ページ下部・コレクションページ下部
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 表示するブログ(Shopify のブログから選択)
+  - 表示記事数(3〜12)
+  - 列数(モバイル / PC)
+  - 公開日・著者・タグの表示切替
+  - 背景色・テキスト色・アクセントカラー
+  - 一覧へのリンクボタン
+注意点:
+  - アイキャッチ画像は記事に設定されたものが自動表示される(推奨 1200 × 800px)
+  - ブログを選択しないと空表示になる(管理画面 → オンラインストア → ブログ で記事を投稿)
+  - article.image が未設定の記事は代替プレースホルダーが表示される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign section_heading = section.settings.heading | escape -%}
+{%- assign blog_handle = section.settings.blog -%}
+{%- assign post_limit = section.settings.post_limit | times: 1 -%}
+
+<section class="alsel-blog-cards" aria-label="{{ section_heading }}">
+  <div class="alsel-blog-cards__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-blog-cards__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-blog-cards__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if blog_handle != blank and blogs[blog_handle].articles.size > 0 -%}
+      <div class="alsel-blog-cards__grid">
+        {%- for article in blogs[blog_handle].articles limit: post_limit -%}
+          {%- assign article_alt = article.title | escape -%}
+          <a class="alsel-blog-cards__card" href="{{ article.url }}" aria-label="{{ article_alt }}を読む">
+            <div class="alsel-blog-cards__media">
+              {%- if article.image != blank -%}
+                {{ article.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-blog-cards__img', alt: article_alt, widths: '375, 600, 800, 1000' }}
+              {%- else -%}
+                <div class="alsel-blog-cards__placeholder" aria-hidden="true">NO IMAGE</div>
+              {%- endif -%}
+              {%- if section.settings.show_tag and article.tags.size > 0 -%}
+                <span class="alsel-blog-cards__tag">{{ article.tags.first | escape }}</span>
+              {%- endif -%}
+            </div>
+            <div class="alsel-blog-cards__body">
+              {%- if section.settings.show_date -%}
+                <time class="alsel-blog-cards__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                  {{ article.published_at | date: '%Y年%m月%d日' }}
+                </time>
+              {%- endif -%}
+              <h3 class="alsel-blog-cards__title">{{ article.title | escape }}</h3>
+              {%- if section.settings.show_excerpt and article.excerpt_or_content != blank -%}
+                <p class="alsel-blog-cards__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 80 }}</p>
+              {%- endif -%}
+              {%- if section.settings.show_author -%}
+                <span class="alsel-blog-cards__author">執筆: {{ article.author | escape }}</span>
+              {%- endif -%}
+              <span class="alsel-blog-cards__more">記事を読む →</span>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_view_all and section.settings.view_all_text != blank -%}
+        <div class="alsel-blog-cards__footer">
+          <a class="alsel-blog-cards__view-all" href="{{ blogs[blog_handle].url }}">
+            {{ section.settings.view_all_text }}
+          </a>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <p class="alsel-blog-cards__empty">
+        表示できるブログ記事はまだありません。テーマエディタから表示するブログを選択し、記事を投稿してください。
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-blog-cards {
+    --abc-bg: {{ section.settings.bg_color }};
+    --abc-text: {{ section.settings.text_color }};
+    --abc-card: {{ section.settings.card_bg }};
+    --abc-accent: {{ section.settings.accent_color }};
+    --abc-mb-cols: {{ section.settings.columns_mobile }};
+    --abc-pc-cols: {{ section.settings.columns_desktop }};
+    background: var(--abc-bg);
+    color: var(--abc-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-blog-cards__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-blog-cards__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+  }
+  .alsel-blog-cards__lead {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 auto 2rem;
+    max-width: 720px;
+    opacity: 0.8;
+  }
+  .alsel-blog-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--abc-mb-cols), 1fr);
+    gap: 1.25rem;
+  }
+  .alsel-blog-cards__card {
+    display: flex;
+    flex-direction: column;
+    background: var(--abc-card);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .alsel-blog-cards__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  .alsel-blog-cards__media {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: #eef2f7;
+  }
+  .alsel-blog-cards__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .alsel-blog-cards__card:hover .alsel-blog-cards__img { transform: scale(1.05); }
+  .alsel-blog-cards__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+  }
+  .alsel-blog-cards__tag {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--abc-accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+  }
+  .alsel-blog-cards__body {
+    padding: 1rem 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .alsel-blog-cards__date {
+    font-size: 0.78rem;
+    opacity: 0.65;
+  }
+  .alsel-blog-cards__title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .alsel-blog-cards__excerpt {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin: 0;
+  }
+  .alsel-blog-cards__author {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+  .alsel-blog-cards__more {
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--abc-accent);
+  }
+  .alsel-blog-cards__footer { text-align: center; margin-top: 2.5rem; }
+  .alsel-blog-cards__view-all {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    background: var(--abc-accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .alsel-blog-cards__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+  }
+  @media (min-width: 750px) {
+    .alsel-blog-cards { padding: 5rem 2rem; }
+    .alsel-blog-cards__grid {
+      grid-template-columns: repeat(var(--abc-pc-cols), 1fr);
+      gap: 1.75rem;
+    }
+    .alsel-blog-cards__title { font-size: 1.1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ブログ記事カード",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セクション見出し" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "おすすめの読み物" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "商品の使い方や比較記事など、お買い物に役立つ情報をお届けします。" },
+
+    { "type": "header", "content": "記事の取得設定" },
+    { "type": "blog", "id": "blog", "label": "表示するブログ", "info": "管理画面の オンラインストア → ブログ から選択してください。" },
+    { "type": "range", "id": "post_limit", "label": "表示記事数", "min": 3, "max": 12, "step": 1, "default": 6 },
+
+    { "type": "header", "content": "表示項目" },
+    { "type": "checkbox", "id": "show_date", "label": "公開日を表示する", "default": true },
+    { "type": "checkbox", "id": "show_tag", "label": "タグを表示する", "default": true },
+    { "type": "checkbox", "id": "show_excerpt", "label": "抜粋文を表示する", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "執筆者を表示する", "default": false },
+
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_mobile", "label": "モバイルの列数", "min": 1, "max": 2, "step": 1, "default": 1 },
+    { "type": "range", "id": "columns_desktop", "label": "PC の列数", "min": 2, "max": 4, "step": 1, "default": 3 },
+
+    { "type": "header", "content": "一覧へのリンク" },
+    { "type": "checkbox", "id": "show_view_all", "label": "一覧ボタンを表示する", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "ボタンの文字", "default": "すべての記事を見る" },
+
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#6d28d9" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / ブログ記事カード(3列グリッド)",
+      "settings": {
+        "heading": "おすすめの読み物",
+        "lead": "商品の使い方や比較記事など、お買い物に役立つ情報をお届けします。",
+        "post_limit": 6,
+        "show_date": true,
+        "show_tag": true,
+        "show_excerpt": true,
+        "show_author": false,
+        "columns_mobile": 1,
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "view_all_text": "すべての記事を見る"
+      }
+    }
+  ]
+}
+{% endschema %}

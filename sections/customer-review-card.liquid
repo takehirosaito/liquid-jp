@@ -29,6 +29,10 @@
   </div>
 
   <div class="alsel-customer-review-card__grid">
+    
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-customer-review-card__empty" style="text-align:center;color:#888;padding:2rem 0;">現在表示できるレビューはありません。テーマエディタからブロックを追加してください。</p>
+  {%- endif -%}
     {%- for block in section.blocks -%}
       <article class="alsel-customer-review-card__card" {{ block.shopify_attributes }}>
         <div class="alsel-customer-review-card__profile">
@@ -112,7 +116,7 @@
   "class": "alsel-section",
   "settings": [
     { "type": "text", "id": "heading", "label": "セクション見出し", "default": "お客様の声" },
-    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "実際にご利用いただいたお客様からいただいた声を紹介する。" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "実際にご利用いただいたお客様からいただいた声をご紹介します。" },
     { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
     { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
     { "type": "color", "id": "star_color", "label": "星の色", "default": "#f59e0b" },

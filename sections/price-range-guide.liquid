@@ -1,0 +1,185 @@
+{% comment %}
+============================================================
+セクション名: 価格帯別おすすめ
+用途: 予算別に商品を提案し、お客様の購入検討をスムーズにするためのセクション。3,000 円以下・5,000 円以下・1 万円以下など、価格帯ごとに商品をまとめて訴求する
+推奨設置場所: トップページ・コレクションページ・ギフト特集 LP の中盤
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各価格帯カード(タイトル・価格表示・キャッチ・画像・リンク先)
+  - カード背景色・文字色・ボタン色
+  - 全体の背景色
+注意点:
+  - カード画像は推奨 800 × 600px、JPEG または PNG
+  - ブロックは 2〜4 個推奨。それ以外の数は CSS で grid 調整が必要
+  - リンク先にはコレクションページ(/collections/under-3000 など)を指定するのがおすすめ
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-price-range-guide" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-price-range-guide__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-price-range-guide__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-price-range-guide__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-price-range-guide__empty">
+      表示する価格帯はまだ登録されていません。テーマエディタからブロックを追加してください。
+    </p>
+  {%- endif -%}
+
+  <div class="alsel-price-range-guide__grid">
+    {%- for block in section.blocks -%}
+      {%- assign card_alt = block.settings.title | escape -%}
+      <article class="alsel-price-range-guide__card" {{ block.shopify_attributes }} style="background:{{ block.settings.card_bg }};color:{{ block.settings.card_color }};">
+        <div class="alsel-price-range-guide__media">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image
+              | image_url: width: 800
+              | image_tag: loading: 'lazy', class: 'alsel-price-range-guide__img', alt: card_alt, widths: '375, 600, 800' }}
+          {%- else -%}
+            <div class="alsel-price-range-guide__placeholder" aria-hidden="true"></div>
+          {%- endif -%}
+          {%- if block.settings.badge != blank -%}
+            <span class="alsel-price-range-guide__badge">{{ block.settings.badge }}</span>
+          {%- endif -%}
+        </div>
+        <div class="alsel-price-range-guide__body">
+          {%- if block.settings.price_label != blank -%}
+            <p class="alsel-price-range-guide__price">{{ block.settings.price_label }}</p>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="alsel-price-range-guide__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.description != blank -%}
+            <p class="alsel-price-range-guide__desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+          {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
+            <a class="alsel-price-range-guide__cta" href="{{ block.settings.button_link }}" style="background:{{ block.settings.button_bg }};color:{{ block.settings.button_color }};" aria-label="{{ block.settings.title | escape }}の商品一覧を見る">
+              {{ block.settings.button_text }}
+              <span class="alsel-price-range-guide__arrow" aria-hidden="true">→</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .alsel-price-range-guide { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-price-range-guide__head { max-width: 1100px; margin: 0 auto 2rem; text-align: center; }
+  .alsel-price-range-guide__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; }
+  .alsel-price-range-guide__sub { font-size: 0.95rem; line-height: 1.7; margin: 0; color: {{ section.settings.text_color }}; opacity: 0.8; }
+  .alsel-price-range-guide__empty { text-align: center; color: #888; padding: 2rem 0; margin: 0; }
+  .alsel-price-range-guide__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .alsel-price-range-guide__card { border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.07); display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .alsel-price-range-guide__card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .alsel-price-range-guide__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #f1f5f9; }
+  .alsel-price-range-guide__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-price-range-guide__placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%); }
+  .alsel-price-range-guide__badge { position: absolute; top: 12px; left: 12px; background: #ef4444; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 9999px; }
+  .alsel-price-range-guide__body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+  .alsel-price-range-guide__price { font-size: 1.4rem; font-weight: 700; margin: 0; letter-spacing: 0.02em; }
+  .alsel-price-range-guide__title { font-size: 1.1rem; font-weight: 700; margin: 0; line-height: 1.4; }
+  .alsel-price-range-guide__desc { font-size: 0.9rem; line-height: 1.7; margin: 0; opacity: 0.85; flex: 1; }
+  .alsel-price-range-guide__cta { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; margin-top: 0.5rem; padding: 0.8rem 1.4rem; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; text-align: center; transition: opacity 0.2s ease; }
+  .alsel-price-range-guide__cta:hover { opacity: 0.85; }
+  .alsel-price-range-guide__arrow { transition: transform 0.2s ease; }
+  .alsel-price-range-guide__cta:hover .alsel-price-range-guide__arrow { transform: translateX(3px); }
+  @media (min-width: 750px) {
+    .alsel-price-range-guide { padding: 5rem 2rem; }
+    .alsel-price-range-guide__grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "価格帯別おすすめ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "価格帯別おすすめ商品" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご予算に合わせてお選びいただけます。ぴったりの一品をぜひ見つけてください。" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "見出し・サブコピー文字色", "default": "#0f172a" }
+  ],
+  "blocks": [
+    {
+      "type": "price_card",
+      "name": "価格帯カード",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "カード画像", "info": "推奨 800 × 600px、JPEG または PNG" },
+        { "type": "text", "id": "badge", "label": "バッジ文言(任意)", "info": "「人気No.1」「ギフトに最適」など、左上に表示されます" },
+        { "type": "text", "id": "price_label", "label": "価格帯ラベル", "default": "¥3,000 以下" },
+        { "type": "text", "id": "title", "label": "タイトル", "default": "プチギフトにぴったり" },
+        { "type": "textarea", "id": "description", "label": "説明文", "default": "ちょっとしたお礼やプレゼントに最適なアイテムをそろえております。" },
+        { "type": "text", "id": "button_text", "label": "ボタンの文字", "default": "商品一覧を見る" },
+        { "type": "url", "id": "button_link", "label": "ボタンのリンク先", "info": "コレクションページ(例: /collections/under-3000)を指定してください" },
+        { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+        { "type": "color", "id": "card_color", "label": "カード文字色", "default": "#0f172a" },
+        { "type": "color", "id": "button_bg", "label": "ボタン背景色", "default": "#0f172a" },
+        { "type": "color", "id": "button_color", "label": "ボタン文字色", "default": "#ffffff" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 価格帯別おすすめ(3カラムカード)",
+      "settings": {
+        "heading": "価格帯別おすすめ商品",
+        "subheading": "ご予算に合わせてお選びいただけます。ぴったりの一品をぜひ見つけてください。"
+      },
+      "blocks": [
+        {
+          "type": "price_card",
+          "settings": {
+            "badge": "プチギフト",
+            "price_label": "¥3,000 以下",
+            "title": "気軽に贈れるアイテム",
+            "description": "ちょっとしたお礼やお返しに最適な、お手頃価格の商品をそろえております。",
+            "button_text": "商品一覧を見る",
+            "card_bg": "#ffffff",
+            "card_color": "#0f172a",
+            "button_bg": "#0f172a",
+            "button_color": "#ffffff"
+          }
+        },
+        {
+          "type": "price_card",
+          "settings": {
+            "badge": "人気No.1",
+            "price_label": "¥5,000 以下",
+            "title": "定番の人気アイテム",
+            "description": "幅広いシーンで活躍する、いちばん選ばれている価格帯の商品です。",
+            "button_text": "商品一覧を見る",
+            "card_bg": "#fef3c7",
+            "card_color": "#0f172a",
+            "button_bg": "#d97706",
+            "button_color": "#ffffff"
+          }
+        },
+        {
+          "type": "price_card",
+          "settings": {
+            "badge": "ギフトに最適",
+            "price_label": "¥10,000 以下",
+            "title": "特別な日のための贈り物",
+            "description": "大切な方への記念日やお祝いにふさわしい、上質なアイテムをご用意しております。",
+            "button_text": "商品一覧を見る",
+            "card_bg": "#0f172a",
+            "card_color": "#ffffff",
+            "button_bg": "#fbbf24",
+            "button_color": "#0f172a"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

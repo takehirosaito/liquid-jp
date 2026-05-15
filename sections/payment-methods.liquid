@@ -1,0 +1,166 @@
+{% comment %}
+============================================================
+セクション名: 支払い方法アイコン
+用途: 利用できる支払い方法をアイコン一覧で視覚的に提示し、購入前の不安を解消する。商品ページやフッター上、購入ガイドページで「クレジットカード・キャリア決済・コンビニ払い・後払い」など日本の EC で主要な決済手段を一目で伝える。
+推奨設置場所: 商品ページ下部 / カートページ / フッター上 / 購入ガイドページ / トップページ下部
+カスタマイズポイント:
+  - セクション見出し・補足テキスト
+  - 支払い方法ブロック(アイコン画像・名称・補足説明)の追加削除
+  - アイコンサイズ・カード背景色・枠線色
+  - 注意書き(手数料・締日など)
+  - 表示カラム数(モバイル / PC 別)
+注意点:
+  - アイコン画像は推奨 200 × 130px、PNG 透過推奨
+  - 各決済ブランドのロゴは利用規約を確認のうえご使用ください
+  - 手数料や決済可能金額の表記は最新の規約に合わせて更新してください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-payment-methods" aria-label="{{ sec_heading }}">
+  <div class="alsel-payment-methods__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-payment-methods__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-payment-methods__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-payment-methods__empty">
+        現在表示できる支払い方法はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-payment-methods__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign label = block.settings.label | escape -%}
+          <li class="alsel-payment-methods__card" {{ block.shopify_attributes }}>
+            <div class="alsel-payment-methods__icon-wrap">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 240 | image_tag: loading: 'lazy', class: 'alsel-payment-methods__icon', alt: label, widths: '120, 240, 360' }}
+              {%- else -%}
+                <span class="alsel-payment-methods__placeholder" aria-hidden="true">{{ block.settings.label | slice: 0, 2 }}</span>
+              {%- endif -%}
+            </div>
+            <p class="alsel-payment-methods__label">{{ block.settings.label }}</p>
+            {%- if block.settings.note != blank -%}
+              <p class="alsel-payment-methods__note">{{ block.settings.note }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.disclaimer != blank -%}
+      <div class="alsel-payment-methods__disclaimer">
+        <p>{{ section.settings.disclaimer }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-payment-methods {
+    --apm-bg: {{ section.settings.bg_color }};
+    --apm-card-bg: {{ section.settings.card_bg }};
+    --apm-border: {{ section.settings.border_color }};
+    --apm-text: {{ section.settings.text_color }};
+    --apm-accent: {{ section.settings.accent_color }};
+    background: var(--apm-bg);
+    padding: 2.5rem 1rem;
+    color: var(--apm-text);
+  }
+  .alsel-payment-methods__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-payment-methods__heading { font-size: clamp(1.3rem, 3.5vw, 1.8rem); font-weight: 700; text-align: center; margin: 0 0 0.5rem; }
+  .alsel-payment-methods__sub { font-size: 0.95rem; line-height: 1.7; text-align: center; margin: 0 0 1.8rem; color: #4b5563; }
+  .alsel-payment-methods__empty { text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem; }
+  .alsel-payment-methods__grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat({{ section.settings.cols_mobile }}, 1fr); gap: 0.75rem; }
+  .alsel-payment-methods__card { background: var(--apm-card-bg); border: 1px solid var(--apm-border); border-radius: 10px; padding: 1rem 0.6rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.4rem; transition: border-color 0.2s, transform 0.2s; }
+  .alsel-payment-methods__card:hover { border-color: var(--apm-accent); transform: translateY(-2px); }
+  .alsel-payment-methods__icon-wrap { width: 100%; aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; }
+  .alsel-payment-methods__icon { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+  .alsel-payment-methods__placeholder { display: inline-flex; align-items: center; justify-content: center; min-width: 56px; height: 36px; padding: 0 0.6rem; background: var(--apm-accent); color: #fff; font-weight: 700; font-size: 0.85rem; border-radius: 6px; letter-spacing: 0.05em; }
+  .alsel-payment-methods__label { font-size: 0.85rem; font-weight: 700; margin: 0.2rem 0 0; line-height: 1.4; }
+  .alsel-payment-methods__note { font-size: 0.75rem; line-height: 1.5; color: #6b7280; margin: 0; }
+  .alsel-payment-methods__disclaimer { margin-top: 1.5rem; padding: 1rem 1.2rem; background: #fffbeb; border-left: 3px solid #f59e0b; border-radius: 6px; font-size: 0.85rem; line-height: 1.7; color: #78350f; }
+  .alsel-payment-methods__disclaimer p { margin: 0; }
+  @media (min-width: 750px) {
+    .alsel-payment-methods { padding: 4rem 2rem; }
+    .alsel-payment-methods__grid { grid-template-columns: repeat({{ section.settings.cols_pc }}, 1fr); gap: 1rem; }
+    .alsel-payment-methods__card { padding: 1.2rem 0.8rem; }
+    .alsel-payment-methods__label { font-size: 0.95rem; }
+    .alsel-payment-methods__note { font-size: 0.8rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "支払い方法アイコン",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "ご利用いただける支払い方法" },
+    { "type": "textarea", "id": "subheading", "label": "補足テキスト", "default": "下記の支払い方法をご利用いただけます。安心してお買い物をお楽しみください。" },
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "カード枠線色", "default": "#e5e7eb" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#111827" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#dc2626" },
+    { "type": "header", "content": "表示カラム数" },
+    { "type": "select", "id": "cols_mobile", "label": "モバイル表示カラム数",
+      "options": [
+        { "value": "2", "label": "2 列" },
+        { "value": "3", "label": "3 列" }
+      ],
+      "default": "3" },
+    { "type": "select", "id": "cols_pc", "label": "PC 表示カラム数",
+      "options": [
+        { "value": "4", "label": "4 列" },
+        { "value": "5", "label": "5 列" },
+        { "value": "6", "label": "6 列" }
+      ],
+      "default": "5" },
+    { "type": "header", "content": "注意書き" },
+    { "type": "textarea", "id": "disclaimer", "label": "注意書き(手数料・締日など)", "info": "決済手数料・コンビニ払いの締日・後払いの上限金額などを記載できます。", "default": "コンビニ払い・銀行振込は、ご注文確定後 7 日以内にお支払いください。後払い決済は決済手数料 220 円(税込)が別途かかります。" }
+  ],
+  "blocks": [
+    {
+      "type": "payment",
+      "name": "支払い方法",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "ロゴ画像", "info": "推奨 200 × 130px、PNG 透過推奨。各決済サービスのロゴ利用規約に従ってください。" },
+        { "type": "text", "id": "label", "label": "支払い方法名", "default": "クレジットカード" },
+        { "type": "text", "id": "note", "label": "補足説明(任意)", "info": "「手数料無料」「上限 5 万円」など短い説明を入れられます。", "default": "VISA / Master / JCB / AMEX" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 支払い方法アイコン(日本 EC 標準セット)",
+      "settings": {
+        "heading": "ご利用いただける支払い方法",
+        "subheading": "下記の支払い方法をご利用いただけます。安心してお買い物をお楽しみください。",
+        "cols_mobile": "3",
+        "cols_pc": "5",
+        "disclaimer": "コンビニ払い・銀行振込は、ご注文確定後 7 日以内にお支払いください。後払い決済は決済手数料 220 円(税込)が別途かかります。"
+      },
+      "blocks": [
+        { "type": "payment", "settings": { "label": "クレジットカード", "note": "VISA / Master / JCB / AMEX" } },
+        { "type": "payment", "settings": { "label": "Amazon Pay", "note": "Amazon アカウントで決済" } },
+        { "type": "payment", "settings": { "label": "PayPay", "note": "残高・あと払い対応" } },
+        { "type": "payment", "settings": { "label": "楽天ペイ", "note": "楽天ポイントが使えます" } },
+        { "type": "payment", "settings": { "label": "コンビニ払い", "note": "7 日以内にお支払い" } },
+        { "type": "payment", "settings": { "label": "銀行振込", "note": "前払い・手数料お客様負担" } },
+        { "type": "payment", "settings": { "label": "代金引換", "note": "手数料 330 円(税込)" } },
+        { "type": "payment", "settings": { "label": "後払い決済", "note": "上限 55,000 円(税込)" } },
+        { "type": "payment", "settings": { "label": "Apple Pay", "note": "iPhone でかんたん決済" } },
+        { "type": "payment", "settings": { "label": "Google Pay", "note": "Android でかんたん決済" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

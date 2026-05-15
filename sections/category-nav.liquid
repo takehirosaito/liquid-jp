@@ -1,0 +1,201 @@
+{% comment %}
+============================================================
+セクション名: カテゴリーナビ(楽天市場風バナー一覧)
+用途: トップページや特集ページで、カテゴリーへの導線をバナー形式で一覧表示する。楽天市場のカテゴリーアイコン一覧のように、写真 + カテゴリー名で視覚的に分かりやすく誘導するセクションです。
+推奨設置場所: トップページの上部〜中部、コレクションページの上部
+カスタマイズポイント:
+  - セクションの見出し・サブコピー
+  - 各カテゴリーのバナー画像・名前・リンク先
+  - PC 表示時の列数(3〜6 列)
+  - モバイル表示時の列数(2 列 / 3 列)
+  - 背景色・文字色・カードの形状(角丸 / 円形)
+注意点:
+  - バナー画像は正方形(推奨 400 × 400px、JPEG または PNG)を用意してください
+  - ブロックは 4〜18 個程度を推奨します
+  - 円形表示にする場合は、被写体を画像中央に配置してください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-category-nav" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-category-nav__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-category-nav__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-category-nav__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-category-nav__empty">
+      表示できるカテゴリーはまだ登録されていません。テーマエディタからカテゴリーバナーを追加してください。
+    </p>
+  {%- else -%}
+    <ul class="alsel-category-nav__grid alsel-category-nav__grid--{{ section.settings.shape }}">
+      {%- for block in section.blocks -%}
+        {%- assign alt_text = block.settings.title | escape -%}
+        <li class="alsel-category-nav__item" {{ block.shopify_attributes }}>
+          <a class="alsel-category-nav__link" href="{{ block.settings.link | default: '#' }}" aria-label="{{ alt_text }}">
+            <div class="alsel-category-nav__media">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image
+                  | image_url: width: 400
+                  | image_tag: loading: 'lazy', class: 'alsel-category-nav__image', alt: alt_text, widths: '150, 200, 300, 400' }}
+              {%- else -%}
+                <span class="alsel-category-nav__placeholder" aria-hidden="true">No Image</span>
+              {%- endif -%}
+              {%- if block.settings.badge != blank -%}
+                <span class="alsel-category-nav__badge">{{ block.settings.badge | escape }}</span>
+              {%- endif -%}
+            </div>
+            <span class="alsel-category-nav__title">{{ block.settings.title | escape }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-category-nav {
+    --cn-bg: {{ section.settings.bg_color }};
+    --cn-text: {{ section.settings.text_color }};
+    --cn-card-bg: {{ section.settings.card_bg }};
+    --cn-accent: {{ section.settings.accent_color }};
+    --cn-cols-mobile: {{ section.settings.cols_mobile }};
+    --cn-cols-pc: {{ section.settings.cols_pc }};
+    background: var(--cn-bg);
+    color: var(--cn-text);
+    padding: 2.5rem 1rem;
+  }
+  .alsel-category-nav__header { text-align: center; max-width: 800px; margin: 0 auto 1.5rem; }
+  .alsel-category-nav__heading { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; margin: 0 0 0.5rem; line-height: 1.4; }
+  .alsel-category-nav__sub { font-size: 0.9rem; line-height: 1.6; color: var(--cn-text); opacity: 0.75; margin: 0; }
+  .alsel-category-nav__empty { text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem; }
+  .alsel-category-nav__grid {
+    list-style: none; margin: 0 auto; padding: 0;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(var(--cn-cols-mobile), 1fr);
+    gap: 0.75rem;
+  }
+  .alsel-category-nav__item { margin: 0; }
+  .alsel-category-nav__link {
+    display: flex; flex-direction: column; align-items: center;
+    text-decoration: none; color: inherit;
+    background: var(--cn-card-bg);
+    border-radius: 12px;
+    padding: 0.6rem 0.4rem 0.8rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+  .alsel-category-nav__link:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+  .alsel-category-nav__media {
+    position: relative; width: 100%; aspect-ratio: 1 / 1;
+    overflow: hidden; background: #f1f5f9;
+    border-radius: 8px;
+  }
+  .alsel-category-nav__grid--circle .alsel-category-nav__media { border-radius: 50%; width: 78%; margin: 0.3rem auto 0; }
+  .alsel-category-nav__image { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-category-nav__placeholder {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%; font-size: 0.75rem; color: #94a3b8; background: #f1f5f9;
+  }
+  .alsel-category-nav__badge {
+    position: absolute; top: 4px; left: 4px;
+    background: var(--cn-accent); color: #fff;
+    font-size: 0.65rem; font-weight: 700;
+    padding: 0.15rem 0.4rem; border-radius: 4px;
+    line-height: 1.2;
+  }
+  .alsel-category-nav__title {
+    font-size: 0.8rem; font-weight: 600; line-height: 1.4;
+    text-align: center; margin-top: 0.55rem;
+    word-break: break-word;
+  }
+  @media (min-width: 750px) {
+    .alsel-category-nav { padding: 4rem 2rem; }
+    .alsel-category-nav__header { margin-bottom: 2.5rem; }
+    .alsel-category-nav__grid {
+      grid-template-columns: repeat(var(--cn-cols-pc), 1fr);
+      gap: 1.25rem;
+    }
+    .alsel-category-nav__link { padding: 0.9rem 0.6rem 1.1rem; border-radius: 14px; }
+    .alsel-category-nav__title { font-size: 0.95rem; margin-top: 0.75rem; }
+    .alsel-category-nav__badge { font-size: 0.75rem; padding: 0.2rem 0.55rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "カテゴリーナビ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "カテゴリーから探す" },
+    { "type": "text", "id": "subheading", "label": "サブコピー", "default": "気になるカテゴリーをお選びください。" },
+    { "type": "select", "id": "shape", "label": "画像の形状",
+      "options": [
+        { "value": "square", "label": "角丸の四角" },
+        { "value": "circle", "label": "円形" }
+      ],
+      "default": "square" },
+    { "type": "select", "id": "cols_mobile", "label": "モバイル表示時の列数",
+      "options": [
+        { "value": "2", "label": "2 列" },
+        { "value": "3", "label": "3 列" },
+        { "value": "4", "label": "4 列" }
+      ],
+      "default": "3" },
+    { "type": "select", "id": "cols_pc", "label": "PC 表示時の列数",
+      "options": [
+        { "value": "3", "label": "3 列" },
+        { "value": "4", "label": "4 列" },
+        { "value": "5", "label": "5 列" },
+        { "value": "6", "label": "6 列" }
+      ],
+      "default": "6" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "バッジの色", "default": "#dc2626" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "カテゴリーバナー",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "カテゴリー画像", "info": "推奨 400 × 400px の正方形画像、JPEG または PNG" },
+        { "type": "text", "id": "title", "label": "カテゴリー名", "default": "カテゴリー名" },
+        { "type": "url", "id": "link", "label": "リンク先" },
+        { "type": "text", "id": "badge", "label": "バッジ文字(任意)", "info": "「新着商品」「期間限定」など。空欄なら非表示になります。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / カテゴリーナビ(バナーグリッド)",
+      "settings": {
+        "heading": "カテゴリーから探す",
+        "subheading": "気になるカテゴリーをお選びください。",
+        "shape": "square",
+        "cols_mobile": "3",
+        "cols_pc": "6"
+      },
+      "blocks": [
+        { "type": "category", "settings": { "title": "レディース", "badge": "人気商品" } },
+        { "type": "category", "settings": { "title": "メンズ" } },
+        { "type": "category", "settings": { "title": "キッズ" } },
+        { "type": "category", "settings": { "title": "バッグ", "badge": "新着商品" } },
+        { "type": "category", "settings": { "title": "シューズ" } },
+        { "type": "category", "settings": { "title": "アクセサリー" } },
+        { "type": "category", "settings": { "title": "コスメ" } },
+        { "type": "category", "settings": { "title": "雑貨" } },
+        { "type": "category", "settings": { "title": "セール", "badge": "期間限定" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

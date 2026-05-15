@@ -1,0 +1,159 @@
+{% comment %}
+============================================================
+セクション名: LINE登録誘導
+用途: LINE 公式アカウントへの友だち追加を促すセクション。クーポン配布・再入荷通知・購入相談など、日本の EC で定番の LINE 活用シーンへ誘導する。
+推奨設置場所: トップページ下部・商品ページ・カート画面手前・サンクスページ
+カスタマイズポイント:
+  - 見出し・サブコピー・特典の説明文
+  - LINE 公式アカウントの友だち追加 URL(または QR コード画像)
+  - 3 つの特典ブロック(クーポン・再入荷通知・相談窓口など)
+  - 背景色・LINE グリーン色・文字色
+  - 友だち追加ボタンの文字
+注意点:
+  - LINE 公式アカウント URL は「https://lin.ee/xxxxx」形式を推奨
+  - QR コード画像は推奨 400 × 400px、PNG 透過
+  - LINE ブランドガイドライン上、ロゴ色は #06C755 を推奨
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+{%- assign qr_alt = section.settings.qr_alt | escape -%}
+
+<section class="alsel-line-signup" aria-label="LINE公式アカウント友だち追加のご案内" style="background:{{ section.settings.bg_color }};">
+  <div class="alsel-line-signup__inner">
+
+    <div class="alsel-line-signup__header">
+      {%- if section.settings.badge_text != blank -%}
+        <span class="alsel-line-signup__badge">{{ section.settings.badge_text }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-line-signup__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="alsel-line-signup__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="alsel-line-signup__benefits">
+      {%- if section.blocks.size == 0 -%}
+        <p class="alsel-line-signup__empty" style="text-align:center;color:#888;padding:2rem 0;">
+          特典項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+        </p>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        <article class="alsel-line-signup__benefit" {{ block.shopify_attributes }}>
+          <div class="alsel-line-signup__benefit-icon" aria-hidden="true">{{ block.settings.emoji }}</div>
+          <h3 class="alsel-line-signup__benefit-title">{{ block.settings.title }}</h3>
+          <p class="alsel-line-signup__benefit-body">{{ block.settings.body }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    <div class="alsel-line-signup__cta-area">
+      {%- if section.settings.qr_image != blank -%}
+        <div class="alsel-line-signup__qr">
+          {{ section.settings.qr_image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'alsel-line-signup__qr-img', alt: qr_alt, widths: '200, 400' }}
+          <p class="alsel-line-signup__qr-caption">{{ section.settings.qr_caption }}</p>
+        </div>
+      {%- endif -%}
+
+      <div class="alsel-line-signup__button-wrap">
+        {%- if section.settings.line_url != blank -%}
+          <a class="alsel-line-signup__button" href="{{ section.settings.line_url }}" target="_blank" rel="noopener noreferrer" aria-label="LINE公式アカウントを友だち追加する">
+            <svg class="alsel-line-signup__button-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M12 2C6.48 2 2 5.73 2 10.34c0 4.14 3.66 7.6 8.6 8.25.34.07.79.22.91.51.1.26.07.66.03.93l-.15.88c-.04.26-.21 1.02.89.56 1.1-.47 5.91-3.48 8.06-5.95C21.84 13.83 22 12.12 22 10.34 22 5.73 17.52 2 12 2z"/>
+            </svg>
+            <span>{{ section.settings.button_text }}</span>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.note != blank -%}
+          <p class="alsel-line-signup__note">{{ section.settings.note }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .alsel-line-signup { padding: 3rem 1rem; }
+  .alsel-line-signup__inner { max-width: 1000px; margin: 0 auto; }
+  .alsel-line-signup__header { text-align: center; margin-bottom: 2rem; }
+  .alsel-line-signup__badge { display: inline-block; background: #06C755; color: #fff; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.9rem; border-radius: 9999px; margin-bottom: 0.75rem; }
+  .alsel-line-signup__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; line-height: 1.4; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; }
+  .alsel-line-signup__sub { font-size: 0.95rem; line-height: 1.7; color: {{ section.settings.text_color }}; margin: 0; }
+  .alsel-line-signup__benefits { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .alsel-line-signup__benefit { background: #fff; border-radius: 12px; padding: 1.25rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .alsel-line-signup__benefit-icon { font-size: 2.2rem; line-height: 1; margin-bottom: 0.5rem; }
+  .alsel-line-signup__benefit-title { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.5rem; color: #1f2937; }
+  .alsel-line-signup__benefit-body { font-size: 0.9rem; line-height: 1.7; color: #475569; margin: 0; }
+  .alsel-line-signup__cta-area { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+  .alsel-line-signup__qr { text-align: center; background: #fff; padding: 1rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .alsel-line-signup__qr-img { width: 160px; height: 160px; display: block; margin: 0 auto; }
+  .alsel-line-signup__qr-caption { font-size: 0.8rem; color: #64748b; margin: 0.5rem 0 0; }
+  .alsel-line-signup__button-wrap { width: 100%; text-align: center; }
+  .alsel-line-signup__button { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: #06C755; color: #fff; font-size: 1.05rem; font-weight: 700; padding: 1rem 2rem; border-radius: 9999px; text-decoration: none; min-width: 280px; box-shadow: 0 4px 12px rgba(6,199,85,0.3); transition: transform 0.15s ease; }
+  .alsel-line-signup__button:hover { transform: translateY(-2px); }
+  .alsel-line-signup__button-icon { width: 24px; height: 24px; }
+  .alsel-line-signup__note { font-size: 0.8rem; color: #64748b; margin: 0.75rem 0 0; line-height: 1.6; }
+  @media (min-width: 750px) {
+    .alsel-line-signup { padding: 5rem 2rem; }
+    .alsel-line-signup__benefits { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .alsel-line-signup__cta-area { flex-direction: row; justify-content: center; align-items: center; gap: 2.5rem; }
+    .alsel-line-signup__button-wrap { width: auto; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "LINE登録誘導",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出しエリア" },
+    { "type": "text", "id": "badge_text", "label": "上部バッジ文字", "default": "登録者限定特典あり" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "LINE公式アカウントで\u304a\u5f97な情報をお届けします" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご登録いただいた方限定で、初回 10% OFF クーポンをプレゼントしております。再入荷通知や購入のご相談も LINE で承りますので、ぜひお気軽にご利用ください。" },
+    { "type": "header", "content": "友だち追加ボタン" },
+    { "type": "url", "id": "line_url", "label": "LINE 友だち追加 URL", "info": "LINE Official Account Manager で取得した「https://lin.ee/xxxxx」形式の URL を入力してください。" },
+    { "type": "text", "id": "button_text", "label": "ボタンの文字", "default": "友だち追加でクーポンをもらう" },
+    { "type": "textarea", "id": "note", "label": "ボタン下の補足文", "default": "※ボタンをタップすると LINE アプリが起動します。クーポンはご登録直後にメッセージで自動配信されます。" },
+    { "type": "header", "content": "QRコード(任意)" },
+    { "type": "image_picker", "id": "qr_image", "label": "QR コード画像", "info": "推奨 400 × 400px、PNG 透過。LINE Official Account Manager からダウンロードできます。" },
+    { "type": "text", "id": "qr_alt", "label": "QR コードの代替テキスト", "default": "LINE公式アカウントのQRコード" },
+    { "type": "text", "id": "qr_caption", "label": "QR コード下のキャプション", "default": "スマートフォンで読み取ってください" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f0fdf4" },
+    { "type": "color", "id": "text_color", "label": "見出し・本文の文字色", "default": "#1f2937" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "特典項目",
+      "settings": [
+        { "type": "text", "id": "emoji", "label": "アイコン絵文字", "default": "🎁", "info": "🎁 🔔 💬 ⭐ 📦 などの絵文字を 1 文字入力してください。" },
+        { "type": "text", "id": "title", "label": "特典タイトル", "default": "特典タイトル" },
+        { "type": "textarea", "id": "body", "label": "特典の説明", "default": "特典の内容をこちらにご記載ください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / LINE登録誘導(3特典+QR)",
+      "settings": {
+        "badge_text": "登録者限定特典あり",
+        "heading": "LINE公式アカウントでお得な情報をお届けします",
+        "subheading": "ご登録いただいた方限定で、初回 10% OFF クーポンをプレゼントしております。再入荷通知や購入のご相談も LINE で承りますので、ぜひお気軽にご利用ください。",
+        "button_text": "友だち追加でクーポンをもらう",
+        "note": "※ボタンをタップすると LINE アプリが起動します。クーポンはご登録直後にメッセージで自動配信されます。",
+        "qr_caption": "スマートフォンで読み取ってください"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "emoji": "🎁", "title": "初回 10% OFF クーポン", "body": "ご登録後すぐに使える 10% OFF クーポンをプレゼントいたします。税込 5,500 円以上のご注文で送料も無料になります。" } },
+        { "type": "benefit", "settings": { "emoji": "🔔", "title": "人気商品の再入荷通知", "body": "完売商品の再入荷情報をいち早くお届けいたします。お気に入りの商品を見逃すことなくご購入いただけます。" } },
+        { "type": "benefit", "settings": { "emoji": "💬", "title": "購入前の無料相談", "body": "サイズ・素材・のし対応・配送日数など、ご購入前のご不明点を専門スタッフが丁寧にお答えいたします。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

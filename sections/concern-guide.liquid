@@ -1,0 +1,234 @@
+{% comment %}
+============================================================
+セクション名: 悩み別おすすめ
+用途: 肌悩み・睡眠・肩こり・収納などの「悩みカテゴリ」ごとに、おすすめ商品やコンテンツへの導線をカード形式で並べる回遊促進セクション
+推奨設置場所: トップページ中段、コレクションページ上部、特集 LP の途中
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 悩みカードの画像・アイコン絵文字・タイトル・短い説明・リンク先・ラベル
+  - 列数(モバイル 1〜2 列 / PC 2〜4 列)
+  - 背景色・アクセントカラー
+注意点:
+  - カード画像は推奨 800 × 800px(正方形)、JPEG または PNG
+  - ブロックは 3〜8 個を推奨。多すぎる場合は横スクロール表示も検討
+  - アイコン絵文字は画像未設定時のフォールバックとして表示される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-concern-guide" aria-label="{{ heading_alt }}">
+  <div class="alsel-concern-guide__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-concern-guide__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-concern-guide__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-concern-guide__empty">
+      表示できる悩みカテゴリはまだ登録されていません。テーマエディタからブロックを追加してください。
+    </p>
+  {%- else -%}
+    <div class="alsel-concern-guide__grid" data-cols-pc="{{ section.settings.cols_pc }}">
+      {%- for block in section.blocks -%}
+        {%- assign card_alt = block.settings.title | escape -%}
+        <a
+          class="alsel-concern-guide__card"
+          href="{{ block.settings.link | default: '#' }}"
+          aria-label="{{ card_alt }}のおすすめを見る"
+          {{ block.shopify_attributes }}
+        >
+          <div class="alsel-concern-guide__media">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-concern-guide__image', alt: card_alt, widths: '300, 500, 800', sizes: '(min-width: 750px) 25vw, 50vw' }}
+            {%- else -%}
+              <span class="alsel-concern-guide__icon" aria-hidden="true">{{ block.settings.icon | default: '✨' }}</span>
+            {%- endif -%}
+            {%- if block.settings.label != blank -%}
+              <span class="alsel-concern-guide__label">{{ block.settings.label }}</span>
+            {%- endif -%}
+          </div>
+          <div class="alsel-concern-guide__body">
+            <h3 class="alsel-concern-guide__title">{{ block.settings.title }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="alsel-concern-guide__desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+            {%- if block.settings.cta_text != blank -%}
+              <span class="alsel-concern-guide__cta">
+                {{ block.settings.cta_text }}
+                <span class="alsel-concern-guide__arrow" aria-hidden="true">→</span>
+              </span>
+            {%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-concern-guide {
+    --accent: {{ section.settings.accent_color }};
+    --bg: {{ section.settings.bg_color }};
+    --card-bg: {{ section.settings.card_bg }};
+    padding: 3rem 1rem;
+    background: var(--bg);
+  }
+  .alsel-concern-guide__head { max-width: 800px; margin: 0 auto 2rem; text-align: center; }
+  .alsel-concern-guide__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.75rem; color: #1e293b; }
+  .alsel-concern-guide__lead { font-size: 0.95rem; line-height: 1.7; color: #475569; margin: 0; }
+  .alsel-concern-guide__empty { text-align: center; color: #888; padding: 2rem 0; margin: 0; }
+  .alsel-concern-guide__grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1rem; max-width: 1200px; margin: 0 auto; }
+  .alsel-concern-guide__card {
+    display: flex; flex-direction: column;
+    background: var(--card-bg); border-radius: 16px; overflow: hidden;
+    text-decoration: none; color: inherit;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .alsel-concern-guide__card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); }
+  .alsel-concern-guide__media {
+    position: relative; width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 15%, #fff), color-mix(in srgb, var(--accent) 5%, #fff));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .alsel-concern-guide__image { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-concern-guide__icon { font-size: clamp(3rem, 8vw, 4.5rem); }
+  .alsel-concern-guide__label {
+    position: absolute; top: 0.75rem; left: 0.75rem;
+    background: var(--accent); color: #fff;
+    font-size: 0.75rem; font-weight: 700;
+    padding: 0.25rem 0.75rem; border-radius: 9999px;
+  }
+  .alsel-concern-guide__body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+  .alsel-concern-guide__title { font-size: 1.05rem; font-weight: 700; margin: 0; color: #1e293b; line-height: 1.4; }
+  .alsel-concern-guide__desc { font-size: 0.85rem; line-height: 1.6; color: #64748b; margin: 0; flex: 1; }
+  .alsel-concern-guide__cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-top: 0.5rem;
+  }
+  .alsel-concern-guide__arrow { transition: transform 0.2s ease; }
+  .alsel-concern-guide__card:hover .alsel-concern-guide__arrow { transform: translateX(4px); }
+
+  @media (min-width: 600px) {
+    .alsel-concern-guide__grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  }
+  @media (min-width: 750px) {
+    .alsel-concern-guide { padding: 5rem 2rem; }
+    .alsel-concern-guide__grid[data-cols-pc="3"] { grid-template-columns: repeat(3, 1fr); }
+    .alsel-concern-guide__grid[data-cols-pc="4"] { grid-template-columns: repeat(4, 1fr); }
+    .alsel-concern-guide__grid { gap: 1.5rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "悩み別おすすめ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "お悩み別おすすめ" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "あなたのお悩みに寄り添う商品をご紹介します。気になるカテゴリからお選びください。" },
+    {
+      "type": "select", "id": "cols_pc", "label": "PC 表示時の列数",
+      "options": [
+        { "value": "2", "label": "2 列" },
+        { "value": "3", "label": "3 列" },
+        { "value": "4", "label": "4 列" }
+      ],
+      "default": "3"
+    },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#0ea5e9", "info": "ラベル・矢印・カード背景のグラデーションに使用されます" }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "悩みカード",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "カード画像", "info": "推奨 800 × 800px(正方形)、JPEG または PNG。未設定の場合はアイコン絵文字が表示されます" },
+        { "type": "text", "id": "icon", "label": "アイコン絵文字", "default": "✨", "info": "画像未設定時に表示される代替アイコンです" },
+        { "type": "text", "id": "label", "label": "バッジ文字", "info": "「人気カテゴリ」「新着特集」など。空欄で非表示" },
+        { "type": "text", "id": "title", "label": "悩みタイトル", "default": "肌のお悩み" },
+        { "type": "textarea", "id": "description", "label": "短い説明", "default": "乾燥や毛穴のお悩みにおすすめのスキンケア商品をご紹介します。" },
+        { "type": "text", "id": "cta_text", "label": "リンクの文字", "default": "おすすめを見る" },
+        { "type": "url", "id": "link", "label": "リンク先", "info": "コレクションページや商品ページのリンクを設定します" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 悩み別おすすめ(カードグリッド)",
+      "settings": {
+        "heading": "お悩み別おすすめ",
+        "lead": "あなたのお悩みに寄り添う商品をご紹介します。気になるカテゴリからお選びください。",
+        "cols_pc": "3"
+      },
+      "blocks": [
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "🌿",
+            "label": "人気カテゴリ",
+            "title": "肌のお悩み",
+            "description": "乾燥や毛穴のお悩みにおすすめのスキンケア商品をご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "🌙",
+            "title": "睡眠のお悩み",
+            "description": "ぐっすり眠れる毎日へ。寝具・サプリ・リラックスアイテムをご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "💆",
+            "title": "肩こり・腰のお悩み",
+            "description": "毎日の疲れをやさしくケアするマッサージ・ストレッチアイテムをご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "📦",
+            "label": "新着特集",
+            "title": "収納のお悩み",
+            "description": "スッキリ片付く暮らしへ。賢く使える収納アイテムをご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "💪",
+            "title": "ダイエット・健康",
+            "description": "無理なく続けられる健康習慣をサポートする商品をご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        },
+        {
+          "type": "concern",
+          "settings": {
+            "icon": "👶",
+            "title": "子育てのお悩み",
+            "description": "毎日の子育てをらくにする便利グッズ・ベビーアイテムをご紹介します。",
+            "cta_text": "おすすめを見る"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

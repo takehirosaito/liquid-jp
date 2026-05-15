@@ -1,0 +1,299 @@
+{% comment %}
+============================================================
+セクション名: LP用画像＋テキスト交互配置
+用途: 縦長 LP で商品の魅力やこだわりを画像とテキストで交互に訴求する定番セクション。楽天市場系の濃いデザインで感情に訴える構成。
+推奨設置場所: 商品ページ・LP ページの中盤(ヒーローや実績訴求の後)
+カスタマイズポイント:
+  - セクション全体の見出し・サブコピー
+  - 強調帯の文言・配色
+  - ブロックごとの画像・小見出し・キャッチ・本文・CTA ボタン
+  - 偶数ブロック/奇数ブロックの自動左右反転
+  - 装飾(番号バッジ・矢印)の表示切替
+注意点:
+  - 画像は推奨 1200 × 900px、JPEG または PNG
+  - ブロックは 2〜8 個推奨。偶数番目は自動で画像が右に配置される
+  - 楽天 LP 系の強いコピーは適宜マイルドに調整してご利用ください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-image-text-alternate" aria-label="{{ sec_heading }}">
+  {%- if section.settings.banner_text != blank -%}
+    <div class="alsel-image-text-alternate__banner">
+      <span class="alsel-image-text-alternate__banner-text">{{ section.settings.banner_text }}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="alsel-image-text-alternate__head">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-image-text-alternate__heading">
+        <span class="alsel-image-text-alternate__heading-inner">{{ section.settings.heading }}</span>
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-image-text-alternate__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-image-text-alternate__empty" style="text-align:center;color:#888;padding:2rem 0;">
+      表示できる項目はまだありません。テーマエディタからブロックを追加してください。
+    </p>
+  {%- endif -%}
+
+  <div class="alsel-image-text-alternate__list">
+    {%- for block in section.blocks -%}
+      {%- assign block_num = forloop.index -%}
+      {%- assign block_alt = block.settings.title | default: sec_heading | escape -%}
+      <article class="alsel-image-text-alternate__row{%- cycle '', ' alsel-image-text-alternate__row--reverse' -%}" {{ block.shopify_attributes }}>
+        <div class="alsel-image-text-alternate__media">
+          {%- if section.settings.show_number -%}
+            <span class="alsel-image-text-alternate__number">
+              <small>POINT</small>
+              <strong>{% if block_num < 10 %}0{% endif %}{{ block_num }}</strong>
+            </span>
+          {%- endif -%}
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image
+              | image_url: width: 1200
+              | image_tag: loading: 'lazy', class: 'alsel-image-text-alternate__image', alt: block_alt, widths: '375, 600, 900, 1200' }}
+          {%- else -%}
+            <div class="alsel-image-text-alternate__placeholder">画像を設定してください</div>
+          {%- endif -%}
+          {%- if block.settings.badge_text != blank -%}
+            <span class="alsel-image-text-alternate__badge">{{ block.settings.badge_text }}</span>
+          {%- endif -%}
+        </div>
+        <div class="alsel-image-text-alternate__body">
+          {%- if block.settings.label != blank -%}
+            <span class="alsel-image-text-alternate__label">{{ block.settings.label }}</span>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="alsel-image-text-alternate__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.catch != blank -%}
+            <p class="alsel-image-text-alternate__catch">{{ block.settings.catch }}</p>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <div class="alsel-image-text-alternate__text">{{ block.settings.text }}</div>
+          {%- endif -%}
+          {%- if block.settings.cta_text != blank and block.settings.cta_link != blank -%}
+            <a class="alsel-image-text-alternate__cta" href="{{ block.settings.cta_link }}" aria-label="{{ block.settings.cta_text | escape }}">
+              {{ block.settings.cta_text }}
+              <span class="alsel-image-text-alternate__cta-arrow" aria-hidden="true">▶</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.bottom_text != blank -%}
+    <p class="alsel-image-text-alternate__bottom">{{ section.settings.bottom_text }}</p>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-image-text-alternate {
+    --accent: {{ section.settings.accent_color }};
+    --accent-sub: {{ section.settings.sub_color }};
+    --bg: {{ section.settings.bg_color }};
+    --text: #1a1a1a;
+    padding: 3rem 1rem;
+    background: var(--bg);
+    color: var(--text);
+    position: relative;
+  }
+  .alsel-image-text-alternate__banner {
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 0.9rem 1rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+    position: relative;
+    border-radius: 4px;
+  }
+  .alsel-image-text-alternate__banner::after {
+    content: ""; position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%);
+    border-style: solid; border-width: 10px 10px 0 10px;
+    border-color: var(--accent) transparent transparent transparent;
+  }
+  .alsel-image-text-alternate__banner-text { display: inline-block; }
+  .alsel-image-text-alternate__head { text-align: center; max-width: 900px; margin: 0 auto 2.5rem; }
+  .alsel-image-text-alternate__heading {
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    line-height: 1.4;
+    display: inline-block;
+    position: relative;
+  }
+  .alsel-image-text-alternate__heading-inner {
+    background: linear-gradient(transparent 60%, var(--accent-sub) 60%);
+    padding: 0 0.3em;
+  }
+  .alsel-image-text-alternate__sub { font-size: 1rem; line-height: 1.7; color: #444; margin: 0; }
+  .alsel-image-text-alternate__list { max-width: 1100px; margin: 0 auto; display: grid; gap: 2.5rem; }
+  .alsel-image-text-alternate__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    background: #fff;
+    padding: 1.25rem;
+    border: 3px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  }
+  .alsel-image-text-alternate__media { position: relative; }
+  .alsel-image-text-alternate__image { width: 100%; height: auto; display: block; border-radius: 4px; }
+  .alsel-image-text-alternate__placeholder {
+    width: 100%; aspect-ratio: 4 / 3; background: #f1f1f1; color: #888;
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border-radius: 4px;
+  }
+  .alsel-image-text-alternate__number {
+    position: absolute; top: -10px; left: -10px; z-index: 2;
+    background: var(--accent); color: #fff;
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    line-height: 1; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    font-weight: 700;
+  }
+  .alsel-image-text-alternate__number small { font-size: 0.55rem; letter-spacing: 0.1em; }
+  .alsel-image-text-alternate__number strong { font-size: 1.3rem; margin-top: 2px; }
+  .alsel-image-text-alternate__badge {
+    position: absolute; right: 8px; bottom: 8px;
+    background: #ffeb3b; color: #d32f2f; font-weight: 700;
+    padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.85rem;
+    transform: rotate(-3deg); box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  .alsel-image-text-alternate__body { padding: 0.5rem; }
+  .alsel-image-text-alternate__label {
+    display: inline-block; background: var(--accent); color: #fff;
+    padding: 0.3rem 0.9rem; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.05em; margin-bottom: 0.75rem; border-radius: 2px;
+  }
+  .alsel-image-text-alternate__title {
+    font-size: clamp(1.25rem, 3.5vw, 1.7rem);
+    font-weight: 700; line-height: 1.4;
+    margin: 0 0 0.75rem;
+    color: var(--text);
+  }
+  .alsel-image-text-alternate__catch {
+    font-size: 1.05rem; font-weight: 700; color: var(--accent);
+    line-height: 1.5; margin: 0 0 0.75rem;
+  }
+  .alsel-image-text-alternate__text { font-size: 0.95rem; line-height: 1.8; color: #333; margin: 0 0 1.25rem; }
+  .alsel-image-text-alternate__text :where(p) { margin: 0 0 0.75rem; }
+  .alsel-image-text-alternate__cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent); color: #fff;
+    padding: 0.9rem 1.6rem; border-radius: 9999px;
+    text-decoration: none; font-weight: 700; font-size: 1rem;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+    transition: transform 0.15s;
+  }
+  .alsel-image-text-alternate__cta:hover { transform: translateY(-2px); }
+  .alsel-image-text-alternate__cta-arrow { font-size: 0.7rem; }
+  .alsel-image-text-alternate__bottom {
+    text-align: center; max-width: 900px; margin: 2.5rem auto 0;
+    font-size: 1.1rem; font-weight: 700; color: var(--accent);
+  }
+  @media (min-width: 750px) {
+    .alsel-image-text-alternate { padding: 5rem 2rem; }
+    .alsel-image-text-alternate__row {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      padding: 2rem;
+      align-items: center;
+    }
+    .alsel-image-text-alternate__row--reverse .alsel-image-text-alternate__media { order: 2; }
+    .alsel-image-text-alternate__row--reverse .alsel-image-text-alternate__body { order: 1; }
+    .alsel-image-text-alternate__number { width: 80px; height: 80px; top: -16px; left: -16px; }
+    .alsel-image-text-alternate__number strong { font-size: 1.6rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "LP用画像＋テキスト交互",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "banner_text", "label": "上部の強調帯テキスト", "default": "【期間限定】今だけの特別企画を実施中です!", "info": "セクション最上部に赤帯で表示されます" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "選ばれ続ける、3つの理由をご紹介します" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "おかげさまでご好評をいただいております。当店がお客様から選ばれ続ける秘密を、たっぷりとお伝えします。" },
+    { "type": "text", "id": "bottom_text", "label": "下部の締めコピー", "default": "ご好評につき、なくなり次第終了となります。お早めにどうぞ!" },
+    { "type": "checkbox", "id": "show_number", "label": "番号バッジを表示する", "default": true },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff8e7" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(帯・ボタン)", "default": "#d32f2f" },
+    { "type": "color", "id": "sub_color", "label": "見出しマーカー色", "default": "#ffeb3b" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "画像＋テキストブロック",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "画像", "info": "推奨 1200 × 900px、JPEG または PNG" },
+        { "type": "text", "id": "label", "label": "小ラベル", "default": "ポイント01" },
+        { "type": "text", "id": "title", "label": "見出し", "default": "業界No.1の品質を誇る素材を使用しています" },
+        { "type": "text", "id": "catch", "label": "キャッチコピー(強調文)", "default": "もう他では戻れない、感動の使い心地です!" },
+        { "type": "richtext", "id": "text", "label": "本文", "default": "<p>厳選した素材だけを使用し、職人がひとつひとつ丁寧に仕上げています。お客様の声を元に何度も改良を重ねた、自信の一品です。</p>" },
+        { "type": "text", "id": "badge_text", "label": "バッジ文言(画像右下)", "default": "大好評!" },
+        { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しい商品情報を見る" },
+        { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / LP用画像＋テキスト交互配置(2カラム交互)",
+      "settings": {
+        "banner_text": "【期間限定】今だけ最大50%OFFを実施中です!",
+        "heading": "選ばれ続ける、3つの理由をご紹介します",
+        "subheading": "おかげさまで累計販売数10万個を突破しました。当店が長年お客様から選ばれ続けている秘密を、たっぷりとお伝えします。",
+        "bottom_text": "ご好評につき、在庫がなくなり次第終了となります。お早めにどうぞ!"
+      },
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "label": "ポイント01",
+            "title": "業界No.1の高品質素材を使用しています",
+            "catch": "もう他では戻れない、感動の使い心地です!",
+            "badge_text": "大好評!",
+            "cta_text": "素材のこだわりを見る"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "label": "ポイント02",
+            "title": "熟練の職人が一つ一つ丁寧に仕上げます",
+            "catch": "30年以上のキャリアを持つ匠の技です!",
+            "badge_text": "受賞歴あり",
+            "cta_text": "製造工程を見る"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "label": "ポイント03",
+            "title": "安心の30日間返品保証付きです",
+            "catch": "万が一ご満足いただけなければ全額返金します!",
+            "badge_text": "安心保証",
+            "cta_text": "保証内容を確認する"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

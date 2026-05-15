@@ -1,0 +1,409 @@
+{% comment %}
+============================================================
+セクション名: 地域別配送目安
+用途: 注文後にお届けまで何日かかるかを地域別に一覧表示し、購入前の不安を解消する。商品ページや配送ガイドページで、関東・関西・九州・北海道など全国の目安日数を分かりやすく伝える。
+推奨設置場所: 商品ページの下部、配送ガイドページ、ご利用ガイドページ、トップページのフッター上
+カスタマイズポイント:
+  - セクション見出し・補足テキスト
+  - 出荷拠点の説明文(例: 東京都内の倉庫から出荷)
+  - 地域ブロック(地域名・都道府県・目安日数・備考)
+  - 背景色・アクセントカラー
+  - 注意書き(離島・天候による遅延など)
+注意点:
+  - 目安日数は営業日ベースで記載することを推奨する
+  - 北海道・沖縄・離島は別記載が望ましい(日本の EC 慣習)
+  - 表示日数を変更したい場合はテーマエディタからブロック単位で編集可能
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-regional-shipping" aria-label="{{ sec_heading }}">
+  <div class="alsel-regional-shipping__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-regional-shipping__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-regional-shipping__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.warehouse_note != blank -%}
+      <div class="alsel-regional-shipping__warehouse" role="note">
+        <span class="alsel-regional-shipping__warehouse-icon" aria-hidden="true">📦</span>
+        <span>{{ section.settings.warehouse_note }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-regional-shipping__empty">
+        現在表示できる配送地域はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-regional-shipping__table" role="table" aria-label="地域別配送目安一覧">
+        <div class="alsel-regional-shipping__thead" role="row">
+          <div class="alsel-regional-shipping__th alsel-regional-shipping__th--region" role="columnheader">配送地域</div>
+          <div class="alsel-regional-shipping__th alsel-regional-shipping__th--prefs" role="columnheader">対象の都道府県</div>
+          <div class="alsel-regional-shipping__th alsel-regional-shipping__th--days" role="columnheader">お届け目安</div>
+        </div>
+
+        {%- for block in section.blocks -%}
+          <div class="alsel-regional-shipping__row" role="row" {{ block.shopify_attributes }}>
+            <div class="alsel-regional-shipping__cell alsel-regional-shipping__cell--region" role="cell">
+              <span class="alsel-regional-shipping__badge" style="background: {{ block.settings.badge_color }};">
+                {{ block.settings.region_name }}
+              </span>
+            </div>
+            <div class="alsel-regional-shipping__cell alsel-regional-shipping__cell--prefs" role="cell">
+              <span class="alsel-regional-shipping__label" aria-hidden="true">対象エリア:</span>
+              {{ block.settings.prefectures }}
+            </div>
+            <div class="alsel-regional-shipping__cell alsel-regional-shipping__cell--days" role="cell">
+              <span class="alsel-regional-shipping__label" aria-hidden="true">お届け目安:</span>
+              <span class="alsel-regional-shipping__days">
+                <strong>{{ block.settings.days }}</strong>
+                <span class="alsel-regional-shipping__unit">{{ block.settings.unit }}</span>
+              </span>
+              {%- if block.settings.note != blank -%}
+                <span class="alsel-regional-shipping__note">{{ block.settings.note }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.caution != blank -%}
+      <div class="alsel-regional-shipping__caution" role="note">
+        <p class="alsel-regional-shipping__caution-title">ご注意事項</p>
+        <div class="alsel-regional-shipping__caution-body">{{ section.settings.caution }}</div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-regional-shipping {
+    padding: 3rem 1rem;
+    background: {{ section.settings.bg_color }};
+    color: #1f2937;
+  }
+  .alsel-regional-shipping__inner { max-width: 960px; margin: 0 auto; }
+  .alsel-regional-shipping__heading {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 1rem;
+    color: {{ section.settings.accent_color }};
+  }
+  .alsel-regional-shipping__lead {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    color: #475569;
+  }
+  .alsel-regional-shipping__warehouse {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    background: #fff;
+    border: 1px dashed {{ section.settings.accent_color }};
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    margin: 0 0 2rem;
+    color: #334155;
+  }
+  .alsel-regional-shipping__warehouse-icon { font-size: 1.1rem; }
+  .alsel-regional-shipping__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    background: #fff;
+    border-radius: 8px;
+  }
+  .alsel-regional-shipping__table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .alsel-regional-shipping__thead { display: none; }
+  .alsel-regional-shipping__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .alsel-regional-shipping__row:last-child { border-bottom: 0; }
+  .alsel-regional-shipping__cell {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .alsel-regional-shipping__label {
+    font-size: 0.8rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .alsel-regional-shipping__badge {
+    display: inline-block;
+    color: #fff;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+  }
+  .alsel-regional-shipping__days {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    color: {{ section.settings.accent_color }};
+  }
+  .alsel-regional-shipping__days strong { font-size: 1.3rem; font-weight: 700; }
+  .alsel-regional-shipping__unit { font-size: 0.9rem; color: #475569; font-weight: 500; }
+  .alsel-regional-shipping__note {
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    color: #ef4444;
+    margin-top: 0.25rem;
+  }
+  .alsel-regional-shipping__caution {
+    margin-top: 1.5rem;
+    background: #fef9c3;
+    border-left: 4px solid #eab308;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+  }
+  .alsel-regional-shipping__caution-title {
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: #854d0e;
+    font-size: 0.95rem;
+  }
+  .alsel-regional-shipping__caution-body {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #713f12;
+  }
+  .alsel-regional-shipping__caution-body p { margin: 0 0 0.25rem; }
+  @media (min-width: 750px) {
+    .alsel-regional-shipping { padding: 4rem 2rem; }
+    .alsel-regional-shipping__thead {
+      display: grid;
+      grid-template-columns: 180px 1fr 220px;
+      background: {{ section.settings.accent_color }};
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .alsel-regional-shipping__th { padding: 0.85rem 1.25rem; }
+    .alsel-regional-shipping__row {
+      grid-template-columns: 180px 1fr 220px;
+      gap: 1rem;
+      align-items: center;
+    }
+    .alsel-regional-shipping__label { display: none; }
+    .alsel-regional-shipping__cell--days { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "地域別配送目安",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "セクション見出し",
+      "default": "地域別のお届け目安"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "補足テキスト",
+      "default": "ご注文後の出荷から、お届けまでの日数の目安をご案内します。"
+    },
+    {
+      "type": "text",
+      "id": "warehouse_note",
+      "label": "出荷拠点の説明",
+      "info": "出荷元の倉庫所在地などを記載します",
+      "default": "東京都内の倉庫から出荷いたします(平日 14:00 までのご注文は当日出荷)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#f8fafc"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "アクセントカラー",
+      "default": "#0ea5e9"
+    },
+    {
+      "type": "richtext",
+      "id": "caution",
+      "label": "注意事項",
+      "info": "離島・天候・年末年始などの注意点を記載します",
+      "default": "<p>離島・一部地域へのお届けは、上記目安より 1〜3 日ほど追加でいただく場合がございます。</p><p>天候や交通事情により、お届けが遅延する場合がございます。あらかじめご了承ください。</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "region",
+      "name": "配送地域",
+      "settings": [
+        {
+          "type": "text",
+          "id": "region_name",
+          "label": "地域名",
+          "default": "関東"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "バッジの色",
+          "default": "#0ea5e9"
+        },
+        {
+          "type": "textarea",
+          "id": "prefectures",
+          "label": "対象の都道府県",
+          "info": "「、」区切りで都道府県名を記載します",
+          "default": "東京都、神奈川県、埼玉県、千葉県、茨城県、栃木県、群馬県"
+        },
+        {
+          "type": "text",
+          "id": "days",
+          "label": "お届け目安(日数)",
+          "default": "1〜2"
+        },
+        {
+          "type": "text",
+          "id": "unit",
+          "label": "単位",
+          "default": "営業日"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "備考(任意)",
+          "info": "「離島を除く」などの注釈を記載できます",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 地域別配送目安(全国エリア表)",
+      "settings": {
+        "heading": "地域別のお届け目安",
+        "lead": "ご注文後の出荷から、お届けまでの日数の目安をご案内します。",
+        "warehouse_note": "東京都内の倉庫から出荷いたします(平日 14:00 までのご注文は当日出荷)"
+      },
+      "blocks": [
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "関東",
+            "badge_color": "#0ea5e9",
+            "prefectures": "東京都、神奈川県、埼玉県、千葉県、茨城県、栃木県、群馬県",
+            "days": "1〜2",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "関西",
+            "badge_color": "#10b981",
+            "prefectures": "大阪府、京都府、兵庫県、奈良県、滋賀県、和歌山県、三重県",
+            "days": "2〜3",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "中部・東海",
+            "badge_color": "#8b5cf6",
+            "prefectures": "愛知県、岐阜県、静岡県、長野県、山梨県、新潟県、富山県、石川県、福井県",
+            "days": "2〜3",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "東北",
+            "badge_color": "#f59e0b",
+            "prefectures": "宮城県、福島県、山形県、岩手県、秋田県、青森県",
+            "days": "2〜3",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "中国・四国",
+            "badge_color": "#ec4899",
+            "prefectures": "広島県、岡山県、山口県、島根県、鳥取県、香川県、徳島県、愛媛県、高知県",
+            "days": "3〜4",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "九州",
+            "badge_color": "#ef4444",
+            "prefectures": "福岡県、佐賀県、長崎県、熊本県、大分県、宮崎県、鹿児島県",
+            "days": "3〜4",
+            "unit": "営業日"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "北海道",
+            "badge_color": "#3b82f6",
+            "prefectures": "北海道全域",
+            "days": "3〜5",
+            "unit": "営業日",
+            "note": "一部地域はさらに 1〜2 日いただく場合がございます"
+          }
+        },
+        {
+          "type": "region",
+          "settings": {
+            "region_name": "沖縄・離島",
+            "badge_color": "#14b8a6",
+            "prefectures": "沖縄県、各離島",
+            "days": "5〜7",
+            "unit": "営業日",
+            "note": "天候により遅延する場合がございます"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

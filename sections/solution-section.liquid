@@ -1,0 +1,273 @@
+{% comment %}
+============================================================
+セクション名: 解決訴求セクション(楽天LP風・お悩み解決訴求)
+用途: 商品が顧客のどんな悩みをどう解決するかを 3〜5 項目で強く訴求する。LP の中盤、共感パートの後に配置することで購入動機を一気に高める
+推奨設置場所: 商品ページ・LP ページの中盤(ヒーロー直後の共感セクションの後)
+カスタマイズポイント:
+  - セクション全体の見出し・サブ見出し
+  - 背景色・強調色(楽天風の赤・黄色など)
+  - 解決ブロック(悩み → 解決の Before / After 形式)
+  - 各ブロックのアイコン画像・悩みコピー・解決コピー
+  - 締めのキャッチコピー
+注意点:
+  - ブロックは 3〜5 個推奨。6 個以上は縦に長くなりすぎる
+  - アイコン画像は 200 × 200px の PNG 透過推奨
+  - 楽天 LP 風の濃い配色なので、ブランドトーンに合わせて色は調整可能
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+<section class="alsel-solution-section" aria-label="お悩み解決訴求">
+  <div class="alsel-solution-section__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-solution-section__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-solution-section__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-solution-section__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-solution-section__empty">
+        現在表示できる解決項目はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    <div class="alsel-solution-section__list">
+      {%- for block in section.blocks -%}
+        {%- assign icon_alt = block.settings.solution_title | escape -%}
+        <article class="alsel-solution-section__card" {{ block.shopify_attributes }}>
+          <div class="alsel-solution-section__problem">
+            <span class="alsel-solution-section__problem-label">こんなお悩み</span>
+            <p class="alsel-solution-section__problem-text">{{ block.settings.problem_text }}</p>
+          </div>
+          <div class="alsel-solution-section__arrow" aria-hidden="true">▼</div>
+          <div class="alsel-solution-section__solution">
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-solution-section__icon', alt: icon_alt, widths: '100, 200, 400' }}
+            {%- endif -%}
+            <span class="alsel-solution-section__badge">解決!</span>
+            <h3 class="alsel-solution-section__solution-title">{{ block.settings.solution_title }}</h3>
+            <p class="alsel-solution-section__solution-text">{{ block.settings.solution_text }}</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.closing_text != blank -%}
+      <div class="alsel-solution-section__closing">
+        <p class="alsel-solution-section__closing-text">{{ section.settings.closing_text }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-solution-section {
+    --accent: {{ section.settings.accent_color }};
+    --accent-yellow: {{ section.settings.accent_yellow }};
+    --bg: {{ section.settings.bg_color }};
+    --text: {{ section.settings.text_color }};
+    background: var(--bg);
+    padding: 3rem 1rem;
+    color: var(--text);
+  }
+  .alsel-solution-section__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-solution-section__eyebrow {
+    display: inline-block;
+    background: var(--accent-yellow);
+    color: #1a1a1a;
+    font-weight: 700;
+    padding: 0.4rem 1.2rem;
+    border-radius: 4px;
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    transform: rotate(-2deg);
+  }
+  .alsel-solution-section__heading {
+    text-align: center;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 700;
+    margin: 0 0 1rem;
+    line-height: 1.4;
+  }
+  .alsel-solution-section__heading::before { content: "\\"; color: var(--accent); margin-right: 0.5rem; }
+  .alsel-solution-section__heading::after { content: "/"; color: var(--accent); margin-left: 0.5rem; }
+  .alsel-solution-section__sub {
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 2.5rem;
+    color: #475569;
+  }
+  .alsel-solution-section__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-solution-section__list { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  .alsel-solution-section__card {
+    background: #fff;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .alsel-solution-section__problem {
+    background: #f5f5f5;
+    border-left: 4px solid #999;
+    padding: 1rem;
+    border-radius: 6px;
+    position: relative;
+  }
+  .alsel-solution-section__problem-label {
+    display: inline-block;
+    background: #555;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .alsel-solution-section__problem-text {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #333;
+    font-weight: 700;
+  }
+  .alsel-solution-section__arrow {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin: 0.5rem 0;
+    font-weight: 700;
+  }
+  .alsel-solution-section__solution {
+    background: linear-gradient(135deg, #fff5f5 0%, #fffbe6 100%);
+    border-left: 4px solid var(--accent);
+    padding: 1.25rem;
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+  }
+  .alsel-solution-section__icon { width: 70px; height: 70px; object-fit: contain; margin: 0 auto 0.75rem; display: block; }
+  .alsel-solution-section__badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.3rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .alsel-solution-section__solution-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--accent);
+    line-height: 1.5;
+  }
+  .alsel-solution-section__solution-text {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: #333;
+  }
+  .alsel-solution-section__closing {
+    margin-top: 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+  }
+  .alsel-solution-section__closing-text {
+    margin: 0;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  @media (min-width: 750px) {
+    .alsel-solution-section { padding: 5rem 2rem; }
+    .alsel-solution-section__list { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .alsel-solution-section__card:nth-child(odd):last-child { grid-column: 1 / -1; max-width: 540px; margin: 0 auto; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "解決訴求(楽天LP風)",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "上部の小見出しバッジ", "default": "ご好評につき再入荷!", "info": "見出しの上に表示される強調バッジです" },
+    { "type": "text", "id": "heading", "label": "メイン見出し", "default": "そのお悩み、すべて解決いたします!" },
+    { "type": "textarea", "id": "subheading", "label": "サブ見出し", "default": "業界No.1の実力で、長年のお悩みにきっぱりお応えします。今だけの特別価格でぜひお試しください。" },
+    { "type": "text", "id": "closing_text", "label": "締めのキャッチコピー", "default": "今だけ50%OFF!迷っているなら今がチャンスです!" },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff5f5" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "強調色(赤系推奨)", "default": "#d32f2f" },
+    { "type": "color", "id": "accent_yellow", "label": "サブ強調色(黄色系推奨)", "default": "#ffeb3b" }
+  ],
+  "blocks": [
+    {
+      "type": "solution",
+      "name": "悩み→解決ブロック",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "textarea", "id": "problem_text", "label": "お悩みコピー", "default": "ここにお客様のお悩みを入力します。" },
+        { "type": "text", "id": "solution_title", "label": "解決タイトル", "default": "解決の見出しを入力します" },
+        { "type": "textarea", "id": "solution_text", "label": "解決コピー", "default": "どのように解決できるかを具体的に説明します。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 解決訴求(楽天LP風・お悩み解決訴求)",
+      "settings": {
+        "eyebrow": "ご好評につき再入荷!",
+        "heading": "そのお悩み、すべて解決いたします!",
+        "subheading": "業界No.1の実力で、長年のお悩みにきっぱりお応えします。今だけの特別価格でぜひお試しください。",
+        "closing_text": "今だけ50%OFF!迷っているなら今がチャンスです!"
+      },
+      "blocks": [
+        {
+          "type": "solution",
+          "settings": {
+            "problem_text": "何度試しても効果を実感できなかった…",
+            "solution_title": "独自配合で実感力が違います!",
+            "solution_text": "特許取得の独自成分を高濃度配合しているので、使った瞬間から違いを感じていただけます。"
+          }
+        },
+        {
+          "type": "solution",
+          "settings": {
+            "problem_text": "値段が高くて続けられない…",
+            "solution_title": "今だけ業界最安級でご提供!",
+            "solution_text": "メーカー直販だからこそ実現できる衝撃価格。定期便なら更にお得にお続けいただけます。"
+          }
+        },
+        {
+          "type": "solution",
+          "settings": {
+            "problem_text": "成分が心配で不安…",
+            "solution_title": "国内工場製造で安心安全!",
+            "solution_text": "GMP認定の国内工場で製造し、第三者機関による厳しい品質チェックをクリアした商品だけをお届けします。"
+          }
+        },
+        {
+          "type": "solution",
+          "settings": {
+            "problem_text": "買って合わなかったらと思うと不安…",
+            "solution_title": "30日間全額返金保証付き!",
+            "solution_text": "万が一ご満足いただけない場合は、30日以内のご連絡で全額返金いたします。安心してお試しください。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,202 @@
+{% comment %}
+============================================================
+セクション名: タブ切り替え商品一覧
+用途: 1つのセクションで「新着・人気・セール・ギフト」など複数のコレクションを
+      タブで切り替えながら見せられる、汎用性の高い商品紹介セクション。
+推奨設置場所: トップページ中段、コレクションページ下部、商品ページ下部
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各タブのラベル名・紐づけるコレクション
+  - 1タブあたりの表示商品数
+  - PC 時のカラム数(2〜4 列)
+  - 背景色・タブのアクセントカラー
+  - タブの追加・削除(ブロック単位)
+注意点:
+  - 各タブブロックには必ずコレクションを紐づけてください
+  - 商品が 1 件もないタブは「商品がありません」表示になります
+  - JavaScript なしの純 CSS タブ(input + label 方式)で動作します
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign uid = section.id | replace: '_', '-' -%}
+
+<section class="alsel-tab-product-list" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-tab-product-list__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-tab-product-list__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-tab-product-list__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-tab-product-list__empty" style="text-align:center;color:#888;padding:2rem 0;">
+        現在表示できるタブはありません。テーマエディタからタブブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-tab-product-list__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          <input
+            type="radio"
+            class="alsel-tab-product-list__radio"
+            name="alsel-tab-{{ uid }}"
+            id="alsel-tab-{{ uid }}-{{ forloop.index }}"
+            {% if forloop.first %}checked{% endif %}
+          >
+          <label
+            class="alsel-tab-product-list__label"
+            for="alsel-tab-{{ uid }}-{{ forloop.index }}"
+            role="tab"
+          >{{ block.settings.tab_label | escape }}</label>
+        {%- endfor -%}
+
+        {%- for block in section.blocks -%}
+          {%- assign tab_collection = collections[block.settings.collection] -%}
+          <div class="alsel-tab-product-list__panel" role="tabpanel" {{ block.shopify_attributes }}>
+            {%- if tab_collection != blank and tab_collection.products.size > 0 -%}
+              <div class="alsel-tab-product-list__grid">
+                {%- assign limit = section.settings.product_count -%}
+                {%- for product in tab_collection.products limit: limit -%}
+                  {%- assign p_alt = product.featured_image.alt | default: product.title | escape -%}
+                  <a class="alsel-tab-product-list__card" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                    <div class="alsel-tab-product-list__media">
+                      {%- if product.featured_image != blank -%}
+                        {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: p_alt, class: 'alsel-tab-product-list__img', widths: '200, 300, 400, 600', sizes: '(min-width: 750px) 25vw, 50vw' }}
+                      {%- else -%}
+                        <div class="alsel-tab-product-list__noimg" aria-hidden="true">No Image</div>
+                      {%- endif -%}
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="alsel-tab-product-list__badge">SALE</span>
+                      {%- endif -%}
+                    </div>
+                    <h3 class="alsel-tab-product-list__name">{{ product.title | escape }}</h3>
+                    <div class="alsel-tab-product-list__price">
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="alsel-tab-product-list__price-now">{{ product.price | money }}</span>
+                        <span class="alsel-tab-product-list__price-was">{{ product.compare_at_price | money }}</span>
+                      {%- else -%}
+                        <span class="alsel-tab-product-list__price-now">{{ product.price | money }}</span>
+                      {%- endif -%}
+                    </div>
+                  </a>
+                {%- endfor -%}
+              </div>
+              {%- if block.settings.view_all_url != blank -%}
+                <div class="alsel-tab-product-list__more">
+                  <a class="alsel-tab-product-list__more-link" href="{{ block.settings.view_all_url }}">
+                    {{ block.settings.view_all_text | default: 'すべて見る' }}
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <p class="alsel-tab-product-list__no-products">
+                このタブに表示できる商品はありません。テーマエディタからコレクションを紐づけてください。
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-tab-product-list { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-tab-product-list__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-tab-product-list__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.5rem; color: {{ section.settings.text_color }}; }
+  .alsel-tab-product-list__sub { font-size: 0.95rem; text-align: center; color: {{ section.settings.text_color }}; opacity: 0.75; margin: 0 0 2rem; }
+
+  .alsel-tab-product-list__tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .alsel-tab-product-list__radio { position: absolute; opacity: 0; pointer-events: none; }
+  .alsel-tab-product-list__label {
+    display: inline-block; padding: 0.7rem 1.25rem; border-radius: 9999px;
+    background: #fff; color: {{ section.settings.text_color }};
+    border: 1px solid #e2e8f0; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+  .alsel-tab-product-list__label:hover { border-color: {{ section.settings.accent_color }}; }
+
+  .alsel-tab-product-list__panel { display: none; width: 100%; margin-top: 2rem; }
+
+  {%- for block in section.blocks -%}
+    .alsel-tab-product-list__radio:nth-of-type({{ forloop.index }}):checked ~ label:nth-of-type({{ forloop.index }}) {
+      background: {{ section.settings.accent_color }}; color: #fff; border-color: {{ section.settings.accent_color }};
+    }
+    .alsel-tab-product-list__radio:nth-of-type({{ forloop.index }}):checked ~ .alsel-tab-product-list__panel:nth-of-type({{ forloop.index }}) {
+      display: block;
+    }
+  {%- endfor -%}
+
+  .alsel-tab-product-list__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .alsel-tab-product-list__card { display: block; text-decoration: none; color: inherit; background: #fff; border-radius: 10px; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .alsel-tab-product-list__card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+  .alsel-tab-product-list__media { position: relative; aspect-ratio: 1 / 1; background: #f1f5f9; overflow: hidden; }
+  .alsel-tab-product-list__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-tab-product-list__noimg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 0.85rem; }
+  .alsel-tab-product-list__badge { position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 4px; letter-spacing: 0.05em; }
+  .alsel-tab-product-list__name { font-size: 0.9rem; font-weight: 600; line-height: 1.5; margin: 0.75rem 0.75rem 0.4rem; color: {{ section.settings.text_color }}; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .alsel-tab-product-list__price { margin: 0 0.75rem 0.75rem; font-size: 0.9rem; }
+  .alsel-tab-product-list__price-now { font-weight: 700; color: {{ section.settings.text_color }}; }
+  .alsel-tab-product-list__price-was { margin-left: 0.4rem; text-decoration: line-through; color: #94a3b8; font-size: 0.8rem; }
+
+  .alsel-tab-product-list__more { text-align: center; margin-top: 2rem; }
+  .alsel-tab-product-list__more-link { display: inline-block; padding: 0.8rem 2rem; background: {{ section.settings.accent_color }}; color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; }
+  .alsel-tab-product-list__no-products { text-align: center; color: #94a3b8; padding: 2rem 0; }
+
+  @media (min-width: 750px) {
+    .alsel-tab-product-list { padding: 5rem 2rem; }
+    .alsel-tab-product-list__label { padding: 0.85rem 1.75rem; font-size: 1rem; }
+    .alsel-tab-product-list__grid { grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr); gap: 1.5rem; }
+    .alsel-tab-product-list__name { font-size: 1rem; margin: 1rem 1rem 0.5rem; }
+    .alsel-tab-product-list__price { margin: 0 1rem 1rem; font-size: 1rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "タブ切り替え商品一覧",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "特集商品をご紹介します" },
+    { "type": "text", "id": "subheading", "label": "サブコピー", "default": "タブを切り替えて、いろいろなテーマの商品をお楽しみください。" },
+    { "type": "range", "id": "product_count", "label": "1タブあたりの表示数", "min": 4, "max": 12, "step": 2, "default": 8 },
+    { "type": "range", "id": "columns_desktop", "label": "PC 時のカラム数", "min": 2, "max": 4, "step": 1, "default": 4, "info": "モバイルは常に 2 カラムで表示されます" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(アクティブタブ・ボタン)", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "タブ",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "tab_label", "label": "タブのラベル", "default": "新着商品", "info": "「新着商品」「人気ランキング」など、内容が伝わる短い文字を入れてください" },
+        { "type": "collection", "id": "collection", "label": "表示するコレクション", "info": "このタブに表示したいコレクションを選択してください" },
+        { "type": "text", "id": "view_all_text", "label": "すべて見るボタンの文字", "default": "すべて見る" },
+        { "type": "url", "id": "view_all_url", "label": "すべて見るボタンのリンク先", "info": "空欄にするとボタンは非表示になります" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / タブ切り替え商品一覧(新着・人気・セール・ギフト)",
+      "settings": {
+        "heading": "特集商品をご紹介します",
+        "subheading": "タブを切り替えて、いろいろなテーマの商品をお楽しみください。",
+        "product_count": 8,
+        "columns_desktop": 4
+      },
+      "blocks": [
+        { "type": "tab", "settings": { "tab_label": "新着商品", "view_all_text": "新着をすべて見る" } },
+        { "type": "tab", "settings": { "tab_label": "人気ランキング", "view_all_text": "ランキングをすべて見る" } },
+        { "type": "tab", "settings": { "tab_label": "セール商品", "view_all_text": "セール商品をすべて見る" } },
+        { "type": "tab", "settings": { "tab_label": "ギフト特集", "view_all_text": "ギフトをすべて見る" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,178 @@
+{% comment %}
+============================================================
+セクション名: サイズ比較表
+用途: アパレル・靴・家具・寝具などのサイズ情報を表で見やすく比較するためのセクション。購入前のサイズ不安を解消し、返品率の低減に貢献します
+推奨設置場所: 商品ページ・商品説明下・サイズガイド専用ページ・LP
+カスタマイズポイント:
+  - 表の見出し(列名)を最大 6 列まで自由に設定
+  - ブロック追加で行(サイズ)を自由に追加・並べ替え
+  - カテゴリーラベル(アパレル / 靴 / 家具 / 寝具)
+  - 補足画像(採寸方法の図解など)
+  - 注意書きテキスト
+  - 配色(ヘッダー背景・ストライプ)
+注意点:
+  - 列見出しが空欄の場合、その列は非表示になります
+  - スマホでは横スクロールで全列確認できます
+  - 採寸画像は推奨 800 × 600px、PNG または JPEG
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign root_class = 'alsel-size-guide-table' -%}
+{%- assign img_alt = section.settings.guide_image_alt | default: 'サイズ採寸の図解' | escape -%}
+
+<section class="{{ root_class }}{%- if section.settings.guide_image == blank %} {{ root_class }}--no-image{%- endif -%}" aria-label="{{ section.settings.heading | escape }}">
+  <div class="{{ root_class }}__container">
+    {%- if section.settings.category_label != blank -%}
+      <span class="{{ root_class }}__category">{{ section.settings.category_label }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="{{ root_class }}__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="{{ root_class }}__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="{{ root_class }}__inner">
+      <div class="{{ root_class }}__table-wrap" role="region" aria-label="サイズ比較表" tabindex="0">
+        {%- if section.blocks.size == 0 -%}
+          <p class="{{ root_class }}__empty">
+            サイズの行はまだ登録されていません。テーマエディタからサイズ行を追加してください。
+          </p>
+        {%- else -%}
+          <table class="{{ root_class }}__table">
+            <thead>
+              <tr>
+                {%- if section.settings.col1 != blank -%}<th scope="col">{{ section.settings.col1 }}</th>{%- endif -%}
+                {%- if section.settings.col2 != blank -%}<th scope="col">{{ section.settings.col2 }}</th>{%- endif -%}
+                {%- if section.settings.col3 != blank -%}<th scope="col">{{ section.settings.col3 }}</th>{%- endif -%}
+                {%- if section.settings.col4 != blank -%}<th scope="col">{{ section.settings.col4 }}</th>{%- endif -%}
+                {%- if section.settings.col5 != blank -%}<th scope="col">{{ section.settings.col5 }}</th>{%- endif -%}
+                {%- if section.settings.col6 != blank -%}<th scope="col">{{ section.settings.col6 }}</th>{%- endif -%}
+              </tr>
+            </thead>
+            <tbody>
+              {%- for block in section.blocks -%}
+                <tr {{ block.shopify_attributes }} {%- if block.settings.highlight %} class="{{ root_class }}__row--highlight"{%- endif -%}>
+                  {%- if section.settings.col1 != blank -%}<th scope="row">{{ block.settings.val1 }}</th>{%- endif -%}
+                  {%- if section.settings.col2 != blank -%}<td>{{ block.settings.val2 }}</td>{%- endif -%}
+                  {%- if section.settings.col3 != blank -%}<td>{{ block.settings.val3 }}</td>{%- endif -%}
+                  {%- if section.settings.col4 != blank -%}<td>{{ block.settings.val4 }}</td>{%- endif -%}
+                  {%- if section.settings.col5 != blank -%}<td>{{ block.settings.val5 }}</td>{%- endif -%}
+                  {%- if section.settings.col6 != blank -%}<td>{{ block.settings.val6 }}</td>{%- endif -%}
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.guide_image != blank -%}
+        <div class="{{ root_class }}__media">
+          {{ section.settings.guide_image | image_url: width: 800 | image_tag: loading: 'lazy', class: root_class | append: '__image', alt: img_alt, widths: '375, 600, 800' }}
+          {%- if section.settings.image_caption != blank -%}
+            <p class="{{ root_class }}__caption">{{ section.settings.image_caption }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.notice != blank -%}
+      <p class="{{ root_class }}__notice">{{ section.settings.notice }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-size-guide-table { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; color: #1f2937; }
+  .alsel-size-guide-table__container { max-width: 1100px; margin: 0 auto; }
+  .alsel-size-guide-table__category { display: inline-block; padding: 0.3rem 0.9rem; background: {{ section.settings.accent_color }}; color: #fff; font-size: 0.8rem; font-weight: 700; border-radius: 9999px; margin-bottom: 0.75rem; }
+  .alsel-size-guide-table__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; margin: 0 0 0.5rem; line-height: 1.4; }
+  .alsel-size-guide-table__sub { font-size: 0.95rem; line-height: 1.7; color: #475569; margin: 0 0 1.5rem; }
+  .alsel-size-guide-table__inner { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
+  .alsel-size-guide-table__table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); background: #fff; }
+  .alsel-size-guide-table__empty { text-align: center; color: #888; padding: 2rem 0; margin: 0; }
+  .alsel-size-guide-table__table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 480px; }
+  .alsel-size-guide-table__table thead th { background: {{ section.settings.accent_color }}; color: #fff; font-weight: 700; padding: 0.85rem 0.75rem; text-align: center; white-space: nowrap; }
+  .alsel-size-guide-table__table tbody th,
+  .alsel-size-guide-table__table tbody td { padding: 0.8rem 0.75rem; text-align: center; border-bottom: 1px solid #e5e7eb; }
+  .alsel-size-guide-table__table tbody th { font-weight: 700; background: #f8fafc; }
+  .alsel-size-guide-table__table tbody tr:nth-child(even) td,
+  .alsel-size-guide-table__table tbody tr:nth-child(even) th { background: {{ section.settings.stripe_color }}; }
+  .alsel-size-guide-table__row--highlight th,
+  .alsel-size-guide-table__row--highlight td { background: #fff7ed !important; font-weight: 700; }
+  .alsel-size-guide-table__media { text-align: center; }
+  .alsel-size-guide-table__image { max-width: 100%; height: auto; border-radius: 8px; }
+  .alsel-size-guide-table__caption { font-size: 0.85rem; color: #64748b; margin: 0.5rem 0 0; }
+  .alsel-size-guide-table__notice { margin: 1.5rem 0 0; padding: 1rem 1.25rem; background: #fffbeb; border-left: 4px solid #f59e0b; font-size: 0.9rem; line-height: 1.7; color: #78350f; border-radius: 4px; }
+  .alsel-size-guide-table--no-image .alsel-size-guide-table__media { display: none; }
+  @media (min-width: 750px) {
+    .alsel-size-guide-table { padding: 5rem 2rem; }
+    .alsel-size-guide-table__inner { grid-template-columns: 1.6fr 1fr; gap: 2.5rem; }
+    .alsel-size-guide-table--no-image .alsel-size-guide-table__inner { grid-template-columns: 1fr; }
+    .alsel-size-guide-table__table { font-size: 0.95rem; min-width: 0; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "サイズ比較表",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "セクション設定" },
+    { "type": "text", "id": "category_label", "label": "カテゴリーラベル", "default": "サイズ表", "info": "例: アパレル・シューズ・家具・寝具など" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "サイズ比較表" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご購入前にサイズをご確認ください。各サイズの寸法は以下の通りです。" },
+    { "type": "header", "content": "表の列見出し(空欄にした列は非表示になります)" },
+    { "type": "text", "id": "col1", "label": "1列目(サイズ名)", "default": "サイズ" },
+    { "type": "text", "id": "col2", "label": "2列目", "default": "身幅 (cm)" },
+    { "type": "text", "id": "col3", "label": "3列目", "default": "着丈 (cm)" },
+    { "type": "text", "id": "col4", "label": "4列目", "default": "肩幅 (cm)" },
+    { "type": "text", "id": "col5", "label": "5列目", "default": "袖丈 (cm)" },
+    { "type": "text", "id": "col6", "label": "6列目", "default": "" },
+    { "type": "header", "content": "採寸ガイド画像(任意)" },
+    { "type": "image_picker", "id": "guide_image", "label": "採寸方法の図解画像", "info": "推奨 800 × 600px、PNG または JPEG" },
+    { "type": "text", "id": "guide_image_alt", "label": "画像の代替テキスト", "default": "サイズ採寸の図解" },
+    { "type": "text", "id": "image_caption", "label": "画像キャプション", "default": "採寸方法のイメージです。" },
+    { "type": "header", "content": "注意書き" },
+    { "type": "textarea", "id": "notice", "label": "注意書きテキスト", "default": "※ 寸法は商品を平置きで採寸しております。素材の特性上、1〜2cm の誤差が生じる場合がございます。" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "ヘッダー帯の色", "default": "#0f172a" },
+    { "type": "color", "id": "stripe_color", "label": "ストライプ行の色", "default": "#f8fafc" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "サイズ行",
+      "settings": [
+        { "type": "text", "id": "val1", "label": "1列目の値(サイズ名)", "default": "M" },
+        { "type": "text", "id": "val2", "label": "2列目の値", "default": "50" },
+        { "type": "text", "id": "val3", "label": "3列目の値", "default": "68" },
+        { "type": "text", "id": "val4", "label": "4列目の値", "default": "44" },
+        { "type": "text", "id": "val5", "label": "5列目の値", "default": "60" },
+        { "type": "text", "id": "val6", "label": "6列目の値", "default": "" },
+        { "type": "checkbox", "id": "highlight", "label": "おすすめサイズとして強調する", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / サイズ比較表(アパレル・靴・家具・寝具対応)",
+      "settings": {
+        "category_label": "サイズ表",
+        "heading": "サイズ比較表",
+        "subheading": "ご購入前にサイズをご確認ください。各サイズの寸法は以下の通りです。"
+      },
+      "blocks": [
+        { "type": "row", "settings": { "val1": "S", "val2": "46", "val3": "64", "val4": "40", "val5": "57" } },
+        { "type": "row", "settings": { "val1": "M", "val2": "50", "val3": "68", "val4": "44", "val5": "60", "highlight": true } },
+        { "type": "row", "settings": { "val1": "L", "val2": "54", "val3": "72", "val4": "48", "val5": "63" } },
+        { "type": "row", "settings": { "val1": "XL", "val2": "58", "val3": "76", "val4": "52", "val5": "66" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

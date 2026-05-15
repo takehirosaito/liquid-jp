@@ -1,0 +1,282 @@
+{% comment %}
+============================================================
+セクション名: 動画埋め込みセクション
+用途: YouTube などの外部動画や商品紹介動画・使い方動画を、見出しと説明文と一緒にきれいに埋め込むためのセクション
+推奨設置場所: トップページの中段、商品ページ、LP の途中
+カスタマイズポイント:
+  - 見出し・サブ見出し・説明文
+  - YouTube 動画 URL(または ID)
+  - サムネイル画像(クリックで再生開始する省エネ表示)
+  - 動画の縦横比(16:9 / 4:3 / 1:1 / 9:16)
+  - 背景色・文字色
+  - CTA ボタン(動画の下に任意で表示)
+注意点:
+  - YouTube URL は通常の視聴 URL(https://www.youtube.com/watch?v=XXXX)または短縮 URL(https://youtu.be/XXXX)に対応
+  - サムネイル画像を設定すると、初回クリックまで動画を読み込まないためページ表示が高速になります
+  - サムネイル推奨サイズ: 1280 × 720px、JPEG または PNG
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- liquid
+  assign raw_url = section.settings.video_url | default: ''
+  assign video_id = ''
+  if raw_url contains 'youtube.com/watch?v='
+    assign video_id = raw_url | split: 'v=' | last | split: '&' | first
+  elsif raw_url contains 'youtu.be/'
+    assign video_id = raw_url | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first
+  elsif raw_url contains 'youtube.com/embed/'
+    assign video_id = raw_url | split: 'embed/' | last | split: '?' | first | split: '&' | first
+  else
+    assign video_id = raw_url
+  endif
+  assign video_id = video_id | strip
+  assign heading_alt = section.settings.heading | default: '動画' | escape
+-%}
+
+<section class="alsel-video-embed" aria-label="{{ heading_alt }}">
+  <div class="alsel-video-embed__inner">
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-video-embed__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-video-embed__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank -%}
+      <div class="alsel-video-embed__desc">{{ section.settings.description }}</div>
+    {%- endif -%}
+
+    {%- if video_id != blank -%}
+      <div class="alsel-video-embed__frame alsel-video-embed__frame--{{ section.settings.aspect_ratio }}">
+        {%- if section.settings.thumbnail != blank -%}
+          <button type="button"
+                  class="alsel-video-embed__poster"
+                  data-video-id="{{ video_id | escape }}"
+                  aria-label="動画を再生する">
+            {{ section.settings.thumbnail
+              | image_url: width: 1280
+              | image_tag: loading: 'lazy', class: 'alsel-video-embed__thumb', alt: heading_alt, widths: '480, 768, 1100, 1280' }}
+            <span class="alsel-video-embed__play" aria-hidden="true">
+              <svg viewBox="0 0 80 80" width="80" height="80" focusable="false">
+                <circle cx="40" cy="40" r="40" fill="rgba(0,0,0,0.65)"/>
+                <polygon points="32,24 32,56 58,40" fill="#ffffff"/>
+              </svg>
+            </span>
+          </button>
+        {%- else -%}
+          <iframe
+            class="alsel-video-embed__iframe"
+            src="https://www.youtube.com/embed/{{ video_id | escape }}?rel=0"
+            title="{{ heading_alt }}"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <p class="alsel-video-embed__empty">
+        動画 URL が未設定です。テーマエディタから YouTube 動画の URL を入力してください。
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-video-embed__cta-wrap">
+        <a class="alsel-video-embed__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-video-embed {
+    padding: 3rem 1rem;
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-video-embed__inner {
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: {{ section.settings.text_align }};
+  }
+  .alsel-video-embed__sub {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: {{ section.settings.accent_color }};
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+  .alsel-video-embed__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 1rem;
+  }
+  .alsel-video-embed__desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin: 0 0 1.75rem;
+    opacity: 0.85;
+  }
+  .alsel-video-embed__frame {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+  .alsel-video-embed__frame--16-9 { aspect-ratio: 16 / 9; }
+  .alsel-video-embed__frame--4-3 { aspect-ratio: 4 / 3; }
+  .alsel-video-embed__frame--1-1 { aspect-ratio: 1 / 1; }
+  .alsel-video-embed__frame--9-16 { aspect-ratio: 9 / 16; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .alsel-video-embed__iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .alsel-video-embed__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: block;
+  }
+  .alsel-video-embed__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.3s ease;
+  }
+  .alsel-video-embed__poster:hover .alsel-video-embed__thumb {
+    transform: scale(1.03);
+    filter: brightness(0.9);
+  }
+  .alsel-video-embed__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: transform 0.2s ease;
+  }
+  .alsel-video-embed__poster:hover .alsel-video-embed__play {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  .alsel-video-embed__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    margin: 0;
+  }
+  .alsel-video-embed__cta-wrap {
+    margin-top: 2rem;
+  }
+  .alsel-video-embed__cta {
+    display: inline-block;
+    padding: 0.9rem 2.25rem;
+    background: {{ section.settings.cta_bg }};
+    color: {{ section.settings.cta_color }};
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .alsel-video-embed__cta:hover { opacity: 0.9; transform: translateY(-2px); }
+  @media (min-width: 750px) {
+    .alsel-video-embed { padding: 5rem 2rem; }
+    .alsel-video-embed__desc { margin-bottom: 2.5rem; }
+  }
+</style>
+
+<script>
+  (function(){
+    var posters = document.querySelectorAll('.alsel-video-embed__poster');
+    posters.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-video-id');
+        if (!id) return;
+        var iframe = document.createElement('iframe');
+        iframe.className = 'alsel-video-embed__iframe';
+        iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0';
+        iframe.title = btn.getAttribute('aria-label') || '動画';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('loading', 'lazy');
+        btn.replaceWith(iframe);
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "動画埋め込みセクション",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "テキスト設定" },
+    { "type": "text", "id": "subheading", "label": "サブ見出し(小見出し)", "default": "MOVIE" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "動画でご紹介します" },
+    { "type": "richtext", "id": "description", "label": "説明文", "default": "<p>こちらの動画では、商品の特長や使い方をわかりやすくご紹介しています。ぜひご覧ください。</p>" },
+    { "type": "select", "id": "text_align", "label": "文字の配置",
+      "options": [
+        { "value": "left", "label": "左寄せ" },
+        { "value": "center", "label": "中央" },
+        { "value": "right", "label": "右寄せ" }
+      ],
+      "default": "center" },
+
+    { "type": "header", "content": "動画設定" },
+    { "type": "text", "id": "video_url", "label": "YouTube 動画 URL", "info": "例: https://www.youtube.com/watch?v=XXXXXXXXXXX または https://youtu.be/XXXXXXXXXXX" },
+    { "type": "image_picker", "id": "thumbnail", "label": "サムネイル画像", "info": "推奨 1280 × 720px。設定すると初回クリックまで動画を読み込まないため、ページ表示が速くなります。" },
+    { "type": "select", "id": "aspect_ratio", "label": "動画の縦横比",
+      "options": [
+        { "value": "16-9", "label": "16:9(横長・標準)" },
+        { "value": "4-3", "label": "4:3" },
+        { "value": "1-1", "label": "1:1(正方形)" },
+        { "value": "9-16", "label": "9:16(縦長・ショート動画)" }
+      ],
+      "default": "16-9" },
+
+    { "type": "header", "content": "ボタン設定(任意)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "詳しく見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+
+    { "type": "header", "content": "カラー設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "サブ見出しの色(アクセント)", "default": "#6d28d9" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#6d28d9" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 動画埋め込みセクション(YouTube + サムネイル)",
+      "settings": {
+        "subheading": "MOVIE",
+        "heading": "動画でご紹介します",
+        "description": "<p>こちらの動画では、商品の特長や使い方をわかりやすくご紹介しています。ぜひご覧ください。</p>",
+        "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "aspect_ratio": "16-9",
+        "cta_text": "商品を見る",
+        "bg_color": "#ffffff",
+        "text_color": "#1f2937",
+        "accent_color": "#6d28d9",
+        "cta_bg": "#6d28d9",
+        "cta_color": "#ffffff",
+        "text_align": "center"
+      }
+    }
+  ]
+}
+{% endschema %}

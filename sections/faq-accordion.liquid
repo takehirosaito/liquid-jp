@@ -1,0 +1,227 @@
+{% comment %}
+============================================================
+セクション名: よくある質問FAQ(アコーディオン式)
+用途: お客様からよく寄せられる質問と回答を、クリックで開閉できるアコーディオン形式で表示する。問い合わせ削減・購入前の不安解消に有効
+推奨設置場所: トップページ下部・商品ページ・お問い合わせページの上部
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 質問と回答(ブロック追加で何件でも登録可能)
+  - 初期表示で最初の質問を開いた状態にするかどうか
+  - 文字色・背景色・アクセントカラー
+注意点:
+  - 開閉アニメーションは details / summary のネイティブ動作を利用(JS 不要・SEO 良好)
+  - 回答テキストは改行可能(textarea + newline_to_br)
+  - ブロック未登録時は案内文が自動で表示される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_label = section.settings.heading | default: 'よくある質問' | escape -%}
+
+<section class="alsel-faq-accordion" aria-label="{{ sec_label }}">
+  <div class="alsel-faq-accordion__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-faq-accordion__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-faq-accordion__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-faq-accordion__empty">
+        よくあるご質問はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-faq-accordion__list">
+        {%- for block in section.blocks -%}
+          {%- assign is_open = false -%}
+          {%- if section.settings.open_first and forloop.first -%}
+            {%- assign is_open = true -%}
+          {%- endif -%}
+          <details class="alsel-faq-accordion__item"{% if is_open %} open{% endif %} {{ block.shopify_attributes }}>
+            <summary class="alsel-faq-accordion__q">
+              <span class="alsel-faq-accordion__q-mark" aria-hidden="true">Q</span>
+              <span class="alsel-faq-accordion__q-text">{{ block.settings.question | escape }}</span>
+              <span class="alsel-faq-accordion__icon" aria-hidden="true"></span>
+            </summary>
+            <div class="alsel-faq-accordion__a">
+              <span class="alsel-faq-accordion__a-mark" aria-hidden="true">A</span>
+              <div class="alsel-faq-accordion__a-text">{{ block.settings.answer | newline_to_br }}</div>
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-faq-accordion {
+    --alsel-faq-bg: {{ section.settings.bg_color }};
+    --alsel-faq-text: {{ section.settings.text_color }};
+    --alsel-faq-accent: {{ section.settings.accent_color }};
+    --alsel-faq-card: {{ section.settings.card_color }};
+    --alsel-faq-border: {{ section.settings.border_color }};
+    background: var(--alsel-faq-bg);
+    color: var(--alsel-faq-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-faq-accordion__inner { max-width: 880px; margin: 0 auto; }
+  .alsel-faq-accordion__heading {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-faq-accordion__lead {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+    color: var(--alsel-faq-text);
+    opacity: 0.85;
+  }
+  .alsel-faq-accordion__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+  }
+  .alsel-faq-accordion__list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .alsel-faq-accordion__item {
+    background: var(--alsel-faq-card);
+    border: 1px solid var(--alsel-faq-border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+  .alsel-faq-accordion__item[open] { box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+  .alsel-faq-accordion__q {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1rem 1.1rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+  .alsel-faq-accordion__q::-webkit-details-marker { display: none; }
+  .alsel-faq-accordion__q-mark {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--alsel-faq-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .alsel-faq-accordion__q-text { flex: 1; }
+  .alsel-faq-accordion__icon {
+    flex-shrink: 0;
+    width: 16px; height: 16px;
+    position: relative;
+    transition: transform 0.25s ease;
+  }
+  .alsel-faq-accordion__icon::before,
+  .alsel-faq-accordion__icon::after {
+    content: '';
+    position: absolute;
+    background: var(--alsel-faq-accent);
+    border-radius: 2px;
+  }
+  .alsel-faq-accordion__icon::before {
+    top: 50%; left: 0; right: 0; height: 2px; transform: translateY(-50%);
+  }
+  .alsel-faq-accordion__icon::after {
+    left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .alsel-faq-accordion__item[open] .alsel-faq-accordion__icon::after {
+    transform: translateX(-50%) rotate(90deg);
+    opacity: 0;
+  }
+  .alsel-faq-accordion__a {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0 1.1rem 1.1rem;
+    border-top: 1px dashed var(--alsel-faq-border);
+    padding-top: 1rem;
+    margin-top: 0;
+  }
+  .alsel-faq-accordion__a-mark {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--alsel-faq-accent);
+    color: var(--alsel-faq-accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .alsel-faq-accordion__a-text {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--alsel-faq-text);
+  }
+  @media (min-width: 750px) {
+    .alsel-faq-accordion { padding: 5rem 2rem; }
+    .alsel-faq-accordion__q { padding: 1.25rem 1.5rem; font-size: 1.05rem; }
+    .alsel-faq-accordion__a { padding: 1.1rem 1.5rem 1.4rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "よくある質問FAQ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "よくあるご質問" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "お客様から多く寄せられるご質問をまとめました。お問い合わせの前にぜひご確認ください。" },
+    { "type": "checkbox", "id": "open_first", "label": "最初の質問を開いた状態にする", "default": true, "info": "ページ読み込み時、最初のひとつだけ展開した状態で表示します。" },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#6d28d9", "info": "Q/A マーク・アイコンに使用します。" },
+    { "type": "color", "id": "border_color", "label": "枠線の色", "default": "#e5e7eb" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "質問と回答",
+      "settings": [
+        { "type": "text", "id": "question", "label": "質問", "default": "質問内容を入力してください。" },
+        { "type": "textarea", "id": "answer", "label": "回答", "default": "回答内容を入力してください。改行はそのまま反映されます。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / よくある質問FAQ(アコーディオン)",
+      "settings": {
+        "heading": "よくあるご質問",
+        "lead": "お客様から多く寄せられるご質問をまとめました。お問い合わせの前にぜひご確認ください。",
+        "open_first": true
+      },
+      "blocks": [
+        { "type": "faq", "settings": { "question": "配送にはどのくらいの日数がかかりますか?", "answer": "ご注文確定後、通常 2〜4 営業日でお届けします。離島・一部地域はもう少しお時間をいただく場合がございます。" } },
+        { "type": "faq", "settings": { "question": "返品・交換はできますか?", "answer": "商品到着後 30 日以内であれば、未使用品に限り返品・交換を承ります。詳しくは特定商取引法に基づく表記をご確認ください。" } },
+        { "type": "faq", "settings": { "question": "支払い方法は何が使えますか?", "answer": "クレジットカード(VISA / Mastercard / JCB / AMEX)、Amazon Pay、Apple Pay、Google Pay、コンビニ決済をご利用いただけます。" } },
+        { "type": "faq", "settings": { "question": "領収書は発行してもらえますか?", "answer": "マイページよりPDFで発行いただけます。宛名・但し書きの変更が必要な場合はお問い合わせフォームよりご連絡ください。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

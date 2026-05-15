@@ -1,0 +1,152 @@
+{% comment %}
+============================================================
+セクション名: UGC投稿ギャラリー
+用途: お客様が投稿した写真風の画像一覧を並べ、購入前の安心感や使用イメージを伝える
+推奨設置場所: トップページ中盤・商品ページ下部・LP の信頼訴求エリア
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 投稿カード(画像 / ユーザー名 / コメント / 投稿日)
+  - カラム数(2 / 3 / 4)
+  - 背景色・文字色
+  - ハンドル(@マーク)の表示有無
+注意点:
+  - 画像は正方形(推奨 800 × 800px、JPEG または PNG)を推奨
+  - ブロックは 4〜12 個程度が見栄え良好
+  - SNS の API 連携ではなく、手動で投稿風の画像を登録する形式
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_safe = section.settings.heading | escape -%}
+
+<section class="alsel-ugc-gallery" aria-label="{{ heading_safe }}" style="--alsel-ugc-gallery-bg: {{ section.settings.bg_color }}; --alsel-ugc-gallery-text: {{ section.settings.text_color }}; --alsel-ugc-gallery-card-bg: {{ section.settings.card_bg }}; --alsel-ugc-gallery-cols: {{ section.settings.columns }};">
+  <div class="alsel-ugc-gallery__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-ugc-gallery__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-ugc-gallery__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-ugc-gallery__empty">
+        現在表示できる投稿はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-ugc-gallery__grid">
+        {%- for block in section.blocks -%}
+          {%- assign alt_text = block.settings.user_name | default: heading_safe | escape -%}
+          <article class="alsel-ugc-gallery__card" {{ block.shopify_attributes }}>
+            <div class="alsel-ugc-gallery__media">
+              {%- if block.settings.photo != blank -%}
+                {{ block.settings.photo | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-ugc-gallery__photo', alt: alt_text, widths: '300, 500, 800' }}
+              {%- else -%}
+                <div class="alsel-ugc-gallery__placeholder" aria-hidden="true">📷</div>
+              {%- endif -%}
+              {%- if block.settings.show_heart -%}
+                <span class="alsel-ugc-gallery__heart" aria-hidden="true">♥</span>
+              {%- endif -%}
+            </div>
+            <div class="alsel-ugc-gallery__body">
+              {%- if block.settings.user_name != blank -%}
+                <p class="alsel-ugc-gallery__user">
+                  {%- if section.settings.show_handle -%}<span class="alsel-ugc-gallery__at">@</span>{%- endif -%}
+                  {{ block.settings.user_name }}
+                </p>
+              {%- endif -%}
+              {%- if block.settings.comment != blank -%}
+                <p class="alsel-ugc-gallery__comment">{{ block.settings.comment }}</p>
+              {%- endif -%}
+              {%- if block.settings.posted_date != blank -%}
+                <p class="alsel-ugc-gallery__date">{{ block.settings.posted_date }}</p>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-ugc-gallery { background: var(--alsel-ugc-gallery-bg); color: var(--alsel-ugc-gallery-text); padding: 3rem 1rem; }
+  .alsel-ugc-gallery__inner { max-width: 1200px; margin: 0 auto; }
+  .alsel-ugc-gallery__heading { font-size: clamp(1.5rem, 4vw, 2.4rem); text-align: center; margin: 0 0 0.75rem; font-weight: 700; }
+  .alsel-ugc-gallery__sub { text-align: center; font-size: 0.95rem; line-height: 1.7; margin: 0 0 2.5rem; opacity: 0.8; }
+  .alsel-ugc-gallery__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-ugc-gallery__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .alsel-ugc-gallery__card { background: var(--alsel-ugc-gallery-card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .alsel-ugc-gallery__card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .alsel-ugc-gallery__media { position: relative; aspect-ratio: 1 / 1; overflow: hidden; background: #f1f5f9; }
+  .alsel-ugc-gallery__photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .alsel-ugc-gallery__placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #cbd5e1; }
+  .alsel-ugc-gallery__heart { position: absolute; top: 0.6rem; right: 0.6rem; width: 28px; height: 28px; background: rgba(255,255,255,0.9); color: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .alsel-ugc-gallery__body { padding: 0.85rem 1rem 1rem; }
+  .alsel-ugc-gallery__user { font-size: 0.9rem; font-weight: 700; margin: 0 0 0.4rem; }
+  .alsel-ugc-gallery__at { color: #6366f1; margin-right: 0.1rem; }
+  .alsel-ugc-gallery__comment { font-size: 0.85rem; line-height: 1.6; margin: 0 0 0.5rem; opacity: 0.85; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .alsel-ugc-gallery__date { font-size: 0.75rem; opacity: 0.6; margin: 0; }
+  @media (min-width: 750px) {
+    .alsel-ugc-gallery { padding: 5rem 2rem; }
+    .alsel-ugc-gallery__grid { grid-template-columns: repeat(var(--alsel-ugc-gallery-cols), 1fr); gap: 1.25rem; }
+    .alsel-ugc-gallery__body { padding: 1rem 1.1rem 1.2rem; }
+    .alsel-ugc-gallery__user { font-size: 0.95rem; }
+    .alsel-ugc-gallery__comment { font-size: 0.9rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "UGC投稿ギャラリー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "お客様の投稿ギャラリー" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "実際にご利用いただいたお客様の投稿写真をご紹介します。" },
+    { "type": "select", "id": "columns", "label": "PC 表示のカラム数",
+      "options": [
+        { "value": "2", "label": "2 カラム" },
+        { "value": "3", "label": "3 カラム" },
+        { "value": "4", "label": "4 カラム" }
+      ],
+      "default": "3" },
+    { "type": "checkbox", "id": "show_handle", "label": "ユーザー名の前に @ を表示", "default": true },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "投稿カード",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "投稿写真", "info": "推奨 800 × 800px の正方形画像(JPEG または PNG)" },
+        { "type": "text", "id": "user_name", "label": "ユーザー名", "default": "user_name" },
+        { "type": "textarea", "id": "comment", "label": "投稿コメント", "default": "実際に使ってみてとても良かったです。" },
+        { "type": "text", "id": "posted_date", "label": "投稿日", "info": "例: 2099年5月10日", "default": "2099年5月10日" },
+        { "type": "checkbox", "id": "show_heart", "label": "ハートマークを表示", "default": true }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / UGC投稿ギャラリー(カードグリッド)",
+      "settings": {
+        "heading": "お客様の投稿ギャラリー",
+        "subheading": "実際にご利用いただいたお客様の投稿写真をご紹介します。",
+        "columns": "3",
+        "show_handle": true
+      },
+      "blocks": [
+        { "type": "post", "settings": { "user_name": "hanako_style", "comment": "お部屋の雰囲気にぴったりで気に入っています。毎日使うのが楽しみです。", "posted_date": "2099年5月10日" } },
+        { "type": "post", "settings": { "user_name": "kenta_life", "comment": "プレゼント用に購入しました。とても喜んでもらえました。", "posted_date": "2099年5月8日" } },
+        { "type": "post", "settings": { "user_name": "yuki_diary", "comment": "梱包も丁寧で、商品も期待以上でした。リピート確定です。", "posted_date": "2099年5月5日" } },
+        { "type": "post", "settings": { "user_name": "miko_room", "comment": "色味が写真通りで安心しました。友達にも勧めています。", "posted_date": "2099年5月3日" } },
+        { "type": "post", "settings": { "user_name": "sora_cafe", "comment": "おしゃれで使いやすいです。ギフトにも最適だと思います。", "posted_date": "2099年5月1日" } },
+        { "type": "post", "settings": { "user_name": "ren_home", "comment": "シンプルなデザインがどんなインテリアにも合います。", "posted_date": "2099年4月28日" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

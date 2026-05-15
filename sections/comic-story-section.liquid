@@ -1,0 +1,193 @@
+{% comment %}
+============================================================
+セクション名: 縦長漫画風セクション
+用途: 悩み→解決→商品紹介の流れを漫画のコマ風に見せて、訴求力を高めるLPパーツ
+推奨設置場所: 商品LPの中盤、お客様の声の前、商品ページのカスタムLP内
+カスタマイズポイント:
+  - セクション全体の見出し・サブコピー
+  - 各コマ(ブロック)の画像・セリフ・キャラ名・コマタイプ(悩み/解決/紹介)
+  - 背景色・コマの枠線色・吹き出し色
+  - 最下部のCTAボタン(文字・リンク・色)
+注意点:
+  - コマ画像は推奨 800 × 600px、JPEG または PNG
+  - ブロックは 3〜6 コマ推奨。順番に「悩み → 気づき → 解決 → 紹介」と並べると効果的です
+  - 漫画風の縦長レイアウトのため、スマホ最適化が前提
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-comic-story-section" aria-label="{{ heading_alt }}">
+  <div class="alsel-comic-story-section__header">
+    {%- if section.settings.badge_text != blank -%}
+      <span class="alsel-comic-story-section__badge">{{ section.settings.badge_text }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-comic-story-section__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-comic-story-section__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="alsel-comic-story-section__panels">
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-comic-story-section__empty" style="text-align:center;color:#888;padding:2rem 0;">
+        コマはまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- assign panel_alt = block.settings.character_name | append: ' のコマ' | escape -%}
+      <article class="alsel-comic-story-section__panel alsel-comic-story-section__panel--{{ block.settings.panel_type }}" {{ block.shopify_attributes }}>
+        <div class="alsel-comic-story-section__panel-number">
+          <span>{{ forloop.index }}</span>
+        </div>
+
+        {%- if block.settings.panel_type != 'none' -%}
+          <span class="alsel-comic-story-section__panel-tag">
+            {%- case block.settings.panel_type -%}
+              {%- when 'problem' -%}お悩み
+              {%- when 'discover' -%}発見
+              {%- when 'solution' -%}解決
+              {%- when 'product' -%}商品紹介
+            {%- endcase -%}
+          </span>
+        {%- endif -%}
+
+        <div class="alsel-comic-story-section__panel-inner">
+          {%- if block.settings.image != blank -%}
+            <div class="alsel-comic-story-section__panel-media">
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-comic-story-section__panel-image', alt: panel_alt, widths: '375, 600, 800' }}
+            </div>
+          {%- endif -%}
+
+          <div class="alsel-comic-story-section__panel-text">
+            {%- if block.settings.balloon_text != blank -%}
+              <div class="alsel-comic-story-section__balloon">
+                <p class="alsel-comic-story-section__balloon-text">{{ block.settings.balloon_text }}</p>
+              </div>
+            {%- endif -%}
+            {%- if block.settings.character_name != blank -%}
+              <p class="alsel-comic-story-section__character">{{ block.settings.character_name }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- unless forloop.last -%}
+          <div class="alsel-comic-story-section__arrow" aria-hidden="true">▼</div>
+        {%- endunless -%}
+      </article>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+    <div class="alsel-comic-story-section__cta-wrap">
+      {%- if section.settings.cta_lead != blank -%}
+        <p class="alsel-comic-story-section__cta-lead">{{ section.settings.cta_lead }}</p>
+      {%- endif -%}
+      <a class="alsel-comic-story-section__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+        {{ section.settings.cta_text }}
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-comic-story-section { --accent: {{ section.settings.accent_color }}; --frame: {{ section.settings.frame_color }}; --balloon: {{ section.settings.balloon_color }}; background: {{ section.settings.bg_color }}; padding: 2.5rem 1rem; }
+  .alsel-comic-story-section__header { text-align: center; max-width: 720px; margin: 0 auto 2rem; }
+  .alsel-comic-story-section__badge { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; padding: 0.4rem 1.2rem; border-radius: 9999px; font-size: 0.9rem; margin-bottom: 1rem; transform: rotate(-2deg); }
+  .alsel-comic-story-section__heading { font-size: clamp(1.5rem, 5vw, 2.4rem); font-weight: 700; line-height: 1.4; margin: 0 0 0.8rem; color: #1a1a1a; }
+  .alsel-comic-story-section__heading::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 0.8rem auto 0; }
+  .alsel-comic-story-section__sub { font-size: 1rem; line-height: 1.7; color: #555; margin: 0; }
+  .alsel-comic-story-section__panels { max-width: 600px; margin: 0 auto; }
+  .alsel-comic-story-section__panel { position: relative; background: #fff; border: 3px solid var(--frame); border-radius: 6px; padding: 2rem 1rem 1.2rem; margin-bottom: 2.5rem; box-shadow: 6px 6px 0 var(--frame); }
+  .alsel-comic-story-section__panel-number { position: absolute; top: -18px; left: -10px; width: 44px; height: 44px; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; border: 3px solid var(--frame); }
+  .alsel-comic-story-section__panel-tag { position: absolute; top: -14px; right: 10px; background: #fff200; color: #d32f2f; font-weight: 700; padding: 0.3rem 0.9rem; font-size: 0.85rem; border: 2px solid var(--frame); border-radius: 4px; transform: rotate(3deg); }
+  .alsel-comic-story-section__panel--problem { background: #fff5f5; }
+  .alsel-comic-story-section__panel--discover { background: #fffdf0; }
+  .alsel-comic-story-section__panel--solution { background: #f0fff5; }
+  .alsel-comic-story-section__panel--product { background: #fff8e1; border-color: var(--accent); }
+  .alsel-comic-story-section__panel-inner { display: flex; flex-direction: column; gap: 1rem; }
+  .alsel-comic-story-section__panel-media { width: 100%; border: 2px solid var(--frame); background: #fafafa; overflow: hidden; }
+  .alsel-comic-story-section__panel-image { width: 100%; height: auto; display: block; }
+  .alsel-comic-story-section__balloon { position: relative; background: var(--balloon); border: 2px solid var(--frame); border-radius: 14px; padding: 1rem 1.1rem; }
+  .alsel-comic-story-section__balloon::after { content: ''; position: absolute; bottom: -12px; left: 30px; width: 20px; height: 20px; background: var(--balloon); border-right: 2px solid var(--frame); border-bottom: 2px solid var(--frame); transform: rotate(45deg); }
+  .alsel-comic-story-section__balloon-text { margin: 0; font-size: 1rem; line-height: 1.7; font-weight: 700; color: #1a1a1a; }
+  .alsel-comic-story-section__character { margin: 0.6rem 0 0; text-align: right; font-size: 0.9rem; color: #666; font-weight: 700; }
+  .alsel-comic-story-section__arrow { text-align: center; font-size: 2rem; color: var(--accent); margin: 0.5rem 0 -0.8rem; font-weight: 700; line-height: 1; }
+  .alsel-comic-story-section__cta-wrap { text-align: center; margin-top: 2rem; padding: 1.5rem 1rem; background: #fff; border: 3px dashed var(--accent); border-radius: 8px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .alsel-comic-story-section__cta-lead { font-size: 1.1rem; font-weight: 700; color: #d32f2f; margin: 0 0 1rem; line-height: 1.5; }
+  .alsel-comic-story-section__cta { display: inline-block; background: {{ section.settings.cta_bg }}; color: {{ section.settings.cta_color }}; font-weight: 700; font-size: 1.1rem; padding: 1rem 2.5rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+  @media (min-width: 750px) {
+    .alsel-comic-story-section { padding: 4rem 2rem; }
+    .alsel-comic-story-section__panels { max-width: 720px; }
+    .alsel-comic-story-section__panel-inner { flex-direction: row; align-items: center; }
+    .alsel-comic-story-section__panel-media { width: 45%; flex-shrink: 0; }
+    .alsel-comic-story-section__panel-text { flex: 1; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "縦長漫画風セクション",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "badge_text", "label": "上部バッジ文字", "default": "実話エピソード公開中" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "こんなお悩み、ありませんか?" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "毎日のちょっとした困りごとを、お客様の体験談として漫画でご紹介します。" },
+    { "type": "header", "content": "カラー設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff5f0" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#e53935" },
+    { "type": "color", "id": "frame_color", "label": "コマ枠の色", "default": "#1a1a1a" },
+    { "type": "color", "id": "balloon_color", "label": "吹き出しの色", "default": "#ffffff" },
+    { "type": "header", "content": "CTAボタン" },
+    { "type": "text", "id": "cta_lead", "label": "ボタン上のリード文", "default": "今だけ!ご好評につき期間限定30%OFF実施中です" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "今すぐ商品を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#e53935" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "漫画コマ",
+      "settings": [
+        { "type": "select", "id": "panel_type", "label": "コマのタイプ",
+          "options": [
+            { "value": "problem", "label": "お悩み" },
+            { "value": "discover", "label": "発見" },
+            { "value": "solution", "label": "解決" },
+            { "value": "product", "label": "商品紹介" },
+            { "value": "none", "label": "タグなし" }
+          ],
+          "default": "problem" },
+        { "type": "image_picker", "id": "image", "label": "コマ画像", "info": "推奨 800 × 600px、JPEG または PNG" },
+        { "type": "textarea", "id": "balloon_text", "label": "吹き出しのセリフ", "default": "もう本当に困っています…" },
+        { "type": "text", "id": "character_name", "label": "キャラクター名", "default": "ユキさん(30代・主婦)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 縦長漫画風セクション(悩み解決ストーリー)",
+      "settings": {
+        "badge_text": "実話エピソード公開中",
+        "heading": "こんなお悩み、ありませんか?",
+        "subheading": "リアルなお客様の体験談を、わかりやすい漫画でご紹介します。",
+        "cta_lead": "今だけ!ご好評につき期間限定30%OFF実施中です",
+        "cta_text": "今すぐ商品を見る"
+      },
+      "blocks": [
+        { "type": "panel", "settings": { "panel_type": "problem", "balloon_text": "毎日忙しくて、ケアする時間が全然取れません…これって私だけでしょうか?", "character_name": "ユキさん(30代・主婦)" } },
+        { "type": "panel", "settings": { "panel_type": "discover", "balloon_text": "えっ?こんな簡単な方法があったなんて!友人からSNSで教えてもらいました。", "character_name": "ユキさん(30代・主婦)" } },
+        { "type": "panel", "settings": { "panel_type": "solution", "balloon_text": "たった1週間でこの変化!毎朝が楽しみになりました。", "character_name": "ユキさん(30代・主婦)" } },
+        { "type": "panel", "settings": { "panel_type": "product", "balloon_text": "業界No.1の実績!今だけ特別価格でご提供中です。ぜひ一度お試しください。", "character_name": "ALSELスタッフ" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

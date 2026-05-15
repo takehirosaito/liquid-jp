@@ -1,0 +1,251 @@
+{% comment %}
+============================================================
+セクション名: 商品選びガイド
+用途: 初心者のお客様向けに「自分に合う商品の選び方」をステップ形式でわかりやすく案内するセクション。購入前の不安を解消し、コンバージョン率を高める目的で使う
+推奨設置場所: トップページ・商品ページ・コレクションページ・LP の中盤(おすすめ商品の前後)
+カスタマイズポイント:
+  - セクション全体の見出し・リード文
+  - 背景色・アクセントカラー
+  - ステップブロック(アイコン・番号・タイトル・本文)の追加・編集・並び替え
+  - 末尾の CTA ボタン(リンク先・文字)
+注意点:
+  - アイコンは正方形(推奨 240 × 240px、PNG 透過)を用意するときれいに表示される
+  - ブロックは 3〜5 個推奨。多すぎると初心者には情報過多になる
+  - Online Store 2.0 必須(セクション追加・ブロック並び替え機能を利用)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-selection-guide" aria-label="{{ heading_alt }}">
+  <div class="alsel-selection-guide__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-selection-guide__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-selection-guide__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-selection-guide__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-selection-guide__empty">
+        手順はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ol class="alsel-selection-guide__list">
+        {%- for block in section.blocks -%}
+          {%- assign step_num = forloop.index -%}
+          {%- assign block_title = block.settings.title | escape -%}
+          <li class="alsel-selection-guide__item" {{ block.shopify_attributes }}>
+            <div class="alsel-selection-guide__step">
+              <span class="alsel-selection-guide__step-label">STEP</span>
+              <span class="alsel-selection-guide__step-num">{{ step_num }}</span>
+            </div>
+            <div class="alsel-selection-guide__media">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 240 | image_tag: loading: 'lazy', class: 'alsel-selection-guide__icon', alt: block_title, widths: '120, 200, 240' }}
+              {%- else -%}
+                <span class="alsel-selection-guide__icon alsel-selection-guide__icon--placeholder" aria-hidden="true">{{ step_num }}</span>
+              {%- endif -%}
+            </div>
+            <div class="alsel-selection-guide__body">
+              {%- if block.settings.title != blank -%}
+                <h3 class="alsel-selection-guide__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="alsel-selection-guide__text">{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- if block.settings.tip != blank -%}
+                <p class="alsel-selection-guide__tip">
+                  <span class="alsel-selection-guide__tip-label">ワンポイント</span>
+                  {{ block.settings.tip }}
+                </p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-selection-guide__cta-wrap">
+        <a class="alsel-selection-guide__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-selection-guide {
+    --asg-bg: {{ section.settings.bg_color }};
+    --asg-accent: {{ section.settings.accent_color }};
+    --asg-text: {{ section.settings.text_color }};
+    --asg-card: #ffffff;
+    background: var(--asg-bg);
+    padding: 3rem 1rem;
+    color: var(--asg-text);
+  }
+  .alsel-selection-guide__inner { max-width: 960px; margin: 0 auto; }
+  .alsel-selection-guide__eyebrow {
+    text-align: center; margin: 0 0 0.5rem; font-size: 0.85rem; letter-spacing: 0.15em;
+    color: var(--asg-accent); font-weight: 700;
+  }
+  .alsel-selection-guide__heading {
+    text-align: center; margin: 0 0 0.75rem;
+    font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; line-height: 1.4;
+  }
+  .alsel-selection-guide__lead {
+    text-align: center; margin: 0 auto 2.5rem; max-width: 640px;
+    font-size: 0.95rem; line-height: 1.8; color: #475569;
+  }
+  .alsel-selection-guide__empty {
+    text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem;
+  }
+  .alsel-selection-guide__list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: 1.25rem;
+  }
+  .alsel-selection-guide__item {
+    position: relative; background: var(--asg-card);
+    border-radius: 14px; padding: 1.5rem 1.25rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    display: grid; grid-template-columns: 80px 1fr; gap: 1rem; align-items: start;
+  }
+  .alsel-selection-guide__step {
+    grid-column: 1 / 3;
+    display: inline-flex; align-items: baseline; gap: 0.4rem;
+    color: var(--asg-accent); font-weight: 700;
+  }
+  .alsel-selection-guide__step-label { font-size: 0.75rem; letter-spacing: 0.15em; }
+  .alsel-selection-guide__step-num { font-size: 1.6rem; line-height: 1; }
+  .alsel-selection-guide__media { display: flex; align-items: center; justify-content: center; }
+  .alsel-selection-guide__icon {
+    width: 72px; height: 72px; object-fit: contain;
+    background: #f1f5f9; border-radius: 50%; padding: 0.5rem;
+  }
+  .alsel-selection-guide__icon--placeholder {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; font-weight: 700; color: var(--asg-accent);
+  }
+  .alsel-selection-guide__body { min-width: 0; }
+  .alsel-selection-guide__title {
+    margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 700; line-height: 1.5;
+  }
+  .alsel-selection-guide__text {
+    margin: 0; font-size: 0.95rem; line-height: 1.8; color: #475569;
+  }
+  .alsel-selection-guide__tip {
+    margin: 0.85rem 0 0; padding: 0.75rem 0.9rem;
+    background: #fff8e6; border-left: 3px solid var(--asg-accent);
+    border-radius: 0 8px 8px 0; font-size: 0.85rem; line-height: 1.7; color: #57534e;
+  }
+  .alsel-selection-guide__tip-label {
+    display: inline-block; margin-right: 0.4rem; font-weight: 700; color: var(--asg-accent);
+  }
+  .alsel-selection-guide__cta-wrap { margin-top: 2.5rem; text-align: center; }
+  .alsel-selection-guide__cta {
+    display: inline-block; padding: 0.95rem 2.2rem;
+    background: var(--asg-accent); color: #ffffff;
+    text-decoration: none; border-radius: 9999px;
+    font-weight: 700; font-size: 0.95rem;
+    transition: opacity 0.2s ease;
+  }
+  .alsel-selection-guide__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-selection-guide { padding: 5rem 2rem; }
+    .alsel-selection-guide__lead { margin-bottom: 3rem; }
+    .alsel-selection-guide__list { gap: 1.5rem; }
+    .alsel-selection-guide__item {
+      grid-template-columns: 64px 120px 1fr; padding: 1.75rem 2rem;
+      align-items: center;
+    }
+    .alsel-selection-guide__step {
+      grid-column: 1 / 2; flex-direction: column; align-items: center; gap: 0.2rem;
+    }
+    .alsel-selection-guide__step-num { font-size: 2rem; }
+    .alsel-selection-guide__icon { width: 96px; height: 96px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "商品選びガイド",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "小見出し(英字キャッチ)", "default": "SELECTION GUIDE", "info": "見出しの上に表示される短いラベルです" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "はじめての方へ 商品の選び方ガイド" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "どれを選んだらよいかわからない方のために、簡単な手順でぴったりの商品が見つかる方法をご案内します。" },
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#d97706", "info": "STEP 番号やボタンに使われます" },
+    { "type": "color", "id": "text_color", "label": "文字色(基本)", "default": "#0f172a" },
+    { "type": "header", "content": "CTA ボタン(任意)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "おすすめ商品を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "選び方ステップ",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 240 × 240px、PNG 透過。未設定時はステップ番号が表示されます" },
+        { "type": "text", "id": "title", "label": "ステップのタイトル", "default": "ステップタイトル" },
+        { "type": "textarea", "id": "text", "label": "本文(説明)", "default": "このステップで何をすればよいかを、わかりやすくご説明します。" },
+        { "type": "textarea", "id": "tip", "label": "ワンポイントアドバイス(任意)", "info": "黄色の補足ボックスとして表示されます" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 商品選びガイド(ステップ形式)",
+      "settings": {
+        "eyebrow": "SELECTION GUIDE",
+        "heading": "はじめての方へ 商品の選び方ガイド",
+        "lead": "どれを選んだらよいかわからない方のために、簡単な手順でぴったりの商品が見つかる方法をご案内します。",
+        "cta_text": "おすすめ商品を見る"
+      },
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "お悩み・目的を整理しましょう",
+            "text": "まずはご自身のお悩みやご利用シーンを整理してみてください。目的が明確になると、最適な商品が見つけやすくなります。",
+            "tip": "迷ったら「いちばん解決したいこと」をひとつ選ぶのがおすすめです。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "カテゴリーから絞り込みましょう",
+            "text": "商品ページのカテゴリー一覧から、ご自身の目的に合うカテゴリーを選んでください。種類ごとに特徴がまとめられています。",
+            "tip": "カテゴリー名にカーソルを合わせると、簡単な説明が表示されます。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "口コミ・レビューを参考にしましょう",
+            "text": "実際にご購入されたお客様のレビューは、選び方のとても大きなヒントになります。星の数だけでなく内容もぜひご確認ください。",
+            "tip": "ご自身に近い年代・お悩みのレビューを優先して読むと参考になります。"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "迷ったらお気軽にご相談ください",
+            "text": "それでも迷われる場合は、ぜひ当店までお問い合わせください。専門スタッフがお客様にぴったりの商品をご提案いたします。",
+            "tip": "チャット・メール・お電話のいずれでも承っております。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,180 @@
+{% comment %}
+============================================================
+セクション名: アレルゲン表示
+用途: 食品商品のアレルゲン(卵・乳・小麦など)を一覧でわかりやすくお客様にお伝えするためのセクションです。表示マークの有無で「含む / 含まない」を直感的に確認できます。
+推奨設置場所: 商品ページの説明欄下部、または食品 LP の購入前確認エリア
+カスタマイズポイント:
+  - セクション見出し・補足文
+  - 各アレルゲン項目(名称・アイコン画像・含有状態)をブロック単位で追加・削除
+  - 「含む」「含まない」「微量含む」の状態を選択
+  - カードの色味(含有時の強調色)・背景色
+注意点:
+  - アイコン画像は推奨 120 × 120px、PNG 透過(未設定でもテキストのみで表示可)
+  - 法令上の表示義務情報はマーチャント側で正確性を担保する必要があります
+  - ブロックは特定原材料 8 品目 + 推奨 20 品目をカバーできる構成
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-allergen-display" aria-label="{{ sec_heading }}">
+  <div class="alsel-allergen-display__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-allergen-display__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-allergen-display__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-allergen-display__empty">
+        アレルゲン項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-allergen-display__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign item_name = block.settings.name | escape -%}
+          {%- assign state = block.settings.state -%}
+          {%- case state -%}
+            {%- when 'contain' -%}
+              {%- assign state_label = '含みます' -%}
+              {%- assign state_class = 'is-contain' -%}
+              {%- assign state_mark = '●' -%}
+            {%- when 'trace' -%}
+              {%- assign state_label = '微量含みます' -%}
+              {%- assign state_class = 'is-trace' -%}
+              {%- assign state_mark = '△' -%}
+            {%- else -%}
+              {%- assign state_label = '含みません' -%}
+              {%- assign state_class = 'is-none' -%}
+              {%- assign state_mark = '−' -%}
+          {%- endcase -%}
+
+          <li class="alsel-allergen-display__card {{ state_class }}" {{ block.shopify_attributes }}
+              aria-label="{{ item_name }}は{{ state_label }}">
+            <div class="alsel-allergen-display__icon-wrap">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', class: 'alsel-allergen-display__icon', alt: item_name, widths: '80, 120, 200' }}
+              {%- else -%}
+                <span class="alsel-allergen-display__icon-fallback" aria-hidden="true">{{ block.settings.name | slice: 0, 1 }}</span>
+              {%- endif -%}
+              <span class="alsel-allergen-display__mark" aria-hidden="true">{{ state_mark }}</span>
+            </div>
+            <p class="alsel-allergen-display__name">{{ block.settings.name }}</p>
+            <p class="alsel-allergen-display__state">{{ state_label }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="alsel-allergen-display__legend" aria-label="表示マークの凡例">
+        <span class="alsel-allergen-display__legend-item is-contain"><i aria-hidden="true">●</i>含みます</span>
+        <span class="alsel-allergen-display__legend-item is-trace"><i aria-hidden="true">△</i>微量含みます</span>
+        <span class="alsel-allergen-display__legend-item is-none"><i aria-hidden="true">−</i>含みません</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-allergen-display__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-allergen-display {
+    --alsel-allergen-bg: {{ section.settings.bg_color }};
+    --alsel-allergen-card: {{ section.settings.card_color }};
+    --alsel-allergen-contain: {{ section.settings.contain_color }};
+    --alsel-allergen-text: {{ section.settings.text_color }};
+    padding: 2.5rem 1rem;
+    background: var(--alsel-allergen-bg);
+    color: var(--alsel-allergen-text);
+  }
+  .alsel-allergen-display__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-allergen-display__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-allergen-display__sub { font-size: 0.95rem; line-height: 1.7; text-align: center; margin: 0 0 1.75rem; opacity: 0.85; }
+  .alsel-allergen-display__empty { text-align: center; color: #888; padding: 2rem 0; font-size: 0.95rem; }
+  .alsel-allergen-display__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; list-style: none; padding: 0; margin: 0 0 1.5rem; }
+  .alsel-allergen-display__card { background: var(--alsel-allergen-card); border-radius: 12px; padding: 1rem 0.75rem; text-align: center; border: 2px solid transparent; transition: transform 0.2s ease; position: relative; }
+  .alsel-allergen-display__card.is-contain { border-color: var(--alsel-allergen-contain); background: color-mix(in srgb, var(--alsel-allergen-contain) 8%, var(--alsel-allergen-card)); }
+  .alsel-allergen-display__card.is-trace { border-color: #f59e0b; }
+  .alsel-allergen-display__card.is-none { opacity: 0.5; }
+  .alsel-allergen-display__icon-wrap { position: relative; width: 56px; height: 56px; margin: 0 auto 0.5rem; }
+  .alsel-allergen-display__icon { width: 56px; height: 56px; object-fit: contain; }
+  .alsel-allergen-display__icon-fallback { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: #e5e7eb; font-size: 1.4rem; font-weight: 700; color: #475569; }
+  .alsel-allergen-display__mark { position: absolute; top: -4px; right: -4px; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 2px solid currentColor; font-size: 0.75rem; line-height: 18px; font-weight: 700; }
+  .alsel-allergen-display__card.is-contain .alsel-allergen-display__mark { color: var(--alsel-allergen-contain); }
+  .alsel-allergen-display__card.is-trace .alsel-allergen-display__mark { color: #f59e0b; }
+  .alsel-allergen-display__card.is-none .alsel-allergen-display__mark { color: #94a3b8; }
+  .alsel-allergen-display__name { font-size: 0.9rem; font-weight: 700; margin: 0 0 0.25rem; }
+  .alsel-allergen-display__state { font-size: 0.75rem; margin: 0; opacity: 0.75; }
+  .alsel-allergen-display__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1rem; background: rgba(0,0,0,0.03); border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; }
+  .alsel-allergen-display__legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .alsel-allergen-display__legend-item i { font-style: normal; font-weight: 700; }
+  .alsel-allergen-display__legend-item.is-contain i { color: var(--alsel-allergen-contain); }
+  .alsel-allergen-display__legend-item.is-trace i { color: #f59e0b; }
+  .alsel-allergen-display__legend-item.is-none i { color: #94a3b8; }
+  .alsel-allergen-display__note { font-size: 0.8rem; line-height: 1.7; text-align: center; opacity: 0.7; margin: 0; padding: 0 0.5rem; }
+  @media (min-width: 750px) {
+    .alsel-allergen-display { padding: 4rem 2rem; }
+    .alsel-allergen-display__grid { grid-template-columns: repeat(7, 1fr); gap: 1rem; }
+    .alsel-allergen-display__card { padding: 1.25rem 0.5rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "アレルゲン表示",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "アレルゲン情報" },
+    { "type": "textarea", "id": "subheading", "label": "補足文", "default": "本商品に含まれるアレルゲンを一覧でご確認いただけます。" },
+    { "type": "textarea", "id": "note", "label": "注意書き", "default": "本表示は商品製造時点の情報です。同一製造ラインで他のアレルゲンを含む製品を扱う場合があります。詳しくはお問い合わせください。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fefce8" },
+    { "type": "color", "id": "card_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "contain_color", "label": "含有時の強調色", "default": "#dc2626" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" }
+  ],
+  "blocks": [
+    {
+      "type": "allergen",
+      "name": "アレルゲン項目",
+      "settings": [
+        { "type": "text", "id": "name", "label": "アレルゲン名", "default": "卵" },
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 120 × 120px、PNG 透過。未設定の場合は名称の先頭文字を表示します。" },
+        {
+          "type": "select", "id": "state", "label": "含有状態",
+          "options": [
+            { "value": "contain", "label": "含みます" },
+            { "value": "trace", "label": "微量含みます" },
+            { "value": "none", "label": "含みません" }
+          ],
+          "default": "none"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 28,
+  "presets": [
+    {
+      "name": "ALSEL監修 / アレルゲン表示(8品目グリッド)",
+      "settings": {
+        "heading": "アレルゲン情報",
+        "subheading": "本商品に含まれるアレルゲンを一覧でご確認いただけます。"
+      },
+      "blocks": [
+        { "type": "allergen", "settings": { "name": "卵", "state": "contain" } },
+        { "type": "allergen", "settings": { "name": "乳", "state": "contain" } },
+        { "type": "allergen", "settings": { "name": "小麦", "state": "contain" } },
+        { "type": "allergen", "settings": { "name": "そば", "state": "none" } },
+        { "type": "allergen", "settings": { "name": "落花生", "state": "none" } },
+        { "type": "allergen", "settings": { "name": "えび", "state": "none" } },
+        { "type": "allergen", "settings": { "name": "かに", "state": "none" } },
+        { "type": "allergen", "settings": { "name": "くるみ", "state": "trace" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

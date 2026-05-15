@@ -1,0 +1,126 @@
+{
+  "searchableAttributes": [
+    "title_ja",
+    "description_ja",
+    "use_case_ja",
+    "caveats_ja",
+    "name",
+    "category",
+    "tags",
+    "reference_name"
+  ],
+  "filterableAttributes": [
+    "category",
+    "difficulty",
+    "tags",
+    "license",
+    "source_kind",
+    "is_reference",
+    "reference_kind",
+    "repo_name",
+    "repo_owner",
+    "qc_title_too_long"
+  ],
+  "sortableAttributes": [
+    "line_count",
+    "size_bytes"
+  ],
+  "rankingRules": [
+    "words",
+    "typo",
+    "proximity",
+    "attribute",
+    "sort",
+    "exactness"
+  ],
+  "displayedAttributes": [
+    "id",
+    "slug",
+    "name",
+    "title_ja",
+    "description_ja",
+    "use_case_ja",
+    "where_to_paste_ja",
+    "caveats_ja",
+    "code",
+    "code_language",
+    "category",
+    "difficulty",
+    "tags",
+    "repo_owner",
+    "repo_name",
+    "repo_url",
+    "raw_url",
+    "file_path",
+    "license",
+    "source_kind",
+    "is_reference",
+    "reference_kind",
+    "reference_name",
+    "line_count",
+    "qc_title_too_long"
+  ],
+  "synonyms": {
+    "ec": [
+      "e-commerce",
+      "ecommerce",
+      "イーコマース"
+    ],
+    "shopify": [
+      "ショッピファイ",
+      "Shopify"
+    ],
+    "liquid": [
+      "Liquid",
+      "リキッド"
+    ],
+    "filter": [
+      "フィルター",
+      "フィルタ"
+    ],
+    "tag": [
+      "タグ"
+    ],
+    "object": [
+      "オブジェクト"
+    ],
+    "snippet": [
+      "スニペット"
+    ],
+    "section": [
+      "セクション"
+    ],
+    "cart": [
+      "カート",
+      "ショッピングカート"
+    ],
+    "checkout": [
+      "チェックアウト"
+    ],
+    "metafield": [
+      "メタフィールド"
+    ],
+    "metaobject": [
+      "メタオブジェクト"
+    ],
+    "json-ld": [
+      "jsonld",
+      "structured-data",
+      "構造化データ"
+    ],
+    "seo": [
+      "SEO",
+      "検索最適化"
+    ]
+  },
+  "typoTolerance": {
+    "enabled": true,
+    "minWordSizeForTypos": {
+      "oneTypo": 4,
+      "twoTypos": 8
+    }
+  },
+  "pagination": {
+    "maxTotalHits": 10000
+  }
+}

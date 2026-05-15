@@ -1,0 +1,266 @@
+{% comment %}
+============================================================
+セクション名: 店舗まるごとLPテンプレセクション
+用途: ヒーロー・特徴・商品・レビュー・FAQ・CTA を 1 ファイルで完結させる、楽天風の縦長 LP テンプレート。商品ページや特集ページで「これ 1 枚で売り切る」用途に使う。
+推奨設置場所: トップページ・商品ページ・特集 LP ページ(専用テンプレート推奨)
+カスタマイズポイント:
+  - ヒーローの背景画像・キャッチコピー・サブコピー
+  - 強調帯(赤帯)の文言・色
+  - 特徴アイコン(3つ)とテキスト
+  - 商品紹介画像・価格・割引率
+  - お客様の声(3名)
+  - よくある質問(3問)
+  - 最終 CTA ボタン・期間
+カスタマイズ範囲が広いので、初心者は上から順に項目を埋めていけば LP が完成します。
+注意点:
+  - ヒーロー背景画像は 1600 × 900px 推奨
+  - 特徴アイコンは 200 × 200px PNG 透過推奨
+  - 商品画像は 800 × 800px 正方形推奨
+  - 1 ページに 1 セクション利用を想定
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign hero_alt = section.settings.hero_image.alt | default: section.settings.hero_heading | escape -%}
+{%- assign product_alt = section.settings.product_image.alt | default: section.settings.product_name | escape -%}
+
+<section class="alsel-complete-lp-template" aria-label="{{ section.settings.hero_heading | escape }}">
+
+  {%- comment -%} ===== 1. ヒーロー ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1600 | image_tag: loading: 'eager', class: 'alsel-complete-lp-template__hero-bg', alt: hero_alt, widths: '375, 750, 1100, 1500, 1600' }}
+    {%- endif -%}
+    <div class="alsel-complete-lp-template__hero-inner">
+      {%- if section.settings.hero_badge != blank -%}
+        <span class="alsel-complete-lp-template__hero-badge">{{ section.settings.hero_badge }}</span>
+      {%- endif -%}
+      {%- if section.settings.hero_heading != blank -%}
+        <h2 class="alsel-complete-lp-template__hero-title">{{ section.settings.hero_heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.hero_sub != blank -%}
+        <p class="alsel-complete-lp-template__hero-sub">{{ section.settings.hero_sub }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ===== 2. 強調帯 ===== {%- endcomment -%}
+  {%- if section.settings.bar_text != blank -%}
+    <div class="alsel-complete-lp-template__bar">
+      <span class="alsel-complete-lp-template__bar-text">{{ section.settings.bar_text }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ===== 3. 3つの特徴 ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__features">
+    {%- if section.settings.features_heading != blank -%}
+      <h2 class="alsel-complete-lp-template__section-title">
+        <span class="alsel-complete-lp-template__section-title-inner">{{ section.settings.features_heading }}</span>
+      </h2>
+    {%- endif -%}
+    <div class="alsel-complete-lp-template__features-grid">
+      <article class="alsel-complete-lp-template__feature">
+        {%- if section.settings.feature1_icon != blank -%}
+          {%- assign alt_1 = section.settings.feature1_title | escape -%}
+{{ section.settings.feature1_icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-complete-lp-template__feature-icon', alt: alt_1 }}
+        {%- endif -%}
+        <h3 class="alsel-complete-lp-template__feature-title">{{ section.settings.feature1_title }}</h3>
+        <p class="alsel-complete-lp-template__feature-body">{{ section.settings.feature1_body }}</p>
+      </article>
+      <article class="alsel-complete-lp-template__feature">
+        {%- if section.settings.feature2_icon != blank -%}
+          {%- assign alt_2 = section.settings.feature2_title | escape -%}
+{{ section.settings.feature2_icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-complete-lp-template__feature-icon', alt: alt_2 }}
+        {%- endif -%}
+        <h3 class="alsel-complete-lp-template__feature-title">{{ section.settings.feature2_title }}</h3>
+        <p class="alsel-complete-lp-template__feature-body">{{ section.settings.feature2_body }}</p>
+      </article>
+      <article class="alsel-complete-lp-template__feature">
+        {%- if section.settings.feature3_icon != blank -%}
+          {%- assign alt_3 = section.settings.feature3_title | escape -%}
+{{ section.settings.feature3_icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-complete-lp-template__feature-icon', alt: alt_3 }}
+        {%- endif -%}
+        <h3 class="alsel-complete-lp-template__feature-title">{{ section.settings.feature3_title }}</h3>
+        <p class="alsel-complete-lp-template__feature-body">{{ section.settings.feature3_body }}</p>
+      </article>
+    </div>
+  </div>
+
+  {%- comment -%} ===== 4. 商品紹介 ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__product">
+    <div class="alsel-complete-lp-template__product-inner">
+      <div class="alsel-complete-lp-template__product-media">
+        {%- if section.settings.product_image != blank -%}
+          {{ section.settings.product_image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-complete-lp-template__product-img', alt: product_alt, widths: '375, 600, 800' }}
+        {%- endif -%}
+        {%- if section.settings.product_discount != blank -%}
+          <span class="alsel-complete-lp-template__product-discount">{{ section.settings.product_discount }}</span>
+        {%- endif -%}
+      </div>
+      <div class="alsel-complete-lp-template__product-info">
+        {%- if section.settings.product_catch != blank -%}
+          <p class="alsel-complete-lp-template__product-catch">{{ section.settings.product_catch }}</p>
+        {%- endif -%}
+        <h3 class="alsel-complete-lp-template__product-name">{{ section.settings.product_name }}</h3>
+        <div class="alsel-complete-lp-template__product-price">
+          {%- if section.settings.product_price_before != blank -%}
+            <span class="alsel-complete-lp-template__product-price-before">{{ section.settings.product_price_before }}</span>
+          {%- endif -%}
+          <span class="alsel-complete-lp-template__product-price-now">{{ section.settings.product_price_now }}</span>
+        </div>
+        {%- if section.settings.product_desc != blank -%}
+          <p class="alsel-complete-lp-template__product-desc">{{ section.settings.product_desc }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ===== 5. お客様の声 ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__reviews">
+    {%- if section.settings.reviews_heading != blank -%}
+      <h2 class="alsel-complete-lp-template__section-title">
+        <span class="alsel-complete-lp-template__section-title-inner">{{ section.settings.reviews_heading }}</span>
+      </h2>
+    {%- endif -%}
+    <div class="alsel-complete-lp-template__reviews-grid">
+      <article class="alsel-complete-lp-template__review">
+        <div class="alsel-complete-lp-template__review-stars">★★★★★</div>
+        <p class="alsel-complete-lp-template__review-body">{{ section.settings.review1_body }}</p>
+        <p class="alsel-complete-lp-template__review-name">{{ section.settings.review1_name }}</p>
+      </article>
+      <article class="alsel-complete-lp-template__review">
+        <div class="alsel-complete-lp-template__review-stars">★★★★★</div>
+        <p class="alsel-complete-lp-template__review-body">{{ section.settings.review2_body }}</p>
+        <p class="alsel-complete-lp-template__review-name">{{ section.settings.review2_name }}</p>
+      </article>
+      <article class="alsel-complete-lp-template__review">
+        <div class="alsel-complete-lp-template__review-stars">★★★★★</div>
+        <p class="alsel-complete-lp-template__review-body">{{ section.settings.review3_body }}</p>
+        <p class="alsel-complete-lp-template__review-name">{{ section.settings.review3_name }}</p>
+      </article>
+    </div>
+  </div>
+
+  {%- comment -%} ===== 6. FAQ ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__faq">
+    {%- if section.settings.faq_heading != blank -%}
+      <h2 class="alsel-complete-lp-template__section-title">
+        <span class="alsel-complete-lp-template__section-title-inner">{{ section.settings.faq_heading }}</span>
+      </h2>
+    {%- endif -%}
+    <details class="alsel-complete-lp-template__faq-item">
+      <summary class="alsel-complete-lp-template__faq-q">Q. {{ section.settings.faq1_q }}</summary>
+      <p class="alsel-complete-lp-template__faq-a">A. {{ section.settings.faq1_a }}</p>
+    </details>
+    <details class="alsel-complete-lp-template__faq-item">
+      <summary class="alsel-complete-lp-template__faq-q">Q. {{ section.settings.faq2_q }}</summary>
+      <p class="alsel-complete-lp-template__faq-a">A. {{ section.settings.faq2_a }}</p>
+    </details>
+    <details class="alsel-complete-lp-template__faq-item">
+      <summary class="alsel-complete-lp-template__faq-q">Q. {{ section.settings.faq3_q }}</summary>
+      <p class="alsel-complete-lp-template__faq-a">A. {{ section.settings.faq3_a }}</p>
+    </details>
+  </div>
+
+  {%- comment -%} ===== 7. 最終 CTA ===== {%- endcomment -%}
+  <div class="alsel-complete-lp-template__cta">
+    {%- if section.settings.cta_lead != blank -%}
+      <p class="alsel-complete-lp-template__cta-lead">{{ section.settings.cta_lead }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_heading != blank -%}
+      <p class="alsel-complete-lp-template__cta-heading">{{ section.settings.cta_heading }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <a class="alsel-complete-lp-template__cta-btn" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+        {{ section.settings.cta_text }}
+        <span class="alsel-complete-lp-template__cta-arrow" aria-hidden="true">▶</span>
+      </a>
+    {%- endif -%}
+    {%- if section.settings.cta_note != blank -%}
+      <p class="alsel-complete-lp-template__cta-note">{{ section.settings.cta_note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-complete-lp-template { --accent: {{ section.settings.accent_color }}; --accent2: {{ section.settings.accent2_color }}; color: #1a1a1a; }
+  .alsel-complete-lp-template__section-title { text-align: center; font-size: clamp(1.4rem, 4.5vw, 2.2rem); font-weight: 700; margin: 0 0 2rem; }
+  .alsel-complete-lp-template__section-title-inner { display: inline-block; padding: 0.5rem 1.5rem; border-bottom: 4px solid var(--accent); }
+
+  .alsel-complete-lp-template__hero { position: relative; overflow: hidden; min-height: 60vh; display: flex; align-items: center; justify-content: center; background: #1a1a1a; }
+  .alsel-complete-lp-template__hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; z-index: 0; }
+  .alsel-complete-lp-template__hero-inner { position: relative; z-index: 1; text-align: center; color: #fff; padding: 3rem 1.5rem; max-width: 900px; }
+  .alsel-complete-lp-template__hero-badge { display: inline-block; background: var(--accent2); color: #1a1a1a; font-weight: 700; padding: 0.4rem 1.2rem; border-radius: 9999px; font-size: 0.9rem; margin-bottom: 1rem; }
+  .alsel-complete-lp-template__hero-title { font-size: clamp(1.8rem, 6vw, 3.4rem); font-weight: 700; line-height: 1.3; margin: 0 0 1rem; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+  .alsel-complete-lp-template__hero-sub { font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.7; margin: 0; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+
+  .alsel-complete-lp-template__bar { background: var(--accent); color: #fff; text-align: center; padding: 1rem 1.5rem; font-weight: 700; font-size: clamp(1rem, 3vw, 1.4rem); }
+  .alsel-complete-lp-template__bar-text { display: inline-block; }
+
+  .alsel-complete-lp-template__features { padding: 3rem 1.5rem; background: #fff8f0; }
+  .alsel-complete-lp-template__features-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .alsel-complete-lp-template__feature { background: #fff; border: 2px solid var(--accent); border-radius: 12px; padding: 1.5rem; text-align: center; }
+  .alsel-complete-lp-template__feature-icon { width: 80px; height: 80px; object-fit: contain; margin: 0 auto 1rem; }
+  .alsel-complete-lp-template__feature-title { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin: 0 0 0.75rem; }
+  .alsel-complete-lp-template__feature-body { font-size: 0.95rem; line-height: 1.7; color: #475569; margin: 0; }
+
+  .alsel-complete-lp-template__product { padding: 3rem 1.5rem; background: #fff; }
+  .alsel-complete-lp-template__product-inner { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 1100px; margin: 0 auto; align-items: center; }
+  .alsel-complete-lp-template__product-media { position: relative; }
+  .alsel-complete-lp-template__product-img { width: 100%; height: auto; border-radius: 12px; }
+  .alsel-complete-lp-template__product-discount { position: absolute; top: -10px; right: -10px; background: var(--accent); color: #fff; font-weight: 700; padding: 0.8rem 1rem; border-radius: 50%; font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transform: rotate(-10deg); }
+  .alsel-complete-lp-template__product-catch { display: inline-block; background: var(--accent2); color: #1a1a1a; font-weight: 700; padding: 0.3rem 0.8rem; font-size: 0.85rem; margin: 0 0 0.75rem; }
+  .alsel-complete-lp-template__product-name { font-size: clamp(1.3rem, 4vw, 1.8rem); font-weight: 700; margin: 0 0 1rem; line-height: 1.4; }
+  .alsel-complete-lp-template__product-price { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin: 0 0 1rem; }
+  .alsel-complete-lp-template__product-price-before { color: #94a3b8; text-decoration: line-through; font-size: 1rem; }
+  .alsel-complete-lp-template__product-price-now { color: var(--accent); font-weight: 700; font-size: clamp(1.6rem, 5vw, 2.4rem); }
+  .alsel-complete-lp-template__product-desc { font-size: 1rem; line-height: 1.8; color: #475569; margin: 0; }
+
+  .alsel-complete-lp-template__reviews { padding: 3rem 1.5rem; background: #fff8f0; }
+  .alsel-complete-lp-template__reviews-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+  .alsel-complete-lp-template__review { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .alsel-complete-lp-template__review-stars { color: #fbbf24; font-size: 1.2rem; margin: 0 0 0.75rem; }
+  .alsel-complete-lp-template__review-body { font-size: 0.95rem; line-height: 1.7; margin: 0 0 1rem; color: #1a1a1a; }
+  .alsel-complete-lp-template__review-name { font-size: 0.85rem; color: #64748b; margin: 0; text-align: right; }
+
+  .alsel-complete-lp-template__faq { padding: 3rem 1.5rem; background: #fff; max-width: 900px; margin: 0 auto; }
+  .alsel-complete-lp-template__faq-item { border-bottom: 1px solid #e2e8f0; padding: 1rem 0; }
+  .alsel-complete-lp-template__faq-q { cursor: pointer; font-weight: 700; font-size: 1.05rem; padding: 0.5rem 0; list-style: none; position: relative; padding-right: 2rem; }
+  .alsel-complete-lp-template__faq-q::after { content: '+'; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: var(--accent); }
+  .alsel-complete-lp-template__faq-item[open] .alsel-complete-lp-template__faq-q::after { content: '−'; }
+  .alsel-complete-lp-template__faq-a { font-size: 0.95rem; line-height: 1.8; color: #475569; margin: 0.75rem 0 0; padding-left: 1rem; border-left: 3px solid var(--accent2); }
+
+  .alsel-complete-lp-template__cta { padding: 3rem 1.5rem; background: linear-gradient(135deg, var(--accent), #b91c1c); color: #fff; text-align: center; }
+  .alsel-complete-lp-template__cta-lead { font-size: 1rem; margin: 0 0 0.5rem; opacity: 0.95; }
+  .alsel-complete-lp-template__cta-heading { font-size: clamp(1.4rem, 4.5vw, 2rem); font-weight: 700; margin: 0 0 1.5rem; line-height: 1.4; }
+  .alsel-complete-lp-template__cta-btn { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--accent2); color: #1a1a1a; text-decoration: none; padding: 1.1rem 2.5rem; border-radius: 9999px; font-weight: 700; font-size: clamp(1rem, 3vw, 1.25rem); box-shadow: 0 6px 20px rgba(0,0,0,0.25); transition: transform 0.2s; }
+  .alsel-complete-lp-template__cta-btn:hover { transform: translateY(-2px); }
+  .alsel-complete-lp-template__cta-arrow { font-size: 0.85em; }
+  .alsel-complete-lp-template__cta-note { font-size: 0.85rem; margin: 1rem 0 0; opacity: 0.9; }
+
+  @media (min-width: 750px) {
+    .alsel-complete-lp-template__features { padding: 5rem 2rem; }
+    .alsel-complete-lp-template__features-grid { grid-template-columns: repeat(3, 1fr); }
+    .alsel-complete-lp-template__product { padding: 5rem 2rem; }
+    .alsel-complete-lp-template__product-inner { grid-template-columns: 1fr 1fr; }
+    .alsel-complete-lp-template__reviews { padding: 5rem 2rem; }
+    .alsel-complete-lp-template__reviews-grid { grid-template-columns: repeat(3, 1fr); }
+    .alsel-complete-lp-template__faq { padding: 5rem 2rem; }
+    .alsel-complete-lp-template__cta { padding: 5rem 2rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "店舗まるごとLPテンプレ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "全体カラー" },
+    { "type": "color", "id": "accent_color", "label": "メインアクセント色(赤系推奨)", "default": "#dc2626" },
+    { "type": "color", "id": "accent2_color", "label": "サブアクセント色(黄系推奨)", "default": "#fde047" },
+
+    { "type": "header", "content": "1. ヒーロー" },
+    { "type": "image_picker", "id": "hero_image", "label": "ヒーロー背景画像", "info": "推奨 1600 × 900px、JPEG または PNG" },
+    { "type": "text", "id": "hero_badge", "label": "ヒーローのバッジ文言", "default": "期間限定キャンペーン" },

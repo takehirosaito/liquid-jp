@@ -1,0 +1,245 @@
+{% comment %}
+============================================================
+セクション名: 賞味期限・保存方法
+用途: 食品・冷凍・冷蔵商品で、賞味期限や保存方法をお客様に分かりやすく伝える
+推奨設置場所: 商品ページの商品説明下、または商品詳細セクションの近く
+カスタマイズポイント:
+  - セクション見出し・補足文
+  - メインアイコン画像(冷蔵・冷凍などのイメージ)
+  - 情報カード(項目名・内容・アイコン)をブロックで追加
+  - 注意書きの本文
+  - 背景色・アクセントカラー
+注意点:
+  - アイコン画像は正方形(推奨 200 × 200px、PNG 透過)を推奨
+  - メイン画像は推奨 800 × 800px、JPEG または PNG
+  - カードブロックは 2〜6 個を推奨
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section
+  class="alsel-expiry-storage{%- if section.settings.main_image == blank %} alsel-expiry-storage--no-image{%- endif -%}"
+  aria-label="{{ heading_alt }}"
+>
+  <div class="alsel-expiry-storage__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-expiry-storage__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-expiry-storage__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="alsel-expiry-storage__inner">
+      {%- if section.settings.main_image != blank -%}
+        <div class="alsel-expiry-storage__media">
+          {{ section.settings.main_image
+            | image_url: width: 800
+            | image_tag: loading: 'lazy', class: 'alsel-expiry-storage__image', alt: heading_alt, widths: '300, 500, 700, 800' }}
+        </div>
+      {%- endif -%}
+
+      <div class="alsel-expiry-storage__content">
+        {%- if section.blocks.size == 0 -%}
+          <p class="alsel-expiry-storage__empty">
+            賞味期限・保存方法の情報はまだ登録されていません。テーマエディタからカードを追加してください。
+          </p>
+        {%- else -%}
+          <ul class="alsel-expiry-storage__list">
+            {%- for block in section.blocks -%}
+              <li class="alsel-expiry-storage__item" {{ block.shopify_attributes }}>
+                <div class="alsel-expiry-storage__icon-wrap" aria-hidden="true">
+                  {%- if block.settings.icon != blank -%}
+                    {%- assign icon_alt = block.settings.label | escape -%}
+                    {{ block.settings.icon
+                      | image_url: width: 200
+                      | image_tag: loading: 'lazy', class: 'alsel-expiry-storage__icon', alt: icon_alt }}
+                  {%- else -%}
+                    <span class="alsel-expiry-storage__icon-fallback">●</span>
+                  {%- endif -%}
+                </div>
+                <div class="alsel-expiry-storage__text">
+                  {%- if block.settings.label != blank -%}
+                    <p class="alsel-expiry-storage__label">{{ block.settings.label }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.value != blank -%}
+                    <p class="alsel-expiry-storage__value">{{ block.settings.value }}</p>
+                  {%- endif -%}
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.notice != blank -%}
+          <div class="alsel-expiry-storage__notice">
+            <span class="alsel-expiry-storage__notice-label">{{ section.settings.notice_label }}</span>
+            <p class="alsel-expiry-storage__notice-body">{{ section.settings.notice }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-expiry-storage {
+    padding: 2.5rem 1rem;
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-expiry-storage__container { max-width: 1100px; margin: 0 auto; }
+  .alsel-expiry-storage__heading {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-expiry-storage__sub {
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+    color: {{ section.settings.text_color }};
+    opacity: 0.85;
+  }
+  .alsel-expiry-storage__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .alsel-expiry-storage__media { text-align: center; }
+  .alsel-expiry-storage__image {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+  .alsel-expiry-storage__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .alsel-expiry-storage__item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: #ffffff;
+    border-radius: 12px;
+    border-left: 4px solid {{ section.settings.accent_color }};
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .alsel-expiry-storage__icon-wrap {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ section.settings.accent_color }}1a;
+    border-radius: 50%;
+  }
+  .alsel-expiry-storage__icon { width: 36px; height: 36px; object-fit: contain; }
+  .alsel-expiry-storage__icon-fallback { color: {{ section.settings.accent_color }}; font-size: 1.5rem; }
+  .alsel-expiry-storage__label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    color: {{ section.settings.accent_color }};
+  }
+  .alsel-expiry-storage__value {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-expiry-storage__notice {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .alsel-expiry-storage__notice-label {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #c2410c;
+    background: #ffedd5;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    align-self: flex-start;
+  }
+  .alsel-expiry-storage__notice-body { font-size: 0.9rem; line-height: 1.7; margin: 0; color: #7c2d12; }
+  .alsel-expiry-storage__empty { text-align: center; color: #888; padding: 2rem 0; margin: 0; }
+  @media (min-width: 750px) {
+    .alsel-expiry-storage { padding: 4rem 2rem; }
+    .alsel-expiry-storage__inner { grid-template-columns: 1fr 1.5fr; gap: 3rem; }
+    .alsel-expiry-storage--no-image .alsel-expiry-storage__inner {
+      grid-template-columns: 1fr;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .alsel-expiry-storage__image { max-width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "賞味期限・保存方法",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "見出し" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "賞味期限・保存方法のご案内" },
+    { "type": "textarea", "id": "subheading", "label": "補足文", "default": "おいしさを保つため、下記の保存方法をご確認のうえお召し上がりください。" },
+    { "type": "header", "content": "メイン画像" },
+    { "type": "image_picker", "id": "main_image", "label": "メイン画像", "info": "推奨 800 × 800px、JPEG または PNG。未設定の場合は 1 カラム表示になります。" },
+    { "type": "header", "content": "注意書き" },
+    { "type": "text", "id": "notice_label", "label": "注意書きラベル", "default": "ご注意ください" },
+    { "type": "textarea", "id": "notice", "label": "注意書き本文", "default": "開封後はお早めにお召し上がりください。一度解凍した商品の再冷凍はお避けください。" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#0ea5e9" }
+  ],
+  "blocks": [
+    {
+      "type": "info",
+      "name": "情報カード",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "text", "id": "label", "label": "項目名", "default": "項目名" },
+        { "type": "textarea", "id": "value", "label": "内容", "default": "ここに内容を入力してください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 賞味期限・保存方法(アイコンリスト)",
+      "settings": {
+        "heading": "賞味期限・保存方法のご案内",
+        "subheading": "おいしさを保つため、下記の保存方法をご確認のうえお召し上がりください。",
+        "notice_label": "ご注意ください",
+        "notice": "開封後はお早めにお召し上がりください。一度解凍した商品の再冷凍はお避けください。"
+      },
+      "blocks": [
+        { "type": "info", "settings": { "label": "賞味期限", "value": "製造日より冷凍で 90 日間、解凍後は冷蔵で 3 日以内にお召し上がりください。" } },
+        { "type": "info", "settings": { "label": "保存方法", "value": "-18℃ 以下で冷凍保存してください。直射日光・高温多湿の場所はお避けください。" } },
+        { "type": "info", "settings": { "label": "解凍方法", "value": "冷蔵庫(10℃ 以下)で 6〜8 時間かけてゆっくり解凍するのがおすすめです。" } },
+        { "type": "info", "settings": { "label": "お召し上がり方", "value": "解凍後はそのままお召し上がりいただけます。お好みで温めても美味しくいただけます。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

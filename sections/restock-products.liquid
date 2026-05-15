@@ -52,6 +52,9 @@
           </article>
         {%- endfor -%}
       {%- else -%}
+        {%- if section.blocks.size == 0 -%}
+    <p class="alsel-restock-products__empty" style="text-align:center;color:#888;padding:2rem 0;">表示する項目をテーマエディタからブロックとして追加してください。</p>
+  {%- endif -%}
         {%- for block in section.blocks -%}
           {%- assign p = block.settings.product -%}
           <article class="alsel-restock-products__card" {{ block.shopify_attributes }}>

@@ -1,0 +1,316 @@
+{% comment %}
+============================================================
+セクション名: カート追加前の注意事項
+用途: 受注生産・予約品・冷凍便など、購入前に必ず確認してほしい注意事項を商品ページ上で目立たせて伝えるためのセクションです。お客様の認識違いによるキャンセルや問い合わせを減らす目的で使用します。
+推奨設置場所: 商品ページ(カートに入れるボタンの直上または商品説明の冒頭)
+カスタマイズポイント:
+  - セクション見出しとリード文
+  - 警告レベル(注意・警告・重要)による配色の自動切替
+  - アイコン絵文字の変更
+  - 注意事項ブロックの追加・削除(タイトル・本文・強調表示)
+  - 背景色・枠線色・文字色のカスタマイズ
+注意点:
+  - ブロックは 1〜6 個を推奨します
+  - 商品ページに設置する場合、テーマの product テンプレートに section を追加してください
+  - 絵文字アイコンを使用しているため、画像準備は不要です
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- liquid
+  assign level = section.settings.alert_level
+  if level == 'critical'
+    assign bg_color = '#fef2f2'
+    assign border_color = '#dc2626'
+    assign accent_color = '#dc2626'
+  elsif level == 'warning'
+    assign bg_color = '#fffbeb'
+    assign border_color = '#f59e0b'
+    assign accent_color = '#d97706'
+  else
+    assign bg_color = '#eff6ff'
+    assign border_color = '#3b82f6'
+    assign accent_color = '#2563eb'
+  endif
+-%}
+
+<section class="alsel-cart-notice" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-cart-notice__inner">
+    <div class="alsel-cart-notice__header">
+      <span class="alsel-cart-notice__icon" aria-hidden="true">{{ section.settings.icon }}</span>
+      <div class="alsel-cart-notice__header-text">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="alsel-cart-notice__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lead != blank -%}
+          <p class="alsel-cart-notice__lead">{{ section.settings.lead }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-cart-notice__empty" style="text-align:center;color:#888;padding:2rem 0;">
+        注意事項はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="alsel-cart-notice__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="alsel-cart-notice__item{%- if block.settings.emphasize %} alsel-cart-notice__item--emphasize{%- endif -%}" {{ block.shopify_attributes }}>
+            {%- if block.settings.tag_label != blank -%}
+              <span class="alsel-cart-notice__tag">{{ block.settings.tag_label }}</span>
+            {%- endif -%}
+            <div class="alsel-cart-notice__item-body">
+              {%- if block.settings.title != blank -%}
+                <h3 class="alsel-cart-notice__item-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="alsel-cart-notice__item-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.footer_note != blank -%}
+      <p class="alsel-cart-notice__footer">{{ section.settings.footer_note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-cart-notice {
+    --alsel-cart-notice-bg: {{ bg_color }};
+    --alsel-cart-notice-border: {{ border_color }};
+    --alsel-cart-notice-accent: {{ accent_color }};
+    --alsel-cart-notice-text: {{ section.settings.text_color }};
+    padding: 1.5rem 1rem;
+  }
+  .alsel-cart-notice__inner {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--alsel-cart-notice-bg);
+    border: 2px solid var(--alsel-cart-notice-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    color: var(--alsel-cart-notice-text);
+  }
+  .alsel-cart-notice__header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed var(--alsel-cart-notice-border);
+  }
+  .alsel-cart-notice__icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .alsel-cart-notice__header-text { flex: 1; }
+  .alsel-cart-notice__heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: var(--alsel-cart-notice-accent);
+    line-height: 1.4;
+  }
+  .alsel-cart-notice__lead {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .alsel-cart-notice__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .alsel-cart-notice__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    border-left: 4px solid var(--alsel-cart-notice-border);
+  }
+  .alsel-cart-notice__item--emphasize {
+    background: #fff7e6;
+    border-left-color: var(--alsel-cart-notice-accent);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .alsel-cart-notice__tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--alsel-cart-notice-accent);
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    letter-spacing: 0.04em;
+  }
+  .alsel-cart-notice__item-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem;
+    line-height: 1.5;
+  }
+  .alsel-cart-notice__item-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0;
+    color: #475569;
+  }
+  .alsel-cart-notice__footer {
+    margin: 1rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--alsel-cart-notice-border);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #64748b;
+    text-align: center;
+  }
+  @media (min-width: 750px) {
+    .alsel-cart-notice { padding: 2rem 1.5rem; }
+    .alsel-cart-notice__inner { padding: 1.75rem 2rem; }
+    .alsel-cart-notice__heading { font-size: 1.35rem; }
+    .alsel-cart-notice__item { flex-direction: row; align-items: flex-start; gap: 0.85rem; padding: 1rem 1.25rem; }
+    .alsel-cart-notice__tag { align-self: flex-start; margin-top: 0.15rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "カート追加前の注意事項",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "alert_level",
+      "label": "警告レベル(配色)",
+      "options": [
+        { "value": "info", "label": "注意(青)" },
+        { "value": "warning", "label": "警告(黄)" },
+        { "value": "critical", "label": "重要(赤)" }
+      ],
+      "default": "warning",
+      "info": "内容の重要度に応じて配色が自動で切り替わります"
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "アイコン(絵文字)",
+      "default": "⚠️",
+      "info": "絵文字を 1 文字入力してください(例: ⚠️ ❄️ 📦 🕒)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "見出し",
+      "default": "ご購入前に必ずお読みください"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "リード文",
+      "default": "こちらの商品には、通常商品と異なる重要な注意事項がございます。ご注文前に内容をご確認ください。"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note",
+      "label": "補足注意書き(下部表示)",
+      "default": "上記内容にご同意いただいたうえで、カートにお進みください。"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "本文の文字色",
+      "default": "#1e293b"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "notice",
+      "name": "注意事項",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag_label",
+          "label": "ラベル",
+          "default": "受注生産品",
+          "info": "短いカテゴリ名を入力します(例: 受注生産品 / 予約商品 / 冷凍便)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "タイトル",
+          "default": "お届けまで 2〜3 週間程度かかります"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "本文",
+          "default": "こちらはご注文を受けてから製作する受注生産品です。発送までお時間をいただきますことをご了承ください。"
+        },
+        {
+          "type": "checkbox",
+          "id": "emphasize",
+          "label": "強調表示する",
+          "default": false,
+          "info": "特に重要な項目は背景色を変えて目立たせます"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / カート追加前の注意事項(警告ボックス)",
+      "settings": {
+        "alert_level": "warning",
+        "icon": "⚠️",
+        "heading": "ご購入前に必ずお読みください",
+        "lead": "こちらの商品には、通常商品と異なる重要な注意事項がございます。ご注文前に内容をご確認ください。",
+        "footer_note": "上記内容にご同意いただいたうえで、カートにお進みください。"
+      },
+      "blocks": [
+        {
+          "type": "notice",
+          "settings": {
+            "tag_label": "受注生産品",
+            "title": "お届けまで 2〜3 週間程度かかります",
+            "description": "こちらはご注文を受けてから製作する受注生産品です。発送までお時間をいただきますことをご了承ください。",
+            "emphasize": true
+          }
+        },
+        {
+          "type": "notice",
+          "settings": {
+            "tag_label": "返品不可",
+            "title": "お客様都合での返品・交換はお受けできません",
+            "description": "オーダーメイド商品のため、不良品以外でのキャンセル・返品はお受けいたしかねます。サイズや仕様を十分にご確認のうえご注文ください。",
+            "emphasize": false
+          }
+        },
+        {
+          "type": "notice",
+          "settings": {
+            "tag_label": "冷凍便",
+            "title": "クール便(冷凍)でのお届けとなります",
+            "description": "常温商品との同梱はできません。別途、冷凍便送料が加算されますのでご了承ください。",
+            "emphasize": false
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

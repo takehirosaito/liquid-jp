@@ -1,0 +1,154 @@
+{% comment %}
+============================================================
+セクション名: 購入までの流れ
+用途: 注文から商品の受け取りまでの流れを図解で示し、初めて利用するお客様の不安を解消する
+推奨設置場所: トップページ・商品ページ・特集 LP・FAQ ページの近く
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - 各ステップのアイコン画像・タイトル・本文
+  - ステップ番号の色・背景色
+  - ステップ間の矢印の表示/非表示
+  - 末尾の CTA ボタン(任意)
+注意点:
+  - アイコンは正方形(推奨 200 × 200px、PNG 透過)を用意する
+  - ブロックは 3〜6 個推奨。それ以上は横スクロールでの閲覧になる
+  - Online Store 2.0 必須(blocks 機能を使用)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_heading = section.settings.heading | escape -%}
+
+<section class="alsel-purchase-flow" aria-label="{{ sec_heading }}">
+  <div class="alsel-purchase-flow__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-purchase-flow__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-purchase-flow__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-purchase-flow__empty">
+        手順はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ol class="alsel-purchase-flow__list">
+        {%- for block in section.blocks -%}
+          {%- assign step_title = block.settings.title | escape -%}
+          <li class="alsel-purchase-flow__item" {{ block.shopify_attributes }}>
+            <div class="alsel-purchase-flow__card">
+              <span class="alsel-purchase-flow__num" aria-hidden="true">
+                STEP {{ forloop.index }}
+              </span>
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-purchase-flow__icon', alt: step_title, widths: '120, 200, 300' }}
+              {%- endif -%}
+              <h3 class="alsel-purchase-flow__title">{{ block.settings.title }}</h3>
+              {%- if block.settings.body != blank -%}
+                <p class="alsel-purchase-flow__body">{{ block.settings.body }}</p>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.show_arrow and forloop.last == false -%}
+              <span class="alsel-purchase-flow__arrow" aria-hidden="true">▼</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ol>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-purchase-flow__cta-wrap">
+        <a class="alsel-purchase-flow__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-purchase-flow {
+    --pf-accent: {{ section.settings.accent_color }};
+    --pf-accent-text: {{ section.settings.accent_text_color }};
+    --pf-bg: {{ section.settings.bg_color }};
+    --pf-card-bg: {{ section.settings.card_bg_color }};
+    --pf-text: {{ section.settings.text_color }};
+    background: var(--pf-bg);
+    padding: 3rem 1rem;
+    color: var(--pf-text);
+  }
+  .alsel-purchase-flow__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-purchase-flow__heading { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-purchase-flow__sub { font-size: 1rem; text-align: center; margin: 0 0 2.5rem; line-height: 1.7; color: #475569; }
+  .alsel-purchase-flow__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-purchase-flow__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .alsel-purchase-flow__item { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  .alsel-purchase-flow__card { width: 100%; background: var(--pf-card-bg); border-radius: 14px; padding: 1.5rem 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); text-align: center; position: relative; }
+  .alsel-purchase-flow__num { display: inline-block; background: var(--pf-accent); color: var(--pf-accent-text); font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 9999px; letter-spacing: 0.05em; margin-bottom: 0.85rem; }
+  .alsel-purchase-flow__icon { width: 72px; height: 72px; object-fit: contain; display: block; margin: 0 auto 0.85rem; }
+  .alsel-purchase-flow__title { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.6rem; line-height: 1.4; }
+  .alsel-purchase-flow__body { font-size: 0.92rem; line-height: 1.7; margin: 0; color: #475569; }
+  .alsel-purchase-flow__arrow { font-size: 1.4rem; color: var(--pf-accent); line-height: 1; }
+  .alsel-purchase-flow__cta-wrap { text-align: center; margin-top: 2.5rem; }
+  .alsel-purchase-flow__cta { display: inline-block; padding: 0.95rem 2.4rem; background: var(--pf-accent); color: var(--pf-accent-text); text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 1rem; transition: opacity 0.2s; }
+  .alsel-purchase-flow__cta:hover { opacity: 0.85; }
+
+  @media (min-width: 750px) {
+    .alsel-purchase-flow { padding: 5rem 2rem; }
+    .alsel-purchase-flow__list { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; align-items: stretch; }
+    .alsel-purchase-flow__item { flex-direction: row; align-items: stretch; }
+    .alsel-purchase-flow__card { flex: 1; padding: 1.75rem 1.25rem; }
+    .alsel-purchase-flow__arrow { display: flex; align-items: center; justify-content: center; padding: 0 0.5rem; transform: rotate(-90deg); font-size: 1.6rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "購入までの流れ",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "ご購入までの流れ" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご注文から商品のお受け取りまでの流れをご紹介します。" },
+    { "type": "checkbox", "id": "show_arrow", "label": "ステップ間に矢印を表示する", "default": true },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "本文の文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(ステップ番号・矢印・ボタン背景)", "default": "#6d28d9" },
+    { "type": "color", "id": "accent_text_color", "label": "アクセント上の文字色", "default": "#ffffff" },
+    { "type": "header", "content": "CTA ボタン(任意)" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "info": "空欄にするとボタンは表示されません" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "ステップ",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "text", "id": "title", "label": "ステップのタイトル", "default": "ステップのタイトル" },
+        { "type": "textarea", "id": "body", "label": "ステップの説明", "default": "ステップの説明文をご入力ください。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 購入までの流れ(4ステップ図解)",
+      "settings": {
+        "heading": "ご購入までの流れ",
+        "subheading": "ご注文から商品のお受け取りまでの流れをご紹介します。",
+        "show_arrow": true
+      },
+      "blocks": [
+        { "type": "step", "settings": { "title": "商品をご注文", "body": "お好きな商品をカートに追加し、ご注文手続きへお進みください。" } },
+        { "type": "step", "settings": { "title": "お支払い", "body": "クレジットカード・コンビニ決済など、ご希望のお支払い方法をご選択ください。" } },
+        { "type": "step", "settings": { "title": "商品の発送", "body": "ご注文確認後、最短翌営業日に商品を発送いたします。" } },
+        { "type": "step", "settings": { "title": "商品のお受け取り", "body": "ご指定の住所へお届けします。お受け取り後、商品をお楽しみください。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

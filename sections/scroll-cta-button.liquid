@@ -1,0 +1,264 @@
+{% comment %}
+============================================================
+セクション名: スクロール追従CTA
+用途: スマートフォン画面の下部に「購入する」などのボタンを固定表示し、ページをどれだけスクロールしても常に CTA を見せ続けることでコンバージョン率を高める
+推奨設置場所: 商品ページ・LP・トップページ(theme.liquid 直前の sections に配置するのがおすすめ)
+カスタマイズポイント:
+  - ボタンの文字
+  - ボタンのリンク先(商品ページ・カート・問い合わせなど)
+  - ボタン背景色・文字色
+  - サブテキスト(価格や補足情報の表示)
+  - 表示開始位置(何 px スクロールしたら表示するか)
+  - PC でも表示するかどうかの切り替え
+注意点:
+  - モバイル表示が基本。PC では非表示が推奨だが切り替え可能
+  - 表示位置は画面下部に固定されるため、フッターと重なる場合がある
+  - リンク未設定の場合はボタンが非表示になる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign cta_label = section.settings.cta_text | escape -%}
+
+{%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+  <div
+    class="alsel-scroll-cta-button{% if section.settings.show_on_desktop %} alsel-scroll-cta-button--desktop{% endif %}"
+    data-show-after="{{ section.settings.show_after | times: 1 }}"
+    aria-label="スクロール追従の購入ボタン"
+    role="region"
+  >
+    <div class="alsel-scroll-cta-button__inner">
+      {%- if section.settings.sub_text != blank -%}
+        <div class="alsel-scroll-cta-button__sub">{{ section.settings.sub_text }}</div>
+      {%- endif -%}
+      <a
+        class="alsel-scroll-cta-button__btn"
+        href="{{ section.settings.cta_link }}"
+        aria-label="{{ cta_label }}"
+      >
+        {%- if section.settings.show_icon -%}
+          <span class="alsel-scroll-cta-button__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+            </svg>
+          </span>
+        {%- endif -%}
+        <span class="alsel-scroll-cta-button__label">{{ section.settings.cta_text }}</span>
+      </a>
+    </div>
+  </div>
+{%- else -%}
+  <p class="alsel-scroll-cta-button__empty" style="text-align:center;color:#888;padding:1rem 0;display:none;">
+    スクロール追従CTA のボタン文字とリンク先をテーマエディタから設定してください。
+  </p>
+{%- endif -%}
+
+<style>
+  .alsel-scroll-cta-button {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    background: {{ section.settings.bar_bg }};
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .alsel-scroll-cta-button.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .alsel-scroll-cta-button__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .alsel-scroll-cta-button__sub {
+    font-size: 0.8rem;
+    color: {{ section.settings.sub_color }};
+    text-align: center;
+    line-height: 1.4;
+  }
+  .alsel-scroll-cta-button__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.95rem 1.25rem;
+    background: {{ section.settings.cta_bg }};
+    color: {{ section.settings.cta_color }};
+    text-decoration: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+  .alsel-scroll-cta-button__btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    opacity: 0.95;
+  }
+  .alsel-scroll-cta-button__icon {
+    display: inline-flex;
+    align-items: center;
+  }
+  .alsel-scroll-cta-button__label {
+    letter-spacing: 0.02em;
+  }
+  @media (min-width: 750px) {
+    .alsel-scroll-cta-button {
+      display: none;
+    }
+    .alsel-scroll-cta-button--desktop {
+      display: block;
+    }
+    .alsel-scroll-cta-button--desktop .alsel-scroll-cta-button__inner {
+      max-width: 720px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var el = document.currentScript.previousElementSibling;
+    while (el && !el.classList.contains('alsel-scroll-cta-button')) {
+      el = el.previousElementSibling;
+    }
+    if (!el) return;
+    var showAfter = parseInt(el.getAttribute('data-show-after'), 10) || 200;
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        if (window.scrollY > showAfter) {
+          el.classList.add('is-visible');
+        } else {
+          el.classList.remove('is-visible');
+        }
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "スクロール追従CTA",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "ボタン設定"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "ボタンの文字",
+      "default": "今すぐ購入する",
+      "info": "短く分かりやすい文言がおすすめです(8 文字前後)"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "ボタンのリンク先",
+      "info": "商品ページ・カート・問い合わせフォームなどを指定します"
+    },
+    {
+      "type": "text",
+      "id": "sub_text",
+      "label": "サブテキスト",
+      "default": "送料無料でお届けします",
+      "info": "ボタン上に小さく表示される補足文です(空欄なら非表示)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "カートアイコンを表示する",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "表示タイミング"
+    },
+    {
+      "type": "range",
+      "id": "show_after",
+      "label": "表示を開始するスクロール量",
+      "min": 0,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 300,
+      "info": "ページを指定した距離だけスクロールしたあとに表示されます"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_desktop",
+      "label": "PC でも表示する",
+      "default": false,
+      "info": "通常はモバイル限定がおすすめです"
+    },
+    {
+      "type": "header",
+      "content": "デザイン"
+    },
+    {
+      "type": "color",
+      "id": "bar_bg",
+      "label": "バー背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "ボタン背景色",
+      "default": "#e11d48"
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "ボタン文字色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "sub_color",
+      "label": "サブテキストの色",
+      "default": "#475569"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / スクロール追従CTA(モバイル下部固定)",
+      "settings": {
+        "cta_text": "今すぐ購入する",
+        "sub_text": "送料無料でお届けします",
+        "show_icon": true,
+        "show_after": 300,
+        "show_on_desktop": false,
+        "bar_bg": "#ffffff",
+        "cta_bg": "#e11d48",
+        "cta_color": "#ffffff",
+        "sub_color": "#475569"
+      }
+    }
+  ]
+}
+{% endschema %}

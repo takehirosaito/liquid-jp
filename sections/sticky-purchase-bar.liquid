@@ -1,0 +1,337 @@
+{% comment %}
+============================================================
+セクション名: 商品ページ下部固定購入バー
+用途: 商品ページの下部に常に表示される追従型の購入バー。スクロールしても商品名・価格・カートボタンが画面下に固定されるため、購入機会の取りこぼしを減らす。
+推奨設置場所: 商品ページ(product.json)の末尾付近
+カスタマイズポイント:
+  - 表示開始のスクロール位置(px)
+  - 商品サムネイル表示の ON/OFF
+  - バーの背景色・文字色・ボタン色
+  - 表示する商品(現在の商品 or 指定商品)
+  - ボタンの文字(「カートに追加」など)
+注意点:
+  - 商品ページ以外に置くと「指定商品」が必須になる
+  - モバイルでは画面下に固定、PC では右下浮遊型
+  - Online Store 2.0 必須(section.settings の動的反映のため)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- liquid
+  assign target_product = product
+  if section.settings.product_source == 'custom' and section.settings.custom_product != blank
+    assign target_product = section.settings.custom_product
+  endif
+  assign product_title_escaped = target_product.title | default: '' | escape
+-%}
+
+<section
+  class="alsel-sticky-purchase-bar"
+  aria-label="商品購入バー"
+  data-show-after="{{ section.settings.show_after | times: 1 }}"
+>
+  {%- if target_product != blank and target_product.title != blank -%}
+    <div class="alsel-sticky-purchase-bar__inner" role="region" aria-label="{{ product_title_escaped }} のクイック購入">
+      {%- if section.settings.show_thumbnail and target_product.featured_image != blank -%}
+        {{ target_product.featured_image
+          | image_url: width: 200
+          | image_tag:
+            loading: 'lazy',
+            class: 'alsel-sticky-purchase-bar__thumb',
+            alt: product_title_escaped,
+            widths: '100, 200',
+            sizes: '64px'
+        }}
+      {%- endif -%}
+
+      <div class="alsel-sticky-purchase-bar__info">
+        <p class="alsel-sticky-purchase-bar__title">{{ target_product.title }}</p>
+        <p class="alsel-sticky-purchase-bar__price">
+          {%- if target_product.compare_at_price > target_product.price -%}
+            <span class="alsel-sticky-purchase-bar__price-sale">{{ target_product.price | money }}</span>
+            <span class="alsel-sticky-purchase-bar__price-compare">{{ target_product.compare_at_price | money }}</span>
+          {%- else -%}
+            <span class="alsel-sticky-purchase-bar__price-normal">{{ target_product.price | money }}</span>
+          {%- endif -%}
+        </p>
+      </div>
+
+      {%- if target_product.available -%}
+        <form
+          method="post"
+          action="{{ routes.cart_add_url }}"
+          class="alsel-sticky-purchase-bar__form"
+          enctype="multipart/form-data"
+        >
+          <input type="hidden" name="id" value="{{ target_product.selected_or_first_available_variant.id }}">
+          <button
+            type="submit"
+            class="alsel-sticky-purchase-bar__cta"
+            aria-label="{{ product_title_escaped }} をカートに追加"
+          >
+            {{ section.settings.cta_text }}
+          </button>
+        </form>
+      {%- else -%}
+        <a
+          href="{{ target_product.url }}"
+          class="alsel-sticky-purchase-bar__cta alsel-sticky-purchase-bar__cta--soldout"
+          aria-label="{{ product_title_escaped }} は売り切れです"
+        >
+          {{ section.settings.soldout_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="alsel-sticky-purchase-bar__empty" style="display:none;"></div>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-sticky-purchase-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998;
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(110%);
+    transition: transform 0.35s ease;
+    padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+  .alsel-sticky-purchase-bar.is-visible {
+    transform: translateY(0);
+  }
+  .alsel-sticky-purchase-bar__inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .alsel-sticky-purchase-bar__thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .alsel-sticky-purchase-bar__info {
+    flex: 1;
+    min-width: 0;
+  }
+  .alsel-sticky-purchase-bar__title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 0.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .alsel-sticky-purchase-bar__price {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .alsel-sticky-purchase-bar__price-normal,
+  .alsel-sticky-purchase-bar__price-sale {
+    font-weight: 700;
+  }
+  .alsel-sticky-purchase-bar__price-sale {
+    color: #dc2626;
+    margin-right: 0.4rem;
+  }
+  .alsel-sticky-purchase-bar__price-compare {
+    text-decoration: line-through;
+    opacity: 0.6;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  .alsel-sticky-purchase-bar__form {
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .alsel-sticky-purchase-bar__cta {
+    display: inline-block;
+    padding: 0.75rem 1.1rem;
+    background: {{ section.settings.cta_bg }};
+    color: {{ section.settings.cta_color }};
+    border: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+  .alsel-sticky-purchase-bar__cta:hover {
+    opacity: 0.85;
+  }
+  .alsel-sticky-purchase-bar__cta--soldout {
+    background: #94a3b8;
+    cursor: not-allowed;
+  }
+  @media (min-width: 750px) {
+    .alsel-sticky-purchase-bar {
+      padding: 1rem 1.5rem;
+    }
+    .alsel-sticky-purchase-bar__inner {
+      gap: 1rem;
+    }
+    .alsel-sticky-purchase-bar__thumb {
+      width: 56px;
+      height: 56px;
+    }
+    .alsel-sticky-purchase-bar__title {
+      font-size: 1rem;
+    }
+    .alsel-sticky-purchase-bar__price {
+      font-size: 1rem;
+    }
+    .alsel-sticky-purchase-bar__cta {
+      padding: 0.85rem 1.75rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var bar = document.querySelector('.alsel-sticky-purchase-bar');
+    if (!bar) return;
+    var showAfter = parseInt(bar.getAttribute('data-show-after'), 10) || 300;
+    var ticking = false;
+    function update() {
+      if (window.scrollY > showAfter) {
+        bar.classList.add('is-visible');
+      } else {
+        bar.classList.remove('is-visible');
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "下部固定購入バー",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "表示する商品"
+    },
+    {
+      "type": "select",
+      "id": "product_source",
+      "label": "表示する商品の種類",
+      "options": [
+        { "value": "current", "label": "現在の商品ページの商品" },
+        { "value": "custom", "label": "指定した商品" }
+      ],
+      "default": "current",
+      "info": "商品ページ以外に設置する場合は「指定した商品」を選んでください。"
+    },
+    {
+      "type": "product",
+      "id": "custom_product",
+      "label": "指定する商品",
+      "info": "上で「指定した商品」を選んだ場合のみ使われます。"
+    },
+    {
+      "type": "header",
+      "content": "表示タイミング"
+    },
+    {
+      "type": "range",
+      "id": "show_after",
+      "label": "表示を開始するスクロール位置(px)",
+      "min": 100,
+      "max": 1000,
+      "step": 50,
+      "default": 300,
+      "info": "この距離までスクロールするとバーが表示されます。"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnail",
+      "label": "商品サムネイル画像を表示する",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "ボタンの文字"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "カート追加ボタンの文字",
+      "default": "カートに追加する"
+    },
+    {
+      "type": "text",
+      "id": "soldout_text",
+      "label": "売り切れ時の文字",
+      "default": "売り切れです"
+    },
+    {
+      "type": "header",
+      "content": "デザイン"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "バーの背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "バーの文字色",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "ボタンの背景色",
+      "default": "#dc2626"
+    },
+    {
+      "type": "color",
+      "id": "cta_color",
+      "label": "ボタンの文字色",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 商品ページ下部固定購入バー(追従型)",
+      "settings": {
+        "product_source": "current",
+        "show_after": 300,
+        "show_thumbnail": true,
+        "cta_text": "カートに追加する",
+        "soldout_text": "売り切れです",
+        "bg_color": "#ffffff",
+        "text_color": "#0f172a",
+        "cta_bg": "#dc2626",
+        "cta_color": "#ffffff"
+      }
+    }
+  ]
+}
+{% endschema %}

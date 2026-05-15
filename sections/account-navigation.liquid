@@ -1,0 +1,261 @@
+{% comment %}
+============================================================
+セクション名: マイページ誘導セクション
+用途: 会員登録・注文履歴・ポイント制度などのマイページ機能を、初めて訪れた方にも分かりやすくカード形式で案内する。会員 LTV 向上の起点となる定番セクション。
+推奨設置場所: トップページ下部、購入完了ページ、サンキューメール後のランディング、フッター直前
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - ログイン状態に応じた表示切替(未ログイン時は「新規登録」、ログイン時は「マイページへ」)
+  - 各メニューカード(アイコン絵文字・タイトル・説明文・リンク先)
+  - 背景色・アクセントカラー
+  - ポイント還元率の訴求文
+注意点:
+  - customer.shopify_attributes による出し分けで、ログイン状態を判定する
+  - リンク先は /account /account/register /account/orders を推奨
+  - 絵文字アイコンを使用するため画像不要(運用負荷ゼロ)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign section_label = section.settings.heading | escape -%}
+
+<section class="alsel-account-navigation" aria-label="{{ section_label }}">
+  <div class="alsel-account-navigation__inner">
+    <header class="alsel-account-navigation__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-account-navigation__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="alsel-account-navigation__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if customer -%}
+      <div class="alsel-account-navigation__greeting" role="status">
+        <span class="alsel-account-navigation__greeting-icon" aria-hidden="true">👤</span>
+        <span class="alsel-account-navigation__greeting-text">
+          {{ customer.first_name | default: customer.email | escape }} 様、いつもありがとうございます。
+        </span>
+      </div>
+    {%- else -%}
+      <div class="alsel-account-navigation__cta-wrap">
+        <a class="alsel-account-navigation__cta alsel-account-navigation__cta--primary" href="{{ routes.account_register_url }}" aria-label="新規会員登録ページへ進む">
+          {{ section.settings.register_label }}
+        </a>
+        <a class="alsel-account-navigation__cta alsel-account-navigation__cta--ghost" href="{{ routes.account_login_url }}" aria-label="ログインページへ進む">
+          {{ section.settings.login_label }}
+        </a>
+      </div>
+      {%- if section.settings.point_appeal != blank -%}
+        <p class="alsel-account-navigation__point-appeal">
+          <span class="alsel-account-navigation__badge">特典あり</span>
+          {{ section.settings.point_appeal }}
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-account-navigation__empty">
+        現在表示できるメニューはありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-account-navigation__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign block_title = block.settings.title | escape -%}
+          <li class="alsel-account-navigation__card" {{ block.shopify_attributes }}>
+            <a class="alsel-account-navigation__card-link" href="{{ block.settings.link | default: '#' }}" aria-label="{{ block_title }}のページへ進む">
+              <span class="alsel-account-navigation__card-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+              <span class="alsel-account-navigation__card-body">
+                <span class="alsel-account-navigation__card-title">{{ block.settings.title }}</span>
+                {%- if block.settings.description != blank -%}
+                  <span class="alsel-account-navigation__card-desc">{{ block.settings.description }}</span>
+                {%- endif -%}
+                {%- if block.settings.tag_text != blank -%}
+                  <span class="alsel-account-navigation__card-tag">{{ block.settings.tag_text }}</span>
+                {%- endif -%}
+              </span>
+              <span class="alsel-account-navigation__card-arrow" aria-hidden="true">›</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-account-navigation {
+    --acc: {{ section.settings.accent_color }};
+    --bg: {{ section.settings.bg_color }};
+    --card-bg: {{ section.settings.card_bg_color }};
+    --text: {{ section.settings.text_color }};
+    background: var(--bg);
+    padding: 3rem 1rem;
+    color: var(--text);
+  }
+  .alsel-account-navigation__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-account-navigation__header { text-align: center; margin: 0 0 2rem; }
+  .alsel-account-navigation__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; margin: 0 0 0.75rem; }
+  .alsel-account-navigation__sub { font-size: 0.95rem; line-height: 1.7; margin: 0; color: #475569; }
+  .alsel-account-navigation__greeting {
+    display: flex; align-items: center; gap: 0.5rem; justify-content: center;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 9999px;
+    padding: 0.6rem 1.2rem; margin: 0 auto 1.5rem; width: fit-content;
+    font-size: 0.95rem;
+  }
+  .alsel-account-navigation__greeting-icon { font-size: 1.1rem; }
+  .alsel-account-navigation__cta-wrap {
+    display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: 0 0 1rem;
+  }
+  .alsel-account-navigation__cta {
+    display: inline-block; padding: 0.9rem 1.8rem; border-radius: 9999px;
+    text-decoration: none; font-weight: 700; font-size: 0.95rem; min-width: 200px; text-align: center;
+  }
+  .alsel-account-navigation__cta--primary { background: var(--acc); color: #fff; }
+  .alsel-account-navigation__cta--ghost { background: #fff; color: var(--acc); border: 2px solid var(--acc); }
+  .alsel-account-navigation__point-appeal {
+    text-align: center; font-size: 0.9rem; margin: 0 0 2rem; color: #475569;
+  }
+  .alsel-account-navigation__badge {
+    display: inline-block; background: #fff7ed; color: #c2410c; font-weight: 700;
+    font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.4rem;
+  }
+  .alsel-account-navigation__empty {
+    text-align: center; color: #888; padding: 2rem 0;
+  }
+  .alsel-account-navigation__grid {
+    display: grid; grid-template-columns: 1fr; gap: 0.75rem;
+    list-style: none; padding: 0; margin: 2rem 0 0;
+  }
+  .alsel-account-navigation__card { margin: 0; }
+  .alsel-account-navigation__card-link {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 1.1rem 1.25rem; text-decoration: none; color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .alsel-account-navigation__card-link:hover {
+    transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); border-color: var(--acc);
+  }
+  .alsel-account-navigation__card-icon { font-size: 1.8rem; flex-shrink: 0; line-height: 1; }
+  .alsel-account-navigation__card-body { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; min-width: 0; }
+  .alsel-account-navigation__card-title { font-size: 1rem; font-weight: 700; }
+  .alsel-account-navigation__card-desc { font-size: 0.85rem; line-height: 1.6; color: #64748b; }
+  .alsel-account-navigation__card-tag {
+    display: inline-block; align-self: flex-start; margin-top: 0.25rem;
+    background: var(--acc); color: #fff; font-size: 0.7rem; font-weight: 700;
+    padding: 0.15rem 0.5rem; border-radius: 4px;
+  }
+  .alsel-account-navigation__card-arrow {
+    font-size: 1.5rem; color: var(--acc); font-weight: 700; flex-shrink: 0;
+  }
+  @media (min-width: 750px) {
+    .alsel-account-navigation { padding: 5rem 2rem; }
+    .alsel-account-navigation__grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .alsel-account-navigation__card-link { flex-direction: column; align-items: flex-start; padding: 1.5rem; min-height: 180px; }
+    .alsel-account-navigation__card-arrow { align-self: flex-end; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "マイページ誘導",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "会員特典のご案内" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご購入金額に応じてポイントが貯まります。会員登録は無料ですので、お気軽にご利用ください。" },
+    { "type": "text", "id": "register_label", "label": "新規登録ボタンの文字", "default": "新規会員登録(無料)" },
+    { "type": "text", "id": "login_label", "label": "ログインボタンの文字", "default": "ログインはこちら" },
+    { "type": "textarea", "id": "point_appeal", "label": "ポイント訴求文(未ログイン時のみ表示)", "default": "今ご登録いただくと、初回購入時にすぐ使える 500 円分のポイントをプレゼントいたします。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#c2410c", "info": "ボタン・矢印・タグに使用されます" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "メニューカード",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン(絵文字)", "default": "📦", "info": "📦 / 🎁 / 💳 / ⭐ / 📮 / 🧾 などの絵文字を貼り付けてください" },
+        { "type": "text", "id": "title", "label": "メニュータイトル", "default": "注文履歴" },
+        { "type": "textarea", "id": "description", "label": "説明文", "default": "過去のご注文内容や配送状況をご確認いただけます。" },
+        { "type": "url", "id": "link", "label": "リンク先" },
+        { "type": "text", "id": "tag_text", "label": "バッジ文字(任意)", "info": "「会員限定」「特典あり」などの訴求バッジを表示します" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / マイページ誘導(カードグリッド)",
+      "settings": {
+        "heading": "会員特典のご案内",
+        "subheading": "ご購入金額の 1% をポイントとして還元しております。次回のお買い物時にすぐご利用いただけます。",
+        "register_label": "新規会員登録(無料)",
+        "login_label": "ログインはこちら",
+        "point_appeal": "今ご登録いただくと、初回購入時にすぐ使える 500 円分のポイントをプレゼントいたします。"
+      },
+      "blocks": [
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "📦",
+            "title": "注文履歴・配送状況",
+            "description": "過去のご注文内容や配送状況、領収書の発行までこちらからご確認いただけます。",
+            "link": "/account/orders"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "⭐",
+            "title": "ポイント残高の確認",
+            "description": "保有ポイントの確認や有効期限をご確認いただけます。1 ポイント = 1 円としてご利用いただけます。",
+            "link": "/account",
+            "tag_text": "会員限定"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "📮",
+            "title": "お届け先住所の管理",
+            "description": "ご自宅・職場・ご贈答先など、複数のお届け先を登録いただけます。",
+            "link": "/account/addresses"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "🎁",
+            "title": "のし・ギフト設定",
+            "description": "お中元・お歳暮・内祝いなど、のし紙や包装紙のご指定が可能です。",
+            "link": "/pages/gift",
+            "tag_text": "ギフト対応"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "🧾",
+            "title": "領収書・適格請求書",
+            "description": "インボイス制度対応の適格請求書を、注文履歴よりダウンロードいただけます。",
+            "link": "/account/orders"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "icon": "💌",
+            "title": "メルマガ・通知設定",
+            "description": "新商品やセール情報など、ご希望に応じた情報配信を設定いただけます。",
+            "link": "/account"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

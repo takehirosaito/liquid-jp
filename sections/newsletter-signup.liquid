@@ -1,0 +1,209 @@
+{% comment %}
+============================================================
+セクション名: メルマガ登録強化(登録特典訴求型)
+用途: メールマガジンの新規購読を増やすため、登録特典(初回クーポン・送料無料など)を訴求しながら申込フォームを設置する。日本の EC で定番の「初回限定 ○ % OFF クーポン進呈」訴求に対応。
+推奨設置場所: トップページ下部・商品ページ下部・フッター直前
+カスタマイズポイント:
+  - 見出し・サブコピー
+  - 登録特典バッジ(3 つまで、例: 初回 500 円 OFF / 送料無料 / 新商品先行案内)
+  - 背景画像 / 背景色 / グラデーション
+  - 個人情報の取り扱い同意文(リンク付き)
+  - 配信頻度の明示(日本の購読者は頻度を気にする傾向)
+  - 営業日案内テキスト(クーポン配信タイミング)
+注意点:
+  - 背景画像は 1600 × 600px 推奨(JPEG)
+  - フォームは Shopify 標準の customer create を使用するため、顧客作成時に「メール購読」フラグが立つ
+  - 特典ブロックは 1〜4 個推奨
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section
+  class="alsel-newsletter-signup{%- if section.settings.background_image == blank %} alsel-newsletter-signup--no-image{%- endif -%}"
+  aria-label="{{ heading_alt }}"
+>
+  {%- if section.settings.background_image != blank -%}
+    {{ section.settings.background_image
+      | image_url: width: 1600
+      | image_tag: loading: 'lazy', class: 'alsel-newsletter-signup__bg', alt: heading_alt, widths: '375, 750, 1100, 1500, 1600', sizes: '100vw' }}
+  {%- endif -%}
+
+  <div class="alsel-newsletter-signup__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="alsel-newsletter-signup__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-newsletter-signup__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-newsletter-signup__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-newsletter-signup__empty">特典バッジはまだ登録されていません。テーマエディタからブロックを追加してください。</p>
+    {%- else -%}
+      <ul class="alsel-newsletter-signup__benefits" role="list">
+        {%- for block in section.blocks -%}
+          <li class="alsel-newsletter-signup__benefit" {{ block.shopify_attributes }}>
+            <span class="alsel-newsletter-signup__benefit-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+            <span class="alsel-newsletter-signup__benefit-text">
+              <strong class="alsel-newsletter-signup__benefit-title">{{ block.settings.title }}</strong>
+              {%- if block.settings.note != blank -%}
+                <span class="alsel-newsletter-signup__benefit-note">{{ block.settings.note }}</span>
+              {%- endif -%}
+            </span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {% form 'customer', class: 'alsel-newsletter-signup__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter,alsel-signup">
+      <input type="hidden" name="contact[accepts_marketing]" value="true">
+
+      <div class="alsel-newsletter-signup__field">
+        <label for="alsel-newsletter-signup-email" class="alsel-newsletter-signup__label">メールアドレス</label>
+        <div class="alsel-newsletter-signup__input-wrap">
+          <input
+            type="email"
+            id="alsel-newsletter-signup-email"
+            name="contact[email]"
+            class="alsel-newsletter-signup__input"
+            placeholder="example@your-store.jp"
+            required
+            autocomplete="email"
+            aria-required="true"
+          >
+          <button type="submit" class="alsel-newsletter-signup__submit" aria-label="メルマガに登録する">
+            {{ section.settings.cta_text }}
+          </button>
+        </div>
+      </div>
+
+      {%- if form.posted_successfully? -%}
+        <p class="alsel-newsletter-signup__success" role="status">
+          ご登録ありがとうございます。クーポンコードを記載したメールを {{ section.settings.delivery_timing }} にお送りします。
+        </p>
+      {%- endif -%}
+
+      {%- if form.errors -%}
+        <p class="alsel-newsletter-signup__error" role="alert">
+          ご登録に失敗しました。メールアドレスをご確認のうえ、もう一度お試しください。
+        </p>
+      {%- endif -%}
+    {% endform %}
+
+    <p class="alsel-newsletter-signup__meta">
+      配信頻度: {{ section.settings.frequency_note }}<br>
+      クーポン配信タイミング: {{ section.settings.delivery_timing }}
+    </p>
+
+    {%- if section.settings.policy_text != blank -%}
+      <p class="alsel-newsletter-signup__policy">
+        {{ section.settings.policy_text }}
+        {%- if section.settings.policy_link != blank -%}
+          <a href="{{ section.settings.policy_link }}" class="alsel-newsletter-signup__policy-link">プライバシーポリシーを確認する</a>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-newsletter-signup { position: relative; overflow: hidden; padding: 3rem 1.25rem; background: {{ section.settings.bg_color }}; }
+  .alsel-newsletter-signup__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; }
+  .alsel-newsletter-signup::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15)); z-index: 1; pointer-events: none; }
+  .alsel-newsletter-signup--no-image::after { display: none; }
+  .alsel-newsletter-signup__inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; color: {{ section.settings.text_color }}; text-align: center; }
+  .alsel-newsletter-signup__eyebrow { display: inline-block; font-size: 0.8rem; letter-spacing: 0.12em; padding: 0.3rem 0.9rem; background: {{ section.settings.accent_color }}; color: #fff; border-radius: 9999px; margin: 0 0 1rem; font-weight: 700; }
+  .alsel-newsletter-signup__heading { font-size: clamp(1.5rem, 4.5vw, 2.4rem); font-weight: 700; line-height: 1.4; margin: 0 0 0.75rem; }
+  .alsel-newsletter-signup__subheading { font-size: 1rem; line-height: 1.7; margin: 0 0 1.75rem; }
+  .alsel-newsletter-signup__empty { color: #888; padding: 1rem 0; }
+  .alsel-newsletter-signup__benefits { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: 0.75rem; }
+  .alsel-newsletter-signup__benefit { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; background: rgba(255,255,255,0.92); color: #1f2937; border-radius: 10px; text-align: left; }
+  .alsel-newsletter-signup__benefit-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
+  .alsel-newsletter-signup__benefit-text { display: flex; flex-direction: column; gap: 0.15rem; }
+  .alsel-newsletter-signup__benefit-title { font-size: 0.98rem; font-weight: 700; }
+  .alsel-newsletter-signup__benefit-note { font-size: 0.82rem; color: #64748b; }
+  .alsel-newsletter-signup__form { margin: 0 0 1.25rem; }
+  .alsel-newsletter-signup__field { display: flex; flex-direction: column; gap: 0.5rem; }
+  .alsel-newsletter-signup__label { font-size: 0.85rem; font-weight: 700; text-align: left; }
+  .alsel-newsletter-signup__input-wrap { display: flex; flex-direction: column; gap: 0.6rem; background: #fff; padding: 0.5rem; border-radius: 12px; }
+  .alsel-newsletter-signup__input { flex: 1; padding: 0.85rem 1rem; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 1rem; color: #1f2937; background: #fff; }
+  .alsel-newsletter-signup__input:focus { outline: 2px solid {{ section.settings.accent_color }}; outline-offset: 1px; }
+  .alsel-newsletter-signup__submit { padding: 0.85rem 1.5rem; background: {{ section.settings.accent_color }}; color: {{ section.settings.cta_text_color }}; border: 0; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+  .alsel-newsletter-signup__submit:hover { opacity: 0.9; }
+  .alsel-newsletter-signup__success { background: #ecfdf5; color: #065f46; padding: 0.9rem 1rem; border-radius: 8px; margin: 1rem 0 0; font-size: 0.92rem; }
+  .alsel-newsletter-signup__error { background: #fef2f2; color: #991b1b; padding: 0.9rem 1rem; border-radius: 8px; margin: 1rem 0 0; font-size: 0.92rem; }
+  .alsel-newsletter-signup__meta { font-size: 0.82rem; line-height: 1.7; opacity: 0.92; margin: 0 0 0.75rem; }
+  .alsel-newsletter-signup__policy { font-size: 0.78rem; opacity: 0.88; margin: 0; line-height: 1.6; }
+  .alsel-newsletter-signup__policy-link { color: inherit; text-decoration: underline; }
+  @media (min-width: 750px) {
+    .alsel-newsletter-signup { padding: 5rem 2rem; }
+    .alsel-newsletter-signup__benefits { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .alsel-newsletter-signup__input-wrap { flex-direction: row; align-items: stretch; }
+    .alsel-newsletter-signup__submit { white-space: nowrap; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "メルマガ登録強化",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "メインコンテンツ" },
+    { "type": "text", "id": "eyebrow", "label": "アイキャッチラベル", "default": "新規会員特典", "info": "見出しの上に表示する小さなラベルです。" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "メールマガジン会員募集中です" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ご登録いただいた方全員に、お買い物で使える初回限定クーポンをプレゼントいたします。新商品情報やセール情報もいち早くお届けします。" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "無料で登録する" },
+    { "type": "header", "content": "配信ポリシー" },
+    { "type": "text", "id": "frequency_note", "label": "配信頻度の説明", "default": "週 1 〜 2 回程度(配信解除はいつでも可能です)", "info": "日本のお客様は配信頻度を気にする傾向があります。明示することで安心して登録いただけます。" },
+    { "type": "text", "id": "delivery_timing", "label": "クーポン配信タイミング", "default": "翌営業日中", "info": "土日祝を除く営業日でお届けする場合に最適です。" },
+    { "type": "text", "id": "policy_text", "label": "個人情報の取り扱い説明", "default": "ご登録いただいたメールアドレスは、当店からのお知らせ配信のみに使用いたします。" },
+    { "type": "url", "id": "policy_link", "label": "プライバシーポリシーのリンク先" },
+    { "type": "header", "content": "デザイン" },
+    { "type": "image_picker", "id": "background_image", "label": "背景画像", "info": "推奨 1600 × 600px、JPEG 形式。未設定でもグラデーション背景で表示できます。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#1e3a8a" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(ボタン・バッジ)", "default": "#f59e0b" },
+    { "type": "color", "id": "cta_text_color", "label": "ボタンの文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "登録特典バッジ",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン絵文字", "default": "🎁", "info": "絵文字を 1 文字入力します(例: 🎁 / 🚚 / ⭐ / 💌)。" },
+        { "type": "text", "id": "title", "label": "特典タイトル", "default": "初回 500 円 OFF クーポン進呈" },
+        { "type": "text", "id": "note", "label": "補足テキスト", "default": "ご登録の翌営業日にお届けします" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / メルマガ登録強化(特典訴求型)",
+      "settings": {
+        "eyebrow": "新規会員特典",
+        "heading": "メールマガジン会員募集中です",
+        "subheading": "ご登録いただいた方全員に、お買い物で使える初回限定クーポンをプレゼントいたします。新商品情報やセール情報もいち早くお届けします。",
+        "cta_text": "無料で登録する",
+        "frequency_note": "週 1 〜 2 回程度(配信解除はいつでも可能です)",
+        "delivery_timing": "翌営業日中",
+        "policy_text": "ご登録いただいたメールアドレスは、当店からのお知らせ配信のみに使用いたします。"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "🎁", "title": "初回 500 円 OFF クーポン進呈", "note": "ご登録の翌営業日にお届けします" } },
+        { "type": "benefit", "settings": { "icon": "🚚", "title": "全国送料無料キャンペーン案内", "note": "会員限定の送料無料情報をお届けします" } },
+        { "type": "benefit", "settings": { "icon": "⭐", "title": "新商品・セール先行ご案内", "note": "一般公開より 3 日早くお知らせします" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

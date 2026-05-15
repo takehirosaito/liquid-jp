@@ -1,0 +1,243 @@
+{% comment %}
+============================================================
+セクション名: 上部固定お知らせバー
+用途: 休業日のお知らせ、配送遅延、セール告知など、すべてのお客様にすぐ伝えたい
+      重要情報をページ最上部に常時表示するためのバーです
+推奨設置場所: テーマの一番上(theme.liquid のヘッダー直前 / index.json の最上段)
+カスタマイズポイント:
+  - お知らせ文・リンク先・リンク文字
+  - 背景色・文字色
+  - 固定表示(スクロールしても追従)のオン/オフ
+  - 閉じるボタンの表示(訪問者が消せるか)
+  - 表示するアイコン絵文字(任意)
+注意点:
+  - 1 行で簡潔に伝える内容に限定するのがおすすめです
+  - 閉じるボタンを有効にした場合、訪問者のブラウザに 1 日分閉じた状態が保存されます
+  - 固定表示をオンにすると、ヘッダー高さに +40px ほど見込んでください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+{%- assign close_label = '閉じる' -%}
+
+<section
+  class="alsel-header-alert-bar{%- if section.settings.is_sticky %} alsel-header-alert-bar--sticky{%- endif -%}"
+  aria-label="サイト上部のお知らせ"
+  data-alsel-alert
+  data-dismissible="{{ section.settings.dismissible }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="alsel-header-alert-bar__inner">
+    {%- if section.settings.icon != blank -%}
+      <span class="alsel-header-alert-bar__icon" aria-hidden="true">{{ section.settings.icon }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.link_url != blank and section.settings.alert_text != blank -%}
+      <a class="alsel-header-alert-bar__text alsel-header-alert-bar__text--link" href="{{ section.settings.link_url }}">
+        {{ section.settings.alert_text }}
+        {%- if section.settings.link_label != blank -%}
+          <span class="alsel-header-alert-bar__link-label">{{ section.settings.link_label }}</span>
+        {%- endif -%}
+      </a>
+    {%- elsif section.settings.alert_text != blank -%}
+      <span class="alsel-header-alert-bar__text">{{ section.settings.alert_text }}</span>
+    {%- else -%}
+      <span class="alsel-header-alert-bar__text" style="opacity:.7;">お知らせの本文をテーマエディタから入力してください。</span>
+    {%- endif -%}
+
+    {%- if section.settings.dismissible -%}
+      <button
+        type="button"
+        class="alsel-header-alert-bar__close"
+        aria-label="{{ close_label }}"
+        data-alsel-alert-close
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+          <path d="M1 1 L13 13 M13 1 L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+      </button>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-header-alert-bar {
+    --alsel-bar-bg: {{ section.settings.bg_color }};
+    --alsel-bar-color: {{ section.settings.text_color }};
+    background: var(--alsel-bar-bg);
+    color: var(--alsel-bar-color);
+    width: 100%;
+    z-index: 100;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .alsel-header-alert-bar--sticky {
+    position: sticky;
+    top: 0;
+  }
+  .alsel-header-alert-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.55rem 2.5rem 0.55rem 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+  }
+  .alsel-header-alert-bar__icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+  .alsel-header-alert-bar__text {
+    color: var(--alsel-bar-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .alsel-header-alert-bar__text--link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .alsel-header-alert-bar__link-label {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    border: 1px solid currentColor;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    text-decoration: none;
+  }
+  .alsel-header-alert-bar__close {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    color: var(--alsel-bar-color);
+    cursor: pointer;
+    padding: 0.35rem;
+    line-height: 0;
+    border-radius: 50%;
+    transition: background 0.2s;
+  }
+  .alsel-header-alert-bar__close:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  .alsel-header-alert-bar[hidden] {
+    display: none;
+  }
+  @media (min-width: 750px) {
+    .alsel-header-alert-bar {
+      font-size: 0.9rem;
+    }
+    .alsel-header-alert-bar__inner {
+      padding: 0.7rem 3rem;
+    }
+  }
+</style>
+
+<script>
+  (function(){
+    var bar = document.querySelector('[data-alsel-alert][data-section-id="{{ section.id }}"]');
+    if (!bar) return;
+    var key = 'alsel-alert-dismissed-{{ section.id }}';
+    var dismissible = bar.getAttribute('data-dismissible') === 'true';
+    if (dismissible) {
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) {
+          var savedTime = parseInt(saved, 10);
+          if (!isNaN(savedTime) && (Date.now() - savedTime) < 86400000) {
+            bar.setAttribute('hidden', '');
+            return;
+          }
+        }
+      } catch (e) {}
+      var btn = bar.querySelector('[data-alsel-alert-close]');
+      if (btn) {
+        btn.addEventListener('click', function(){
+          bar.setAttribute('hidden', '');
+          try { localStorage.setItem(key, String(Date.now())); } catch (e) {}
+        });
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "上部固定お知らせバー",
+  "tag": "section",
+  "class": "alsel-section alsel-section--alert-bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "alert_text",
+      "label": "お知らせ本文",
+      "default": "送料無料キャンペーン実施中です。",
+      "info": "1 行で簡潔に伝わる内容を入力してください。"
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "先頭アイコン(絵文字)",
+      "default": "📢",
+      "info": "絵文字を 1 文字入力します。不要な場合は空欄にしてください。"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "リンク先 URL",
+      "info": "クリック時の遷移先を指定します(任意)。"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "リンクのラベル文字",
+      "default": "詳しく見る",
+      "info": "本文の後ろに表示する小さなボタン風のラベルです。"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#111827"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_sticky",
+      "label": "スクロールしても上に固定表示する",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "閉じるボタンを表示する",
+      "default": false,
+      "info": "オンにすると、訪問者が閉じた状態が 24 時間ブラウザに記憶されます。"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 上部固定お知らせバー(セール告知型)",
+      "settings": {
+        "alert_text": "期間限定セール開催中です。全品 10% OFF でお買い求めいただけます。",
+        "icon": "🎉",
+        "link_label": "セール会場へ",
+        "bg_color": "#dc2626",
+        "text_color": "#ffffff",
+        "is_sticky": true,
+        "dismissible": false
+      }
+    }
+  ]
+}
+{% endschema %}

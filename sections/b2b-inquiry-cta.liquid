@@ -1,0 +1,209 @@
+{% comment %}
+============================================================
+セクション名: 法人向け問い合わせCTA
+用途: 大口注文・卸販売・見積もりなど、法人顧客からの問い合わせを促すための専用 CTA。BtoB 取引や OEM、ノベルティ用途など、通常の購入フローとは別ルートで連絡してほしい場合に使う
+推奨設置場所: トップページの下部、商品ページの下部、固定ページ(会社案内・卸販売案内)
+カスタマイズポイント:
+  - 見出し・サブコピー・補足説明
+  - 訴求ポイント(3 つまで、アイコン + テキスト)
+  - メインボタン(問い合わせフォーム誘導)
+  - サブボタン(電話・メール誘導)
+  - 背景色・文字色・アクセントカラー
+  - レイアウト(中央寄せ / 左右 2 カラム)
+注意点:
+  - メインボタンのリンク先には、問い合わせフォームまたは法人専用ページの URL を設定する
+  - 電話番号は tel: スキーマで自動リンク化される
+  - アイコンは絵文字または短いテキストで指定(画像不要)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign aria_label = section.settings.heading | default: '法人向け問い合わせ' | escape -%}
+
+<section class="alsel-b2b-inquiry-cta alsel-b2b-inquiry-cta--{{ section.settings.layout }}" aria-label="{{ aria_label }}">
+  <div class="alsel-b2b-inquiry-cta__inner">
+    <div class="alsel-b2b-inquiry-cta__lead">
+      {%- if section.settings.badge != blank -%}
+        <span class="alsel-b2b-inquiry-cta__badge">{{ section.settings.badge }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="alsel-b2b-inquiry-cta__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="alsel-b2b-inquiry-cta__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="alsel-b2b-inquiry-cta__desc">{{ section.settings.description }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="alsel-b2b-inquiry-cta__body">
+      {%- if section.blocks.size == 0 -%}
+        <p class="alsel-b2b-inquiry-cta__empty">現在表示できる訴求ポイントはありません。テーマエディタからブロックを追加してください。</p>
+      {%- else -%}
+        <ul class="alsel-b2b-inquiry-cta__points">
+          {%- for block in section.blocks -%}
+            <li class="alsel-b2b-inquiry-cta__point" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <span class="alsel-b2b-inquiry-cta__icon" aria-hidden="true">{{ block.settings.icon }}</span>
+              {%- endif -%}
+              <div class="alsel-b2b-inquiry-cta__point-text">
+                {%- if block.settings.title != blank -%}
+                  <p class="alsel-b2b-inquiry-cta__point-title">{{ block.settings.title }}</p>
+                {%- endif -%}
+                {%- if block.settings.body != blank -%}
+                  <p class="alsel-b2b-inquiry-cta__point-body">{{ block.settings.body }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <div class="alsel-b2b-inquiry-cta__actions">
+        {%- if section.settings.primary_text != blank and section.settings.primary_link != blank -%}
+          <a class="alsel-b2b-inquiry-cta__primary" href="{{ section.settings.primary_link }}" aria-label="{{ section.settings.primary_text | escape }}">
+            {{ section.settings.primary_text }}
+            <span class="alsel-b2b-inquiry-cta__arrow" aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+        <div class="alsel-b2b-inquiry-cta__sub-actions">
+          {%- if section.settings.tel_number != blank -%}
+            {%- assign tel_clean = section.settings.tel_number | replace: '-', '' | replace: ' ', '' -%}
+            <a class="alsel-b2b-inquiry-cta__tel" href="tel:{{ tel_clean }}" aria-label="電話で問い合わせ {{ section.settings.tel_number | escape }}">
+              <span class="alsel-b2b-inquiry-cta__tel-icon" aria-hidden="true">☎</span>
+              <span class="alsel-b2b-inquiry-cta__tel-text">
+                <span class="alsel-b2b-inquiry-cta__tel-label">{{ section.settings.tel_label }}</span>
+                <span class="alsel-b2b-inquiry-cta__tel-number">{{ section.settings.tel_number }}</span>
+                {%- if section.settings.tel_hours != blank -%}
+                  <span class="alsel-b2b-inquiry-cta__tel-hours">{{ section.settings.tel_hours }}</span>
+                {%- endif -%}
+              </span>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.mail_address != blank -%}
+            <a class="alsel-b2b-inquiry-cta__mail" href="mailto:{{ section.settings.mail_address }}" aria-label="メールで問い合わせ">
+              <span class="alsel-b2b-inquiry-cta__mail-icon" aria-hidden="true">✉</span>
+              <span class="alsel-b2b-inquiry-cta__mail-text">{{ section.settings.mail_address }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.note != blank -%}
+          <p class="alsel-b2b-inquiry-cta__note">{{ section.settings.note }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .alsel-b2b-inquiry-cta { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; }
+  .alsel-b2b-inquiry-cta__inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .alsel-b2b-inquiry-cta__badge { display: inline-block; padding: 0.35rem 0.9rem; background: {{ section.settings.accent_color }}; color: #fff; font-size: 0.78rem; font-weight: 700; border-radius: 9999px; letter-spacing: 0.05em; margin-bottom: 0.85rem; }
+  .alsel-b2b-inquiry-cta__heading { font-size: clamp(1.5rem, 4vw, 2.3rem); font-weight: 700; line-height: 1.4; margin: 0 0 0.75rem; }
+  .alsel-b2b-inquiry-cta__sub { font-size: 1rem; line-height: 1.7; margin: 0 0 1rem; opacity: 0.85; }
+  .alsel-b2b-inquiry-cta__desc { font-size: 0.92rem; line-height: 1.75; opacity: 0.78; }
+  .alsel-b2b-inquiry-cta__desc p { margin: 0 0 0.5rem; }
+  .alsel-b2b-inquiry-cta__empty { text-align: center; color: #888; padding: 1.5rem 0; }
+  .alsel-b2b-inquiry-cta__points { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: 0.85rem; }
+  .alsel-b2b-inquiry-cta__point { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.9rem 1rem; background: rgba(255,255,255,0.6); border-radius: 10px; }
+  .alsel-b2b-inquiry-cta__icon { flex-shrink: 0; width: 2.2rem; height: 2.2rem; display: inline-flex; align-items: center; justify-content: center; background: {{ section.settings.accent_color }}; color: #fff; border-radius: 50%; font-size: 1.05rem; font-weight: 700; }
+  .alsel-b2b-inquiry-cta__point-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.2rem; }
+  .alsel-b2b-inquiry-cta__point-body { font-size: 0.88rem; line-height: 1.65; margin: 0; opacity: 0.82; }
+  .alsel-b2b-inquiry-cta__actions { display: flex; flex-direction: column; gap: 1rem; }
+  .alsel-b2b-inquiry-cta__primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.1rem 1.75rem; background: {{ section.settings.accent_color }}; color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 1.05rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+  .alsel-b2b-inquiry-cta__primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+  .alsel-b2b-inquiry-cta__arrow { font-size: 1.1rem; }
+  .alsel-b2b-inquiry-cta__sub-actions { display: grid; gap: 0.75rem; }
+  .alsel-b2b-inquiry-cta__tel, .alsel-b2b-inquiry-cta__mail { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1.1rem; background: #fff; color: {{ section.settings.text_color }}; text-decoration: none; border: 1px solid rgba(0,0,0,0.08); border-radius: 10px; transition: border-color 0.2s; }
+  .alsel-b2b-inquiry-cta__tel:hover, .alsel-b2b-inquiry-cta__mail:hover { border-color: {{ section.settings.accent_color }}; }
+  .alsel-b2b-inquiry-cta__tel-icon, .alsel-b2b-inquiry-cta__mail-icon { font-size: 1.3rem; color: {{ section.settings.accent_color }}; }
+  .alsel-b2b-inquiry-cta__tel-text { display: flex; flex-direction: column; gap: 0.1rem; }
+  .alsel-b2b-inquiry-cta__tel-label { font-size: 0.75rem; opacity: 0.7; }
+  .alsel-b2b-inquiry-cta__tel-number { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; }
+  .alsel-b2b-inquiry-cta__tel-hours { font-size: 0.72rem; opacity: 0.65; }
+  .alsel-b2b-inquiry-cta__mail-text { font-size: 0.95rem; word-break: break-all; }
+  .alsel-b2b-inquiry-cta__note { font-size: 0.8rem; opacity: 0.7; margin: 0.25rem 0 0; line-height: 1.6; }
+  @media (min-width: 750px) {
+    .alsel-b2b-inquiry-cta { padding: 5rem 2rem; }
+    .alsel-b2b-inquiry-cta--split .alsel-b2b-inquiry-cta__inner { grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .alsel-b2b-inquiry-cta__points { gap: 0.75rem; }
+    .alsel-b2b-inquiry-cta__sub-actions { grid-template-columns: 1fr 1fr; }
+    .alsel-b2b-inquiry-cta--center .alsel-b2b-inquiry-cta__inner { text-align: center; max-width: 820px; }
+    .alsel-b2b-inquiry-cta--center .alsel-b2b-inquiry-cta__primary { align-self: center; min-width: 320px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "法人向け問い合わせCTA",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "レイアウト" },
+    {
+      "type": "select", "id": "layout", "label": "配置スタイル",
+      "options": [
+        { "value": "center", "label": "中央寄せ(1 カラム)" },
+        { "value": "split", "label": "左右 2 カラム(PC のみ)" }
+      ],
+      "default": "split"
+    },
+    { "type": "header", "content": "メインテキスト" },
+    { "type": "text", "id": "badge", "label": "バッジテキスト", "default": "法人のお客様へ" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "大口注文・卸販売のご相談を承ります" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "ノベルティ・OEM・定期仕入れなど、法人様向けの特別条件をご用意しています。" },
+    { "type": "richtext", "id": "description", "label": "補足説明", "default": "<p>お見積もりは無料です。まずはお気軽にお問い合わせください。</p>" },
+    { "type": "header", "content": "メインボタン(問い合わせフォーム誘導)" },
+    { "type": "text", "id": "primary_text", "label": "ボタンの文字", "default": "無料見積もり・お問い合わせはこちら" },
+    { "type": "url", "id": "primary_link", "label": "ボタンのリンク先", "info": "問い合わせフォームのページ URL を設定してください" },
+    { "type": "header", "content": "電話での問い合わせ" },
+    { "type": "text", "id": "tel_label", "label": "電話の見出し", "default": "法人専用ダイヤル" },
+    { "type": "text", "id": "tel_number", "label": "電話番号", "default": "03-0000-0000", "info": "ハイフンありで入力してください。自動的に tel リンクになります" },
+    { "type": "text", "id": "tel_hours", "label": "受付時間", "default": "平日 10:00 〜 18:00" },
+    { "type": "header", "content": "メールでの問い合わせ" },
+    { "type": "text", "id": "mail_address", "label": "メールアドレス", "default": "b2b@example.com" },
+    { "type": "header", "content": "注意書き・カラー" },
+    { "type": "textarea", "id": "note", "label": "注意書き", "default": "※ お見積もりのご依頼から 2 営業日以内にご返信いたします。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f1f5f9" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#1e40af" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "訴求ポイント",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "icon", "label": "アイコン", "default": "✓", "info": "絵文字 1 文字または短いテキストを入力してください" },
+        { "type": "text", "id": "title", "label": "タイトル", "default": "ポイントタイトル" },
+        { "type": "textarea", "id": "body", "label": "本文", "default": "ポイントの説明文がここに入ります。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 法人向け問い合わせCTA(2カラム + 訴求ポイント)",
+      "settings": {
+        "layout": "split",
+        "badge": "法人のお客様へ",
+        "heading": "大口注文・卸販売のご相談を承ります",
+        "subheading": "ノベルティ・OEM・定期仕入れなど、法人様向けの特別条件をご用意しています。",
+        "description": "<p>ご注文数量や納期に応じて、専任スタッフが最適なプランをご提案いたします。お見積もりは無料です。</p>",
+        "primary_text": "無料見積もり・お問い合わせはこちら",
+        "tel_label": "法人専用ダイヤル",
+        "tel_number": "03-0000-0000",
+        "tel_hours": "平日 10:00 〜 18:00",
+        "mail_address": "b2b@example.com",
+        "note": "※ お見積もりのご依頼から 2 営業日以内にご返信いたします。"
+      },
+      "blocks": [
+        { "type": "point", "settings": { "icon": "¥", "title": "数量に応じた特別価格", "body": "ご注文数量に応じて、最大 30% 割引の特別価格をご提供します。" } },
+        { "type": "point", "settings": { "icon": "✓", "title": "専任担当によるサポート", "body": "ご注文から納品まで、専任スタッフが一貫してご対応いたします。" } },
+        { "type": "point", "settings": { "icon": "★", "title": "OEM・名入れにも対応", "body": "ロゴ印刷やオリジナル仕様への対応も可能です。お気軽にご相談ください。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

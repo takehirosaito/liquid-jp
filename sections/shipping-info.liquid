@@ -1,0 +1,213 @@
+{% comment %}
+============================================================
+セクション名: 配送・送料案内
+用途: 配送日数・送料・沖縄や離島の注意事項を一覧でわかりやすく伝える定番セクション
+推奨設置場所: 商品ページ・カートページ・お買い物ガイドページ・トップページ下部
+カスタマイズポイント:
+  - 見出し・リード文
+  - 配送地域ごとの料金表(ブロックで自由に追加・削除)
+  - 送料無料ライン(税込)
+  - 配送日数・営業日カレンダーの注意書き
+  - 沖縄・離島の追加送料表記
+  - 配色(背景・アクセント)
+注意点:
+  - 料金はすべて税込表記を推奨(景品表示法・総額表示義務に対応)
+  - 配送業者やリードタイムは実際の運用に合わせて修正すること
+  - 軽減税率対象商品(食品など)の場合は別途案内テキストの追記を検討
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-shipping-info" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-shipping-info__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-shipping-info__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-shipping-info__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.free_shipping_text != blank -%}
+      <div class="alsel-shipping-info__banner" role="note">
+        <span class="alsel-shipping-info__banner-icon" aria-hidden="true">🚚</span>
+        <span class="alsel-shipping-info__banner-text">{{ section.settings.free_shipping_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-shipping-info__empty">
+        配送地域はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-shipping-info__table" role="table" aria-label="配送地域別の送料と日数">
+        <div class="alsel-shipping-info__row alsel-shipping-info__row--head" role="row">
+          <div class="alsel-shipping-info__cell" role="columnheader">配送地域</div>
+          <div class="alsel-shipping-info__cell" role="columnheader">送料(税込)</div>
+          <div class="alsel-shipping-info__cell" role="columnheader">お届け日数</div>
+        </div>
+        {%- for block in section.blocks -%}
+          <div class="alsel-shipping-info__row" role="row" {{ block.shopify_attributes }}>
+            <div class="alsel-shipping-info__cell" role="cell" data-label="配送地域">
+              <strong>{{ block.settings.area_name }}</strong>
+              {%- if block.settings.area_detail != blank -%}
+                <span class="alsel-shipping-info__cell-detail">{{ block.settings.area_detail }}</span>
+              {%- endif -%}
+            </div>
+            <div class="alsel-shipping-info__cell" role="cell" data-label="送料(税込)">
+              {{ block.settings.fee }}
+            </div>
+            <div class="alsel-shipping-info__cell" role="cell" data-label="お届け日数">
+              {{ block.settings.lead_time }}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.note_okinawa != blank -%}
+      <div class="alsel-shipping-info__notice">
+        <h3 class="alsel-shipping-info__notice-title">沖縄・離島へのお届けについて</h3>
+        <p class="alsel-shipping-info__notice-body">{{ section.settings.note_okinawa }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.note_general != blank -%}
+      <div class="alsel-shipping-info__notes">
+        <h3 class="alsel-shipping-info__notice-title">ご注文・発送に関するご案内</h3>
+        <p class="alsel-shipping-info__notice-body">{{ section.settings.note_general }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-shipping-info {
+    --alsel-shipping-info-bg: {{ section.settings.bg_color }};
+    --alsel-shipping-info-accent: {{ section.settings.accent_color }};
+    --alsel-shipping-info-text: {{ section.settings.text_color }};
+    background: var(--alsel-shipping-info-bg);
+    color: var(--alsel-shipping-info-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-shipping-info__inner { max-width: 960px; margin: 0 auto; }
+  .alsel-shipping-info__heading {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  .alsel-shipping-info__heading::after {
+    content: ""; display: block; width: 48px; height: 3px;
+    background: var(--alsel-shipping-info-accent);
+    margin: 0.75rem auto 0; border-radius: 2px;
+  }
+  .alsel-shipping-info__lead {
+    text-align: center; font-size: 0.95rem; line-height: 1.7;
+    margin: 0 auto 1.5rem; max-width: 720px;
+  }
+  .alsel-shipping-info__banner {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    background: var(--alsel-shipping-info-accent); color: #fff;
+    padding: 0.85rem 1rem; border-radius: 8px; margin: 0 0 1.5rem;
+    font-weight: 700; text-align: center; font-size: 0.95rem;
+  }
+  .alsel-shipping-info__banner-icon { font-size: 1.2rem; }
+  .alsel-shipping-info__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-shipping-info__table {
+    background: #fff; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 0 0 1.5rem;
+  }
+  .alsel-shipping-info__row {
+    display: grid; grid-template-columns: 1fr;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .alsel-shipping-info__row:last-child { border-bottom: 0; }
+  .alsel-shipping-info__row--head { display: none; }
+  .alsel-shipping-info__cell {
+    padding: 0.85rem 1rem; font-size: 0.95rem; line-height: 1.6;
+    display: flex; flex-direction: column; gap: 0.25rem;
+  }
+  .alsel-shipping-info__cell::before {
+    content: attr(data-label); font-size: 0.75rem; font-weight: 700;
+    color: var(--alsel-shipping-info-accent); letter-spacing: 0.05em;
+  }
+  .alsel-shipping-info__cell-detail { font-size: 0.85rem; color: #64748b; }
+  .alsel-shipping-info__notice,
+  .alsel-shipping-info__notes {
+    background: #fff7ed; border-left: 4px solid #f59e0b;
+    padding: 1rem 1.25rem; border-radius: 6px; margin: 0 0 1rem;
+  }
+  .alsel-shipping-info__notes { background: #f1f5f9; border-left-color: #64748b; }
+  .alsel-shipping-info__notice-title {
+    font-size: 1rem; font-weight: 700; margin: 0 0 0.5rem;
+  }
+  .alsel-shipping-info__notice-body {
+    font-size: 0.9rem; line-height: 1.7; margin: 0;
+  }
+  @media (min-width: 750px) {
+    .alsel-shipping-info { padding: 4.5rem 2rem; }
+    .alsel-shipping-info__row {
+      grid-template-columns: 1.4fr 1fr 1.2fr;
+      align-items: center;
+    }
+    .alsel-shipping-info__row--head {
+      display: grid; background: var(--alsel-shipping-info-accent); color: #fff;
+    }
+    .alsel-shipping-info__row--head .alsel-shipping-info__cell {
+      font-weight: 700; font-size: 0.95rem;
+    }
+    .alsel-shipping-info__cell { padding: 1rem 1.25rem; flex-direction: row; align-items: center; }
+    .alsel-shipping-info__cell::before { display: none; }
+    .alsel-shipping-info__row--head .alsel-shipping-info__cell::before { display: none; }
+    .alsel-shipping-info__cell-detail { display: block; margin-left: 0.5rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "配送・送料案内",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "見出し", "default": "配送・送料のご案内" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "ご注文確定後、最短で翌営業日に発送いたします。地域別の送料とお届け日数の目安は下記をご参照ください。" },
+    { "type": "text", "id": "free_shipping_text", "label": "送料無料バナー文言", "info": "送料無料ラインを訴求する一行コピーを入力します(税込表記推奨)", "default": "税込 5,500 円以上のご注文で全国送料無料でお届けします" },
+    { "type": "textarea", "id": "note_okinawa", "label": "沖縄・離島の注意書き", "default": "沖縄県・一部離島へのお届けは、上記送料に加えて中継料金が発生いたします。お届けまでに 3 〜 7 営業日ほどお時間をいただく場合がございます。" },
+    { "type": "textarea", "id": "note_general", "label": "ご注文・発送の補足", "default": "土日祝日のご注文は翌営業日以降の発送となります。お届け日時のご指定や領収書発行をご希望の場合は、ご注文時の備考欄にご記入ください。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#0ea5e9" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" }
+  ],
+  "blocks": [
+    {
+      "type": "area",
+      "name": "配送地域",
+      "settings": [
+        { "type": "text", "id": "area_name", "label": "地域名", "default": "本州・四国・九州" },
+        { "type": "text", "id": "area_detail", "label": "対象都道府県の補足", "info": "対象エリアを補足したい場合に入力します", "default": "" },
+        { "type": "text", "id": "fee", "label": "送料(税込)", "default": "770 円" },
+        { "type": "text", "id": "lead_time", "label": "お届け日数の目安", "default": "発送後 1 〜 2 営業日" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 配送・送料案内(地域別料金表)",
+      "settings": {
+        "heading": "配送・送料のご案内",
+        "lead": "ご注文確定後、最短で翌営業日に発送いたします。地域別の送料とお届け日数の目安は下記をご参照ください。",
+        "free_shipping_text": "税込 5,500 円以上のご注文で全国送料無料でお届けします"
+      },
+      "blocks": [
+        { "type": "area", "settings": { "area_name": "本州・四国・九州", "area_detail": "全域対象", "fee": "770 円", "lead_time": "発送後 1 〜 2 営業日" } },
+        { "type": "area", "settings": { "area_name": "北海道", "area_detail": "全域対象", "fee": "1,100 円", "lead_time": "発送後 2 〜 3 営業日" } },
+        { "type": "area", "settings": { "area_name": "沖縄", "area_detail": "本島のみ", "fee": "1,650 円", "lead_time": "発送後 3 〜 5 営業日" } },
+        { "type": "area", "settings": { "area_name": "離島", "area_detail": "一部地域は別途中継料", "fee": "別途お見積もり", "lead_time": "発送後 4 〜 7 営業日" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

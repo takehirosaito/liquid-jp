@@ -1,0 +1,245 @@
+{% comment %}
+============================================================
+セクション名: 追従サイド目次
+用途: LP の右側に目次を固定表示し、長いページでも見たい場所へすぐに移動できるようにする
+推奨設置場所: トップページ・LP・商品ページのコンテンツ最上部(他セクションより前に配置)
+カスタマイズポイント:
+  - 目次のタイトル
+  - 表示位置(右側 / 左側)
+  - 各目次項目(表示文字とジャンプ先のアンカー ID)
+  - 背景色・文字色・アクセントカラー
+  - PC でのみ表示するか、モバイルでも表示するか
+注意点:
+  - ジャンプ先は他セクションの id 属性(例: #section-feature)を指定する必要あり
+  - モバイルでは画面下部に折りたたみ式で表示される
+  - PC ブレークポイントは 750px 以上(Shopify 慣習)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign aria_label_text = section.settings.heading | default: '目次' | escape -%}
+
+<section
+  class="alsel-sticky-toc alsel-sticky-toc--{{ section.settings.position }}{%- if section.settings.pc_only %} alsel-sticky-toc--pc-only{%- endif -%}"
+  aria-label="{{ aria_label_text }}"
+>
+  {%- if section.blocks.size == 0 -%}
+    <p class="alsel-sticky-toc__empty" style="text-align:center;color:#888;padding:2rem 0;">
+      目次の項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+    </p>
+  {%- else -%}
+    <nav class="alsel-sticky-toc__nav" aria-label="{{ aria_label_text }}">
+      <button
+        type="button"
+        class="alsel-sticky-toc__toggle"
+        aria-expanded="false"
+        aria-controls="alsel-sticky-toc-list-{{ section.id }}"
+      >
+        <span class="alsel-sticky-toc__toggle-text">{{ section.settings.heading }}</span>
+        <span class="alsel-sticky-toc__toggle-icon" aria-hidden="true">▼</span>
+      </button>
+      <div class="alsel-sticky-toc__header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="alsel-sticky-toc__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="alsel-sticky-toc__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+      <ol class="alsel-sticky-toc__list" id="alsel-sticky-toc-list-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- assign target = block.settings.target | strip -%}
+          {%- unless target contains '#' -%}
+            {%- assign target = '#' | append: target -%}
+          {%- endunless -%}
+          <li class="alsel-sticky-toc__item" {{ block.shopify_attributes }}>
+            <a class="alsel-sticky-toc__link" href="{{ target }}">
+              <span class="alsel-sticky-toc__num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="alsel-sticky-toc__label">{{ block.settings.label }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </nav>
+  {%- endif -%}
+</section>
+
+<style>
+  .alsel-sticky-toc {
+    --toc-bg: {{ section.settings.bg_color }};
+    --toc-text: {{ section.settings.text_color }};
+    --toc-accent: {{ section.settings.accent_color }};
+    --toc-border: {{ section.settings.border_color }};
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: var(--toc-bg);
+    color: var(--toc-text);
+    border-top: 1px solid var(--toc-border);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  }
+  .alsel-sticky-toc--pc-only { display: none; }
+  .alsel-sticky-toc__nav { max-width: 1200px; margin: 0 auto; padding: 0; }
+  .alsel-sticky-toc__toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .alsel-sticky-toc__toggle-icon { transition: transform 0.25s ease; }
+  .alsel-sticky-toc__toggle[aria-expanded="true"] .alsel-sticky-toc__toggle-icon { transform: rotate(180deg); }
+  .alsel-sticky-toc__header { display: none; padding: 0 1.25rem 0.5rem; }
+  .alsel-sticky-toc__heading { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.25rem; }
+  .alsel-sticky-toc__subheading { font-size: 0.85rem; color: #64748b; margin: 0; line-height: 1.6; }
+  .alsel-sticky-toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0 1.25rem 1rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .alsel-sticky-toc__nav:has(.alsel-sticky-toc__toggle[aria-expanded="true"]) .alsel-sticky-toc__list { max-height: 60vh; overflow-y: auto; }
+  .alsel-sticky-toc__nav:has(.alsel-sticky-toc__toggle[aria-expanded="true"]) .alsel-sticky-toc__header { display: block; }
+  .alsel-sticky-toc__item { margin: 0; }
+  .alsel-sticky-toc__link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--toc-border);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    transition: color 0.2s ease;
+  }
+  .alsel-sticky-toc__item:last-child .alsel-sticky-toc__link { border-bottom: 0; }
+  .alsel-sticky-toc__link:hover { color: var(--toc-accent); }
+  .alsel-sticky-toc__num {
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 999px;
+    background: var(--toc-accent);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .alsel-sticky-toc__label { flex: 1 1 auto; }
+
+  @media (min-width: 750px) {
+    .alsel-sticky-toc {
+      position: fixed;
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+      width: 260px;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid var(--toc-border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      padding: 1.25rem 1rem;
+    }
+    .alsel-sticky-toc--right { right: 1.5rem; left: auto; }
+    .alsel-sticky-toc--left { left: 1.5rem; right: auto; }
+    .alsel-sticky-toc--pc-only { display: block; }
+    .alsel-sticky-toc__toggle { display: none; }
+    .alsel-sticky-toc__header { display: block; padding: 0 0 0.75rem; border-bottom: 2px solid var(--toc-accent); margin-bottom: 0.5rem; }
+    .alsel-sticky-toc__list { max-height: none; overflow: visible; padding: 0; }
+    .alsel-sticky-toc__link { padding: 0.6rem 0; }
+  }
+</style>
+
+<script>
+  (function(){
+    var root = document.querySelector('.alsel-sticky-toc[aria-label="{{ aria_label_text }}"]');
+    if (!root) return;
+    var btn = root.querySelector('.alsel-sticky-toc__toggle');
+    if (btn) {
+      btn.addEventListener('click', function(){
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+      });
+    }
+    var links = root.querySelectorAll('.alsel-sticky-toc__link');
+    links.forEach(function(a){
+      a.addEventListener('click', function(e){
+        var href = a.getAttribute('href');
+        if (!href || href.charAt(0) !== '#') return;
+        var el = document.querySelector(href);
+        if (!el) return;
+        e.preventDefault();
+        var y = el.getBoundingClientRect().top + window.pageYOffset - 20;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        if (btn && window.innerWidth < 750) btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "追従サイド目次",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "目次のタイトル", "default": "目次", "info": "ページ訪問者に表示される見出しです" },
+    { "type": "text", "id": "subheading", "label": "サブテキスト", "default": "気になる項目をクリックしてください", "info": "目次タイトルの下に表示される補足文です" },
+    { "type": "select", "id": "position", "label": "表示位置(PC)",
+      "options": [
+        { "value": "right", "label": "右側に固定" },
+        { "value": "left", "label": "左側に固定" }
+      ],
+      "default": "right" },
+    { "type": "checkbox", "id": "pc_only", "label": "PC のみ表示する", "default": false, "info": "オフにすると、モバイルでも画面下部に折りたたみ式の目次が表示されます" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#6d28d9" },
+    { "type": "color", "id": "border_color", "label": "ボーダー色", "default": "#e5e7eb" }
+  ],
+  "blocks": [
+    {
+      "type": "toc_item",
+      "name": "目次項目",
+      "settings": [
+        { "type": "text", "id": "label", "label": "表示する文字", "default": "セクション名", "info": "目次に表示されるテキストです" },
+        { "type": "text", "id": "target", "label": "ジャンプ先 ID", "default": "section-1", "info": "移動先セクションの ID を入力します(例: section-feature)。先頭の # は省略できます。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 追従サイド目次(PC 右側固定)",
+      "settings": {
+        "heading": "目次",
+        "subheading": "気になる項目をクリックしてください",
+        "position": "right",
+        "pc_only": false
+      },
+      "blocks": [
+        { "type": "toc_item", "settings": { "label": "商品の特徴", "target": "feature" } },
+        { "type": "toc_item", "settings": { "label": "お客様の声", "target": "voice" } },
+        { "type": "toc_item", "settings": { "label": "ご利用の流れ", "target": "flow" } },
+        { "type": "toc_item", "settings": { "label": "よくあるご質問", "target": "faq" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

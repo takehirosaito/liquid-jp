@@ -1,0 +1,229 @@
+{% comment %}
+============================================================
+セクション名: 営業日カレンダー風
+用途: 店休日や発送休止日をカレンダー形式で表示し、お客様に営業スケジュールを分かりやすく伝える
+推奨設置場所: トップページ下部・お買い物ガイドページ・フッター直前など
+カスタマイズポイント:
+  - 表示する年・月(当月と翌月の 2 ヶ月表示)
+  - 店休日・発送休止日・特別営業日のカラー設定
+  - 凡例の表示文言
+  - 補足メッセージ
+  - ブロックで各日付の種別(店休日 / 発送休止日 / 特別営業日)を登録
+注意点:
+  - 日付ブロックは「年・月・日」を数値で指定する仕組み
+  - ブロックを追加していない月は通常営業日として表示される
+  - スマートフォンでは 2 ヶ月を縦に並べて表示する
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_text = section.settings.heading | escape -%}
+{%- assign base_year = section.settings.base_year | times: 1 -%}
+{%- assign base_month = section.settings.base_month | times: 1 -%}
+
+<section class="alsel-business-calendar" aria-label="{{ heading_text }}">
+  <div class="alsel-business-calendar__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-business-calendar__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-business-calendar__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <ul class="alsel-business-calendar__legend" aria-label="凡例">
+      <li class="alsel-business-calendar__legend-item">
+        <span class="alsel-business-calendar__chip alsel-business-calendar__chip--closed"></span>
+        {{ section.settings.label_closed }}
+      </li>
+      <li class="alsel-business-calendar__legend-item">
+        <span class="alsel-business-calendar__chip alsel-business-calendar__chip--noship"></span>
+        {{ section.settings.label_noship }}
+      </li>
+      <li class="alsel-business-calendar__legend-item">
+        <span class="alsel-business-calendar__chip alsel-business-calendar__chip--special"></span>
+        {{ section.settings.label_special }}
+      </li>
+    </ul>
+
+    <div class="alsel-business-calendar__months">
+      {%- for offset in (0..1) -%}
+        {%- assign month_total = base_month | plus: offset -%}
+        {%- assign year_add = month_total | minus: 1 | divided_by: 12 -%}
+        {%- assign cur_year = base_year | plus: year_add -%}
+        {%- assign cur_month = month_total | minus: 1 | modulo: 12 | plus: 1 -%}
+
+        {%- assign days_in_month = 31 -%}
+        {%- if cur_month == 4 or cur_month == 6 or cur_month == 9 or cur_month == 11 -%}
+          {%- assign days_in_month = 30 -%}
+        {%- elsif cur_month == 2 -%}
+          {%- assign days_in_month = 28 -%}
+          {%- assign y4 = cur_year | modulo: 4 -%}
+          {%- assign y100 = cur_year | modulo: 100 -%}
+          {%- assign y400 = cur_year | modulo: 400 -%}
+          {%- if y4 == 0 and y100 != 0 -%}{%- assign days_in_month = 29 -%}{%- endif -%}
+          {%- if y400 == 0 -%}{%- assign days_in_month = 29 -%}{%- endif -%}
+        {%- endif -%}
+
+        {%- assign m_calc = cur_month -%}
+        {%- assign y_calc = cur_year -%}
+        {%- if m_calc < 3 -%}
+          {%- assign m_calc = m_calc | plus: 12 -%}
+          {%- assign y_calc = y_calc | minus: 1 -%}
+        {%- endif -%}
+        {%- assign k_yy = y_calc | modulo: 100 -%}
+        {%- assign j_century = y_calc | divided_by: 100 -%}
+        {%- assign t1 = m_calc | plus: 1 | times: 13 | divided_by: 5 -%}
+        {%- assign t2 = k_yy | divided_by: 4 -%}
+        {%- assign t3 = j_century | divided_by: 4 -%}
+        {%- assign t4 = j_century | times: 5 -%}
+        {%- assign h_sum = 1 | plus: t1 | plus: k_yy | plus: t2 | plus: t3 | plus: t4 -%}
+        {%- assign h = h_sum | modulo: 7 -%}
+        {%- assign first_dow = h | plus: 6 | modulo: 7 -%}
+
+        <div class="alsel-business-calendar__month">
+          <h3 class="alsel-business-calendar__month-title">{{ cur_year }}年 {{ cur_month }}月</h3>
+          <div class="alsel-business-calendar__grid" role="grid">
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head alsel-business-calendar__cell--sun">日</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head">月</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head">火</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head">水</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head">木</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head">金</div>
+            <div class="alsel-business-calendar__cell alsel-business-calendar__cell--head alsel-business-calendar__cell--sat">土</div>
+
+            {%- for i in (1..first_dow) -%}
+              <div class="alsel-business-calendar__cell alsel-business-calendar__cell--empty"></div>
+            {%- endfor -%}
+
+            {%- for d in (1..days_in_month) -%}
+              {%- assign dow_sum = first_dow | plus: d | minus: 1 -%}
+              {%- assign dow = dow_sum | modulo: 7 -%}
+              {%- assign cell_class = '' -%}
+              {%- if dow == 0 -%}{%- assign cell_class = ' alsel-business-calendar__cell--sun' -%}{%- endif -%}
+              {%- if dow == 6 -%}{%- assign cell_class = ' alsel-business-calendar__cell--sat' -%}{%- endif -%}
+
+              {%- assign status = '' -%}
+              {%- assign status_label = '' -%}
+              {%- if section.blocks.size == 0 -%}
+    <p class="alsel-business-calendar__empty" style="text-align:center;color:#888;padding:2rem 0;">表示する項目をテーマエディタからブロックとして追加してください。</p>
+  {%- endif -%}
+              {%- for block in section.blocks -%}
+                {%- assign b_year = block.settings.year | times: 1 -%}
+                {%- assign b_month = block.settings.month | times: 1 -%}
+                {%- assign b_day = block.settings.day | times: 1 -%}
+                {%- if b_year == cur_year and b_month == cur_month and b_day == d -%}
+                  {%- assign status = block.settings.status -%}
+                  {%- if status == 'closed' -%}{%- assign status_label = section.settings.label_closed -%}{%- endif -%}
+                  {%- if status == 'noship' -%}{%- assign status_label = section.settings.label_noship -%}{%- endif -%}
+                  {%- if status == 'special' -%}{%- assign status_label = section.settings.label_special -%}{%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="alsel-business-calendar__cell alsel-business-calendar__cell--day{{ cell_class }}{%- if status != '' %} alsel-business-calendar__cell--{{ status }}{%- endif -%}"
+                {%- if status_label != '' %} aria-label="{{ cur_month }}月{{ d }}日 {{ status_label | escape }}"{%- endif -%}>
+                <span class="alsel-business-calendar__num">{{ d }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-business-calendar__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-business-calendar { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; }
+  .alsel-business-calendar__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-business-calendar__heading { font-size: clamp(1.4rem, 4vw, 2rem); text-align: center; margin: 0 0 0.75rem; font-weight: 700; }
+  .alsel-business-calendar__sub { text-align: center; font-size: 0.95rem; line-height: 1.7; margin: 0 0 1.5rem; color: #475569; }
+  .alsel-business-calendar__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; list-style: none; padding: 0; margin: 0 0 2rem; font-size: 0.85rem; }
+  .alsel-business-calendar__legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .alsel-business-calendar__chip { width: 16px; height: 16px; border-radius: 4px; display: inline-block; border: 1px solid rgba(0,0,0,0.08); }
+  .alsel-business-calendar__chip--closed { background: {{ section.settings.color_closed }}; }
+  .alsel-business-calendar__chip--noship { background: {{ section.settings.color_noship }}; }
+  .alsel-business-calendar__chip--special { background: {{ section.settings.color_special }}; }
+  .alsel-business-calendar__months { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+  .alsel-business-calendar__month { background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .alsel-business-calendar__month-title { text-align: center; font-size: 1.15rem; font-weight: 700; margin: 0 0 1rem; color: #1f2937; }
+  .alsel-business-calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .alsel-business-calendar__cell { aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; border-radius: 6px; background: #f8fafc; color: #1f2937; position: relative; }
+  .alsel-business-calendar__cell--head { background: transparent; font-weight: 700; font-size: 0.8rem; aspect-ratio: auto; padding: 0.4rem 0; color: #475569; }
+  .alsel-business-calendar__cell--sun { color: #dc2626; }
+  .alsel-business-calendar__cell--sat { color: #2563eb; }
+  .alsel-business-calendar__cell--empty { background: transparent; }
+  .alsel-business-calendar__cell--closed { background: {{ section.settings.color_closed }}; color: #fff; font-weight: 700; }
+  .alsel-business-calendar__cell--noship { background: {{ section.settings.color_noship }}; color: #fff; font-weight: 700; }
+  .alsel-business-calendar__cell--special { background: {{ section.settings.color_special }}; color: #fff; font-weight: 700; }
+  .alsel-business-calendar__note { margin: 1.5rem 0 0; font-size: 0.85rem; line-height: 1.7; color: #64748b; text-align: center; }
+  @media (min-width: 750px) {
+    .alsel-business-calendar { padding: 5rem 2rem; }
+    .alsel-business-calendar__months { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .alsel-business-calendar__cell { font-size: 0.95rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "営業日カレンダー風",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "営業日カレンダー" },
+    { "type": "textarea", "id": "subheading", "label": "サブテキスト", "default": "店休日・発送休止日のご案内です。ご注文前にご確認ください。" },
+    { "type": "number", "id": "base_year", "label": "開始年", "default": 2099, "info": "表示開始の年を西暦で入力します。" },
+    { "type": "number", "id": "base_month", "label": "開始月", "default": 1, "info": "1〜12 の数値で入力します。この月と翌月の 2 ヶ月を表示します。" },
+    { "type": "header", "content": "凡例ラベル" },
+    { "type": "text", "id": "label_closed", "label": "店休日のラベル", "default": "店休日" },
+    { "type": "text", "id": "label_noship", "label": "発送休止日のラベル", "default": "発送休止日" },
+    { "type": "text", "id": "label_special", "label": "特別営業日のラベル", "default": "特別営業日" },
+    { "type": "header", "content": "配色" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f1f5f9" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "color_closed", "label": "店休日の色", "default": "#dc2626" },
+    { "type": "color", "id": "color_noship", "label": "発送休止日の色", "default": "#f59e0b" },
+    { "type": "color", "id": "color_special", "label": "特別営業日の色", "default": "#10b981" },
+    { "type": "header", "content": "補足" },
+    { "type": "textarea", "id": "note", "label": "補足メッセージ", "default": "※ 店休日にいただいたご注文は翌営業日以降の対応となります。発送休止日はご注文は承りますが、商品の出荷を行いません。" }
+  ],
+  "blocks": [
+    {
+      "type": "date",
+      "name": "日付の指定",
+      "settings": [
+        { "type": "select", "id": "status", "label": "種別",
+          "options": [
+            { "value": "closed", "label": "店休日" },
+            { "value": "noship", "label": "発送休止日" },
+            { "value": "special", "label": "特別営業日" }
+          ],
+          "default": "closed" },
+        { "type": "number", "id": "year", "label": "年(西暦)", "default": 2099 },
+        { "type": "number", "id": "month", "label": "月(1〜12)", "default": 1 },
+        { "type": "number", "id": "day", "label": "日(1〜31)", "default": 1 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 営業日カレンダー(2ヶ月表示)",
+      "settings": {
+        "heading": "営業日カレンダー",
+        "subheading": "店休日・発送休止日のご案内です。ご注文前にご確認ください。",
+        "base_year": 2099,
+        "base_month": 1
+      },
+      "blocks": [
+        { "type": "date", "settings": { "status": "closed", "year": 2099, "month": 1, "day": 5 } },
+        { "type": "date", "settings": { "status": "closed", "year": 2099, "month": 1, "day": 12 } },
+        { "type": "date", "settings": { "status": "noship", "year": 2099, "month": 1, "day": 20 } },
+        { "type": "date", "settings": { "status": "special", "year": 2099, "month": 2, "day": 11 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

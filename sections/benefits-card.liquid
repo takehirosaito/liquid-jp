@@ -1,0 +1,248 @@
+{% comment %}
+============================================================
+セクション名: ベネフィットカード
+用途: 商品の「機能」ではなく「購入後にお客様が得られる良さ・うれしい体験」をカード形式で訴求する LP 用セクション
+推奨設置場所: 商品ページ・LP の中盤(商品説明の直後、レビューの直前など)
+カスタマイズポイント:
+  - セクション見出し・サブコピー・上部の強調帯テキスト
+  - 背景色・カード背景色・アクセント色(赤・黄色など楽天風配色)
+  - 各ベネフィットカード(番号バッジ・アイコン画像・タイトル・本文)
+  - カードの数(ブロック追加・削除)
+注意点:
+  - アイコン画像は推奨 200 × 200px、PNG 透過
+  - ブロック 3〜6 個を推奨
+  - 強調帯はテキストが空の場合は非表示になる
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign heading_alt = section.settings.heading | escape -%}
+
+<section class="alsel-benefits-card" aria-label="{{ heading_alt }}">
+  <div class="alsel-benefits-card__inner">
+
+    {%- if section.settings.ribbon_text != blank -%}
+      <div class="alsel-benefits-card__ribbon">
+        <span class="alsel-benefits-card__ribbon-text">{{ section.settings.ribbon_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-benefits-card__heading">
+        <span class="alsel-benefits-card__heading-mark">\</span>
+        <span class="alsel-benefits-card__heading-text">{{ section.settings.heading }}</span>
+        <span class="alsel-benefits-card__heading-mark">/</span>
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-benefits-card__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-benefits-card__empty">
+        現在表示できるベネフィットはありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    <div class="alsel-benefits-card__grid">
+      {%- for block in section.blocks -%}
+        {%- assign icon_alt = block.settings.title | escape -%}
+        <article class="alsel-benefits-card__card" {{ block.shopify_attributes }}>
+          <div class="alsel-benefits-card__badge">
+            <span class="alsel-benefits-card__badge-label">POINT</span>
+            <span class="alsel-benefits-card__badge-num">{{ forloop.index }}</span>
+          </div>
+          {%- if block.settings.icon != blank -%}
+            {{ block.settings.icon
+              | image_url: width: 200
+              | image_tag: loading: 'lazy', class: 'alsel-benefits-card__icon', alt: icon_alt, widths: '100, 200, 300' }}
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="alsel-benefits-card__title">{{ block.settings.title }}</h3>
+          {%- endif -%}
+          {%- if block.settings.body != blank -%}
+            <p class="alsel-benefits-card__body">{{ block.settings.body }}</p>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footer_text != blank -%}
+      <p class="alsel-benefits-card__footer">{{ section.settings.footer_text }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .alsel-benefits-card {
+    --bc-bg: {{ section.settings.bg_color }};
+    --bc-card-bg: {{ section.settings.card_bg }};
+    --bc-accent: {{ section.settings.accent_color }};
+    --bc-accent-sub: {{ section.settings.accent_sub_color }};
+    --bc-text: {{ section.settings.text_color }};
+    background: var(--bc-bg);
+    padding: 2.5rem 1rem;
+    color: var(--bc-text);
+  }
+  .alsel-benefits-card__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-benefits-card__ribbon {
+    display: inline-block;
+    background: var(--bc-accent);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    margin: 0 auto 1rem;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    text-align: center;
+  }
+  .alsel-benefits-card__inner { text-align: center; }
+  .alsel-benefits-card__heading {
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+    color: var(--bc-text);
+  }
+  .alsel-benefits-card__heading-mark {
+    color: var(--bc-accent);
+    margin: 0 0.3rem;
+    font-weight: 700;
+  }
+  .alsel-benefits-card__heading-text {
+    background: linear-gradient(transparent 60%, var(--bc-accent-sub) 60%);
+    padding: 0 0.25rem;
+  }
+  .alsel-benefits-card__sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+    color: var(--bc-text);
+  }
+  .alsel-benefits-card__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+  }
+  .alsel-benefits-card__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .alsel-benefits-card__card {
+    position: relative;
+    background: var(--bc-card-bg);
+    border: 3px solid var(--bc-accent);
+    border-radius: 14px;
+    padding: 2.25rem 1.25rem 1.5rem;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .alsel-benefits-card__badge {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bc-accent);
+    color: #fff;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.15);
+    white-space: nowrap;
+  }
+  .alsel-benefits-card__badge-label { font-size: 0.75rem; letter-spacing: 0.08em; }
+  .alsel-benefits-card__badge-num { font-size: 1.15rem; }
+  .alsel-benefits-card__icon {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin: 0.5rem auto 1rem;
+    display: block;
+  }
+  .alsel-benefits-card__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+    color: var(--bc-accent);
+  }
+  .alsel-benefits-card__body {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin: 0;
+    color: var(--bc-text);
+  }
+  .alsel-benefits-card__footer {
+    margin: 2rem auto 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    font-weight: 700;
+    color: var(--bc-accent);
+    background: #fff;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: 2px dashed var(--bc-accent);
+  }
+  @media (min-width: 750px) {
+    .alsel-benefits-card { padding: 4rem 2rem; }
+    .alsel-benefits-card__grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .alsel-benefits-card__card { padding: 2.5rem 1.5rem 1.75rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "ベネフィットカード",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "ribbon_text", "label": "上部の強調帯テキスト", "default": "ご購入者様の98%が大満足!", "info": "空欄にすると非表示になります" },
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "選ばれるには理由があります" },
+    { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "機能だけではありません。手にした瞬間から、あなたの毎日がこう変わります。" },
+    { "type": "text", "id": "footer_text", "label": "下部の補足テキスト", "default": "今だけ!期間限定で特別価格にてご提供しております。", "info": "空欄にすると非表示になります" },
+    { "type": "header", "content": "配色設定" },
+    { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#fff8e6" },
+    { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
+    { "type": "color", "id": "accent_color", "label": "アクセント色(赤系推奨)", "default": "#e60012" },
+    { "type": "color", "id": "accent_sub_color", "label": "ハイライト色(黄色系推奨)", "default": "#ffe14d" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1a1a1a" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "ベネフィットカード",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "text", "id": "title", "label": "ベネフィットのタイトル", "default": "毎朝の鏡が楽しみになります" },
+        { "type": "textarea", "id": "body", "label": "本文", "default": "使い続けるほど実感できる変化。周りからの「最近キレイになったね」が止まりません。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / ベネフィットカード(楽天LP風3カラム)",
+      "settings": {
+        "ribbon_text": "ご好評につき5万個突破!",
+        "heading": "選ばれるには理由があります",
+        "subheading": "機能だけではありません。手にした瞬間から、あなたの毎日がこう変わります。",
+        "footer_text": "今だけ!期間限定で30%OFFにてご提供しております。"
+      },
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "毎朝の鏡が楽しみになります", "body": "使い続けるほど実感できる変化。「最近キレイになったね」のお声が止まりません。" } },
+        { "type": "benefit", "settings": { "title": "自信を持って外出できます", "body": "もう人目を気にする必要はありません。堂々と笑顔で過ごせる毎日が手に入ります。" } },
+        { "type": "benefit", "settings": { "title": "家族にもおすすめできます", "body": "ご自身だけでなく、大切なご家族にも安心してお使いいただけるやさしい品質です。" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

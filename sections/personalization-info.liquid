@@ -1,0 +1,224 @@
+{% comment %}
+============================================================
+セクション名: 名入れ対応案内
+用途: 刺繍・刻印・オーダーメイドなど、名入れサービスを提供する商品ページや特集ページで、対応内容・料金・納期・注文方法を丁寧に案内する
+推奨設置場所: 商品ページ(名入れ対応商品)・特集 LP・ギフトカテゴリページ
+カスタマイズポイント:
+  - メイン画像(名入れサンプルや刺繍見本など)
+  - 見出し・リード文・対応サービスの種類選択
+  - 名入れの種類ブロック(刺繍/刻印/プリント/手書きなど、複数追加可)
+  - 料金表示・追加日数・文字数上限
+  - ご注文の流れ(STEP 案内)
+  - 注意事項・対応不可文字の案内
+注意点:
+  - メイン画像は推奨 1200 × 900px、JPEG または PNG
+  - ブロックは 2〜6 個推奨
+  - 価格は税込表記でご入力ください
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign main_alt = section.settings.main_image_alt | default: section.settings.heading | escape -%}
+
+<section
+  class="alsel-personalization-info{%- if section.settings.main_image == blank %} alsel-personalization-info--no-image{%- endif -%}"
+  aria-label="{{ section.settings.heading | escape }}"
+>
+  <div class="alsel-personalization-info__container">
+    <div class="alsel-personalization-info__inner">
+      <div class="alsel-personalization-info__media">
+        {%- if section.settings.main_image != blank -%}
+          {{ section.settings.main_image
+            | image_url: width: 1200
+            | image_tag: loading: 'lazy', class: 'alsel-personalization-info__image', alt: main_alt, widths: '400, 600, 900, 1200' }}
+        {%- endif -%}
+      </div>
+
+      <div class="alsel-personalization-info__body">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="alsel-personalization-info__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="alsel-personalization-info__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.lead != blank -%}
+          <p class="alsel-personalization-info__lead">{{ section.settings.lead }}</p>
+        {%- endif -%}
+
+        <dl class="alsel-personalization-info__spec">
+          {%- if section.settings.price_text != blank -%}
+            <div class="alsel-personalization-info__spec-row">
+              <dt>料金</dt>
+              <dd>{{ section.settings.price_text }}</dd>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.lead_time != blank -%}
+            <div class="alsel-personalization-info__spec-row">
+              <dt>追加納期</dt>
+              <dd>{{ section.settings.lead_time }}</dd>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.char_limit != blank -%}
+            <div class="alsel-personalization-info__spec-row">
+              <dt>文字数</dt>
+              <dd>{{ section.settings.char_limit }}</dd>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.gift_wrap != blank -%}
+            <div class="alsel-personalization-info__spec-row">
+              <dt>のし・ラッピング</dt>
+              <dd>{{ section.settings.gift_wrap }}</dd>
+            </div>
+          {%- endif -%}
+        </dl>
+
+        {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+          <a class="alsel-personalization-info__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+            {{ section.settings.cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.types_heading != blank -%}
+      <h3 class="alsel-personalization-info__sub-heading">{{ section.settings.types_heading }}</h3>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-personalization-info__empty">
+        現在表示できる名入れの種類はありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-personalization-info__types">
+        {%- for block in section.blocks -%}
+          <li class="alsel-personalization-info__type" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {%- assign icon_alt = block.settings.title | escape -%}
+              {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-personalization-info__type-icon', alt: icon_alt }}
+            {%- endif -%}
+            <div class="alsel-personalization-info__type-text">
+              <p class="alsel-personalization-info__type-title">{{ block.settings.title }}</p>
+              {%- if block.settings.description != blank -%}
+                <p class="alsel-personalization-info__type-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+              {%- if block.settings.price != blank -%}
+                <p class="alsel-personalization-info__type-price">{{ block.settings.price }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <div class="alsel-personalization-info__note">
+        <p class="alsel-personalization-info__note-title">ご注文前にご確認ください</p>
+        <p class="alsel-personalization-info__note-body">{{ section.settings.note }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-personalization-info { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; }
+  .alsel-personalization-info__container { max-width: 1100px; margin: 0 auto; }
+  .alsel-personalization-info__inner { display: grid; grid-template-columns: 1fr; gap: 1.75rem; align-items: center; }
+  .alsel-personalization-info--no-image .alsel-personalization-info__media { display: none; }
+  .alsel-personalization-info--no-image .alsel-personalization-info__inner { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; text-align: center; }
+  .alsel-personalization-info__image { width: 100%; height: auto; border-radius: 12px; display: block; object-fit: cover; }
+  .alsel-personalization-info__eyebrow { display: inline-block; padding: 0.25rem 0.75rem; background: {{ section.settings.accent_color }}; color: #fff; font-size: 0.8rem; font-weight: 700; border-radius: 9999px; margin: 0 0 0.75rem; }
+  .alsel-personalization-info__heading { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 700; line-height: 1.4; margin: 0 0 1rem; }
+  .alsel-personalization-info__lead { font-size: 0.95rem; line-height: 1.8; margin: 0 0 1.25rem; }
+  .alsel-personalization-info__spec { margin: 0 0 1.5rem; padding: 1rem 1.25rem; background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; }
+  .alsel-personalization-info__spec-row { display: grid; grid-template-columns: 7rem 1fr; gap: 0.5rem 1rem; padding: 0.5rem 0; border-bottom: 1px dashed #e5e7eb; font-size: 0.9rem; }
+  .alsel-personalization-info__spec-row:last-child { border-bottom: 0; }
+  .alsel-personalization-info__spec-row dt { font-weight: 700; color: #475569; margin: 0; }
+  .alsel-personalization-info__spec-row dd { margin: 0; }
+  .alsel-personalization-info__cta { display: inline-block; padding: 0.85rem 1.75rem; background: {{ section.settings.accent_color }}; color: #fff; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; }
+  .alsel-personalization-info__sub-heading { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1.25rem; text-align: center; }
+  .alsel-personalization-info__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-personalization-info__types { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .alsel-personalization-info__type { display: grid; grid-template-columns: 64px 1fr; gap: 1rem; align-items: center; padding: 1rem 1.25rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; }
+  .alsel-personalization-info__type-icon { width: 64px; height: 64px; object-fit: contain; }
+  .alsel-personalization-info__type-title { font-size: 1rem; font-weight: 700; margin: 0 0 0.35rem; }
+  .alsel-personalization-info__type-desc { font-size: 0.88rem; line-height: 1.7; color: #475569; margin: 0 0 0.35rem; }
+  .alsel-personalization-info__type-price { font-size: 0.9rem; font-weight: 700; color: {{ section.settings.accent_color }}; margin: 0; }
+  .alsel-personalization-info__note { margin-top: 2rem; padding: 1.25rem 1.5rem; background: #fff7ed; border-left: 4px solid #f59e0b; border-radius: 6px; }
+  .alsel-personalization-info__note-title { font-size: 0.95rem; font-weight: 700; margin: 0 0 0.5rem; color: #92400e; }
+  .alsel-personalization-info__note-body { font-size: 0.88rem; line-height: 1.75; margin: 0; color: #78350f; white-space: pre-wrap; }
+  @media (min-width: 750px) {
+    .alsel-personalization-info { padding: 5rem 2rem; }
+    .alsel-personalization-info__inner { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .alsel-personalization-info__types { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "名入れ対応案内",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "header", "content": "メイン案内" },
+    { "type": "image_picker", "id": "main_image", "label": "メイン画像", "info": "推奨 1200 × 900px、JPEG または PNG。名入れサンプルや刺繍見本がおすすめです" },
+    { "type": "text", "id": "main_image_alt", "label": "メイン画像の代替テキスト", "info": "読み上げ用。空欄の場合は見出しを使用します" },
+    { "type": "text", "id": "eyebrow", "label": "上部バッジ", "default": "名入れ対応可能" },
+    { "type": "text", "id": "heading", "label": "見出し", "default": "刺繍・刻印で世界に一つの一品をお作りします" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "大切な方への贈り物に、お名前やメッセージをお入れいたします。熟練の職人が一点ずつ丁寧に仕上げますので、特別な記念日のギフトに最適です。" },
+    { "type": "text", "id": "price_text", "label": "料金表記", "default": "刺繍:1,100 円(税込) / 刻印:1,650 円(税込)" },
+    { "type": "text", "id": "lead_time", "label": "追加納期", "default": "通常出荷より 3〜5 営業日プラス" },
+    { "type": "text", "id": "char_limit", "label": "文字数の上限", "default": "全角 8 文字以内(英数字は 12 文字以内)" },
+    { "type": "text", "id": "gift_wrap", "label": "のし・ラッピング", "default": "のし対応・有料ギフト包装(550 円・税込)を承ります" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "名入れの注文方法を見る" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+
+    { "type": "header", "content": "名入れの種類セクション" },
+    { "type": "text", "id": "types_heading", "label": "サブ見出し", "default": "お選びいただける名入れの種類" },
+
+    { "type": "header", "content": "注意事項" },
+    { "type": "textarea", "id": "note", "label": "注意事項本文", "default": "・名入れ商品はご注文確定後のキャンセル・返品はお受けできかねます。\n・絵文字・機種依存文字・一部の旧字体は対応しておりません。\n・お急ぎの場合は、お問い合わせフォームよりご相談ください。\n・領収書をご希望の方は、ご注文時の備考欄にてお申し付けください。" },
+
+    { "type": "header", "content": "デザイン設定" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー", "default": "#b45309" }
+  ],
+  "blocks": [
+    {
+      "type": "type_item",
+      "name": "名入れの種類",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過" },
+        { "type": "text", "id": "title", "label": "種類名", "default": "刺繍" },
+        { "type": "textarea", "id": "description", "label": "説明文", "default": "上質な糸でお名前やイニシャルを刺繍いたします。色は 12 色からお選びいただけます。" },
+        { "type": "text", "id": "price", "label": "料金", "default": "+1,100 円(税込)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 名入れ対応案内(画像+仕様+種類リスト)",
+      "settings": {
+        "eyebrow": "名入れ対応可能",
+        "heading": "刺繍・刻印で世界に一つの一品をお作りします",
+        "lead": "大切な方への贈り物に、お名前やメッセージをお入れいたします。熟練の職人が一点ずつ丁寧に仕上げますので、特別な記念日のギフトに最適です。",
+        "price_text": "刺繍:1,100 円(税込) / 刻印:1,650 円(税込)",
+        "lead_time": "通常出荷より 3〜5 営業日プラス",
+        "char_limit": "全角 8 文字以内(英数字は 12 文字以内)",
+        "gift_wrap": "のし対応・有料ギフト包装(550 円・税込)を承ります",
+        "cta_text": "名入れの注文方法を見る",
+        "types_heading": "お選びいただける名入れの種類"
+      },
+      "blocks": [
+        { "type": "type_item", "settings": { "title": "刺繍", "description": "上質な糸でお名前やイニシャルを刺繍いたします。糸色は 12 色からお選びいただけます。", "price": "+1,100 円(税込)" } },
+        { "type": "type_item", "settings": { "title": "レーザー刻印", "description": "革製品や金属パーツに、繊細で美しい刻印を施します。フォントは 4 種類ご用意しております。", "price": "+1,650 円(税込)" } },
+        { "type": "type_item", "settings": { "title": "プリント", "description": "発色の良い特殊インクで、ロゴやメッセージをプリントいたします。カラー印刷にも対応しております。", "price": "+880 円(税込)" } },
+        { "type": "type_item", "settings": { "title": "手書きメッセージカード", "description": "ギフトに添えるカードに、職人が手書きでメッセージをお書きいたします。", "price": "+550 円(税込)" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

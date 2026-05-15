@@ -1,0 +1,216 @@
+{% comment %}
+============================================================
+セクション名: 会員ランク説明
+用途: VIP・ゴールド・シルバーなどの会員ランク制度を視覚的に説明し、リピート購入を促進するセクション
+推奨設置場所: マイページ・会員登録ページ・トップページ下部・ブランドストーリーページ
+カスタマイズポイント:
+  - セクション見出し・リード文
+  - 各ランクのカード(ランク名・年間購入条件・特典内容・色)
+  - ランクアイコン画像(王冠・星など)
+  - 背景色・アクセントカラー
+  - 注意書き(税込表記・有効期限など日本の EC 商慣習に対応)
+注意点:
+  - アイコンは推奨 200 × 200px、PNG 透過推奨
+  - ブロックは 3〜5 個推奨(4 個を超えるとモバイルで縦長になる)
+  - 金額表示は税込で統一すること(景品表示法・特定商取引法対応)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+{%- assign sec_label = section.settings.heading | default: '会員ランク制度' | escape -%}
+
+<section class="alsel-member-tier-info" aria-label="{{ sec_label }}">
+  <div class="alsel-member-tier-info__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-member-tier-info__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.lead != blank -%}
+      <p class="alsel-member-tier-info__lead">{{ section.settings.lead }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-member-tier-info__empty">
+        現在表示できる会員ランクはありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    <div class="alsel-member-tier-info__grid" data-count="{{ section.blocks.size }}">
+      {%- for block in section.blocks -%}
+        {%- assign icon_alt = block.settings.tier_name | default: '会員ランクアイコン' | escape -%}
+        <article class="alsel-member-tier-info__card" style="--tier-color: {{ block.settings.tier_color }};" {{ block.shopify_attributes }}>
+          {%- if block.settings.badge_text != blank -%}
+            <span class="alsel-member-tier-info__badge">{{ block.settings.badge_text }}</span>
+          {%- endif -%}
+          <div class="alsel-member-tier-info__card-head">
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-member-tier-info__icon', alt: icon_alt, widths: '100, 150, 200' }}
+            {%- endif -%}
+            {%- if block.settings.tier_name != blank -%}
+              <h3 class="alsel-member-tier-info__tier-name">{{ block.settings.tier_name }}</h3>
+            {%- endif -%}
+            {%- if block.settings.tier_sub != blank -%}
+              <p class="alsel-member-tier-info__tier-sub">{{ block.settings.tier_sub }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.condition_text != blank -%}
+            <div class="alsel-member-tier-info__condition">
+              <span class="alsel-member-tier-info__condition-label">昇格条件</span>
+              <span class="alsel-member-tier-info__condition-value">{{ block.settings.condition_text }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.benefits != blank -%}
+            <ul class="alsel-member-tier-info__benefits">
+              {%- assign benefit_lines = block.settings.benefits | newline_to_br | split: '<br />' -%}
+              {%- for line in benefit_lines -%}
+                {%- assign trimmed = line | strip -%}
+                {%- if trimmed != blank -%}
+                  <li class="alsel-member-tier-info__benefit-item">{{ trimmed }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- if block.settings.point_rate != blank -%}
+            <div class="alsel-member-tier-info__point">
+              <span class="alsel-member-tier-info__point-label">ポイント還元率</span>
+              <strong class="alsel-member-tier-info__point-value">{{ block.settings.point_rate }}</strong>
+            </div>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-member-tier-info__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-member-tier-info__cta-wrap">
+        <a class="alsel-member-tier-info__cta" href="{{ section.settings.cta_link }}" aria-label="{{ section.settings.cta_text | escape }}">
+          {{ section.settings.cta_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-member-tier-info { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; }
+  .alsel-member-tier-info__inner { max-width: 1180px; margin: 0 auto; }
+  .alsel-member-tier-info__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; line-height: 1.4; }
+  .alsel-member-tier-info__lead { font-size: 0.95rem; line-height: 1.8; text-align: center; max-width: 720px; margin: 0 auto 2.5rem; opacity: 0.85; }
+  .alsel-member-tier-info__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-member-tier-info__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .alsel-member-tier-info__card { position: relative; padding: 2rem 1.5rem; background: #ffffff; border-radius: 14px; border-top: 6px solid var(--tier-color, #cbd5e1); box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06); display: flex; flex-direction: column; gap: 1rem; }
+  .alsel-member-tier-info__badge { position: absolute; top: 1rem; right: 1rem; background: var(--tier-color, #cbd5e1); color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 9999px; letter-spacing: 0.04em; }
+  .alsel-member-tier-info__card-head { text-align: center; padding-bottom: 1rem; border-bottom: 1px dashed #e2e8f0; }
+  .alsel-member-tier-info__icon { width: 64px; height: 64px; object-fit: contain; margin: 0 auto 0.75rem; display: block; }
+  .alsel-member-tier-info__tier-name { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--tier-color, #1e293b); }
+  .alsel-member-tier-info__tier-sub { font-size: 0.85rem; margin: 0; color: #64748b; letter-spacing: 0.08em; }
+  .alsel-member-tier-info__condition { background: #f8fafc; padding: 0.75rem 1rem; border-radius: 8px; display: flex; flex-direction: column; gap: 0.25rem; }
+  .alsel-member-tier-info__condition-label { font-size: 0.75rem; font-weight: 700; color: #64748b; }
+  .alsel-member-tier-info__condition-value { font-size: 0.95rem; font-weight: 700; color: #0f172a; }
+  .alsel-member-tier-info__benefits { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .alsel-member-tier-info__benefit-item { position: relative; padding-left: 1.5rem; font-size: 0.9rem; line-height: 1.6; color: #334155; }
+  .alsel-member-tier-info__benefit-item::before { content: ''; position: absolute; left: 0; top: 0.5rem; width: 0.7rem; height: 0.4rem; border-left: 2px solid var(--tier-color, #cbd5e1); border-bottom: 2px solid var(--tier-color, #cbd5e1); transform: rotate(-45deg); }
+  .alsel-member-tier-info__point { margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+  .alsel-member-tier-info__point-label { font-size: 0.85rem; color: #64748b; }
+  .alsel-member-tier-info__point-value { font-size: 1.4rem; font-weight: 700; color: var(--tier-color, #1e293b); }
+  .alsel-member-tier-info__note { font-size: 0.8rem; line-height: 1.7; color: #64748b; text-align: center; margin: 2rem auto 0; max-width: 760px; }
+  .alsel-member-tier-info__cta-wrap { text-align: center; margin-top: 2rem; }
+  .alsel-member-tier-info__cta { display: inline-block; padding: 0.95rem 2.4rem; background: {{ section.settings.cta_bg }}; color: {{ section.settings.cta_color }}; text-decoration: none; border-radius: 9999px; font-weight: 700; font-size: 0.95rem; transition: opacity 0.2s; }
+  .alsel-member-tier-info__cta:hover { opacity: 0.85; }
+  @media (min-width: 750px) {
+    .alsel-member-tier-info { padding: 5rem 2rem; }
+    .alsel-member-tier-info__grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .alsel-member-tier-info__grid[data-count="4"] { grid-template-columns: repeat(4, 1fr); }
+    .alsel-member-tier-info__grid[data-count="2"] { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "会員ランク説明",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "会員ランク制度のご案内" },
+    { "type": "textarea", "id": "lead", "label": "リード文", "default": "年間のお買い上げ金額に応じて、自動的に会員ランクがアップします。ランクごとの特典をご活用ください。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "textarea", "id": "note", "label": "注意書き", "info": "税込表記・有効期限など日本の EC で必須の注記を入れます", "default": "※ 表示金額はすべて税込です。会員ランクは毎年 1 月 1 日に前年(1 月〜12 月)のお買い上げ金額にて再判定いたします。ランク特典は判定日の翌日より 1 年間有効です。" },
+    { "type": "text", "id": "cta_text", "label": "ボタンの文字", "default": "会員登録はこちら" },
+    { "type": "url", "id": "cta_link", "label": "ボタンのリンク先" },
+    { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#0f172a" },
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "会員ランク",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "ランクアイコン", "info": "推奨 200 × 200px、PNG 透過(王冠・星・メダルなどがおすすめです)" },
+        { "type": "text", "id": "tier_name", "label": "ランク名", "default": "ゴールド会員" },
+        { "type": "text", "id": "tier_sub", "label": "ランク名(英字・サブ表記)", "default": "GOLD MEMBER" },
+        { "type": "color", "id": "tier_color", "label": "ランクカラー", "info": "カードの上部ライン・バッジ・ポイント還元率の色になります", "default": "#d4af37" },
+        { "type": "text", "id": "badge_text", "label": "バッジ表記", "info": "「人気」「おすすめ」などの短い表記が入ります", "default": "人気のランク" },
+        { "type": "text", "id": "condition_text", "label": "昇格条件", "default": "年間 30,000 円(税込)以上のお買い上げ" },
+        { "type": "textarea", "id": "benefits", "label": "特典内容", "info": "1 行ごとに 1 つの特典を入力してください", "default": "全国送料無料(沖縄・離島も含む)\n誕生月に 1,000 ポイント進呈\n新商品の先行販売にご招待\nのし・ギフト包装が無料" },
+        { "type": "text", "id": "point_rate", "label": "ポイント還元率", "default": "5%" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 会員ランク説明(3ランク横並びカード)",
+      "settings": {
+        "heading": "会員ランク制度のご案内",
+        "lead": "年間のお買い上げ金額に応じて、自動的に会員ランクがアップします。お得な特典をぜひご活用ください。",
+        "cta_text": "会員登録はこちら",
+        "note": "※ 表示金額はすべて税込です。会員ランクは毎年 1 月 1 日に前年(1 月〜12 月)のお買い上げ金額にて再判定いたします。ランク特典は判定日の翌日より 1 年間有効です。"
+      },
+      "blocks": [
+        {
+          "type": "tier",
+          "settings": {
+            "tier_name": "シルバー会員",
+            "tier_sub": "SILVER MEMBER",
+            "tier_color": "#94a3b8",
+            "badge_text": "スタンダード",
+            "condition_text": "年間 10,000 円(税込)以上のお買い上げ",
+            "benefits": "5,500 円(税込)以上のご注文で送料無料\n誕生月に 500 ポイント進呈\nメールマガジンで先行情報をお届け",
+            "point_rate": "3%"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tier_name": "ゴールド会員",
+            "tier_sub": "GOLD MEMBER",
+            "tier_color": "#d4af37",
+            "badge_text": "人気のランク",
+            "condition_text": "年間 30,000 円(税込)以上のお買い上げ",
+            "benefits": "全国送料無料(沖縄・離島も含む)\n誕生月に 1,000 ポイント進呈\n新商品の先行販売にご招待\nのし・ギフト包装が無料",
+            "point_rate": "5%"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tier_name": "VIP会員",
+            "tier_sub": "VIP MEMBER",
+            "tier_color": "#7c3aed",
+            "badge_text": "最上位ランク",
+            "condition_text": "年間 100,000 円(税込)以上のお買い上げ",
+            "benefits": "全国送料無料・最短翌営業日お届け\n誕生月に 3,000 ポイント進呈\n限定アイテム・別注品をご案内\n専任スタッフによる電話・メール対応\nのし・ギフト包装・メッセージカードが無料",
+            "point_rate": "10%"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

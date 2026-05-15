@@ -1,0 +1,199 @@
+{% comment %}
+============================================================
+セクション名: 成分・素材アイコン
+用途: 商品の安心ポイント(無添加・国産・オーガニック・綿100% など)をアイコンで一覧表示し、購入前の不安を払拭する
+推奨設置場所: 商品ページの説明文の下、トップページの商品紹介セクション直後
+カスタマイズポイント:
+  - セクション見出し・補足文
+  - アイコン画像(またはテキストのみ表示)
+  - 各項目のラベルと簡単な説明
+  - 1行あたりの表示数(モバイル / PC)
+  - 背景色・アイコン枠の形状(円形 / 角丸)
+注意点:
+  - アイコン画像は正方形(推奨 200 × 200px、PNG 透過)を用意する
+  - アイコン未設定の場合はラベル文字のみが表示される
+  - ブロックは 3〜12 個推奨。それ以上は表示崩れの可能性あり
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-ingredient-icons" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-ingredient-icons__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-ingredient-icons__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-ingredient-icons__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-ingredient-icons__empty">
+        表示できる項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <ul class="alsel-ingredient-icons__grid">
+        {%- for block in section.blocks -%}
+          {%- assign icon_alt = block.settings.label | escape -%}
+          <li class="alsel-ingredient-icons__item" {{ block.shopify_attributes }}>
+            <div class="alsel-ingredient-icons__icon-wrap">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', class: 'alsel-ingredient-icons__icon', alt: icon_alt, widths: '100, 200, 300' }}
+              {%- else -%}
+                <span class="alsel-ingredient-icons__icon-fallback" aria-hidden="true">{{ block.settings.label | slice: 0, 1 }}</span>
+              {%- endif -%}
+            </div>
+            <h3 class="alsel-ingredient-icons__label">{{ block.settings.label }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="alsel-ingredient-icons__desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-ingredient-icons {
+    --ai-bg: {{ section.settings.bg_color }};
+    --ai-text: {{ section.settings.text_color }};
+    --ai-accent: {{ section.settings.accent_color }};
+    --ai-icon-bg: {{ section.settings.icon_bg_color }};
+    --ai-radius: {% if section.settings.shape == 'circle' %}50%{% else %}16px{% endif %};
+    --ai-cols-mobile: {{ section.settings.columns_mobile }};
+    --ai-cols-desktop: {{ section.settings.columns_desktop }};
+    background: var(--ai-bg);
+    color: var(--ai-text);
+    padding: 3rem 1rem;
+  }
+  .alsel-ingredient-icons__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-ingredient-icons__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+  .alsel-ingredient-icons__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: center;
+    margin: 0 auto 2rem;
+    max-width: 640px;
+    color: inherit;
+    opacity: 0.85;
+  }
+  .alsel-ingredient-icons__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+  }
+  .alsel-ingredient-icons__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--ai-cols-mobile), 1fr);
+    gap: 1.25rem 0.75rem;
+  }
+  .alsel-ingredient-icons__item {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  .alsel-ingredient-icons__icon-wrap {
+    width: clamp(64px, 18vw, 96px);
+    height: clamp(64px, 18vw, 96px);
+    margin: 0 auto 0.75rem;
+    border-radius: var(--ai-radius);
+    background: var(--ai-icon-bg);
+    border: 2px solid var(--ai-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+  .alsel-ingredient-icons__icon {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+  .alsel-ingredient-icons__icon-fallback {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ai-accent);
+  }
+  .alsel-ingredient-icons__label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    line-height: 1.4;
+  }
+  .alsel-ingredient-icons__desc {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.8;
+  }
+  @media (min-width: 750px) {
+    .alsel-ingredient-icons { padding: 5rem 2rem; }
+    .alsel-ingredient-icons__grid {
+      grid-template-columns: repeat(var(--ai-cols-desktop), 1fr);
+      gap: 2rem 1.5rem;
+    }
+    .alsel-ingredient-icons__label { font-size: 1.05rem; }
+    .alsel-ingredient-icons__desc { font-size: 0.9rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "成分・素材アイコン",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "こだわりの素材・成分" },
+    { "type": "textarea", "id": "subheading", "label": "補足文", "default": "お客様に安心してお使いいただける、こだわりのポイントをご紹介します。" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f7f5f0" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#2d2d2d" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(枠線)", "default": "#5a8a3a" },
+    { "type": "color", "id": "icon_bg_color", "label": "アイコン背景色", "default": "#ffffff" },
+    { "type": "select", "id": "shape", "label": "アイコン枠の形状",
+      "options": [
+        { "value": "circle", "label": "円形" },
+        { "value": "rounded", "label": "角丸四角" }
+      ],
+      "default": "circle" },
+    { "type": "range", "id": "columns_mobile", "label": "モバイル時の列数", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "range", "id": "columns_desktop", "label": "PC 時の列数", "min": 3, "max": 6, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    {
+      "type": "icon_item",
+      "name": "アイコン項目",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "アイコン画像", "info": "推奨 200 × 200px、PNG 透過。未設定時はラベルの 1 文字目を表示します" },
+        { "type": "text", "id": "label", "label": "ラベル", "default": "ポイント名" },
+        { "type": "text", "id": "description", "label": "簡単な説明(任意)", "info": "1 行程度の短い説明文を推奨します" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 成分・素材アイコン(グリッド)",
+      "settings": {
+        "heading": "こだわりの素材・成分",
+        "subheading": "お客様に安心してお使いいただける、こだわりのポイントをご紹介します。"
+      },
+      "blocks": [
+        { "type": "icon_item", "settings": { "label": "無添加", "description": "余計な添加物は使用していません" } },
+        { "type": "icon_item", "settings": { "label": "国産素材", "description": "厳選した国内産の素材を使用" } },
+        { "type": "icon_item", "settings": { "label": "オーガニック", "description": "有機栽培の原料を採用しています" } },
+        { "type": "icon_item", "settings": { "label": "綿100%", "description": "天然素材100%で肌にやさしい" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

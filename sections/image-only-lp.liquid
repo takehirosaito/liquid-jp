@@ -1,0 +1,372 @@
+{% comment %}
+============================================================
+セクション名: 画像だけLPセクション
+用途: 楽天市場で使っていた縦長の商品画像LPを、Shopifyでもそのまま縦に並べて掲載したいときに使う。画像をアップロードするだけでLPが完成する手軽さが特徴
+推奨設置場所: 商品ページ・トップページ・LP 専用ページ(固定ページ)の中段以降
+カスタマイズポイント:
+  - LP画像のアップロード(ブロックで何枚でも追加可能)
+  - 各画像の代替テキスト(SEO・アクセシビリティ用)
+  - 画像クリック時のリンク先(任意)
+  - 画像と画像の間隔(隙間あり / ピッタリ連結)
+  - 最大表示幅(楽天風の縦長 750px 推奨 / フルワイド)
+  - 上下の余白
+  - 背景色
+注意点:
+  - 楽天LPからの流用時は、画像幅 750px(楽天標準)で書き出すと違和感がない
+  - 縦長画像は分割してアップロードすると表示速度が向上する(1枚 2000px 以下推奨)
+  - 1 枚目の画像のみ loading="eager" となる(LCP 対策)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+<section class="alsel-image-only-lp" aria-label="商品紹介LP" style="--alsel-image-only-lp-bg: {{ section.settings.bg_color }}; --alsel-image-only-lp-max: {{ section.settings.max_width }}px; --alsel-image-only-lp-gap: {{ section.settings.image_gap }}px; --alsel-image-only-lp-pad-top: {{ section.settings.padding_top }}px; --alsel-image-only-lp-pad-bottom: {{ section.settings.padding_bottom }}px;">
+
+  {%- if section.settings.top_badge_text != blank -%}
+    <div class="alsel-image-only-lp__badge-wrap">
+      <span class="alsel-image-only-lp__badge">{{ section.settings.top_badge_text }}</span>
+    </div>
+  {%- endif -%}
+
+  <div class="alsel-image-only-lp__inner{% if section.settings.full_width %} alsel-image-only-lp__inner--full{% endif %}">
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-image-only-lp__empty">
+        現在表示できるLP画像はありません。テーマエディタからLP画像ブロックを追加してください。
+      </p>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- assign img_alt = block.settings.image_alt | default: '商品紹介画像' | escape -%}
+      <div class="alsel-image-only-lp__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.lp_image != blank -%}
+          {%- if block.settings.link_url != blank -%}
+            <a class="alsel-image-only-lp__link" href="{{ block.settings.link_url }}" aria-label="{{ img_alt }}の詳細を見る">
+          {%- endif -%}
+          {%- if forloop.first -%}
+            {{ block.settings.lp_image | image_url: width: 1500 | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              class: 'alsel-image-only-lp__image',
+              alt: img_alt,
+              widths: '375, 550, 750, 1100, 1500',
+              sizes: '(min-width: 750px) 750px, 100vw' }}
+          {%- else -%}
+            {{ block.settings.lp_image | image_url: width: 1500 | image_tag:
+              loading: 'lazy',
+              class: 'alsel-image-only-lp__image',
+              alt: img_alt,
+              widths: '375, 550, 750, 1100, 1500',
+              sizes: '(min-width: 750px) 750px, 100vw' }}
+          {%- endif -%}
+          {%- if block.settings.link_url != blank -%}
+            </a>
+          {%- endif -%}
+        {%- else -%}
+          <div class="alsel-image-only-lp__placeholder">
+            <span>LP画像をアップロードしてください</span>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+    {%- if section.settings.cta_text != blank and section.settings.cta_link != blank -%}
+      <div class="alsel-image-only-lp__cta-wrap">
+        <a class="alsel-image-only-lp__cta" href="{{ section.settings.cta_link }}">
+          <span class="alsel-image-only-lp__cta-arrow">▶</span>
+          {{ section.settings.cta_text }}
+        </a>
+        {%- if section.settings.cta_sub != blank -%}
+          <p class="alsel-image-only-lp__cta-sub">{{ section.settings.cta_sub }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .alsel-image-only-lp {
+    background: var(--alsel-image-only-lp-bg);
+    padding-top: var(--alsel-image-only-lp-pad-top);
+    padding-bottom: var(--alsel-image-only-lp-pad-bottom);
+    width: 100%;
+    overflow: hidden;
+  }
+  .alsel-image-only-lp__badge-wrap {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    padding: 0 1rem;
+  }
+  .alsel-image-only-lp__badge {
+    display: inline-block;
+    background: #e60012;
+    color: #fffa00;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 3vw, 1.25rem);
+    padding: 0.6rem 1.6rem;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    box-shadow: 0 3px 0 #a8000d, 0 6px 14px rgba(230,0,18,0.35);
+    transform: rotate(-2deg);
+  }
+  .alsel-image-only-lp__inner {
+    max-width: var(--alsel-image-only-lp-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--alsel-image-only-lp-gap);
+    padding: 0 0.5rem;
+  }
+  .alsel-image-only-lp__inner--full {
+    max-width: 100%;
+    padding: 0;
+  }
+  .alsel-image-only-lp__item {
+    line-height: 0;
+  }
+  .alsel-image-only-lp__link {
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+  .alsel-image-only-lp__link:hover {
+    opacity: 0.85;
+  }
+  .alsel-image-only-lp__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .alsel-image-only-lp__placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: repeating-linear-gradient(45deg, #fff8d6, #fff8d6 12px, #ffe97a 12px, #ffe97a 24px);
+    color: #a8000d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .alsel-image-only-lp__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 1rem;
+    margin: 0;
+  }
+  .alsel-image-only-lp__cta-wrap {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+  }
+  .alsel-image-only-lp__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(180deg, #ff5252 0%, #e60012 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: clamp(1rem, 3.5vw, 1.35rem);
+    padding: 1rem 2.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0 4px 0 #a8000d, 0 8px 20px rgba(230,0,18,0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .alsel-image-only-lp__cta:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #a8000d, 0 4px 12px rgba(230,0,18,0.4);
+  }
+  .alsel-image-only-lp__cta-arrow {
+    font-size: 0.85em;
+    color: #fffa00;
+  }
+  .alsel-image-only-lp__cta-sub {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    color: #c8161d;
+    font-weight: 700;
+  }
+  @media (min-width: 750px) {
+    .alsel-image-only-lp__inner {
+      padding: 0 1rem;
+    }
+    .alsel-image-only-lp__inner--full {
+      padding: 0;
+    }
+    .alsel-image-only-lp__badge {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "画像だけLP",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "上部の訴求バッジ"
+    },
+    {
+      "type": "text",
+      "id": "top_badge_text",
+      "label": "上部バッジ文言",
+      "default": "今だけ!業界No.1の高品質をお届けします",
+      "info": "セクション上部に赤いバッジで表示されます。空欄にすると非表示になります"
+    },
+    {
+      "type": "header",
+      "content": "表示設定"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "LPの最大幅(px)",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "default": 750,
+      "unit": "px",
+      "info": "楽天LPの画像をそのまま使う場合は 750px を推奨します"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "画面いっぱいに広げる",
+      "default": false,
+      "info": "オンにすると最大幅の設定を無視して画面端まで表示します"
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "画像と画像の間隔(px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 0,
+      "unit": "px",
+      "info": "0 にすると画像をピッタリ連結します(楽天LP風)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "上の余白(px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "下の余白(px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "下部のCTAボタン"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "ボタンの文字",
+      "default": "ご好評につき30%OFFで購入する",
+      "info": "空欄にするとボタンは表示されません"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "ボタンのリンク先"
+    },
+    {
+      "type": "text",
+      "id": "cta_sub",
+      "label": "ボタン下の補足文言",
+      "default": "数量限定のためお早めにお求めください"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lp_image",
+      "name": "LP画像",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "lp_image",
+          "label": "LP画像",
+          "info": "推奨幅 750px(楽天標準)、縦の長さは自由。1 枚 2000px 以下推奨"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "画像の代替テキスト",
+          "info": "画像が表示されないときの説明文です。SEO 対策にもなります"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "クリック時のリンク先",
+          "info": "未入力の場合は画像のみ表示されます"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 画像だけLP(楽天流用・縦積み)",
+      "settings": {
+        "top_badge_text": "今だけ!業界No.1の高品質をお届けします",
+        "max_width": 750,
+        "full_width": false,
+        "image_gap": 0,
+        "bg_color": "#fff8f0",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "cta_text": "ご好評につき30%OFFで購入する",
+        "cta_sub": "数量限定のためお早めにお求めください"
+      },
+      "blocks": [
+        {
+          "type": "lp_image",
+          "settings": {
+            "image_alt": "商品の魅力を伝えるメインビジュアル画像"
+          }
+        },
+        {
+          "type": "lp_image",
+          "settings": {
+            "image_alt": "選ばれる3つの理由を紹介する画像"
+          }
+        },
+        {
+          "type": "lp_image",
+          "settings": {
+            "image_alt": "お客様の声・レビューを紹介する画像"
+          }
+        },
+        {
+          "type": "lp_image",
+          "settings": {
+            "image_alt": "商品スペック・仕様の詳細画像"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

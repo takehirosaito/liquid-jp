@@ -1,0 +1,227 @@
+{% comment %}
+============================================================
+セクション名: タブ切り替え説明欄
+用途: 商品の特徴・成分・使い方・レビューなど、複数の情報をタブで切り替えて表示します。長い説明文を整理してすっきり見せたいときに使います。
+推奨設置場所: 商品ページの本文下、または LP の中盤
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - タブの追加・削除・並び替え(各タブのラベルと本文)
+  - 各タブにアイコン画像・補足画像を設定
+  - 背景色・タブのアクティブ色・文字色
+  - タブの配置(左寄せ / 中央)
+注意点:
+  - タブは 2〜6 個推奨です。それ以上は横スクロールになります
+  - アイコン画像は推奨 80 × 80px、PNG 透過です
+  - 補足画像は推奨 800 × 600px、JPEG または PNG です
+  - 初期表示は 1 番目のタブが選択された状態になります
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-tab-description" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-tab-description__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-tab-description__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-tab-description__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-tab-description__empty">
+        タブはまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-tab-description__tabs" role="tablist" aria-label="情報切り替えタブ">
+        {%- for block in section.blocks -%}
+          {%- assign tab_label = block.settings.label | escape -%}
+          <button
+            type="button"
+            class="alsel-tab-description__tab{% if forloop.first %} is-active{% endif %}"
+            role="tab"
+            id="alsel-tab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="alsel-panel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-tab-index="{{ forloop.index }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.icon != blank -%}
+              {%- assign icon_alt = block.settings.label | escape -%}
+              {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', class: 'alsel-tab-description__tab-icon', alt: icon_alt }}
+            {%- endif -%}
+            <span class="alsel-tab-description__tab-label">{{ tab_label }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="alsel-tab-description__panels">
+        {%- for block in section.blocks -%}
+          {%- assign img_alt = block.settings.label | escape -%}
+          <div
+            class="alsel-tab-description__panel{% if forloop.first %} is-active{% endif %}"
+            role="tabpanel"
+            id="alsel-panel-{{ section.id }}-{{ forloop.index }}"
+            aria-labelledby="alsel-tab-{{ section.id }}-{{ forloop.index }}"
+            data-panel-index="{{ forloop.index }}"
+            {% unless forloop.first %}hidden{% endunless %}
+          >
+            <div class="alsel-tab-description__panel-inner{%- if block.settings.image == blank %} alsel-tab-description__panel-inner--no-image{%- endif -%}">
+              {%- if block.settings.image != blank -%}
+                <div class="alsel-tab-description__panel-media">
+                  {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'alsel-tab-description__panel-image', alt: img_alt, widths: '375, 600, 800, 1200' }}
+                </div>
+              {%- endif -%}
+              <div class="alsel-tab-description__panel-body">
+                {%- if block.settings.title != blank -%}
+                  <h3 class="alsel-tab-description__panel-title">{{ block.settings.title }}</h3>
+                {%- endif -%}
+                {%- if block.settings.body != blank -%}
+                  <div class="alsel-tab-description__panel-text">{{ block.settings.body }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-tab-description { padding: 3rem 1rem; background: {{ section.settings.bg_color }}; }
+  .alsel-tab-description__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-tab-description__heading { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; text-align: center; margin: 0 0 0.75rem; color: {{ section.settings.text_color }}; }
+  .alsel-tab-description__sub { font-size: 1rem; line-height: 1.7; text-align: center; margin: 0 0 2rem; color: {{ section.settings.text_color }}; opacity: 0.8; }
+  .alsel-tab-description__empty { text-align: center; color: #888; padding: 2rem 0; }
+  .alsel-tab-description__tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 0.5rem; justify-content: {{ section.settings.tab_align }}; border-bottom: 2px solid #e5e7eb; margin: 0 0 1.5rem; padding: 0 0 0.25rem; scrollbar-width: thin; }
+  .alsel-tab-description__tab { display: inline-flex; align-items: center; gap: 0.5rem; flex: 0 0 auto; padding: 0.75rem 1.25rem; background: transparent; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: {{ section.settings.text_color }}; opacity: 0.6; transition: all 0.2s ease; white-space: nowrap; }
+  .alsel-tab-description__tab:hover { opacity: 0.9; }
+  .alsel-tab-description__tab.is-active { opacity: 1; color: {{ section.settings.active_color }}; border-bottom-color: {{ section.settings.active_color }}; }
+  .alsel-tab-description__tab-icon { width: 24px; height: 24px; object-fit: contain; }
+  .alsel-tab-description__panel { display: none; animation: alsel-tab-description-fade 0.3s ease; }
+  .alsel-tab-description__panel.is-active { display: block; }
+  .alsel-tab-description__panel-inner { display: grid; grid-template-columns: 1fr; gap: 1.5rem; background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .alsel-tab-description__panel-image { width: 100%; height: auto; border-radius: 8px; display: block; }
+  .alsel-tab-description__panel-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem; color: {{ section.settings.active_color }}; }
+  .alsel-tab-description__panel-text { font-size: 0.95rem; line-height: 1.8; color: #374151; }
+  .alsel-tab-description__panel-text p { margin: 0 0 1rem; }
+  .alsel-tab-description__panel-text p:last-child { margin-bottom: 0; }
+  @keyframes alsel-tab-description-fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (min-width: 750px) {
+    .alsel-tab-description { padding: 5rem 2rem; }
+    .alsel-tab-description__tab { padding: 1rem 1.75rem; font-size: 1rem; }
+    .alsel-tab-description__panel-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; padding: 2.5rem; align-items: center; }
+    .alsel-tab-description__panel-inner--no-image { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
+  }
+</style>
+
+<script>
+  (function() {
+    var sections = document.querySelectorAll('.alsel-tab-description');
+    sections.forEach(function(section) {
+      var tabs = section.querySelectorAll('.alsel-tab-description__tab');
+      var panels = section.querySelectorAll('.alsel-tab-description__panel');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var idx = tab.getAttribute('data-tab-index');
+          tabs.forEach(function(t) {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          panels.forEach(function(p) {
+            p.classList.remove('is-active');
+            p.setAttribute('hidden', '');
+          });
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+          var targetPanel = section.querySelector('.alsel-tab-description__panel[data-panel-index="' + idx + '"]');
+          if (targetPanel) {
+            targetPanel.classList.add('is-active');
+            targetPanel.removeAttribute('hidden');
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "タブ切り替え説明欄",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "セクション見出し", "default": "商品について" },
+    { "type": "text", "id": "subheading", "label": "サブコピー", "default": "知りたい情報をタブから選んでご覧いただけます。" },
+    { "type": "select", "id": "tab_align", "label": "タブの配置",
+      "options": [
+        { "value": "flex-start", "label": "左寄せ" },
+        { "value": "center", "label": "中央" }
+      ],
+      "default": "center" },
+    { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "color", "id": "active_color", "label": "アクティブタブの色", "default": "#6d28d9" }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "タブ",
+      "settings": [
+        { "type": "text", "id": "label", "label": "タブのラベル", "default": "タブ名", "info": "短く分かりやすい言葉(例: 特徴 / 成分 / 使い方 / レビュー)を入れてください。" },
+        { "type": "image_picker", "id": "icon", "label": "タブのアイコン(任意)", "info": "推奨 80 × 80px、PNG 透過。空欄でも問題ありません。" },
+        { "type": "text", "id": "title", "label": "見出し", "default": "見出しをご入力ください" },
+        { "type": "richtext", "id": "body", "label": "本文", "default": "<p>こちらにタブの内容をご入力ください。改行や太字も使えます。</p>" },
+        { "type": "image_picker", "id": "image", "label": "補足画像(任意)", "info": "推奨 800 × 600px、JPEG または PNG。設定すると 2 カラム表示になります。" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / タブ切り替え説明欄(4 タブ)",
+      "settings": {
+        "heading": "商品について",
+        "subheading": "知りたい情報をタブから選んでご覧いただけます。"
+      },
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "特徴",
+            "title": "こだわりの特徴",
+            "body": "<p>こちらの商品の主な特徴をご紹介します。素材、製法、デザインなど、選ばれる理由をお伝えします。</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "成分",
+            "title": "厳選した成分",
+            "body": "<p>使用している成分の一覧と、それぞれの役割についてご説明します。安心してお使いいただける品質です。</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "使い方",
+            "title": "正しい使い方",
+            "body": "<p>効果を最大限に引き出すための使用方法をご案内します。手順に沿ってお試しください。</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "レビュー",
+            "title": "お客様の声",
+            "body": "<p>実際にご利用いただいたお客様からの感想を掲載しています。ご購入の参考にしていただければ幸いです。</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

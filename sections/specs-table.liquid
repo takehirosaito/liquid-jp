@@ -1,0 +1,302 @@
+{% comment %}
+============================================================
+セクション名: 商品スペック表
+用途: 成分・素材・サイズ・原産国などの商品情報を、見やすい表形式で整理して伝えるためのセクション。商品ページや LP で、お客様の疑問を一目で解消できる
+推奨設置場所: 商品ページの説明文下、LP の中盤、コレクションページの補足情報エリア
+カスタマイズポイント:
+  - セクション見出し・サブコピー
+  - スペック行(項目名 + 内容)をブロックで自由に追加・並び替え
+  - 重要項目のハイライト表示(背景色を変える)
+  - テーブルの配色(見出し背景色・文字色・ボーダー色)
+  - セクション全体の背景色
+注意点:
+  - ブロックは 1〜30 個まで追加可能
+  - スマートフォンでは項目名と内容が縦並びになり、読みやすさを優先する
+  - 長文の内容も自動で折り返される
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-specs-table" aria-label="{{ section.settings.heading | escape }}">
+  <div class="alsel-specs-table__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="alsel-specs-table__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="alsel-specs-table__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-specs-table__empty">
+        スペック項目はまだ登録されていません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-specs-table__wrap">
+        <table class="alsel-specs-table__table">
+          <tbody>
+            {%- for block in section.blocks -%}
+              <tr class="alsel-specs-table__row{%- if block.settings.highlight %} alsel-specs-table__row--highlight{%- endif -%}" {{ block.shopify_attributes }}>
+                <th scope="row" class="alsel-specs-table__th">
+                  {{ block.settings.label }}
+                </th>
+                <td class="alsel-specs-table__td">
+                  {{ block.settings.value }}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.note != blank -%}
+      <p class="alsel-specs-table__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-specs-table {
+    padding: 3rem 1rem;
+    background: {{ section.settings.bg_color }};
+  }
+  .alsel-specs-table__inner {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .alsel-specs-table__heading {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 0.75rem;
+    color: {{ section.settings.text_color }};
+  }
+  .alsel-specs-table__sub {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: center;
+    margin: 0 0 2rem;
+    color: {{ section.settings.text_color }};
+    opacity: 0.8;
+  }
+  .alsel-specs-table__empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+    font-size: 0.95rem;
+  }
+  .alsel-specs-table__wrap {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid {{ section.settings.border_color }};
+  }
+  .alsel-specs-table__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .alsel-specs-table__row {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+  .alsel-specs-table__row:last-child {
+    border-bottom: none;
+  }
+  .alsel-specs-table__row--highlight .alsel-specs-table__th,
+  .alsel-specs-table__row--highlight .alsel-specs-table__td {
+    background: {{ section.settings.highlight_color }};
+  }
+  .alsel-specs-table__th {
+    text-align: left;
+    padding: 0.9rem 1.25rem;
+    font-weight: 700;
+    background: {{ section.settings.header_bg }};
+    color: {{ section.settings.header_color }};
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .alsel-specs-table__td {
+    padding: 0.9rem 1.25rem;
+    line-height: 1.7;
+    color: #334155;
+    word-break: break-word;
+    background: #fff;
+  }
+  .alsel-specs-table__note {
+    margin: 1rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #64748b;
+    text-align: center;
+  }
+  @media (min-width: 750px) {
+    .alsel-specs-table {
+      padding: 5rem 2rem;
+    }
+    .alsel-specs-table__row {
+      flex-direction: row;
+    }
+    .alsel-specs-table__th {
+      width: 30%;
+      flex-shrink: 0;
+      border-right: 1px solid {{ section.settings.border_color }};
+    }
+    .alsel-specs-table__td {
+      flex: 1;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "商品スペック表",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "見出し設定"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "セクション見出し",
+      "default": "商品スペック"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "サブコピー",
+      "default": "商品の詳細情報をご確認いただけます。"
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "補足説明(表の下に小さく表示)",
+      "info": "予告なく仕様変更する可能性がある旨などの注意書きにご利用ください。",
+      "default": "※仕様は予告なく変更となる場合がございます。"
+    },
+    {
+      "type": "header",
+      "content": "配色設定"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "セクション背景色",
+      "default": "#f8fafc"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "見出し文字色",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "項目名の背景色",
+      "default": "#f1f5f9"
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "項目名の文字色",
+      "default": "#0f172a"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "ボーダー色",
+      "default": "#e2e8f0"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "ハイライト行の背景色",
+      "info": "ブロック設定で「重要項目として強調」を有効にした行に適用されます。",
+      "default": "#fef3c7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "スペック項目",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "項目名",
+          "default": "項目名",
+          "info": "例: 素材 / サイズ / 原産国 / 容量"
+        },
+        {
+          "type": "textarea",
+          "id": "value",
+          "label": "内容",
+          "default": "項目の内容をご入力ください。"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "重要項目として強調する",
+          "info": "オンにすると、行の背景色がハイライト色に変わります。",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 商品スペック表(縦並びテーブル)",
+      "settings": {
+        "heading": "商品スペック",
+        "subheading": "商品の詳細情報をご確認いただけます。",
+        "note": "※仕様は予告なく変更となる場合がございます。"
+      },
+      "blocks": [
+        {
+          "type": "spec",
+          "settings": {
+            "label": "素材",
+            "value": "綿 100%(オーガニックコットン使用)"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "label": "サイズ",
+            "value": "S / M / L / XL の 4 サイズ展開"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "label": "原産国",
+            "value": "日本(国内自社工場で製造)",
+            "highlight": true
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "label": "重量",
+            "value": "約 250g(M サイズの場合)"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "label": "お手入れ方法",
+            "value": "洗濯機での洗濯が可能です。タンブラー乾燥はお避けください。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

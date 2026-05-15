@@ -1,0 +1,291 @@
+{% comment %}
+============================================================
+セクション名: 複数お知らせスライダー
+用途: 新商品入荷・キャンペーン・営業日変更などの複数お知らせを横に流して効率的に伝える
+推奨設置場所: トップページ最上部(ヘッダー直下)、または商品ページ上部
+カスタマイズポイント:
+  - 背景色・文字色・リンク色
+  - スクロール速度(秒数で指定)
+  - 区切り文字(各お知らせの間に挟む記号)
+  - ブロックを追加して、お知らせ件数を自由に増減
+  - 各お知らせのテキスト・リンク先
+注意点:
+  - ブロックは 2 件以上推奨(1 件だとループ感が出にくい)
+  - ユーザーの「動きを減らす」設定(prefers-reduced-motion)に自動対応
+  - スクロール中はホバーで一時停止できる(マウス操作端末のみ)
+動作確認バージョン: Online Store 2.0
+ライセンス: ALSEL Original
+============================================================
+{% endcomment %}
+
+<section class="alsel-notice-carousel" aria-label="{{ section.settings.aria_label | escape }}">
+  {%- if section.settings.label_text != blank -%}
+    <span class="alsel-notice-carousel__label" aria-hidden="true">{{ section.settings.label_text }}</span>
+  {%- endif -%}
+
+  <div class="alsel-notice-carousel__track-wrapper">
+    {%- if section.blocks.size == 0 -%}
+      <p class="alsel-notice-carousel__empty">
+        現在表示できるお知らせはありません。テーマエディタからブロックを追加してください。
+      </p>
+    {%- else -%}
+      <div class="alsel-notice-carousel__track" role="marquee">
+        {%- for i in (1..2) -%}
+          <ul class="alsel-notice-carousel__list" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+            {%- for block in section.blocks -%}
+              <li class="alsel-notice-carousel__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.badge != blank -%}
+                  <span class="alsel-notice-carousel__badge" style="background:{{ block.settings.badge_color }};">{{ block.settings.badge }}</span>
+                {%- endif -%}
+                {%- if block.settings.link != blank -%}
+                  <a class="alsel-notice-carousel__link" href="{{ block.settings.link }}">{{ block.settings.text }}</a>
+                {%- else -%}
+                  <span class="alsel-notice-carousel__text">{{ block.settings.text }}</span>
+                {%- endif -%}
+                <span class="alsel-notice-carousel__sep" aria-hidden="true">{{ section.settings.separator }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .alsel-notice-carousel {
+    --alsel-nc-bg: {{ section.settings.bg_color }};
+    --alsel-nc-color: {{ section.settings.text_color }};
+    --alsel-nc-link: {{ section.settings.link_color }};
+    --alsel-nc-duration: {{ section.settings.duration | times: 1 }}s;
+    display: flex;
+    align-items: center;
+    background: var(--alsel-nc-bg);
+    color: var(--alsel-nc-color);
+    overflow: hidden;
+    padding: 0.6rem 0;
+    position: relative;
+  }
+  .alsel-notice-carousel__label {
+    flex-shrink: 0;
+    padding: 0.25rem 0.9rem;
+    margin-left: 0.75rem;
+    background: var(--alsel-nc-color);
+    color: var(--alsel-nc-bg);
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+  }
+  .alsel-notice-carousel__track-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+  .alsel-notice-carousel__empty {
+    text-align: center;
+    color: #888;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .alsel-notice-carousel__track {
+    display: flex;
+    width: max-content;
+    animation: alsel-nc-scroll var(--alsel-nc-duration) linear infinite;
+  }
+  .alsel-notice-carousel:hover .alsel-notice-carousel__track {
+    animation-play-state: paused;
+  }
+  .alsel-notice-carousel__list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0 1.5rem 0 0;
+  }
+  .alsel-notice-carousel__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .alsel-notice-carousel__badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
+  .alsel-notice-carousel__link {
+    color: var(--alsel-nc-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .alsel-notice-carousel__link:hover {
+    opacity: 0.75;
+  }
+  .alsel-notice-carousel__text { color: var(--alsel-nc-color); }
+  .alsel-notice-carousel__sep {
+    color: var(--alsel-nc-color);
+    opacity: 0.4;
+    margin-left: 0.6rem;
+    font-size: 0.85rem;
+  }
+  @keyframes alsel-nc-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .alsel-notice-carousel__track { animation: none; }
+    .alsel-notice-carousel__list { padding-right: 0; }
+  }
+  @media (min-width: 750px) {
+    .alsel-notice-carousel { padding: 0.75rem 0; }
+    .alsel-notice-carousel__item { font-size: 0.98rem; padding: 0 1.5rem; }
+    .alsel-notice-carousel__label { font-size: 0.85rem; margin-left: 1.25rem; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "お知らせ(スライダー)",
+  "tag": "section",
+  "class": "alsel-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "セクションの読み上げラベル",
+      "default": "お知らせ一覧",
+      "info": "スクリーンリーダー用の説明文です。"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "先頭ラベルの文字",
+      "default": "NEWS",
+      "info": "空にすると先頭ラベルは非表示になります。"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "お知らせ間の区切り文字",
+      "default": "/"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "label": "1 周にかかる秒数",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "秒",
+      "default": 35,
+      "info": "数値が大きいほどゆっくり流れます。"
+    },
+    {
+      "type": "header",
+      "content": "配色"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "背景色",
+      "default": "#111827"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "文字色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "リンクの文字色",
+      "default": "#fbbf24"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "notice",
+      "name": "お知らせ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "バッジの文字",
+          "info": "例: 期間限定 / 新着情報 / 重要なお知らせ。空にするとバッジは非表示になります。"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "バッジの背景色",
+          "default": "#dc2626"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "お知らせ本文",
+          "default": "お知らせ本文をここに入力します。"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "リンク先",
+          "info": "空にするとテキストのみ表示します。"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ALSEL監修 / 複数お知らせスライダー(横スクロール)",
+      "settings": {
+        "label_text": "NEWS",
+        "separator": "/",
+        "duration": 35,
+        "bg_color": "#111827",
+        "text_color": "#ffffff",
+        "link_color": "#fbbf24"
+      },
+      "blocks": [
+        {
+          "type": "notice",
+          "settings": {
+            "badge": "新着情報",
+            "badge_color": "#dc2626",
+            "text": "秋の新商品が入荷しました。ぜひご覧ください。"
+          }
+        },
+        {
+          "type": "notice",
+          "settings": {
+            "badge": "期間限定",
+            "badge_color": "#2563eb",
+            "text": "全品送料無料キャンペーンを実施中です。"
+          }
+        },
+        {
+          "type": "notice",
+          "settings": {
+            "badge": "重要なお知らせ",
+            "badge_color": "#059669",
+            "text": "年末年始の営業時間についてご案内します。"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
