@@ -105,9 +105,6 @@
 
               {%- assign status = '' -%}
               {%- assign status_label = '' -%}
-              {%- if section.blocks.size == 0 -%}
-    <p class="alsel-business-calendar__empty" style="text-align:center;color:#888;padding:2rem 0;">表示する項目をテーマエディタからブロックとして追加してください。</p>
-  {%- endif -%}
               {%- for block in section.blocks -%}
                 {%- assign b_year = block.settings.year | times: 1 -%}
                 {%- assign b_month = block.settings.month | times: 1 -%}
