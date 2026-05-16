@@ -5,9 +5,10 @@
 推奨設置場所: 商品ページの説明文下、トップページの実績訴求エリア、LP の購入ボタン直前
 カスタマイズポイント:
   - セクション見出し・サブコピー
-  - 各受賞・認証ブロック(エンブレム画像、名称、受賞年、説明文、リンク先)
+  - 各受賞・認証ブロック(エンブレム画像、名称、受賞年、説明文、リンク先、受賞年の色)
   - 背景色・文字色・アクセントカラー
-  - カラム数(モバイル / PC)
+  - PC の列数・スマホでの表示方法(1列/2列/横スワイプ)
+  - エンブレム画像のトリミング形(丸・正方形・そのまま)
 注意点:
   - エンブレム画像は正方形または縦長(推奨 400 × 400px、PNG 透過)を推奨
   - ブロックは 1〜8 個を想定。9 個以上は表示崩れに注意
@@ -18,8 +19,9 @@
 {% endcomment %}
 
 {%- assign sec_label = section.settings.heading | default: '受賞歴・認証' | escape -%}
+{%- assign emblem_shape = section.settings.emblem_shape | default: 'circle' -%}
 
-<section class="alsel-award-certifications" aria-label="{{ sec_label }}">
+<section class="alsel-award-certifications alsel-award-certifications--mobile-{{ section.settings.mobile_layout }}" aria-label="{{ sec_label }}">
   <div class="alsel-award-certifications__inner">
     {%- if section.settings.heading != blank -%}
       <h2 class="alsel-award-certifications__heading">{{ section.settings.heading }}</h2>
@@ -43,18 +45,18 @@
               <div class="alsel-award-certifications__card">
             {%- endif -%}
 
-              <div class="alsel-award-certifications__emblem-wrap">
+              <div class="alsel-award-certifications__emblem-wrap alsel-award-certifications__emblem-wrap--{{ emblem_shape }}">
                 {%- if block.settings.emblem != blank -%}
                   {{ block.settings.emblem
                     | image_url: width: 400
-                    | image_tag: loading: 'lazy', class: 'alsel-award-certifications__emblem', alt: emblem_alt, widths: '200, 300, 400' }}
+                    | image_tag: loading: 'lazy', class: 'alsel-award-certifications__emblem alsel-award-certifications__emblem--', alt: emblem_alt, widths: '200, 300, 400' }}
                 {%- else -%}
-                  <div class="alsel-award-certifications__emblem-placeholder" aria-hidden="true">★</div>
+                  <div class="alsel-award-certifications__emblem-placeholder alsel-award-certifications__emblem-placeholder--{{ emblem_shape }}" aria-hidden="true">★</div>
                 {%- endif -%}
               </div>
 
               {%- if block.settings.year != blank -%}
-                <span class="alsel-award-certifications__year">{{ block.settings.year }}年</span>
+                <span class="alsel-award-certifications__year" style="color: {{ block.settings.year_color }};">{{ block.settings.year }}年</span>
               {%- endif -%}
 
               {%- if block.settings.title != blank -%}
@@ -115,7 +117,27 @@
     margin: 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat({{ section.settings.cols_mobile }}, 1fr);
+  }
+  /* モバイル: 1列表示 */
+  .alsel-award-certifications--mobile-stack .alsel-award-certifications__grid {
+    grid-template-columns: 1fr;
+  }
+  /* モバイル: 2列表示 */
+  .alsel-award-certifications--mobile-two .alsel-award-certifications__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* モバイル: 横スワイプ */
+  .alsel-award-certifications--mobile-swipe .alsel-award-certifications__grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  .alsel-award-certifications--mobile-swipe .alsel-award-certifications__item {
+    flex: 0 0 70%;
+    scroll-snap-align: start;
   }
   .alsel-award-certifications__item { display: flex; }
   .alsel-award-certifications__card {
@@ -139,37 +161,62 @@
   }
   .alsel-award-certifications__emblem-wrap {
     width: clamp(80px, 30%, 130px);
-    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
   }
+  .alsel-award-certifications__emblem-wrap--circle,
+  .alsel-award-certifications__emblem-wrap--square {
+    aspect-ratio: 1 / 1;
+  }
+  .alsel-award-certifications__emblem-wrap--original {
+    aspect-ratio: auto;
+  }
   .alsel-award-certifications__emblem {
     max-width: 100%;
     max-height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  /* エンブレム: 丸トリミング */
+  .alsel-award-certifications__emblem-wrap--circle .alsel-award-certifications__emblem {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  /* エンブレム: 正方形トリミング */
+  .alsel-award-certifications__emblem-wrap--square .alsel-award-certifications__emblem {
+    border-radius: 0;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  /* エンブレム: 画像そのまま */
+  .alsel-award-certifications__emblem-wrap--original .alsel-award-certifications__emblem {
+    border-radius: 0;
+    aspect-ratio: auto;
     object-fit: contain;
+    height: auto;
   }
   .alsel-award-certifications__emblem-placeholder {
     width: 100%;
     height: 100%;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
     background: var(--awc-accent);
     color: #fff;
     font-size: 2rem;
     font-weight: 700;
   }
+  .alsel-award-certifications__emblem-placeholder--circle { border-radius: 50%; }
+  .alsel-award-certifications__emblem-placeholder--square { border-radius: 0; }
+  .alsel-award-certifications__emblem-placeholder--original { border-radius: 0; }
   .alsel-award-certifications__year {
     display: inline-block;
-    padding: 0.2rem 0.7rem;
-    background: var(--awc-accent);
-    color: #fff;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    border-radius: 9999px;
     margin-bottom: 0.6rem;
     letter-spacing: 0.05em;
   }
@@ -187,9 +234,18 @@
   }
   @media (min-width: 750px) {
     .alsel-award-certifications { padding: 5rem 2rem; }
-    .alsel-award-certifications__grid {
+    .alsel-award-certifications__grid,
+    .alsel-award-certifications--mobile-stack .alsel-award-certifications__grid,
+    .alsel-award-certifications--mobile-two .alsel-award-certifications__grid,
+    .alsel-award-certifications--mobile-swipe .alsel-award-certifications__grid {
+      display: grid;
+      overflow: visible;
       gap: 1.5rem;
-      grid-template-columns: repeat({{ section.settings.cols_desktop }}, 1fr);
+      grid-template-columns: repeat({{ section.settings.columns_pc }}, 1fr);
+      padding-bottom: 0;
+    }
+    .alsel-award-certifications--mobile-swipe .alsel-award-certifications__item {
+      flex: initial;
     }
     .alsel-award-certifications__card { padding: 2rem 1.25rem; }
     .alsel-award-certifications__title { font-size: 1rem; }
@@ -208,29 +264,30 @@
     { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
     { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "文字色", "default": "#1e293b" },
-    { "type": "color", "id": "accent_color", "label": "アクセントカラー(年バッジ等)", "default": "#b45309" },
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(プレースホルダー等)", "default": "#b45309" },
     {
       "type": "select",
-      "id": "cols_mobile",
-      "label": "モバイル時のカラム数",
+      "id": "emblem_shape",
+      "label": "エンブレム画像の形",
       "options": [
-        { "value": "1", "label": "1列" },
-        { "value": "2", "label": "2列" },
-        { "value": "3", "label": "3列" }
+        { "value": "circle", "label": "丸くトリミング" },
+        { "value": "square", "label": "正方形にトリミング" },
+        { "value": "original", "label": "画像そのまま表示" }
       ],
-      "default": "2"
+      "default": "circle"
     },
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_pc", "label": "PC で 1 行に表示する列数", "min": 1, "max": 6, "step": 1, "unit": "列", "default": 4 },
     {
       "type": "select",
-      "id": "cols_desktop",
-      "label": "PC 時のカラム数",
+      "id": "mobile_layout",
+      "label": "スマホでの表示方法",
       "options": [
-        { "value": "2", "label": "2列" },
-        { "value": "3", "label": "3列" },
-        { "value": "4", "label": "4列" },
-        { "value": "5", "label": "5列" }
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
       ],
-      "default": "4"
+      "default": "two"
     }
   ],
   "blocks": [
@@ -247,6 +304,7 @@
           "info": "西暦 4 桁で入力します。空欄の場合は非表示になります。",
           "default": 2099
         },
+        { "type": "color", "id": "year_color", "label": "受賞年の色", "default": "#888888" },
         { "type": "textarea", "id": "body", "label": "説明文", "default": "受賞・認証の内容や評価ポイントをご紹介します。" },
         { "type": "url", "id": "link", "label": "リンク先(任意)", "info": "公式サイトや詳細ページへのリンクを設定できます。" }
       ]

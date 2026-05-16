@@ -20,7 +20,8 @@
 
 {%- assign aria_label = section.settings.heading | default: 'ページ内ナビゲーション' | escape -%}
 
-<section class="alsel-anchor-link-buttons alsel-anchor-link-buttons--{{ section.settings.layout }}{%- if section.settings.is_sticky %} alsel-anchor-link-buttons--sticky{%- endif -%}" aria-label="{{ aria_label }}">
+
+<section class="alsel-anchor-link-buttons alsel-anchor-link-buttons--{{ section.settings.layout }}{%- if section.settings.is_sticky %} alsel-anchor-link-buttons--sticky{%- endif -%}" aria-label="{{ aria_label }}"{%- if section.settings.is_sticky %} style="position: sticky; top: 0; z-index: 10;"{%- endif -%}>
   <div class="alsel-anchor-link-buttons__inner">
     {%- if section.settings.heading != blank -%}
       <h2 class="alsel-anchor-link-buttons__heading">{{ section.settings.heading }}</h2>
@@ -161,7 +162,7 @@
 
 {% schema %}
 {
-  "name": "アンカーリンクボタン群",
+  "name": "ページ内アンカーリンク(目次)",
   "tag": "section",
   "class": "alsel-section",
   "settings": [
@@ -251,7 +252,7 @@
           "id": "anchor_id",
           "label": "リンク先 ID",
           "default": "#section",
-          "info": "移動したいセクションの ID を # 付きで入力します(例: #features)"
+          "info": "ジャンプ先のセクションの ID 属性(例: features)。リンク先のセクションに <section id='features'> のように同じ ID を設定してください。"
         },
         {
           "type": "text",

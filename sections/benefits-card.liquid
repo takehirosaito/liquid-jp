@@ -8,6 +8,7 @@
   - 背景色・カード背景色・アクセント色(赤・黄色など楽天風配色)
   - 各ベネフィットカード(番号バッジ・アイコン画像・タイトル・本文)
   - カードの数(ブロック追加・削除)
+  - PC の列数・スマホでの表示方法(1列 / 2列 / 横スワイプ)
 注意点:
   - アイコン画像は推奨 200 × 200px、PNG 透過
   - ブロック 3〜6 個を推奨
@@ -40,13 +41,9 @@
       <p class="alsel-benefits-card__sub">{{ section.settings.subheading }}</p>
     {%- endif -%}
 
-    {%- if section.blocks.size == 0 -%}
-      <p class="alsel-benefits-card__empty">
-        現在表示できるベネフィットはありません。テーマエディタからブロックを追加してください。
-      </p>
-    {%- endif -%}
+    
 
-    <div class="alsel-benefits-card__grid">
+    <div class="alsel-benefits-card__grid alsel-benefits-card__grid--mobile-{{ section.settings.mobile_layout }}">
       {%- for block in section.blocks -%}
         {%- assign icon_alt = block.settings.title | escape -%}
         <article class="alsel-benefits-card__card" {{ block.shopify_attributes }}>
@@ -87,7 +84,7 @@
     padding: 2.5rem 1rem;
     color: var(--bc-text);
   }
-  .alsel-benefits-card__inner { max-width: 1100px; margin: 0 auto; }
+  .alsel-benefits-card__inner { max-width: 1100px; margin: 0 auto; text-align: center; }
   .alsel-benefits-card__ribbon {
     display: inline-block;
     background: var(--bc-accent);
@@ -100,7 +97,6 @@
     box-shadow: 0 4px 0 rgba(0,0,0,0.15);
     text-align: center;
   }
-  .alsel-benefits-card__inner { text-align: center; }
   .alsel-benefits-card__heading {
     font-size: clamp(1.5rem, 5vw, 2.4rem);
     font-weight: 700;
@@ -129,10 +125,29 @@
     padding: 2rem 0;
   }
   .alsel-benefits-card__grid {
+    text-align: left;
+  }
+  .alsel-benefits-card__grid--mobile-stack {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.25rem;
-    text-align: left;
+  }
+  .alsel-benefits-card__grid--mobile-two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .alsel-benefits-card__grid--mobile-swipe {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+  .alsel-benefits-card__grid--mobile-swipe .alsel-benefits-card__card {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
   }
   .alsel-benefits-card__card {
     position: relative;
@@ -142,6 +157,7 @@
     padding: 2.25rem 1.25rem 1.5rem;
     box-shadow: 0 6px 0 rgba(0,0,0,0.08);
     text-align: center;
+    scroll-snap-align: start;
   }
   .alsel-benefits-card__badge {
     position: absolute;
@@ -195,7 +211,18 @@
   }
   @media (min-width: 750px) {
     .alsel-benefits-card { padding: 4rem 2rem; }
-    .alsel-benefits-card__grid { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+    .alsel-benefits-card__grid,
+    .alsel-benefits-card__grid--mobile-stack,
+    .alsel-benefits-card__grid--mobile-two,
+    .alsel-benefits-card__grid--mobile-swipe {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns_pc }}, 1fr);
+      gap: 1.75rem;
+      overflow: visible;
+    }
+    .alsel-benefits-card__grid--mobile-swipe .alsel-benefits-card__card {
+      flex: initial;
+    }
     .alsel-benefits-card__card { padding: 2.5rem 1.5rem 1.75rem; }
   }
 </style>
@@ -215,7 +242,16 @@
     { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
     { "type": "color", "id": "accent_color", "label": "アクセント色(赤系推奨)", "default": "#e60012" },
     { "type": "color", "id": "accent_sub_color", "label": "ハイライト色(黄色系推奨)", "default": "#ffe14d" },
-    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1a1a1a" }
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#1a1a1a" },
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_pc", "label": "PC で 1 行に表示する列数", "min": 1, "max": 6, "step": 1, "unit": "列", "default": 3 },
+    { "type": "select", "id": "mobile_layout", "label": "スマホでの表示方法",
+      "options": [
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
+      ],
+      "default": "stack" }
   ],
   "blocks": [
     {
@@ -235,7 +271,9 @@
         "ribbon_text": "ご好評につき5万個突破!",
         "heading": "選ばれるには理由があります",
         "subheading": "機能だけではありません。手にした瞬間から、あなたの毎日がこう変わります。",
-        "footer_text": "今だけ!期間限定で30%OFFにてご提供しております。"
+        "footer_text": "今だけ!期間限定で30%OFFにてご提供しております。",
+        "columns_pc": 3,
+        "mobile_layout": "stack"
       },
       "blocks": [
         { "type": "benefit", "settings": { "title": "毎朝の鏡が楽しみになります", "body": "使い続けるほど実感できる変化。「最近キレイになったね」のお声が止まりません。" } },

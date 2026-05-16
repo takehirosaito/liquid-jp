@@ -55,11 +55,7 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- if section.blocks.size == 0 -%}
-      <p class="alsel-account-navigation__empty">
-        現在表示できるメニューはありません。テーマエディタからブロックを追加してください。
-      </p>
-    {%- else -%}
+    {%- if section.blocks.size > 0 -%}
       <ul class="alsel-account-navigation__grid" role="list">
         {%- for block in section.blocks -%}
           {%- assign block_title = block.settings.title | escape -%}
@@ -160,7 +156,7 @@
 
 {% schema %}
 {
-  "name": "マイページ誘導",
+  "name": "会員特典のご案内",
   "tag": "section",
   "class": "alsel-section",
   "settings": [

@@ -6,6 +6,7 @@
 カスタマイズポイント:
   - 表示するコレクション(売れ筋順・新着順などはコレクションの並び順で制御)
   - 表示件数(3〜10件)
+  - PC の列数
   - セクション見出し・サブコピー
   - ランキング順位の色・背景色
   - 「商品を見る」ボタンの表示・非表示
@@ -103,7 +104,7 @@
   .alsel-best-seller-ranking__empty { text-align: center; color: #94a3b8; padding: 2rem; }
   @media (min-width: 750px) {
     .alsel-best-seller-ranking { padding: 5rem 2rem; }
-    .alsel-best-seller-ranking__list { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .alsel-best-seller-ranking__list { grid-template-columns: repeat({{ section.settings.columns_pc }}, 1fr); gap: 1.5rem; }
     .alsel-best-seller-ranking__link { grid-template-columns: 160px 1fr; padding: 1.25rem; }
     .alsel-best-seller-ranking__title { font-size: 1.05rem; }
     .alsel-best-seller-ranking__rank { width: 52px; height: 52px; font-size: 1.3rem; }
@@ -122,6 +123,8 @@
     { "type": "range", "id": "product_count", "label": "表示件数", "min": 3, "max": 10, "step": 1, "default": 5, "info": "3〜10件まで設定可能" },
     { "type": "checkbox", "id": "show_button", "label": "「商品を見る」バッジを表示", "default": true },
     { "type": "text", "id": "button_text", "label": "バッジの文字", "default": "商品を見る" },
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_pc", "label": "PC で 1 行に表示する列数", "min": 1, "max": 6, "step": 1, "unit": "列", "default": 5 },
     { "type": "header", "content": "配色設定" },
     { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#f8fafc" },
     { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
@@ -138,6 +141,7 @@
         "heading": "売れ筋ランキング",
         "subheading": "お客様に選ばれている人気商品をご紹介します。",
         "product_count": 5,
+        "columns_pc": 5,
         "show_button": true,
         "button_text": "商品を見る"
       }

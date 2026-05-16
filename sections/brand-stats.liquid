@@ -8,6 +8,7 @@
   - 各統計ブロック(アイコン・数字・単位・補足ラベル)
   - 背景色・文字色・アクセントカラー
   - 1 行に表示するカラム数(PC 時)
+  - スマホでの表示方法(1列 / 2列 / 横スワイプ)
 注意点:
   - アイコンは正方形(推奨 120 × 120px、PNG 透過)を用意するときれいに表示される
   - ブロック数は 3〜5 個を推奨。それ以外は PC 時のレイアウトを確認する
@@ -33,7 +34,7 @@
         表示できる実績はまだありません。テーマエディタからブロックを追加してください。
       </p>
     {%- else -%}
-      <div class="alsel-brand-stats__grid" data-cols="{{ section.settings.columns_pc }}">
+      <div class="alsel-brand-stats__grid" data-cols="{{ section.settings.columns_pc }}" data-mobile="{{ section.settings.mobile_layout }}">
         {%- for block in section.blocks -%}
           {%- assign icon_alt = block.settings.label | escape -%}
           <article class="alsel-brand-stats__card" {{ block.shopify_attributes }}>
@@ -107,6 +108,22 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+  .alsel-brand-stats__grid[data-mobile="stack"] {
+    grid-template-columns: 1fr;
+  }
+  .alsel-brand-stats__grid[data-mobile="swipe"] {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .alsel-brand-stats__grid[data-mobile="swipe"] .alsel-brand-stats__card {
+    flex: 0 0 70%;
+    scroll-snap-align: start;
+  }
   .alsel-brand-stats__card {
     background: var(--abs-card-bg);
     border-radius: 14px;
@@ -172,10 +189,20 @@
   }
   @media (min-width: 750px) {
     .alsel-brand-stats { padding: 5rem 2rem; }
-    .alsel-brand-stats__grid { gap: 1.5rem; }
+    .alsel-brand-stats__grid,
+    .alsel-brand-stats__grid[data-mobile="stack"],
+    .alsel-brand-stats__grid[data-mobile="swipe"] {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      overflow: visible;
+    }
     .alsel-brand-stats__grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
     .alsel-brand-stats__grid[data-cols="4"] { grid-template-columns: repeat(4, 1fr); }
     .alsel-brand-stats__grid[data-cols="5"] { grid-template-columns: repeat(5, 1fr); }
+    .alsel-brand-stats__grid[data-mobile="swipe"] .alsel-brand-stats__card {
+      flex: initial;
+    }
     .alsel-brand-stats__card { padding: 2rem 1.25rem; }
     .alsel-brand-stats__icon-wrap { width: 72px; height: 72px; }
   }
@@ -189,6 +216,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "セクション見出し", "default": "数字で見るブランド" },
     { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "おかげさまで多くのお客様にご愛顧いただいております。", "info": "見出しの下に表示される補足文です。" },
+    { "type": "header", "content": "レイアウト" },
     { "type": "select", "id": "columns_pc", "label": "PC 表示時の列数",
       "options": [
         { "value": "3", "label": "3 列" },
@@ -196,14 +224,22 @@
         { "value": "5", "label": "5 列" }
       ],
       "default": "4",
-      "info": "スマートフォンでは自動的に 2 列で表示されます。" },
+      "info": "PC で 1 行に表示する列数を選択します。" },
+    { "type": "select", "id": "mobile_layout", "label": "スマホでの表示方法",
+      "options": [
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
+      ],
+      "default": "two",
+      "info": "スマートフォンでの並べ方を選択します。" },
     { "type": "header", "content": "色の設定" },
     { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
     { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
     { "type": "color", "id": "accent_color", "label": "数字のアクセントカラー", "default": "#6d28d9" },
     { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
     { "type": "header", "content": "脚注" },
-    { "type": "text", "id": "footnote", "label": "脚注テキスト", "default": "※2024 年 12 月時点の自社調べによる数値です。", "info": "集計期間や出典を明記しておくと信頼性が高まります。" }
+    { "type": "text", "id": "footnote", "label": "脚注テキスト", "default": "※2099 年 12 月時点の自社調べによる数値です。", "info": "集計期間や出典を明記しておくと信頼性が高まります。" }
   ],
   "blocks": [
     {
@@ -226,7 +262,8 @@
         "heading": "数字で見るブランド",
         "subheading": "おかげさまで多くのお客様にご愛顧いただいております。",
         "columns_pc": "4",
-        "footnote": "※2024 年 12 月時点の自社調べによる数値です。"
+        "mobile_layout": "two",
+        "footnote": "※2099 年 12 月時点の自社調べによる数値です。"
       },
       "blocks": [
         { "type": "stat", "settings": { "number": "120,000", "unit": "点", "label": "累計販売数", "note": "創業からの総出荷数です。" } },

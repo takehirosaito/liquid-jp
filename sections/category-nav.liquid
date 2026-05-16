@@ -5,12 +5,12 @@
 推奨設置場所: トップページの上部〜中部、コレクションページの上部
 カスタマイズポイント:
   - セクションの見出し・サブコピー
-  - 各カテゴリーのバナー画像・名前・リンク先
-  - PC 表示時の列数(3〜6 列)
-  - モバイル表示時の列数(2 列 / 3 列)
+  - 各カテゴリーのコレクション選択(画像・名前・リンクはコレクションから自動取得)
+  - PC 表示時の列数(1〜6 列)
+  - スマホでの表示方法(1列 / 2列 / 横スワイプ)
   - 背景色・文字色・カードの形状(角丸 / 円形)
 注意点:
-  - バナー画像は正方形(推奨 400 × 400px、JPEG または PNG)を用意してください
+  - コレクションの代表画像が設定されていない場合は No Image 表示になります
   - ブロックは 4〜18 個程度を推奨します
   - 円形表示にする場合は、被写体を画像中央に配置してください
 動作確認バージョン: Online Store 2.0
@@ -33,26 +33,34 @@
       表示できるカテゴリーはまだ登録されていません。テーマエディタからカテゴリーバナーを追加してください。
     </p>
   {%- else -%}
-    <ul class="alsel-category-nav__grid alsel-category-nav__grid--{{ section.settings.shape }}">
+    <ul class="alsel-category-nav__grid alsel-category-nav__grid--{{ section.settings.shape }} alsel-category-nav__grid--mobile-{{ section.settings.mobile_layout }}">
       {%- for block in section.blocks -%}
-        {%- assign alt_text = block.settings.title | escape -%}
-        <li class="alsel-category-nav__item" {{ block.shopify_attributes }}>
-          <a class="alsel-category-nav__link" href="{{ block.settings.link | default: '#' }}" aria-label="{{ alt_text }}">
-            <div class="alsel-category-nav__media">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image
-                  | image_url: width: 400
-                  | image_tag: loading: 'lazy', class: 'alsel-category-nav__image', alt: alt_text, widths: '150, 200, 300, 400' }}
-              {%- else -%}
-                <span class="alsel-category-nav__placeholder" aria-hidden="true">No Image</span>
-              {%- endif -%}
-              {%- if block.settings.badge != blank -%}
-                <span class="alsel-category-nav__badge">{{ block.settings.badge | escape }}</span>
-              {%- endif -%}
-            </div>
-            <span class="alsel-category-nav__title">{{ block.settings.title | escape }}</span>
-          </a>
-        </li>
+        {%- assign col = collections[block.settings.collection] -%}
+        {%- if col != blank and col.id != nil -%}
+          {%- assign label = block.settings.label_override | default: col.title -%}
+          {%- assign alt_text = label | escape -%}
+          <li class="alsel-category-nav__item" {{ block.shopify_attributes }}>
+            <a class="alsel-category-nav__link" href="{{ col.url }}" aria-label="{{ alt_text }}">
+              <div class="alsel-category-nav__media">
+                {%- if col.image != blank -%}
+                  {{ col.image
+                    | image_url: width: 400
+                    | image_tag: loading: 'lazy', class: 'alsel-category-nav__image', alt: alt_text, widths: '150, 200, 300, 400' }}
+                {%- elsif col.products.first.featured_image != blank -%}
+                  {{ col.products.first.featured_image
+                    | image_url: width: 400
+                    | image_tag: loading: 'lazy', class: 'alsel-category-nav__image', alt: alt_text, widths: '150, 200, 300, 400' }}
+                {%- else -%}
+                  <span class="alsel-category-nav__placeholder" aria-hidden="true">No Image</span>
+                {%- endif -%}
+                {%- if block.settings.badge != blank -%}
+                  <span class="alsel-category-nav__badge">{{ block.settings.badge | escape }}</span>
+                {%- endif -%}
+              </div>
+              <span class="alsel-category-nav__title">{{ label | escape }}</span>
+            </a>
+          </li>
+        {%- endif -%}
       {%- endfor -%}
     </ul>
   {%- endif -%}
@@ -64,8 +72,7 @@
     --cn-text: {{ section.settings.text_color }};
     --cn-card-bg: {{ section.settings.card_bg }};
     --cn-accent: {{ section.settings.accent_color }};
-    --cn-cols-mobile: {{ section.settings.cols_mobile }};
-    --cn-cols-pc: {{ section.settings.cols_pc }};
+    --cn-cols-pc: {{ section.settings.columns_pc }};
     background: var(--cn-bg);
     color: var(--cn-text);
     padding: 2.5rem 1rem;
@@ -77,9 +84,17 @@
   .alsel-category-nav__grid {
     list-style: none; margin: 0 auto; padding: 0;
     max-width: 1200px;
-    display: grid;
-    grid-template-columns: repeat(var(--cn-cols-mobile), 1fr);
     gap: 0.75rem;
+  }
+  .alsel-category-nav__grid--mobile-stack { display: grid; grid-template-columns: 1fr; }
+  .alsel-category-nav__grid--mobile-two { display: grid; grid-template-columns: repeat(2, 1fr); }
+  .alsel-category-nav__grid--mobile-swipe {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+  }
+  .alsel-category-nav__grid--mobile-swipe .alsel-category-nav__item {
+    flex: 0 0 38%; scroll-snap-align: start;
   }
   .alsel-category-nav__item { margin: 0; }
   .alsel-category-nav__link {
@@ -119,9 +134,12 @@
     .alsel-category-nav { padding: 4rem 2rem; }
     .alsel-category-nav__header { margin-bottom: 2.5rem; }
     .alsel-category-nav__grid {
+      display: grid;
       grid-template-columns: repeat(var(--cn-cols-pc), 1fr);
       gap: 1.25rem;
+      overflow: visible;
     }
+    .alsel-category-nav__grid--mobile-swipe .alsel-category-nav__item { flex: initial; }
     .alsel-category-nav__link { padding: 0.9rem 0.6rem 1.1rem; border-radius: 14px; }
     .alsel-category-nav__title { font-size: 0.95rem; margin-top: 0.75rem; }
     .alsel-category-nav__badge { font-size: 0.75rem; padding: 0.2rem 0.55rem; }
@@ -142,21 +160,16 @@
         { "value": "circle", "label": "円形" }
       ],
       "default": "square" },
-    { "type": "select", "id": "cols_mobile", "label": "モバイル表示時の列数",
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_pc", "label": "PC で 1 行に表示する列数", "min": 1, "max": 6, "step": 1, "unit": "列", "default": 6 },
+    { "type": "select", "id": "mobile_layout", "label": "スマホでの表示方法",
       "options": [
-        { "value": "2", "label": "2 列" },
-        { "value": "3", "label": "3 列" },
-        { "value": "4", "label": "4 列" }
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
       ],
-      "default": "3" },
-    { "type": "select", "id": "cols_pc", "label": "PC 表示時の列数",
-      "options": [
-        { "value": "3", "label": "3 列" },
-        { "value": "4", "label": "4 列" },
-        { "value": "5", "label": "5 列" },
-        { "value": "6", "label": "6 列" }
-      ],
-      "default": "6" },
+      "default": "two" },
+    { "type": "header", "content": "色設定" },
     { "type": "color", "id": "bg_color", "label": "セクション背景色", "default": "#ffffff" },
     { "type": "color", "id": "card_bg", "label": "カード背景色", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "文字色", "default": "#1f2937" },
@@ -167,9 +180,8 @@
       "type": "category",
       "name": "カテゴリーバナー",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "カテゴリー画像", "info": "推奨 400 × 400px の正方形画像、JPEG または PNG" },
-        { "type": "text", "id": "title", "label": "カテゴリー名", "default": "カテゴリー名" },
-        { "type": "url", "id": "link", "label": "リンク先" },
+        { "type": "collection", "id": "collection", "label": "カテゴリーとして表示するコレクション", "info": "選択したコレクションの代表画像・タイトル・URL を自動で表示します。" },
+        { "type": "text", "id": "label_override", "label": "ラベル(空欄なら collection.title を使用)" },
         { "type": "text", "id": "badge", "label": "バッジ文字(任意)", "info": "「新着商品」「期間限定」など。空欄なら非表示になります。" }
       ]
     }
@@ -181,19 +193,16 @@
         "heading": "カテゴリーから探す",
         "subheading": "気になるカテゴリーをお選びください。",
         "shape": "square",
-        "cols_mobile": "3",
-        "cols_pc": "6"
+        "columns_pc": 6,
+        "mobile_layout": "two"
       },
       "blocks": [
-        { "type": "category", "settings": { "title": "レディース", "badge": "人気商品" } },
-        { "type": "category", "settings": { "title": "メンズ" } },
-        { "type": "category", "settings": { "title": "キッズ" } },
-        { "type": "category", "settings": { "title": "バッグ", "badge": "新着商品" } },
-        { "type": "category", "settings": { "title": "シューズ" } },
-        { "type": "category", "settings": { "title": "アクセサリー" } },
-        { "type": "category", "settings": { "title": "コスメ" } },
-        { "type": "category", "settings": { "title": "雑貨" } },
-        { "type": "category", "settings": { "title": "セール", "badge": "期間限定" } }
+        { "type": "category", "settings": { "badge": "人気商品" } },
+        { "type": "category", "settings": {} },
+        { "type": "category", "settings": {} },
+        { "type": "category", "settings": { "badge": "新着商品" } },
+        { "type": "category", "settings": {} },
+        { "type": "category", "settings": { "badge": "期間限定" } }
       ]
     }
   ]

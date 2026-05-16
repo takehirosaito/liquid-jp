@@ -5,12 +5,13 @@
 推奨設置場所: トップページの中段、コレクションページの上部、商品診断ページなど
 カスタマイズポイント:
   - セクション見出し・サブコピー
-  - 年代カードごとのラベル・キャッチ・本文・画像・リンク先・ボタン文字
+  - 年代カードごとのラベル・キャッチ・本文・画像・リンク先・ボタン文字・ラベル色
   - 背景色・アクセントカラー
+  - PC の列数・スマホ表示方法
   - ブロックの追加・削除で年代区分を自由に変更可能
 注意点:
   - 各カード画像は推奨 600 × 600px、JPEG または PNG
-  - ブロックは 2〜6 個推奨。それ以外は CSS の grid 数を調整する必要あり
+  - PC の列数は 1〜6 で指定可能
   - リンク先未設定の場合はボタンを非表示にする
 動作確認バージョン: Online Store 2.0
 ライセンス: ALSEL Original
@@ -19,7 +20,7 @@
 
 {%- assign sec_heading = section.settings.heading | escape -%}
 
-<section class="alsel-age-group-guide" aria-label="{{ sec_heading }}">
+<section class="alsel-age-group-guide alsel-age-group-guide--mobile-{{ section.settings.mobile_layout }}" aria-label="{{ sec_heading }}">
   <div class="alsel-age-group-guide__inner">
     {%- if section.settings.heading != blank -%}
       <h2 class="alsel-age-group-guide__heading">{{ section.settings.heading }}</h2>
@@ -48,7 +49,7 @@
                 </div>
               {%- endif -%}
               {%- if block.settings.label != blank -%}
-                <span class="alsel-age-group-guide__label">{{ block.settings.label }}</span>
+                <span class="alsel-age-group-guide__label" style="background: {{ block.settings.label_color }};">{{ block.settings.label }}</span>
               {%- endif -%}
             </div>
             <div class="alsel-age-group-guide__body">
@@ -106,8 +107,26 @@
   }
   .alsel-age-group-guide__grid {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  .alsel-age-group-guide--mobile-stack .alsel-age-group-guide__grid {
+    grid-template-columns: 1fr;
+  }
+  .alsel-age-group-guide--mobile-two .alsel-age-group-guide__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .alsel-age-group-guide--mobile-swipe .alsel-age-group-guide__grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+  }
+  .alsel-age-group-guide--mobile-swipe .alsel-age-group-guide__card {
+    flex: 0 0 80%;
+    scroll-snap-align: start;
   }
   .alsel-age-group-guide__card {
     background: var(--card-bg);
@@ -117,6 +136,7 @@
     display: flex;
     flex-direction: column;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    scroll-snap-align: start;
   }
   .alsel-age-group-guide__card:hover {
     transform: translateY(-4px);
@@ -140,7 +160,6 @@
   .alsel-age-group-guide__label {
     position: absolute;
     top: 0.75rem; left: 0.75rem;
-    background: var(--accent);
     color: #fff;
     padding: 0.3rem 0.85rem;
     border-radius: 9999px;
@@ -184,10 +203,23 @@
   .alsel-age-group-guide__btn:hover { opacity: 0.85; }
   @media (min-width: 750px) {
     .alsel-age-group-guide { padding: 5rem 2rem; }
-    .alsel-age-group-guide__grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-  }
-  @media (min-width: 990px) {
-    .alsel-age-group-guide__grid { grid-template-columns: repeat(4, 1fr); }
+    .alsel-age-group-guide__grid,
+    .alsel-age-group-guide--mobile-stack .alsel-age-group-guide__grid,
+    .alsel-age-group-guide--mobile-two .alsel-age-group-guide__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns_pc }}, 1fr);
+      gap: 2rem;
+      overflow: visible;
+    }
+    .alsel-age-group-guide--mobile-swipe .alsel-age-group-guide__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.settings.columns_pc }}, 1fr);
+      gap: 2rem;
+      overflow: visible;
+    }
+    .alsel-age-group-guide--mobile-swipe .alsel-age-group-guide__card {
+      flex: initial;
+    }
   }
 </style>
 
@@ -201,8 +233,17 @@
     { "type": "textarea", "id": "subheading", "label": "サブコピー", "default": "お客様の年代に合わせて、人気の商品をご紹介します。" },
     { "type": "color", "id": "bg_color", "label": "背景色", "default": "#f8fafc" },
     { "type": "color", "id": "card_bg_color", "label": "カード背景色", "default": "#ffffff" },
-    { "type": "color", "id": "accent_color", "label": "アクセントカラー(ラベル・ボタン)", "default": "#6d28d9" },
-    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" }
+    { "type": "color", "id": "accent_color", "label": "アクセントカラー(ボタン)", "default": "#6d28d9" },
+    { "type": "color", "id": "text_color", "label": "文字色", "default": "#0f172a" },
+    { "type": "header", "content": "レイアウト" },
+    { "type": "range", "id": "columns_pc", "label": "PC で 1 行に表示する列数", "min": 1, "max": 6, "step": 1, "unit": "列", "default": 4 },
+    { "type": "select", "id": "mobile_layout", "label": "スマホでの表示方法",
+      "options": [
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
+      ],
+      "default": "stack" }
   ],
   "blocks": [
     {
@@ -211,6 +252,7 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "イメージ画像", "info": "推奨 600 × 600px、JPEG または PNG" },
         { "type": "text", "id": "label", "label": "年代ラベル", "default": "20代向け" },
+        { "type": "color", "id": "label_color", "label": "年代ラベルの色", "default": "#7c3aed" },
         { "type": "text", "id": "title", "label": "カードタイトル", "default": "トレンド感のあるアイテム" },
         { "type": "textarea", "id": "description", "label": "本文", "default": "毎日のおしゃれを楽しみたい方におすすめのラインナップです。" },
         { "type": "url", "id": "link", "label": "リンク先(コレクションや商品ページ)" },
@@ -230,6 +272,7 @@
           "type": "age_card",
           "settings": {
             "label": "20代向け",
+            "label_color": "#ec4899",
             "title": "トレンド感のあるアイテム",
             "description": "毎日のおしゃれを楽しみたい方におすすめのラインナップです。",
             "button_text": "商品を見る"
@@ -239,6 +282,7 @@
           "type": "age_card",
           "settings": {
             "label": "30代向け",
+            "label_color": "#7c3aed",
             "title": "上品で大人カジュアル",
             "description": "仕事もプライベートも、きちんと感のあるアイテムをお届けします。",
             "button_text": "商品を見る"
@@ -248,6 +292,7 @@
           "type": "age_card",
           "settings": {
             "label": "40代向け",
+            "label_color": "#0ea5e9",
             "title": "ワンランク上の質感",
             "description": "素材と着心地にこだわった、長く愛用できる逸品をご紹介します。",
             "button_text": "商品を見る"
@@ -257,6 +302,7 @@
           "type": "age_card",
           "settings": {
             "label": "シニア向け",
+            "label_color": "#059669",
             "title": "やさしい着心地と上質感",
             "description": "ゆったりとしたシルエットと、肌にやさしい素材を厳選しました。",
             "button_text": "商品を見る"

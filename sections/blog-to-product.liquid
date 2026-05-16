@@ -10,6 +10,7 @@
   - 価格・割引バッジ・ベネフィット 3 項目
   - CTA ボタンの文字とリンク先
   - 各種カラー(背景・帯・ボタン)
+  - スマホでの表示方法(1列 / 2列 / 横スワイプ)※ベネフィット項目の並び方
 注意点:
   - 商品画像は正方形(推奨 800 × 800px、JPEG または PNG)
   - 画像未設定時は自動で 1 カラム表示に切り替わる
@@ -22,7 +23,7 @@
 {%- assign img_alt = section.settings.product_name | default: section.settings.heading | escape -%}
 
 <section
-  class="alsel-blog-to-product{%- if section.settings.product_image == blank %} alsel-blog-to-product--no-image{%- endif -%}"
+  class="alsel-blog-to-product{%- if section.settings.product_image == blank %} alsel-blog-to-product--no-image{%- endif -%} alsel-blog-to-product--mobile-{{ section.settings.mobile_layout }}"
   aria-label="{{ section.settings.heading | escape }}"
   style="background: {{ section.settings.bg_color }};"
 >
@@ -212,6 +213,26 @@
     padding: 0.35rem 0;
     font-size: 0.95rem;
     line-height: 1.5;
+    scroll-snap-align: start;
+  }
+  .alsel-blog-to-product--mobile-two .alsel-blog-to-product__benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 1rem;
+  }
+  .alsel-blog-to-product--mobile-swipe .alsel-blog-to-product__benefits {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
+  }
+  .alsel-blog-to-product--mobile-swipe .alsel-blog-to-product__benefit {
+    flex: 0 0 80%;
+    background: #fff;
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
   }
   .alsel-blog-to-product__check { font-weight: 700; font-size: 1.1rem; flex-shrink: 0; }
   .alsel-blog-to-product__price-box {
@@ -258,6 +279,19 @@
     .alsel-blog-to-product__heading { text-align: left; }
     .alsel-blog-to-product--no-image .alsel-blog-to-product__heading { text-align: center; }
     .alsel-blog-to-product__image { max-width: 360px; }
+    .alsel-blog-to-product__benefits {
+      display: block;
+    }
+    .alsel-blog-to-product--mobile-two .alsel-blog-to-product__benefits,
+    .alsel-blog-to-product--mobile-swipe .alsel-blog-to-product__benefits {
+      display: block;
+      overflow: visible;
+    }
+    .alsel-blog-to-product--mobile-swipe .alsel-blog-to-product__benefit {
+      flex: none;
+      background: transparent;
+      padding: 0.35rem 0;
+    }
   }
 </style>
 
@@ -294,7 +328,17 @@
     { "type": "color", "id": "bg_color", "label": "背景色", "default": "#fff5f5" },
     { "type": "color", "id": "accent_color", "label": "アクセントカラー(帯・バッジ)", "default": "#d32030" },
     { "type": "color", "id": "cta_bg", "label": "ボタン背景色", "default": "#ff8800" },
-    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" }
+    { "type": "color", "id": "cta_color", "label": "ボタン文字色", "default": "#ffffff" },
+
+    { "type": "header", "content": "レイアウト" },
+    { "type": "select", "id": "mobile_layout", "label": "スマホでの表示方法",
+      "info": "ベネフィット項目のスマホ表示時の並び方を選択できます",
+      "options": [
+        { "value": "stack", "label": "1列表示" },
+        { "value": "two", "label": "2列表示" },
+        { "value": "swipe", "label": "横スワイプ" }
+      ],
+      "default": "stack" }
   ],
   "blocks": [
     {
@@ -319,7 +363,8 @@
         "original_price": "¥9,800",
         "sale_price": "¥4,980(税込)",
         "cta_text": "今すぐ詳しく見てみる",
-        "footnote": "※キャンペーン価格は予告なく終了する場合がございます"
+        "footnote": "※キャンペーン価格は予告なく終了する場合がございます",
+        "mobile_layout": "stack"
       },
       "blocks": [
         { "type": "benefit", "settings": { "text": "累計販売10万個突破の人気商品です" } },

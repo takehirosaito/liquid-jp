@@ -100,12 +100,12 @@
   .alsel-bundled-set__empty { text-align: center; color: #888; padding: 2rem 0; }
   .alsel-bundled-set__list { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
   .alsel-bundled-set__item { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; max-width: 280px; }
-  .alsel-bundled-set__card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden; width: 100%; }
+  .alsel-bundled-set__card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden; width: 100%; display: flex; flex-direction: column; height: 100%; }
   .alsel-bundled-set__link { display: block; position: relative; }
   .alsel-bundled-set__image { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
   .alsel-bundled-set__image--placeholder { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); }
   .alsel-bundled-set__badge { position: absolute; top: 0.75rem; left: 0.75rem; background: {{ section.settings.accent_color }}; color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 9999px; }
-  .alsel-bundled-set__body { padding: 1rem; }
+  .alsel-bundled-set__body { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
   .alsel-bundled-set__title { font-size: 0.95rem; font-weight: 600; line-height: 1.5; margin: 0 0 0.5rem; }
   .alsel-bundled-set__title a { color: inherit; text-decoration: none; }
   .alsel-bundled-set__title a:hover { text-decoration: underline; }
@@ -119,8 +119,8 @@
   .alsel-bundled-set__cta:hover { opacity: 0.85; }
   @media (min-width: 750px) {
     .alsel-bundled-set { padding: 5rem 2rem; }
-    .alsel-bundled-set__list { flex-direction: row; justify-content: center; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
-    .alsel-bundled-set__item { flex-direction: row; max-width: none; flex: 0 1 auto; width: auto; }
+    .alsel-bundled-set__list { flex-direction: row; justify-content: center; align-items: stretch; gap: 1rem; flex-wrap: wrap; }
+    .alsel-bundled-set__item { flex-direction: row; max-width: none; flex: 0 1 auto; width: auto; align-items: stretch; }
     .alsel-bundled-set__card { width: 220px; }
     .alsel-bundled-set__plus { font-size: 2.5rem; }
   }

@@ -39,9 +39,7 @@
     </div>
 
     <div class="alsel-b2b-inquiry-cta__body">
-      {%- if section.blocks.size == 0 -%}
-        <p class="alsel-b2b-inquiry-cta__empty">現在表示できる訴求ポイントはありません。テーマエディタからブロックを追加してください。</p>
-      {%- else -%}
+      {%- if section.blocks.size > 0 -%}
         <ul class="alsel-b2b-inquiry-cta__points">
           {%- for block in section.blocks -%}
             <li class="alsel-b2b-inquiry-cta__point" {{ block.shopify_attributes }}>

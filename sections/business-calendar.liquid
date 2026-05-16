@@ -9,9 +9,11 @@
   - 凡例の表示文言
   - 補足メッセージ
   - ブロックで各日付の種別(店休日 / 発送休止日 / 特別営業日)を登録
+  - 曜日単位の一括休業設定(毎週日曜は休業など)
 注意点:
   - 日付ブロックは「年・月・日」を数値で指定する仕組み
   - ブロックを追加していない月は通常営業日として表示される
+  - 曜日一括設定と個別日付指定は併用可能(個別指定が優先される)
   - スマートフォンでは 2 ヶ月を縦に並べて表示する
 動作確認バージョン: Online Store 2.0
 ライセンス: ALSEL Original
@@ -105,6 +107,20 @@
 
               {%- assign status = '' -%}
               {%- assign status_label = '' -%}
+
+              {%- assign weekly_closed = false -%}
+              {%- if dow == 0 and section.settings.holiday_sun -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 1 and section.settings.holiday_mon -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 2 and section.settings.holiday_tue -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 3 and section.settings.holiday_wed -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 4 and section.settings.holiday_thu -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 5 and section.settings.holiday_fri -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if dow == 6 and section.settings.holiday_sat -%}{%- assign weekly_closed = true -%}{%- endif -%}
+              {%- if weekly_closed -%}
+                {%- assign status = 'closed' -%}
+                {%- assign status_label = section.settings.label_closed -%}
+              {%- endif -%}
+
               {%- for block in section.blocks -%}
                 {%- assign b_year = block.settings.year | times: 1 -%}
                 {%- assign b_month = block.settings.month | times: 1 -%}
@@ -174,6 +190,14 @@
     { "type": "textarea", "id": "subheading", "label": "サブテキスト", "default": "店休日・発送休止日のご案内です。ご注文前にご確認ください。" },
     { "type": "number", "id": "base_year", "label": "開始年", "default": 2099, "info": "表示開始の年を西暦で入力します。" },
     { "type": "number", "id": "base_month", "label": "開始月", "default": 1, "info": "1〜12 の数値で入力します。この月と翌月の 2 ヶ月を表示します。" },
+    { "type": "header", "content": "曜日で一括休業設定" },
+    { "type": "checkbox", "id": "holiday_sun", "label": "日曜日を休業日にする", "default": true },
+    { "type": "checkbox", "id": "holiday_mon", "label": "月曜日を休業日にする", "default": false },
+    { "type": "checkbox", "id": "holiday_tue", "label": "火曜日を休業日にする", "default": false },
+    { "type": "checkbox", "id": "holiday_wed", "label": "水曜日を休業日にする", "default": false },
+    { "type": "checkbox", "id": "holiday_thu", "label": "木曜日を休業日にする", "default": false },
+    { "type": "checkbox", "id": "holiday_fri", "label": "金曜日を休業日にする", "default": false },
+    { "type": "checkbox", "id": "holiday_sat", "label": "土曜日を休業日にする", "default": false },
     { "type": "header", "content": "凡例ラベル" },
     { "type": "text", "id": "label_closed", "label": "店休日のラベル", "default": "店休日" },
     { "type": "text", "id": "label_noship", "label": "発送休止日のラベル", "default": "発送休止日" },
@@ -212,7 +236,8 @@
         "heading": "営業日カレンダー",
         "subheading": "店休日・発送休止日のご案内です。ご注文前にご確認ください。",
         "base_year": 2099,
-        "base_month": 1
+        "base_month": 1,
+        "holiday_sun": true
       },
       "blocks": [
         { "type": "date", "settings": { "status": "closed", "year": 2099, "month": 1, "day": 5 } },
